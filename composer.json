@@ -1,0 +1,19 @@
+{
+    "name": "prensdev/abn-job-portal",
+    "description": "ABN Job Portal Web Application",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PrensDev",
+            "email": "jetsunprincetorres@gmail.com"
+        },
+        {
+            "name": "Bandroite",
+            "email": "vanessahbuenaventura@gmail.com"
+        }
+    ],
+    "require": {
+        "twbs/bootstrap": "4.5.3"
+    }
+}
