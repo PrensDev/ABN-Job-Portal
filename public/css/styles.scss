@@ -1,0 +1,94 @@
+// CUSTOM COLORS
+$custom-color-primary:      #0277BD;
+$custom-color-secondary:    #546E7A;
+$custom-color-success:      #43A047;
+$custom-color-info:         #0097A7;
+$custom-color-warning:      #EF6C00;
+$custom-color-danger:       #d32f2f;
+$custom-color-light:        #F5F5F5;
+$custom-color-dark:         #212121;
+
+// THEME COLORS FOR BOOTSTRAP
+$theme-colors: (
+    "primary":    $custom-color-primary,
+    "secondary":  $custom-color-secondary,
+    "success":    $custom-color-success,
+    "info":       $custom-color-info,
+    "warning":    $custom-color-warning,
+    "danger":     $custom-color-danger,
+    "light":      $custom-color-light,
+    "dark":       $custom-color-dark
+);
+
+// FOR BREADCRUMBS
+$breadcrumb-divider:        quote(">");
+$breadcrumb-bg:             none;
+$breadcrumb-divider-color:fff;
+$breadcrumb-padding-y:      0;
+$breadcrumb-padding-x:      0;
+$breadcrumb-active-color: $custom-color-light;
+
+// DEFAULT BORDER-RADIUS SET TO 0
+$border-radius:                 0;
+$btn-border-radius-sm:          0;
+$btn-border-radius-lg:          0;
+$card-border-radius:            0;
+$modal-content-border-radius:   0;
+$alert-border-width:            0;
+
+// DEFAULT FOCUS-BOX-SHADOW TO NONE
+$btn-focus-box-shadow:          none !important;
+$input-focus-box-shadow:        none !important;
+$pagination-focus-box-shadow:   none !important;
+
+// DROPDOWN ITEM PADDING
+$dropdown-item-padding-x: 1rem;
+
+$input-focus-border-color: $custom-color-primary;
+
+// INCLUDE THE BOOTSTRAP
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+// CUSTOM STYLES
+
+.navbar {
+    text-transform: capitalize;
+}
+
+.image-overlay {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.company-logo img {
+    height: 5rem;
+}
+
+label {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.list-group-item-icon {
+    min-width: 2rem !important;
+    max-width: 2rem !important;
+    text-align: center !important;
+    margin-right: 1rem !important;
+    box-sizing: border-box;
+}
+
+.user-nav-icon {
+    display: inline-block;
+    min-width: 1.25rem;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.btn-brand {
+    min-width: 2.75rem;
+    box-sizing: border-box;
+}
+
+.custom-ul {
+    padding-left: 20px;
+}

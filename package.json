@@ -1,0 +1,27 @@
+{
+  "name": "abn-job-portal",
+  "version": "1.0.0",
+  "description": "ABN Job Portal Web Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrensDev/ABN-Job-Portal.git"
+  },
+  "author": "PrensDev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PrensDev/ABN-Job-Portal/issues"
+  },
+  "homepage": "https://github.com/PrensDev/ABN-Job-Portal#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "animate.css": "^4.1.1",
+    "bootstrap": "^4.5.3",
+    "bootstrap-select": "^1.13.18",
+    "jquery": "^3.5.1",
+    "jquery-parallax.js": "^1.5.0"
+  }
+}
