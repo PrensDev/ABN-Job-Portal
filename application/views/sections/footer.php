@@ -1,5 +1,5 @@
 <!-- FOOTER SECTION -->
-<footer class="bg-dark text-white">
+<footer class="bg-dark text-white user-select-none">
 
 <!-- MAIN FOOTER CONTENT -->
 <div class="container-md py-3">

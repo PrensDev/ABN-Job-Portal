@@ -13,7 +13,5 @@
             "email": "vanessahbuenaventura@gmail.com"
         }
     ],
-    "require": {
-        "twbs/bootstrap": "4.5.3"
-    }
+    "require": {}
 }
