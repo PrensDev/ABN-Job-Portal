@@ -4,9 +4,6 @@ class Home extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('jobseeker_model');
-        $this->load->model('employer_model');
-        $this->load->helper('url_helper');
     }
     
     // INDEX VIEW
@@ -86,15 +83,34 @@ class Home extends CI_Controller {
             'title'         => 'Login',
         ];
 
-        $this->load->view('templates/fullpage_header', $data);
-        $this->load->view('sections/login');
-        $this->load->view('templates/footer');
+        $this->form_validation->set_rules([
+            [
+                'field' => 'email',
+                'label' => 'email',
+                'rules' => 'required',
+            ],
+            [
+                'field' => 'password',
+                'label' => 'password',
+                'rules' => 'required',
+            ],
+        ]);
+
+        $this->form_validation->set_message([
+            'required' => 'This is a required field',
+        ]);
+
+        if ($this->form_validation->run() === FALSE) {    
+            $this->load->view('templates/fullpage_header', $data);
+            $this->load->view('sections/login_form');
+            $this->load->view('templates/footer');
+        } else {
+            $this->Login_model->auth_login();
+        }
     }
 
     // JOBSEEKER REGISTRATION VIEW
     public function jobseeker_registration() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
 
         $data = [
             'title'         => 'Register as Job Seeker',
@@ -184,6 +200,14 @@ class Home extends CI_Controller {
             ],
         ]);
 
+        $this->form_validation->set_message([
+            'required'      => 'This is a required field',
+            'is_unique'     => 'This email is already used.',
+            'valid_email'   => 'This email contains invalid characters',
+            'min_length'    => 'Your password must be 8 characters and above',
+            'matches'       => 'It doesn\'t match to your password',
+        ]);
+
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('templates/header', $data);
             $this->load->view('sections/navbar');
@@ -192,15 +216,13 @@ class Home extends CI_Controller {
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
-            $this->jobseeker_model->register_jobseeker();
+            $this->Register_model->register_jobseeker();
             echo "Success";
         }
     }
 
     // EMPLOYER REGISTRATION VIEW
     public function employer_registration() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
 
         $data = [
             'title'         => 'Register as Employer',
@@ -265,6 +287,18 @@ class Home extends CI_Controller {
             ],
         ]);
 
+        $this->form_validation->set_message([
+            'required'      => 'This is a required field',
+            'is_unique'     => 'This email is already used.',
+            'valid_email'   => 'This email contains invalid characters',
+            'min_length'    => 'Your password must be 8 characters and above',
+            'matches'       => 'It doesn\'t match to your password',
+        ]);
+
+        $this->form_validation->set_message([
+            'is_unique' => 'This email is already used.',
+        ]);
+
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('templates/header', $data);
             $this->load->view('sections/navbar');
@@ -273,17 +307,8 @@ class Home extends CI_Controller {
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
-            $this->employer_model->register_employer();
+            $this->Register_model->register_employer();
             echo "Success";
         }
-    }
-
-    // TEST VIEW
-    public function test() {
-        $data = [
-            'jobseekers' => $this->jobseeker_model->get_jobseekers(),
-        ];
-        
-        $this->load->view('test', $data);
     }
 }

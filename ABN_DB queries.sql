@@ -271,7 +271,7 @@ WHERE ROUTINE_TYPE = 'PROCEDURE';
 
 -- Drop a procedure // testing purposes
 
-DROP PROCEDURE [dbo].[RegisterEmployer]
+DROP PROCEDURE [dbo].[FindUser]
 
 --------------------------------------------------------
 
@@ -353,7 +353,7 @@ AS
 		,@password
 		,'Employer')
 
---Register Employer Procedure
+-- Register Employer Procedure
 CREATE PROCEDURE [dbo].[RegisterEmployer]
 	@companyName		VARCHAR(MAX),
 	@street				VARCHAR(MAX),
@@ -383,4 +383,12 @@ AS
 		,@website
 		,@description)
 
-SELECT * FROM Employers
+-- Find User Procedure for Login
+CREATE PROCEDURE [dbo].[FindUser]
+	@email		VARCHAR(MAX)
+AS
+	SELECT [email], [password], [userType], [accountFlag]
+	FROM [dbo].[UserAccounts]
+	WHERE [email] = @email
+
+SELECT * FROM UserAccounts

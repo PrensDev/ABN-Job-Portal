@@ -58,7 +58,9 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array();
+$autoload['libraries'] = [
+    'form_validation'
+];
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +91,11 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url');
+$autoload['helper'] = [
+    'url', 
+    'url_helper',
+    'form',
+];
 
 /*
 | -------------------------------------------------------------------
@@ -132,6 +138,7 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array(
-    'Jobseeker_model'
-);
+$autoload['model'] = [
+    'Register_model',
+    'Login_model',
+];

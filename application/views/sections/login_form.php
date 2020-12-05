@@ -16,7 +16,7 @@
 
     <!-- ERROR ALERT BOX -->
     <div class="alert alert-danger my-2 alert-dismissible fade show" role="alert">
-        You entered some <strong>invalid</strong> input.
+        The account you entered <strong>doesn't exist</strong>.
         <button type="button" class="close" data-dismiss="alert">
             <span>&times;</span>
         </button>
@@ -25,13 +25,19 @@
 
     <!-- FORM SECTION -->
     <div class="bg-white border p-3 rounded my-2">
-    <form class="needs-validation" action="" novalidate>
+    <form method="POST">
         
         <!-- EMAIL FIELD -->
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" required>
-            <small class="invalid-feedback">This is a required field.</small>
+            <input 
+                type    = "text" 
+                class   = "form-control <?php echo form_error('email') ? 'is-invalid' : '' ;?>" 
+                id      = "email"
+                name    = "email"
+                value   = "<?php echo set_value('email') ; ?>"
+            >
+            <small class="invalid-feedback">This is a required field</small>
         </div>
 
         <!-- PASSWORD FIELD -->
@@ -45,7 +51,12 @@
                 </div>
             </div>
             <div class="input-group">
-                <input type="password" class="form-control" id="password" required>
+                <input 
+                    type    =   "password" 
+                    class   =   "form-control <?php echo form_error('password') ? 'is-invalid' : '' ;?>" 
+                    id      =   "password"
+                    name    =   "password"
+                >
                 <div class="input-group-append">
                     <span class="input-group-text bg-white" id="togglePassword">
                         <i class="fas fa-eye" id="passwordIcon"></i>
@@ -55,16 +66,7 @@
             </div>
         </div>
 
-        <!-- USER TYPE FIELD -->
-        <div class="form-group">
-            <label for="usertype">Sign in as:</label>
-            <select class="selectpicker show-tick form-control border" title="I am a/an ..." id="usertype" data-style="bg-white text-dark" required>
-                <option value="">Job Seeker</option>
-                <option value="">Employer</option>
-            </select>
-            <small class="invalid-feedback">You must select here.</small>
-        </div>
-        
+        <!-- LOGIN USER CO -->
         <button type="submit" class="btn btn-primary btn-block">
             <i class="fas fa-sign-in-alt mr-1"></i>
             <span>Login</span>

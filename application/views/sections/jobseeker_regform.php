@@ -10,7 +10,7 @@
     </div> -->
 
     <!-- JOBSEEKER REGISTRATION FORM -->
-    <form action="" method="POST" novalidate>
+    <form method="POST" novalidate>
 
         <!-- PERSONAL INFORMATION FORM -->
         <div class="card border-secondary my-4">
@@ -105,7 +105,7 @@
                         >
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
-                            <option value="LGBTQA+">LGBTQA+</option>
+                            <option value="LGBTQA++">LGBTQA++</option>
                             <option value="Prefer not to say">Prefer not to say</option>
                         </select>
                         <small class="invalid-feedback"><?php echo form_error('gender')?></small>
@@ -219,7 +219,7 @@
         <div class="card border-secondary my-4">
 
             <div class="card-header h6 bg-secondary text-white">
-                <i class="fas fa-pen mr-2"></i>
+                <i class="fas fa-file-contract mr-2"></i>
                 <span>Curriculum Vitae</span>
             </div>
 
