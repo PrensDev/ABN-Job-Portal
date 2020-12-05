@@ -104,6 +104,7 @@ class Home extends CI_Controller {
             $this->load->view('templates/fullpage_header', $data);
             $this->load->view('sections/login_form');
             $this->load->view('templates/footer');
+            session_destroy();
         } else {
             $this->Login_model->auth_login();
         }

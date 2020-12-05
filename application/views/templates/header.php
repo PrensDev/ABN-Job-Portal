@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title><?php echo $title ?> - ABN Job Portal</title>
+    <title><?php echo $title ?> | ABN Job Portal</title>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">

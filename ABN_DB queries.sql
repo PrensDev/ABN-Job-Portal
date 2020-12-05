@@ -383,12 +383,50 @@ AS
 		,@website
 		,@description)
 
--- Find User Procedure for Login
-CREATE PROCEDURE [dbo].[FindUser]
-	@email		VARCHAR(MAX)
+-- Find User Account Procedure for Login
+CREATE PROCEDURE [dbo].[FindUserAccount]
+	@email		VARCHAR(450)
 AS
 	SELECT [email], [password], [userType], [accountFlag]
 	FROM [dbo].[UserAccounts]
+	WHERE [email] = @email
+
+-- Find Job Seeker Procedure
+CREATE PROCEDURE [dbo].[FindJobseeker]
+	@email	VARCHAR(450)
+AS
+	SELECT 
+		 [firstName]
+		,[middleName]
+		,[lastName]
+		,[birthDate]
+		,[gender]
+		,[street]
+		,[brgyDistrict]
+		,[cityMunicipality]
+		,[contactNumber]
+		,[email]
+		,[description]
+		,[skills]
+		,[experiences]
+		,[education]
+	FROM [dbo].[JobSeekers]
+	WHERE [email] = @email
+
+-- Find Employer Procedure
+CREATE PROCEDURE [dbo].[FindEmployer]
+	@email	VARCHAR(450)
+AS
+	SELECT
+		 [companyName]
+		,[street]
+		,[brgyDistrict]
+		,[cityMunicipality]
+		,[contactNumber]
+		,[email]
+		,[website]
+		,[description]
+	FROM [dbo].[Employers]
 	WHERE [email] = @email
 
 SELECT * FROM UserAccounts
