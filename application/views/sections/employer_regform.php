@@ -10,7 +10,7 @@
     </div> -->
 
     <!-- EMPLOYER REGISTRATION FORM -->
-    <form action="" method="POST">
+    <form method="POST">
 
         <!-- COMPANY INFORMATION FORM -->
         <div class="card border-secondary my-4">

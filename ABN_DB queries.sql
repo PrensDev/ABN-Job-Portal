@@ -5,6 +5,8 @@ CREATE DATABASE [ABN_DB]
 USE [ABN_DB]
 GO
 
+DROP TABLE JobPosts
+
 --------------------------------------------------------
 
 -- UserAccounts Table
@@ -176,7 +178,7 @@ CREATE TABLE [JobPosts] (
 			CHECK ([maxSalary] > 0)
 	,
 	[dateCreated]
-		DATETIME NOT NULL
+		DATETIME NOT NULL DEFAULT GETDATE()
 	,
 	[dateModified]
 		DATETIME
@@ -271,7 +273,7 @@ WHERE ROUTINE_TYPE = 'PROCEDURE';
 
 -- Drop a procedure // testing purposes
 
-DROP PROCEDURE [dbo].[FindUser]
+DROP PROCEDURE [dbo].[GetJobPosts]
 
 --------------------------------------------------------
 
@@ -290,6 +292,7 @@ AS
 		(@email
 		,@password
 		,'Job Seeker')
+
 
 -- Register Job Seeker Procedure
 CREATE PROCEDURE [dbo].[RegisterJobseeker]
@@ -339,6 +342,7 @@ AS
 		,@experiences
 		,@education);
 
+
 -- Add Employer Account Procedure
 CREATE PROCEDURE [dbo].[AddEmployerAccount]
 	@email				VARCHAR(450),
@@ -353,6 +357,7 @@ AS
 		,@password
 		,'Employer')
 
+
 -- Register Employer Procedure
 CREATE PROCEDURE [dbo].[RegisterEmployer]
 	@companyName		VARCHAR(MAX),
@@ -365,14 +370,14 @@ CREATE PROCEDURE [dbo].[RegisterEmployer]
 	@description		VARCHAR(MAX)
 AS
 	INSERT INTO [dbo].[Employers]
-		([companyName]
-		,[street]
-		,[brgyDistrict]
-		,[cityMunicipality]
-		,[contactNumber]
-		,[email]
-		,[website]
-		,[description])
+		( [companyName]
+		, [street]
+		, [brgyDistrict]
+		, [cityMunicipality]
+		, [contactNumber]
+		, [email]
+		, [website]
+		, [description] )
 	VALUES
 		(@companyName
 		,@street
@@ -383,6 +388,7 @@ AS
 		,@website
 		,@description)
 
+
 -- Find User Account Procedure for Login
 CREATE PROCEDURE [dbo].[FindUserAccount]
 	@email		VARCHAR(450)
@@ -391,42 +397,103 @@ AS
 	FROM [dbo].[UserAccounts]
 	WHERE [email] = @email
 
+
 -- Find Job Seeker Procedure
 CREATE PROCEDURE [dbo].[FindJobseeker]
 	@email	VARCHAR(450)
 AS
-	SELECT 
-		 [firstName]
-		,[middleName]
-		,[lastName]
-		,[birthDate]
-		,[gender]
-		,[street]
-		,[brgyDistrict]
-		,[cityMunicipality]
-		,[contactNumber]
-		,[email]
-		,[description]
-		,[skills]
-		,[experiences]
-		,[education]
+	SELECT
+		  [jobseekerID]
+		, [firstName]
+		, [middleName]
+		, [lastName]
+		, [birthDate]
+		, DATEDIFF(year, [birthDate], getdate()) as [age]
+		, [gender]
+		, [street]
+		, [brgyDistrict]
+		, [cityMunicipality]
+		, [contactNumber]
+		, [email]
+		, [description]
+		, [skills]
+		, [experiences]
+		, [education]
 	FROM [dbo].[JobSeekers]
 	WHERE [email] = @email
+
 
 -- Find Employer Procedure
 CREATE PROCEDURE [dbo].[FindEmployer]
 	@email	VARCHAR(450)
 AS
-	SELECT
-		 [companyName]
-		,[street]
-		,[brgyDistrict]
-		,[cityMunicipality]
-		,[contactNumber]
-		,[email]
-		,[website]
-		,[description]
-	FROM [dbo].[Employers]
+	SELECT * FROM [dbo].[Employers]
 	WHERE [email] = @email
 
-SELECT * FROM UserAccounts
+
+-- Post New Job Procedure
+CREATE PROCEDURE [dbo].[PostNewJob]
+	@employerID			INT,
+	@jobTitle			VARCHAR(MAX),
+	@jobType			VARCHAR(MAX),
+	@industryType		VARCHAR(MAX),
+	@description		VARCHAR(MAX),
+	@responsibilities	VARCHAR(MAX),
+	@skills				VARCHAR(MAX),
+	@experiences		VARCHAR(MAX),
+	@education			VARCHAR(MAX),
+	@minSalary			MONEY,
+	@maxSalary			MONEY,
+	@jobPostFlag		BINARY
+AS
+	INSERT INTO [dbo].[JobPosts]
+		( [employerID]
+		, [jobTitle]
+		, [jobType]
+		, [industryType]
+		, [description]
+		, [responsibilities]
+		, [skills]
+		, [experiences]
+		, [education]
+		, [minSalary]
+		, [maxSalary]
+		, [jobPostFlag])
+	VALUES
+		( @employerID
+		, @jobTitle			
+		, @jobType			
+		, @industryType		
+		, @description	
+		, @responsibilities
+		, @skills		
+		, @experiences	
+		, @education	
+		, @minSalary		
+		, @maxSalary		
+		, @jobPostFlag )
+
+-- Get Posted Jobs Procedure
+CREATE PROCEDURE [dbo].[GetJobPosts] 
+	@employerID INT
+AS 
+	SELECT
+		  [employerID]
+		, [jobTitle]
+		, [jobType]
+		, [industryType]
+		, [description]
+		, [responsibilities]
+		, [skills]
+		, [experiences]
+		, [education]
+		, [minSalary]
+		, [maxSalary]
+		, [dateCreated]
+		, CAST([jobPostFlag] AS INT) AS [status]
+	FROM [dbo].[JobPosts]
+	WHERE [employerID] = @employerID
+	ORDER BY [dateCreated] DESC
+
+SELECT * FROM JobPosts
+

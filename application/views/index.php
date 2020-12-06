@@ -63,50 +63,15 @@
 </div>
 <!-- END OF HERO -->
 
-<!-- JOB SEEKER AND EMPLOYER REGISTRATION -->
-<div class="container-fluid">
-<div class="container-md py-5">
+<?php
 
-    <h1 class="display-4 text-center">Create your account here!</h1>
-    <p class="h5 font-weight-normal text-center text-secondary">Register now to seek thousand opportunities</p>
-    
-    <div class="row pt-3">
+    if ( $this->session->has_userdata( 'userType' ) ) {
+        #do nothinf
+    } else {
+        $this->load->view('sections/create_account');
+    }
 
-        <div class="col-lg p-3">
-        <div class="card pb-3 shadow">
-            <img 
-                src="<?php echo base_url() ?>public/img/job-seeker2.jpg" 
-                alt="Job Seeker Image" 
-                class="card-img-top" 
-                draggable="false"
-            >
-            <div class="card-body text-center">
-                <p class="h2">Are you a Job Seeker?</p>
-                <p>Let us help you to find the job that fits to you</p>
-                <a href="<?php echo base_url() ?>home/jobseeker_registration" class="btn btn-primary btn-lg mt-3">Register as JOB SEEKER</a>
-            </div>
-        </div>
-        </div>
-
-        <div class="col-lg py-3">
-        <div class="card pb-3 shadow">
-            <img 
-                src="<?php echo base_url() ?>public/img/employer.jpg" 
-                alt="Employer Image" 
-                class="card-img-top" 
-                draggable="false"
-            >
-            <div class="card-body text-center">
-                <p class="h2">Are you an Employer?</p>
-                <p>Find your applicants with us conveniently</p>
-                <a href="<?php echo base_url() ?>home/employer_registration" class="btn btn-secondary btn-lg mt-3">Register as EMPLOYER</a>
-            </div>
-        </div>
-        </div>
-
-    </div>
-</div>
-</div>
+?>
 
 <!-- RECENT JOB SECTIONS -->
 <div class="container-fluid bg-light">
@@ -198,18 +163,12 @@
 </div>
 <!-- END OF RECENT JOB SECTION -->
 
-<!-- CONTACT SECTION -->
-<div 
-    class="container-fluid parallax-window image-overlay py-5" 
-    data-parallax="scroll" 
-    data-image-src="<?php echo base_url() ?>public/img/pexels-andrea-piacquadio-840996.jpg"
->
-<div class="container-md text-center text-light my-5">
+<?php
 
-    <h1 class="display-4">Want to post a new job?</h1>
-    <p class="h5 font-weight-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-    <a href="#" class="btn btn-light btn-lg px-4 py-2 mt-5">Post a job now!</a>
+    if ( $this->session->userType == 'Job Seeker' ) {
+        #do nothinf
+    } else {
+        $this->load->view('sections/post_a_job');
+    }
 
-</div>
-</div>
-<!-- END CONTACT SECTION -->
+?>

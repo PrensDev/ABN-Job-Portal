@@ -1,8 +1,20 @@
+<?php
+
+$fullName       = $this->session->fullName;
+$firstName      = $this->session->firstName;
+$middleName     = $this->session->middleName;
+$lastName       = $this->session->lastName;
+$location       = $this->session->location;
+$contactNumber  = $this->session->contactNumber;
+$email          = $this->session->email;  
+
+?>
+
 <!-- HEADER -->
 <div 
-    class="container-fluid py-3 parallax-window image-overlay py-5" 
+    class="container-fluid py-3 parallax-window image-overlay py-5 user-select-none" 
     data-parallax="scroll" 
-    data-image-src="assets\profile_bg_cropped.jpg"
+    data-image-src="<?php echo base_url() ?>/public/img/jobseeker_header.jpg"
 >
 <div class="container-md text-white">
 <div class="row">
@@ -14,26 +26,26 @@
     
     <!-- COMPANY INFORMATION -->
     <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
-        <h1 class="font-weight-light">Juan Dela Cruz</h1>
+        <h1 class="font-weight-light"><?php echo $fullName ?></h1>
         
         <div class="d-block d-md-flex flex-wrap">
             
             <!-- LOCATION -->
             <div class="mr-3">
                 <i class="fas fa-map-marker-alt mr-1"></i>
-                <span>Novaliches, Quezon City</span>
+                <span><?php echo $location ?></span>
             </div>
 
             <!-- PHONE NUMBER -->
             <div class="mr-3">
                 <i class="fas fa-phone-alt mr-1"></i>
-                <span>091234567890</span>
+                <span><?php echo $contactNumber ?></span>
             </div>
 
             <!-- EMAIL ADDRESS -->
             <div class="mr-3">
                 <i class="fas fa-envelope mr-1"></i>
-                <span>puma-ph@email.com</span>
+                <span><?php echo $email ?></span>
             </div>
 
         </div>
