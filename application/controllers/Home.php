@@ -20,17 +20,6 @@ class Home extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
-    // 404 PAGE NOT FOUND VIEW
-    public function _404() {
-        $data = [
-            'title'         => '404: Page Not Found',
-        ];
-
-        $this->load->view('templates/fullpage_header', $data);
-        $this->load->view('_404');
-        $this->load->view('templates/footer');
-    }
-
     // JOBS VIEW
     public function jobs() {
         $data = [

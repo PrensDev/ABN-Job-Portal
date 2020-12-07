@@ -10,14 +10,16 @@ class Auth extends CI_Controller {
         if ( $this->session->has_userdata('userType') ) {
             redirect();
         } else {
-            $data = ['title' => '404: Page Not Found'];
-            $this->load->view('templates/fullpage_header', $data);
-            $this->load->view('_404');
-            $this->load->view('templates/footer');
+            $this->Auth_model->err_page();
         }
     }
 
     public function logout() {
+        session_destroy();
+        redirect();
+    }
+
+    public function deactivate() {
         session_destroy();
         redirect();
     }
@@ -41,10 +43,7 @@ class Auth extends CI_Controller {
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
-            $data = ['title' => '404: Page Not Found'];
-            $this->load->view('templates/fullpage_header', $data);
-            $this->load->view('_404');
-            $this->load->view('templates/footer');
+            $this->Auth_model->err_page();
         }
     }
 
@@ -72,27 +71,25 @@ class Auth extends CI_Controller {
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
-            $data = ['title' => '404: Page Not Found'];
-            $this->load->view('templates/fullpage_header', $data);
-            $this->load->view('_404');
-            $this->load->view('templates/footer');
+            $this->Auth_model->err_page();
         }
     }
 
-    public function job_posts() {
+    public function job_posts($jobPostID = NULL) {
         if ( $this->session->userType == 'Employer' ) {
-            $data = ['title' => $this->session->companyName . ' - Posted Jobs'];
-            $this->load->view('templates/header', $data);
-            $this->load->view('sections/navbar');
-            $this->load->view('auth_sections/employer/header');
-            $this->load->view('auth_sections/employer/job_posts');
-            $this->load->view('sections/footer');
-            $this->load->view('templates/footer');
+            if ( $jobPostID == NULL ) {
+                $data = ['title' => $this->session->companyName . ' - Posted Jobs'];
+                $this->load->view('templates/header', $data);
+                $this->load->view('sections/navbar');
+                $this->load->view('auth_sections/employer/header');
+                $this->load->view('auth_sections/employer/job_posts');
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');
+            } else {
+                $this->Employer_model->view_job_post($jobPostID);
+            }
         } else {
-            $data = ['title' => '404: Page Not Found'];
-            $this->load->view('templates/fullpage_header', $data);
-            $this->load->view('_404');
-            $this->load->view('templates/footer');
+            $this->Auth_model->err_page();
         }
     }
 
@@ -166,10 +163,23 @@ class Auth extends CI_Controller {
                 $this->Employer_model->post_new_job();
             }
         } else {
-            $data = ['title' => '404: Page Not Found'];
-            $this->load->view('templates/fullpage_header', $data);
-            $this->load->view('_404');
-            $this->load->view('templates/footer');
+            $this->Auth_model->err_page();
+        }
+    }
+
+    public function edit_post($jobPostID = NULL) {
+        if ($jobPostID == NULL) {
+            $this->Auth_model->err_page();
+        } else {
+            $this->Employer_model->edit_post($jobPostID);
+        }
+    }
+
+    public function delete_post($jobPostID = NULL) {
+        if ($jobPostID == NULL) {
+            $this->Auth_model->err_page();
+        } else {
+            $this->Employer_model->delete_post($jobPostID);
         }
     }
 }

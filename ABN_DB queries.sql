@@ -476,9 +476,10 @@ AS
 -- Get Posted Jobs Procedure
 CREATE PROCEDURE [dbo].[GetJobPosts] 
 	@employerID INT
-AS 
+AS
 	SELECT
-		  [employerID]
+		  [jobPostID]
+		, [employerID]
 		, [jobTitle]
 		, [jobType]
 		, [industryType]
@@ -495,5 +496,74 @@ AS
 	WHERE [employerID] = @employerID
 	ORDER BY [dateCreated] DESC
 
-SELECT * FROM JobPosts
+
+-- View Job Post
+CREATE PROCEDURE [dbo].[ViewJobPost]
+	@jobPostID INT
+AS
+	SELECT
+		  [jobPostID]
+		, [jobTitle]
+		, [jobType]
+		, [industryType]
+		, [description]
+		, [responsibilities]
+		, [skills]
+		, [experiences]
+		, [education]
+		, [minSalary]
+		, [maxSalary]
+		, [dateCreated]
+		, [dateModified]
+		, CAST([jobPostFlag] AS INT) AS [status]
+	FROM [dbo].[JobPosts]
+	WHERE [jobPostID] = @jobPostID
+
+
+-- Deactivate Account Procedure
+CREATE PROCEDURE [dbo].[DeactivateAccount]
+	@email VARCHAR(450)
+AS
+	UPDATE [dbo].[UserAccounts]
+	SET [accountFlag] = 0
+	WHERE [email] = @email
+
+
+-- UpdateJobPost Procedure
+CREATE PROCEDURE [dbo].[UpdateJobPost]
+	@jobPostID			INT,
+	@jobTitle			VARCHAR(MAX),
+	@jobType			VARCHAR(MAX),
+	@industryType		VARCHAR(MAX),
+	@description		VARCHAR(MAX),
+	@responsibilities	VARCHAR(MAX),
+	@skills				VARCHAR(MAX),
+	@experiences		VARCHAR(MAX),
+	@education			VARCHAR(MAX),
+	@minSalary			MONEY,
+	@maxSalary			MONEY,
+	@jobPostFlag		BINARY
+AS
+	UPDATE [dbo].[JobPosts]
+	SET
+		  [jobTitle] 			= @jobTitle
+		, [jobType] 			= @jobType
+		, [industryType] 		= @industryType
+		, [description] 		= @description
+		, [responsibilities] 	= @responsibilities
+		, [skills] 				= @skills
+		, [experiences] 		= @experiences
+		, [education] 			= @education
+		, [minSalary] 			= @minSalary
+		, [maxSalary] 			= @maxSalary
+		, [dateModified] 		= getdate()
+		, [jobPostFlag] 		= @jobPostFlag
+	WHERE [jobPostID]			= @jobPostID
+
+
+-- Delete Job Post Procedure
+CREATE PROCEDURE [dbo].[DeleteJobPost]
+	@jobPostID INT
+AS
+	DELETE FROM [dbo].[JobPosts] WHERE [jobPostID] = @jobPostID
 

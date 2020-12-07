@@ -41,11 +41,11 @@
                     <span>Change password</span>
                 </a>
 
-                <a class="list-group-item list-group-item-action" href="#">
+                <a class="btn list-group-item list-group-item-action" data-toggle="modal" data-target="#deactivateModal">
                     <div class="user-nav-icon">
-                        <i class="fas fa-user-tie"></i>
+                        <i class="fas fa-user-times"></i>
                     </div>
-                    <span>Deactivate account</span>
+                    <span>Deactivate my account</span>
                 </a>
 
                 <a class="btn list-group-item list-group-item-action" data-toggle="modal" data-target="#logoutModal">
@@ -61,3 +61,5 @@
     
 </div>
 </div>
+
+<?php $this->load->view('auth_sections/deactivate_modal') ;?>

@@ -91,8 +91,39 @@
                     $statusClass = 'danger';
                     $statusLabel = 'Not Active';
                 }
+
+                $minSalary = $row->minSalary;
+
+                if ($minSalary < 1000) {
+                    $minSalary = number_format($minSalary, 0, '.', '');
+                } else if ($minSalary < 1000000) {
+                    $minSalary = number_format($minSalary / 1000, 0, '.', '') . 'K';
+                } else if ($minSalary < 1000000000) {
+                    $minSalary = number_format($minSalary / 1000000, 0, '.', '') . 'M';
+                } else if ($minSalary < 1000000000000) {
+                    $minSalary = number_format($minSalary / 1000000000, 0, '.', '') . 'B';
+                } else if ($minSalary < 1000000000000000) {
+                    $minSalary = number_format($minSalary / 1000000000000, 0, '.', '') . 'T';
+                } 
+
+                $maxSalary = $row->maxSalary;
+
+                if ($maxSalary < 1000) {
+                    $maxSalary = number_format($maxSalary, 0, '.', '');
+                } else if ($maxSalary < 1000000) {
+                    $maxSalary = number_format($maxSalary / 1000, 0, '.', '') . 'K';
+                } else if ($maxSalary < 1000000000) {
+                    $maxSalary = number_format($maxSalary / 1000000, 0, '.', '') . 'M';
+                } else if ($maxSalary < 1000000000000) {
+                    $maxSalary = number_format($maxSalary / 1000000000, 0, '.', '') . 'B';
+                } else if ($maxSalary < 1000000000000000) {
+                    $maxSalary = number_format($maxSalary / 1000000000000, 0, '.', '') . 'T';
+                }
+                
+                $dateCreated = date_format(date_create($row->dateCreated),"M. d, Y H:i a");
+
                 echo '
-                    <div class="col-lg-6 my-1">
+                    <div class="col-lg-6 my-1 user-select-none">
                     <div class="bg-white p-3 border">
                         
                         <div class="d-flex">
@@ -108,7 +139,7 @@
                                     <!-- OFFERED SALARY -->
                                     <div class="mr-3">
                                         <i class="fas fa-money-bill-wave mr-1"></i>
-                                        <span>P' . $row->minSalary . ' - P' . $row->maxSalary . '</span>
+                                        <span>&#8369;' . $minSalary . ' - &#8369;' . $maxSalary . '</span>
                                     </div>
         
                                     <!-- INDUSTRY TYPE -->
@@ -120,7 +151,7 @@
                                     <!-- DATE CREATED -->
                                     <div class="mr-3">
                                         <i class="fas fa-clock mr-1"></i>
-                                        <span>' . $row->dateCreated . '</span>
+                                        <span>' . $dateCreated . '</span>
                                     </div>
                                     
                                 </div>
@@ -155,13 +186,13 @@
                                 </a>
                             </div>
                             <div>
-                                <a href="edit_job_post.html" class="btn btn-outline-primary"  data-toggle="tooltip" data-placement="top" title="Edit Post">
+                                <a href="' . base_url() . 'auth/edit_post/' . $row->jobPostID . '" class="btn btn-outline-primary"  data-toggle="tooltip" data-placement="top" title="Edit Post">
                                     <i class="fas fa-pen"></i>
                                 </a>
-                                <button class="btn btn-outline-danger" data-toggle="tooltip" data-placement="top" title="Delete Post">
+                                <button class="btn btn-outline-danger" data-toggle="modal" data-placement="top" data-target="#deletePostModal" title="Delete Post">
                                     <i class="fas fa-trash"></i>
                                 </button>
-                                <a href="job_post.html" class="btn btn-outline-secondary"  data-toggle="tooltip" data-placement="top" title="View More">
+                                <a href="' . base_url() . 'auth/job_posts/' . $row->jobPostID . '" class="btn btn-outline-secondary"  data-toggle="tooltip" data-placement="top" title="View More">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </a>
                             </div>
@@ -211,3 +242,12 @@
 
 </div>
 </div>
+
+<?php
+    if (isset($row->jobPostID)) {
+        $data = ['jobPostID' => $row->jobPostID];
+    } else {
+        $data = [];
+    }
+    $this->load->view('auth_sections/employer/delete_post_modal', $data);
+?>

@@ -1,10 +1,25 @@
+<?php
+
+$jobTitle         = set_value( 'jobTitle'         ) == '' ? $jobTitle         : set_value( 'jobTitle'         );
+$jobType          = set_value( 'jobType'          ) == '' ? $jobType          : set_value( 'jobType'          );
+$industryType     = set_value( 'industryType'     ) == '' ? $industryType     : set_value( 'industryType'     );
+$minSalary        = set_value( 'minSalary'        ) == '' ? $minSalary        : set_value( 'minSalary'        );
+$maxSalary        = set_value( 'maxSalary'        ) == '' ? $maxSalary        : set_value( 'maxSalary'        );
+$description      = set_value( 'description'      ) == '' ? $description      : set_value( 'description'      );
+$responsibilities = set_value( 'responsibilities' ) == '' ? $responsibilities : set_value( 'responsibilities' );
+$skills           = set_value( 'skills'           ) == '' ? $skills           : set_value( 'skills'           );
+$experiences      = set_value( 'experiences'      ) == '' ? $experiences      : set_value( 'experiences'      );
+$education        = set_value( 'education'        ) == '' ? $education        : set_value( 'education'        );
+
+?>
+
 <!-- POST NEW JOB FORM SECTION -->
 <div class="container-fluid">
 <div class="container-md py-5">
     
     <!-- FORM SECTION HEADER -->
     <div class="mb-4">
-        <h1 class="font-weight-normal">Post new job</h1>
+        <h1 class="font-weight-normal">Edit job post</h1>
     </div>
 
     <!-- ERROR ALERT BOX -->
@@ -37,7 +52,7 @@
                         id          = "jobTitle"
                         name        = "jobTitle"
                         placeholder = "Job Title" 
-                        value       = "<?php echo set_value('jobTitle') ?>"
+                        value       = "<?php echo $jobTitle ?>"
                     >
                     <small class="invalid-feedback"><?php echo form_error('jobTitle') ?></small>
                 </div>
@@ -58,21 +73,25 @@
                             <option 
                                 value="Full Time" 
                                 data-content="<i class='fas fa-circle mr-2 text-success'></i>Full Time"
+                                <?php echo $jobType == "Full Time" ? 'selected' : ''?>
                             ></option>
                             <option 
                                 value="Part Time" 
-                                data-content="<i class='fas fa-circle mr-2 text-info'></i>Part Time"
+                                data-content="<i class='fas fa-circle mr-2 text-info'></i>Part Time" 
+                                <?php echo $jobType == "Part Time" ? 'selected' : ''?>
                             ></option>
                             <option 
                                 value="Internship/OJT" 
                                 data-content="<i class='fas fa-circle mr-2 text-warning'></i>Internship/OJT"
+                                <?php echo $jobType == "Internship/OJT" ? 'selected' : ''?>
                             ></option>
                             <option 
                                 value="Temporary" 
-                                data-content="<i class='fas fa-circle mr-2 text-secondary'></i>Temporary"
+                                data-content="<i class='fas fa-circle mr-2 text-secondary'></i>Temporary" 
+                                <?php echo $jobType == "Temporary" ? 'selected' : ''?>
                             ></option>
                         </select>
-                        <small class="invalid-feedback"><?php echo form_error('jobType') ?></small>
+                        <small class="invalid-feedback"><?php echo $jobType ?></small>
                     </div>
 
                     <!-- INDUSTRY TYPE -->
@@ -84,7 +103,7 @@
                             id          = "industryType"
                             name        = "industryType"
                             placeholder = "Industry Type"
-                            value       = "<?php echo set_value('industryType') ?>"
+                            value       = "<?php echo $industryType ?>"
                         >
                         <small class="invalid-feedback"><?php echo form_error('industryType') ?></small>
                     </div>
@@ -109,7 +128,7 @@
                                 name        = "minSalary" 
                                 min         = "1"
                                 placeholder = "Minimum Offered Salary"
-                                value       = "<?php echo set_value('minSalary') ?>"
+                                value       = "<?php echo $minSalary ?>"
                             >
                         </div>
                         <small class="invalid-feedback"><?php echo form_error('minSalary') ?></small>
@@ -129,7 +148,7 @@
                                 name        = "maxSalary" 
                                 min         = "1"
                                 placeholder = "Maximum Offered Salary"
-                                value       = "<?php echo set_value('maxSalary') ?>"
+                                value       = "<?php echo $maxSalary ?>"
                             >
                         </div>
                         <small class="invalid-feedback"><?php echo form_error('maxSalary') ?></small>
@@ -149,7 +168,7 @@
                             id      = "status"
                             name    = "status"
                             value   = "1"
-                            checked
+                            <?php echo $status == 1 ? 'checked' : ''?>
                         >
                         <label class="custom-control-label text-success font-weight-bold" for="status">ACTIVE</label>
                     </div>
@@ -180,7 +199,7 @@
                         name        = "description" 
                         rows        = "5"
                         placeholder = "Describe the job you offered here ..."
-                    ><?php echo set_value('description') ?></textarea>
+                    ><?php echo $description ?></textarea>
                     <small class="invalid-feedback"><?php echo form_error('description') ?></small>
                 </div>
 
@@ -193,7 +212,7 @@
                         name        = "responsibilities" 
                         rows        = "5"
                         placeholder = "List the responsibilities for this job ..."
-                    ><?php echo set_value('responsibilities') ?></textarea>
+                    ><?php echo $responsibilities ?></textarea>
                     <small class="invalid-feedback"><?php echo form_error('responsibilities') ?></small>
                 </div>
 
@@ -206,7 +225,7 @@
                         name        = "skills" 
                         rows        = "5"
                         placeholder = "List the required skills for this job ..."
-                    ><?php echo set_value('skills') ?></textarea>
+                    ><?php echo $skills ?></textarea>
                     <small class="invalid-feedback"><?php echo form_error('skills') ?></small>
                 </div>
 
@@ -219,7 +238,7 @@
                         name        = "experiences" 
                         rows        = "5"
                         placeholder = "List the required experiences for this job ..."
-                    ><?php echo set_value('experiences') ?></textarea>
+                    ><?php echo $experiences ?></textarea>
                     <small class="invalid-feedback"><?php echo form_error('experiences') ?></small>
                 </div>
 
@@ -232,7 +251,7 @@
                         name        = "education" 
                         rows        = "5"
                         placeholder = "List the required education for this job ..."
-                    ><?php echo set_value('education') ?></textarea>
+                    ><?php echo $education ?></textarea>
                     <small class="invalid-feedback"><?php echo form_error('education') ?></small>
                 </div>
 
@@ -242,7 +261,7 @@
 
         <!-- USER CONTROLS -->
         <div class="d-flex justify-content-center my-4">
-            <button type="submit" class="mx-1 btn btn-primary">Post This Job</button>
+            <button type="submit" class="mx-1 btn btn-primary">Save Changes</button>
             <button onclick="history.back()" type="button" class="mx-1 btn btn-secondary">Cancel</button>
         </div>
 
