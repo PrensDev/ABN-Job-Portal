@@ -14,14 +14,18 @@
         <h5 class="font-weight-light">Sign in using your account.</h5>
     </div>
 
-    <!-- ERROR ALERT BOX -->
-    <div class="alert alert-danger my-2 alert-dismissible fade show" role="alert">
-        The account you entered <strong>doesn't exist</strong>.
-        <button type="button" class="close" data-dismiss="alert">
-            <span>&times;</span>
-        </button>
-    </div>
-    <!-- END OF ERROR ALERT BOX -->
+    <?php
+        if ($error != '') {
+            echo '
+            <div class="alert alert-danger my-2 alert-dismissible fade show" role="alert">
+                ' . $error . '
+                <button type="button" class="btn close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+            ';
+        }
+    ?>
 
     <!-- FORM SECTION -->
     <div class="bg-white border p-3 rounded my-2">

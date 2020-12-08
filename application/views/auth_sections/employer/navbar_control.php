@@ -1,9 +1,3 @@
-<?php
-
-$companyName = $this->session->companyName;
-
-?>
-
 <!-- EMPLOYER USER CONTROL -->
 <li class="nav-link mx-md-2 nav-item dropdown">
                                 
@@ -11,11 +5,10 @@ $companyName = $this->session->companyName;
         <img 
             class   = "rounded-pill border mr-1" 
             src     = "assets\job_logo_5.jpg" 
-            alt     = "<?php echo $companyName ?>" 
             height  = "30" 
             width   = "30"
         >
-        <span><?php echo $companyName ?></span>
+        <span><?php echo $username ?></span>
     </span>
     
     <div class="dropdown-menu dropdown-menu-right mt-3 mt-lg-0">

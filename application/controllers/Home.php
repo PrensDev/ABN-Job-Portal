@@ -5,62 +5,73 @@ class Home extends CI_Controller {
     public function __construct() {
         parent::__construct();
     }
+
+    protected function set_data($title) {
+        $userdata = NULL;
+
+        if ( $this->session->has_userdata('userType') ) {
+            $userType = $this->session->userType;
+
+            if ( $userType == 'Job Seeker' ) {
+                $userdata = $this->Jobseeker_model->get_info();
+            } else if ( $userType == 'Employer' ) {
+                $userdata = $this->Employer_model->get_info();
+            }
+
+            $pageTitle = $userdata['username'] . ' - ' . $title;
+        } else {
+            $pageTitle = $title;
+        }
+
+        $data = [
+            'title'         => $pageTitle,
+            'header'        => $title,
+            'header_img'    => 'header.jpg',
+            'userdata'      => $userdata,
+        ];
+
+        return $data;
+    }
     
+    protected function load_main_view($title, $bodyView) {
+        $data = $this->set_data($title);
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('sections/navbar', $data['userdata']);
+
+        if ( $bodyView == 'index' ) {
+            $this->load->view('index', $data);
+        } else {
+            $this->load->view('sections/header', $data);
+            $this->load->view('sections/' . $bodyView, $data);
+        }
+
+        $this->load->view('sections/footer');
+        $this->load->view('templates/footer');
+    }
+
     // INDEX VIEW
     public function index() {
-        $data = [
-            'title'         => 'Home',
-            'header_img'    => 'header.jpg',
-        ];
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('sections/navbar');
-        $this->load->view('index', $data);
-        $this->load->view('sections/footer');
-        $this->load->view('templates/footer');
+        $this->load_main_view('Home', 'index');
     }
-
-    // JOBS VIEW
-    public function jobs() {
-        $data = [
-            'title'         => 'Jobs',
-            'header_img'    => 'header.jpg',
-        ];
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('sections/navbar');
-        $this->load->view('sections/search_header');
-        $this->load->view('sections/job_list', $data);
-        $this->load->view('sections/footer');
-        $this->load->view('templates/footer');
-    }
-
+    
     // ABOUT US VIEW
     public function about_us() {
-        $data = [
-            'title'         => 'About Us',
-            'header_img'    => 'header.jpg',
-        ];
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('sections/navbar');
-        $this->load->view('sections/header', $data);
-        $this->load->view('sections/about_us');
-        $this->load->view('sections/footer');
-        $this->load->view('templates/footer');
+        $this->load_main_view('About Us', 'about_us');
     }
 
     // TERMS AND CONDITIONS VIEW
     public function terms_and_conditions() {
-        $data = [
-            'title'         => 'Terms and Conditions',
-            'header_img'    => 'header.jpg',
-        ];
+        $this->load_main_view('Terms and Conditions', 'terms_and_conditions');
+    }
 
+    // JOBS VIEW
+    public function jobs() {
+        $data = $this->set_data('Jobs');
         $this->load->view('templates/header', $data);
-        $this->load->view('sections/navbar');
-        $this->load->view('sections/header', $data);
-        $this->load->view('sections/terms_and_conditions');
+        $this->load->view('sections/navbar', $data['userdata']);
+        $this->load->view('sections/search_header');
+        $this->load->view('sections/job_list');
         $this->load->view('sections/footer');
         $this->load->view('templates/footer');
     }
@@ -70,10 +81,6 @@ class Home extends CI_Controller {
         if ($this->session->has_userdata('userType')) {
             redirect();
         } else {
-            $data = [
-                'title'         => 'Login',
-            ];
-
             $this->form_validation->set_rules([
                 [
                     'field' => 'email',
@@ -91,14 +98,24 @@ class Home extends CI_Controller {
                 'required' => 'This is a required field',
             ]);
 
-            if ($this->form_validation->run() === FALSE) {    
-                $this->load->view('templates/fullpage_header', $data);
-                $this->load->view('sections/login_form');
-                $this->load->view('templates/footer');
-                session_destroy();
+            if ($this->form_validation->run() === FALSE) {
+                $data = [
+                    'title' => 'Login',
+                    'error' => '',
+                ];
             } else {
-                $this->Auth_model->login();
+                $error = $this->Auth_model->login();
+                if (isset($error)) {
+                    $data = [
+                        'title' => 'Login',
+                        'error' => $error,
+                    ];
+                }
             }
+            
+            $this->load->view('templates/fullpage_header', $data);
+            $this->load->view('sections/login_form');
+            $this->load->view('templates/footer');
         }
     }
 
@@ -107,10 +124,6 @@ class Home extends CI_Controller {
         if ($this->session->has_userdata('userType')) {
             redirect();
         } else {
-            $data = [
-                'title'         => 'Register as Job Seeker',
-                'header_img'    => 'header.jpg',
-            ];
 
             $this->form_validation->set_rules([
                 [
@@ -204,12 +217,7 @@ class Home extends CI_Controller {
             ]);
 
             if ($this->form_validation->run() === FALSE) {
-                $this->load->view('templates/header', $data);
-                $this->load->view('sections/navbar');
-                $this->load->view('sections/header', $data);
-                $this->load->view('sections/jobseeker_regform');
-                $this->load->view('sections/footer');
-                $this->load->view('templates/footer');
+                $this->load_main_view('Register as Job Seeker', 'jobseeker_regform');
             } else {
                 $this->Auth_model->register_jobseeker();
             }
@@ -221,11 +229,6 @@ class Home extends CI_Controller {
         if ($this->session->has_userdata('userType')) {
             redirect();
         } else {
-            $data = [
-                'title'         => 'Register as Employer',
-                'header_img'    => 'header.jpg',
-            ];
-
             $this->form_validation->set_rules([
                 [
                     'field' => 'companyName',
@@ -297,12 +300,7 @@ class Home extends CI_Controller {
             ]);
 
             if ($this->form_validation->run() === FALSE) {
-                $this->load->view('templates/header', $data);
-                $this->load->view('sections/navbar');
-                $this->load->view('sections/header', $data);
-                $this->load->view('sections/employer_regform');
-                $this->load->view('sections/footer');
-                $this->load->view('templates/footer');
+                $this->load_main_view('Register as Employer', 'employer_regform');
             } else {
                 $this->Auth_model->register_employer();
             }

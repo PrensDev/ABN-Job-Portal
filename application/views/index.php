@@ -32,7 +32,7 @@
 
             <!-- JOB TYPE FIELD -->
             <div class="col-lg">
-            <select class="selectpicker show-tick border-0 shadow-none form-control bg-white" data-style="bg-white text-dark" title="Job Type...">
+            <select class="selectpicker show-tick border-0 shadow-none form-control bg-white" data-style="btn bg-white text-dark" title="Job Type...">
                 <option value="Full Time">Full Time</option>
                 <option value="Part Time">Part Time</option>
                 <option value="Internship/OJT">Internship/OJT</option>

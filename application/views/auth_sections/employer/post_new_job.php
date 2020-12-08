@@ -7,14 +7,6 @@
         <h1 class="font-weight-normal">Post new job</h1>
     </div>
 
-    <!-- ERROR ALERT BOX -->
-    <div class="alert alert-danger alert-dismissible fade show my-4" role="alert">
-        <span>You entered some <strong>invalid</strong> input.</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
     <!-- GENERAL INFORMATION FORM -->
     <form method="POST">
 
@@ -49,7 +41,7 @@
                     <div class="form-group col-md">
                         <label for="jobType">Job Type</label>
                         <select 
-                            class       = "selectpicker show-tick form-control border <?php echo form_error('industryType') ? 'is-invalid' : '' ;?>" 
+                            class       = "selectpicker show-tick form-control border <?php echo form_error('jobType') ? 'is-invalid' : '' ;?>" 
                             title       = "Select job type ..." 
                             data-style  = "btn-white text-dark" 
                             id          = "jobType"
@@ -58,18 +50,22 @@
                             <option 
                                 value="Full Time" 
                                 data-content="<i class='fas fa-circle mr-2 text-success'></i>Full Time"
+                                <?php echo set_value('jobType') == 'Full Time' ? 'selected' : '' ?>
                             ></option>
                             <option 
                                 value="Part Time" 
                                 data-content="<i class='fas fa-circle mr-2 text-info'></i>Part Time"
+                                <?php echo set_value('jobType') == 'Part Time' ? 'selected' : '' ?>
                             ></option>
                             <option 
                                 value="Internship/OJT" 
                                 data-content="<i class='fas fa-circle mr-2 text-warning'></i>Internship/OJT"
+                                <?php echo set_value('jobType') == 'Internship/OJT' ? 'selected' : '' ?>
                             ></option>
                             <option 
                                 value="Temporary" 
                                 data-content="<i class='fas fa-circle mr-2 text-secondary'></i>Temporary"
+                                <?php echo set_value('jobType') == 'Temporary' ? 'selected' : '' ?>
                             ></option>
                         </select>
                         <small class="invalid-feedback"><?php echo form_error('jobType') ?></small>

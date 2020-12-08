@@ -16,108 +16,49 @@ class Auth_model extends CI_Model {
 
     // LOGIN
     public function login() {
-        $FindUser_sql = "EXEC [FindUserAccount] @email = '" . $this->input->post( 'email' ) . "'";
-        $UserAccount_query = $this->db->query($FindUser_sql);
+        $sql = "EXEC [FindUserAccount] @email = '" . $this->input->post( 'email' ) . "'";
+        $query = $this->db->query($sql);
 
-        if (! $UserAccount_query) {
+        if (! $query) {
             echo $this->db->error();
         } else {
-            $data = ['title' => 'Login'];
+            $data = [
+                'title' => 'Login',
+                'error' => '',
+            ];
 
-            if ( $UserAccount_query->num_rows() == 1 ) {
-                $UserAccount_row = $UserAccount_query->row(0);
+            if ( $query->num_rows() == 1 ) {
+                $row = $query->row(0);
 
-                if ( password_verify( $this->input->post( 'password' ), $UserAccount_row->password ) ) {
-                    if ( $UserAccount_row->userType == 'Job Seeker' ) {
-                        
+                if ( password_verify( $this->input->post( 'password' ), $row->password ) ) {
+                    if ( $row->userType == 'Job Seeker' ) {
                         $FindJobseeker_sql = "EXEC [FindJobseeker] @email = '" . $this->input->post( 'email' ) . "'";
                         $Jobseeker_query = $this->db->query($FindJobseeker_sql);
-                        
-                        if(! $Jobseeker_query) {
-                            echo $this->db->error();
-                        } else {
-                            if ( $Jobseeker_query->num_rows() == 1) {
-                                $Jobseeker_row  = $Jobseeker_query->row(0);
+                        $Jobseeker_row  = $Jobseeker_query->row();
 
-                                if ( $Jobseeker_row->middleName != '' ) {
-                                    $fullName = $Jobseeker_row->firstName . ' ' . $Jobseeker_row->middleName . ' ' . $Jobseeker_row->lastName;
-                                } else {
-                                    $fullName = $Jobseeker_row->firstName . ' ' . $Jobseeker_row->lastName;
-                                }
-
-                                $location = $Jobseeker_row->brgyDistrict . ', ' . $Jobseeker_row->cityMunicipality;
-
-                                $userdata = [
-                                    'userType'          => $UserAccount_row->userType,
-                                    'id'                => $Jobseeker_row->jobseekerID,
-                                    'fullName'          => $fullName,
-                                    'firstName'         => $Jobseeker_row->firstName,
-                                    'middleName'        => $Jobseeker_row->middleName,
-                                    'lastName'          => $Jobseeker_row->lastName,
-                                    'birthDate'         => $Jobseeker_row->birthDate,
-                                    'age'               => $Jobseeker_row->age,
-                                    'gender'            => $Jobseeker_row->gender,
-                                    'street'            => $Jobseeker_row->street,
-                                    'brgyDistrict'      => $Jobseeker_row->brgyDistrict,
-                                    'cityMunicipality'  => $Jobseeker_row->cityMunicipality,
-                                    'location'          => $location,
-                                    'contactNumber'     => $Jobseeker_row->contactNumber,
-                                    'email'             => $Jobseeker_row->email,
-                                    'description'       => $Jobseeker_row->description,
-                                    'skills'            => $Jobseeker_row->skills,
-                                    'experiences'       => $Jobseeker_row->experiences,
-                                    'education'         => $Jobseeker_row->education,
-                                ];
-
-                                $this->session->set_userdata($userdata);
-                                redirect('auth/information');
-                            } else {
-                                
-                            }
-                        }
-                    } else if ( $UserAccount_row->userType == 'Employer' ) {
-                        
+                        $this->session->set_userdata([
+                            'userType' => $row->userType,
+                            'id'       => $Jobseeker_row->jobseekerID,
+                            'email'    => $Jobseeker_row->email,
+                        ]);
+                    } else if ( $row->userType == 'Employer' ) {
                         $FindEmployer_sql = "EXEC [FindEmployer] @email = '" . $this->input->post( 'email' ) . "'";
                         $Employer_query = $this->db->query($FindEmployer_sql);
-                        
-                        if(! $Employer_query) {
-                            echo $this->db->error();
-                        } else {
-                            if ( $Employer_query->num_rows() == 1) {
-                                $Employer_row  = $Employer_query->row(0);
+                        $Employer_row  = $Employer_query->row(0);
 
-                                $location = $Employer_row->brgyDistrict . ', ' . $Employer_row->cityMunicipality;
-
-                                $userdata = [
-                                    'userType'          => $UserAccount_row->userType,
-                                    'id'                => $Employer_row->employerID,
-                                    'companyName'       => $Employer_row->companyName,
-                                    'street'            => $Employer_row->street,
-                                    'brgyDistrict'      => $Employer_row->brgyDistrict,
-                                    'cityMunicipality'  => $Employer_row->cityMunicipality,
-                                    'location'          => $location,
-                                    'contactNumber'     => $Employer_row->contactNumber,
-                                    'email'             => $Employer_row->email,
-                                    'website'           => $Employer_row->website,
-                                    'description'       => $Employer_row->description,
-                                ];
-
-                                $this->session->set_userdata($userdata);
-                                redirect('auth/information');
-                            } else {
-                                die("Multiple Employers are detected");
-                            }
-                        }
-                    } else {
-                        die('Invalid User');
+                        $this->session->set_userdata( [
+                            'userType'    => $row->userType,
+                            'id'          => $Employer_row->employerID,
+                            'email'       => $Employer_row->email,
+                        ]);
                     }
+
+                    redirect('auth/information');
                 } else {
-                    $this->load->view('templates/fullpage_header', $data);
-                    $this->load->view('sections/login_form');
-                    $this->load->view('templates/footer');
+                    return 'Incorrect Password';
                 }
             } else {
-                die("Multiple User Accounts are detected");
+                return 'That account doesn\'t not exist';
             }
         }
     }
@@ -171,14 +112,14 @@ class Auth_model extends CI_Model {
         } else {
             $RegisterEmployer_sql = "
                 EXEC [RegisterEmployer]
-                    @companyName		= '" . $this->input->post( 'companyName'        ) . "',
-                    @street				= '" . $this->input->post( 'street'             ) . "',
-                    @brgyDistrict		= '" . $this->input->post( 'brgyDistrict'       ) . "',
-                    @cityMunicipality	= '" . $this->input->post( 'cityMunicipality'   ) . "',
-                    @contactNumber		= '" . $this->input->post( 'contactNumber'      ) . "',
-                    @email				= '" . $this->input->post( 'email'              ) . "',
-                    @website			= '" . $this->input->post( 'website'            ) . "',
-                    @description		= '" . $this->input->post( 'description'        ) . "'
+                    @companyName		= '" . $this->input->post( 'companyName'      ) . "',
+                    @street				= '" . $this->input->post( 'street'           ) . "',
+                    @brgyDistrict		= '" . $this->input->post( 'brgyDistrict'     ) . "',
+                    @cityMunicipality	= '" . $this->input->post( 'cityMunicipality' ) . "',
+                    @contactNumber		= '" . $this->input->post( 'contactNumber'    ) . "',
+                    @email				= '" . $this->input->post( 'email'            ) . "',
+                    @website			= '" . $this->input->post( 'website'          ) . "',
+                    @description		= '" . $this->input->post( 'description'      ) . "'
             ";
             if (! $this->db->query($RegisterEmployer_sql)) {
                 echo $this->db->error();
@@ -186,5 +127,14 @@ class Auth_model extends CI_Model {
                 $this->login();
             }
         }
+    }
+
+    // CHANGE PASSWORD
+    public function change_password() {
+        $sql = "
+            EXEC [ChangeUserPassword]
+                @email    = '" . $this->session->email . "',
+                @password = '" . password_hash($input->post( 'retypepassword' ), PASSWORD_ARGON2I) . "',
+        ";
     }
 }

@@ -1,13 +1,3 @@
-<?php
-
-$description    = $this->session->description;
-$location       = $this->session->location;
-$contactNumber  = $this->session->contactNumber;
-$email          = $this->session->email;
-$website        = $this->session->website;
-
-?>
-
 <!-- COMPANY PROFILE DETAILS SECTION -->
 <div class="container-fluid">
 <div class="container-md py-5">

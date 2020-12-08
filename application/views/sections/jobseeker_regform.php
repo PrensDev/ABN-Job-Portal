@@ -101,12 +101,11 @@
                             title       = "Please select your gender ..." 
                             id          = "gender"
                             name        = "gender"
-                            value       = "<?php echo set_value('gender'); ?>"
                         >
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="LGBTQA++">LGBTQA++</option>
-                            <option value="Prefer not to say">Prefer not to say</option>
+                            <option value="Male" <?php echo set_value('gender') == 'Male' ? 'selected' : '' ?>>Male</option>
+                            <option value="Female" <?php echo set_value('gender') == 'Female' ? 'selected' : '' ?>>Female</option>
+                            <option value="LGBTQA++" <?php echo set_value('gender') == 'LGBTQA++' ? 'selected' : '' ?>>LGBTQA++</option>
+                            <option value="Prefer not to say" <?php echo set_value('gender') == 'Prefer not to say' ? 'selected' : '' ?>>Prefer not to say</option>
                         </select>
                         <small class="invalid-feedback"><?php echo form_error('gender')?></small>
                     </div>
@@ -352,7 +351,7 @@
                             name    = "agreement"
                         >
                         <label class="custom-control-label" for="agreement">
-                            I agree to the <a href="terms_and_conditions.html" data-toggle="tooltip" data-placement="top" title="Read our Terms and Conditions">Terms and Conditions</a> of this website.
+                            I agree to the <a href="<?php echo base_url() ?>home/terms_and_conditions" data-toggle="tooltip" data-placement="top" title="Read our Terms and Conditions">Terms and Conditions</a> of this website.
                         </label>
                         <small class="invalid-feedback"><?php echo form_error('agreement')?></small>
                     </div>

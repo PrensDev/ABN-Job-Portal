@@ -5,7 +5,8 @@
     <!-- HEADER OF CONTENT -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="font-weight-normal m-0">Job Posts (12)</h1>
+            <h1 class="font-weight-normal m-0 mb-3">Job Posts (12)</h1>
+            <span class="text-secondary text-right">Showing page 1 of 2</span>
         </div>
         <div>
             <a href="<?php echo base_url() ?>auth/post_new_job" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Post new job">
@@ -16,53 +17,12 @@
     </div>
     <!-- END OF HEADER OF CONTENT -->
 
-    <!-- SUCCESS ALERT BOX -->
     <div class="alert alert-success alert-dismissible fade show my-2 mb-4" role="alert">
         <span>New job has successfully been <strong>added</strong>.</span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <!-- END OF SUCCESS ALERT BOX -->
-
-    <!-- PAGINATION SECTION -->
-    <div class="d-flex justify-content-between align-items-top">
-        <div>
-            <span class="text-secondary text-right">Showing page 1 of 2</span>
-        </div>
-        <!-- PAGINATION -->
-        <nav class="d-none d-sm-block">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                            <i class="fas fa-caret-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">...</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">18</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="fas fa-caret-right"></i>
-                        </a>
-                    </li>
-                </ul>
-        </nav>
-        <!-- END OF PAGINATION -->
-    </div>
-    <!-- END OF PAGINATION SECTION -->
 
 
     <!-- JOB LIST -->
@@ -120,7 +80,7 @@
                     $maxSalary = number_format($maxSalary / 1000000000000, 0, '.', '') . 'T';
                 }
                 
-                $dateCreated = date_format(date_create($row->dateCreated),"M. d, Y H:i a");
+                $dateCreated = date_format(date_create($row->dateCreated),"M. d, Y; h:i a");
 
                 echo '
                     <div class="col-lg-6 my-1 user-select-none">
@@ -189,9 +149,6 @@
                                 <a href="' . base_url() . 'auth/edit_post/' . $row->jobPostID . '" class="btn btn-outline-primary"  data-toggle="tooltip" data-placement="top" title="Edit Post">
                                     <i class="fas fa-pen"></i>
                                 </a>
-                                <button class="btn btn-outline-danger" data-toggle="modal" data-placement="top" data-target="#deletePostModal" title="Delete Post">
-                                    <i class="fas fa-trash"></i>
-                                </button>
                                 <a href="' . base_url() . 'auth/job_posts/' . $row->jobPostID . '" class="btn btn-outline-secondary"  data-toggle="tooltip" data-placement="top" title="View More">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </a>
@@ -242,12 +199,3 @@
 
 </div>
 </div>
-
-<?php
-    if (isset($row->jobPostID)) {
-        $data = ['jobPostID' => $row->jobPostID];
-    } else {
-        $data = [];
-    }
-    $this->load->view('auth_sections/employer/delete_post_modal', $data);
-?>

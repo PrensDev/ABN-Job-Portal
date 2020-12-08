@@ -141,4 +141,5 @@ $autoload['language'] = array();
 $autoload['model'] = [
     'Auth_model',
     'Employer_model',
+    'Jobseeker_model',
 ];

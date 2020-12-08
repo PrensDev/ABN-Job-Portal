@@ -1,15 +1,9 @@
-<?php 
-
-$fullName = $this->session->fullName;
-
-?>
-
 <!-- JOB SEEKER USER CONTROL -->
 <li class="nav-link mx-md-2 nav-item dropdown">
                                 
     <span class="d-flex align-items-center" role="button" data-toggle="dropdown">
         <img class="rounded-pill border mr-1" src="assets/97.jpg" alt="" height="30" width="30">
-        <span><?php echo $fullName ?></span>
+        <span><?php echo $username ?></span>
     </span>
     
     <div class="dropdown-menu dropdown-menu-right mt-3 mt-lg-0">

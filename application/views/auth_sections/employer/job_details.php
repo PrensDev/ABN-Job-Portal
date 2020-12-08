@@ -8,12 +8,12 @@ if ( $status == 1 ) {
     $statusLabel = "Not Active";
 }
 
-$datePosted = date_format(date_create($dateCreated),"M. d, Y H:i a");
+$datePosted = date_format(date_create($dateCreated),"M. d, Y; H:i a");
 
 if ( $dateModified == NULL) {
-    $dateStatus = 'Created ' . date_format(date_create($dateCreated),"F d, Y H:i a");
+    $dateStatus = 'Created ' . date_format(date_create($dateCreated),"F d, Y; h:i a");
 } else {
-    $dateStatus = 'Modified ' . date_format(date_create($dateModified),"F d, Y H:i a");
+    $dateStatus = 'Modified ' . date_format(date_create($dateModified),"F d, Y; h:i a");
 }
 
 
@@ -86,7 +86,7 @@ if ($maxSalary < 1000) {
         <hr>
     </div>
 
-    <!-- SUCCESS ALERT BOX -->
+
     <div class="alert alert-success alert-dismissible fade show my-4 mb-4" role="alert">
         <span>The changes you made has been <strong>saved</strong>.</span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -94,6 +94,7 @@ if ($maxSalary < 1000) {
         </button>
     </div>
     <!-- END OF SUCCESS ALERT BOX -->
+
 
     <div class="row mt-1">
 
@@ -255,4 +256,20 @@ if ($maxSalary < 1000) {
 </div>
 </div>
 
-<?php $this->load->view('auth_sections/employer/delete_post_modal') ?>
+<?php
+
+$this->load->view('templates/modal', [
+    'id'            => 'deletePostModal',
+    'theme'         => 'danger',
+    'title'         => 'Delete this post',
+    'icon'          => 'trash',
+    'message'       => '
+        <p>Are you sure you want to delete this post?</p>
+        <p><strong>Note: You cannot retrieved this after you delete it.</strong></p>
+    ',
+    'actionPath'    => 'auth/delete_post/' . $jobPostID,
+    'actionLabel'   => 'Delete',
+    'actionIcon'    => 'trash',
+]);
+
+?>

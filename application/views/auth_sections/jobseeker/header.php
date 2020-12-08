@@ -1,15 +1,3 @@
-<?php
-
-$fullName       = $this->session->fullName;
-$firstName      = $this->session->firstName;
-$middleName     = $this->session->middleName;
-$lastName       = $this->session->lastName;
-$location       = $this->session->location;
-$contactNumber  = $this->session->contactNumber;
-$email          = $this->session->email;  
-
-?>
-
 <!-- HEADER -->
 <div 
     class="container-fluid py-3 parallax-window image-overlay py-5 user-select-none" 
@@ -26,7 +14,7 @@ $email          = $this->session->email;
     
     <!-- COMPANY INFORMATION -->
     <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
-        <h1 class="font-weight-light"><?php echo $fullName ?></h1>
+        <h1 class="font-weight-light"><?php echo $username ?></h1>
         
         <div class="d-block d-md-flex flex-wrap">
             
@@ -64,12 +52,8 @@ $email          = $this->session->email;
 
         </div>
 
-        
-
     </div>
-    <!-- END OF COMPANY INFORMATION -->
-
+    
 </div>
 </div>
 </div>
-<!-- END OF HEADER -->

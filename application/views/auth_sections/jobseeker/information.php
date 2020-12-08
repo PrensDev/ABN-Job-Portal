@@ -1,17 +1,3 @@
-<?php
-
-$description    = $this->session->description;
-$experiences    = $this->session->experiences;
-$skills         = $this->session->skills;
-$education      = $this->session->education;
-$gender         = $this->session->gender;
-$age            = $this->session->age;
-$location       = $this->session->location;
-$contactNumber  = $this->session->contactNumber;
-$email          = $this->session->email;
-
-?>
-
 <!-- APPLICANT PROFILE DETAILS SECTION -->
 <div class="container-fluid">
 <div class="container-md py-5">

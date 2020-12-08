@@ -1,6 +1,6 @@
 <!--SETTINGS SECTION -->
 <div class="container-fluid pb-5">
-<div class="container-md py-5 mb-5">
+<div class="container-md py-5">
     
     <!-- HEADER OF CONTENT -->
     <div class="mb-4">
@@ -34,7 +34,7 @@
                     <span>Edit information</span>
                 </a>
 
-                <a class="list-group-item list-group-item-action" href="change_password.html">
+                <a class="list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/change_password">
                     <div class="user-nav-icon">
                         <i class="fas fa-lock"></i>
                     </div>
@@ -58,8 +58,32 @@
             </div>
         </div>
     </div>
+
+    <!-- USER CONTROLS -->
+    <div class="d-flex justify-content-center my-4">
+        <button onclick="history.back()" type="button" class="mx-1 btn btn-light">
+            <i class="fas fa-arrow-left mr-1"></i>
+            <span>Back</span>
+        </button>
+    </div>
     
 </div>
 </div>
 
-<?php $this->load->view('auth_sections/deactivate_modal') ;?>
+<?php
+
+$this->load->view('templates/modal', [
+    'id'            => 'deactivateModal',
+    'theme'         => 'warning',
+    'title'         => 'Deactivate account',
+    'icon'          => 'user-times',
+    'message'       => '
+    <p>Are you sure you want to deactivate your account?</p>
+        <p><strong>Note: You can reactivate your account by just logging in again.</strong></p>
+    ',
+    'actionPath'    => 'auth/deactivate',
+    'actionLabel'   => 'Deactivate',
+    'actionIcon'    => NULL,
+]);
+
+?>

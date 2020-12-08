@@ -7,88 +7,86 @@ class Employer_model extends CI_Model {
         $this->load->library('session');
     }
 
+    protected function get_row($sql) {
+        $query = $this->db->query($sql);
+        if (! $query) {
+            die($this->db->error());
+        } else {
+            return $query->row();
+        }
+    }
+
+    protected function run_query($sql, $successPath) {
+        if (! $this->db->query($sql) ) {
+            echo $this->db->error();
+        } else {
+            redirect('auth/' . $successPath);
+        }
+    }
+
+    public function get_info() {
+        $row = $this->get_row("EXEC [FindEmployer] @email = '" . $this->session->email . "'");
+
+        $location = $row->brgyDistrict . ', ' . $row->cityMunicipality;
+
+        $userdata = [
+            'username'      => $row->companyName,
+            'location'      => $location,
+            'contactNumber' => $row->contactNumber,
+            'email'         => $row->email,
+            'website'       => $row->website,
+            'description'   => $row->description,
+        ];
+
+        return $userdata;
+    }
+
     public function post_new_job() {
-        if ( $this->input->post('status') == '' ) {
-            $status = 0;
-        } else {
-            $status = 1;
-        }
+        $status = $this->input->post('status') == '' ? 0 : 1;
 
-        $PostNewJob_sql = "
+        $this->run_query("
             EXEC [PostNewJob]
-                @employerID			= '" . $this->session->id                         . "',
-                @jobTitle			= '" . $this->input->post( 'jobTitle'           ) . "',
-                @jobType			= '" . $this->input->post( 'jobType'            ) . "',
-                @industryType		= '" . $this->input->post( 'industryType'       ) . "',
-                @description		= '" . $this->input->post( 'description'        ) . "',
-                @responsibilities	= '" . $this->input->post( 'responsibilities'   ) . "',
-                @skills				= '" . $this->input->post( 'skills'             ) . "',
-                @experiences		= '" . $this->input->post( 'experiences'        ) . "',
-                @education			= '" . $this->input->post( 'education'          ) . "',
-                @minSalary			= '" . $this->input->post( 'minSalary'          ) . "',
-                @maxSalary			= '" . $this->input->post( 'maxSalary'          ) . "',
-                @jobPostFlag		=  " . $status                                    . "
-        ";
-
-        if (! $this->db->query($PostNewJob_sql) ) {
-            echo $this->db->error();
-        } else {
-            redirect('auth/job_posts');
-        }
+                @employerID		  = '" . $this->session->id                       . "',
+                @jobTitle		  = '" . $this->input->post( 'jobTitle'         ) . "',
+                @jobType		  = '" . $this->input->post( 'jobType'          ) . "',
+                @industryType	  = '" . $this->input->post( 'industryType'     ) . "',
+                @description	  = '" . $this->input->post( 'description'      ) . "',
+                @responsibilities = '" . $this->input->post( 'responsibilities' ) . "',
+                @skills			  = '" . $this->input->post( 'skills'           ) . "',
+                @experiences	  = '" . $this->input->post( 'experiences'      ) . "',
+                @education		  = '" . $this->input->post( 'education'        ) . "',
+                @minSalary		  = '" . $this->input->post( 'minSalary'        ) . "',
+                @maxSalary		  = '" . $this->input->post( 'maxSalary'        ) . "',
+                @jobPostFlag	  =  " . $status                                  . "
+        ", 'job_posts');
     }
 
-    protected function JobDetails($jobPostID) {
-        $ViewJobPost_sql = "EXEC [ViewJobPost] @jobPostID = " . $jobPostID;
-        $JobDetails_query = $this->db->query($ViewJobPost_sql);
+    public function get_job_details($jobPostID) {
+        $row = $this->get_row("EXEC [ViewJobPost] @jobPostID = " . $jobPostID);
 
-        if (! $JobDetails_query) {
-            echo $this->db->error();
-        } else {
-            if ( $JobDetails_query->num_rows() == 1 ) {
-                $JobDetails_row = $JobDetails_query->row();
+        $jobDetails = [
+            'jobPostID'        => $row->jobPostID,
+            'jobTitle'         => $row->jobTitle,
+            'jobType'          => $row->jobType,
+            'industryType'     => $row->industryType,
+            'description'      => $row->description,
+            'responsibilities' => $row->responsibilities,
+            'skills'           => $row->skills,
+            'experiences'      => $row->experiences,
+            'education'        => $row->education,
+            'minSalary'        => $row->minSalary,
+            'maxSalary'        => $row->maxSalary,
+            'dateCreated'      => $row->dateCreated,
+            'dateModified'     => $row->dateModified,
+            'status'           => $row->status,
+        ];
 
-                $jobDetails = [
-                    'jobPostID'        => $JobDetails_row->jobPostID,
-                    'jobTitle'         => $JobDetails_row->jobTitle,
-                    'jobType'          => $JobDetails_row->jobType,
-                    'industryType'     => $JobDetails_row->industryType,
-                    'description'      => $JobDetails_row->description,
-                    'responsibilities' => $JobDetails_row->responsibilities,
-                    'skills'           => $JobDetails_row->skills,
-                    'experiences'      => $JobDetails_row->experiences,
-                    'education'        => $JobDetails_row->education,
-                    'minSalary'        => $JobDetails_row->minSalary,
-                    'maxSalary'        => $JobDetails_row->maxSalary,
-                    'dateCreated'      => $JobDetails_row->dateCreated,
-                    'dateModified'     => $JobDetails_row->dateModified,
-                    'status'           => $JobDetails_row->status,
-                ];
-
-                return $jobDetails;
-            } else {
-                die('Multiple Posted Jobs are detected');
-            }
-        }
+        return $jobDetails;
     }
 
-    public function view_job_post($jobPostID) {
-        $jobDetails = $this->JobDetails($jobPostID);
-    
-        $data = ['title' => $jobDetails['jobTitle'] . ' - ' . $this->session->companyName . ' - Job Post'];
-        $this->load->view('templates/header', $data);
-        $this->load->view('sections/navbar');
-        $this->load->view('auth_sections/employer/job_details', $jobDetails);
-        $this->load->view('sections/footer');
-        $this->load->view('templates/footer');
-    }
-
-    protected function UpdateJobPost($input, $jobPostID) {
-        if ( $input['status'] == 1 ) {
-            $status = 1;
-        } else {
-            $status = 0;
-        }
-        $UpdateJobPost_sql = "
+    public function update_job_post($input, $jobPostID) {
+        $status = $input['status'] == '1' ? 1 : 0;
+        $this->run_query("
             EXEC [UpdateJobPost]
                 @jobPostID			= '" . $jobPostID . "',
                 @jobTitle			= '" . $input[ 'jobTitle'         ] . "',
@@ -102,91 +100,10 @@ class Employer_model extends CI_Model {
                 @minSalary			= '" . $input[ 'minSalary'        ] . "',
                 @maxSalary			= '" . $input[ 'maxSalary'        ] . "',
                 @jobPostFlag		=  " . $status . "
-        ";
-        if (! $this->db->query($UpdateJobPost_sql) ) {
-            echo $this->db->error();
-        } else {
-            redirect('auth/job_posts/' . $jobPostID);
-        }
-    }
-
-    public function edit_post($jobPostID) {
-        $this->form_validation->set_rules([
-            [
-                'field' => 'jobTitle',
-                'label' => 'job title',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'jobType',
-                'label' => 'job type',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'industryType',
-                'label' => 'industryType',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'minSalary',
-                'label' => 'minimum salary',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'maxSalary',
-                'label' => 'maximum salary',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'description',
-                'label' => 'description',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'responsibilities',
-                'label' => 'responsibilities',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'skills',
-                'label' => 'skills set',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'experiences',
-                'label' => 'experiences',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'education',
-                'label' => 'education',
-                'rules' => 'required',
-            ],
-        ]);
-
-        $this->form_validation->set_message([
-            'required' => 'This is a required field',
-        ]);
-
-        if ($this->form_validation->run() === FALSE) { 
-            $jobDetails = $this->JobDetails($jobPostID);
-            $data = ['title' => $jobDetails['jobTitle'] . ' - ' . $this->session->companyName . ' - Edit Job Post'];
-            $this->load->view('templates/header', $data);
-            $this->load->view('sections/navbar');
-            $this->load->view('auth_sections/employer/edit_post', $jobDetails);
-            $this->load->view('sections/footer');
-            $this->load->view('templates/footer');
-        } else {
-            $this->UpdateJobPost($this->input->post(), $jobPostID);
-        }
+        ", 'job_posts/' . $jobPostID);
     }
 
     public function delete_post($jobPostID) {
-        $DeleteJobPost_sql = "EXEC [DeleteJobPost] @jobPostID = " . $jobPostID;
-        if (! $this->db->query($DeleteJobPost_sql)) {
-            echo $this->db->error();
-        } else {
-            redirect('auth/job_posts');
-        }
+        $this->run_query("EXEC [DeleteJobPost] @jobPostID = " . $jobPostID, 'job_posts');
     }
 }

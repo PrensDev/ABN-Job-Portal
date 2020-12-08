@@ -1,8 +1,18 @@
 <?php
 
 $sessionStatus = $this->session->has_userdata( 'userType' );
+
 if( $sessionStatus ) {
-    $this->load->view('auth_sections/logout_modal');
+    $this->load->view('templates/modal', [
+        'id'            => 'logoutModal',
+        'theme'         => 'danger',
+        'title'         => 'Log out',
+        'icon'          => 'sign-out-alt',
+        'message'       => '<p>Are you sure you want to logout?</p>',
+        'actionPath'    => 'auth/logout',
+        'actionLabel'   => 'Log out',
+        'actionIcon'    => 'sign-out-alt',
+    ]);
 }
 
 ?>
@@ -52,9 +62,9 @@ if( $sessionStatus ) {
             
             if ( $sessionStatus ) {
                 if( $this->session->userType == 'Job Seeker' ) {
-                    $this->load->view('auth_sections/jobseeker/navbar_control');
+                    $this->load->view('auth_sections/jobseeker/navbar_control', ['username' => $username]);
                 } else if( $this->session->userType == 'Employer' ) {
-                    $this->load->view('auth_sections/employer/navbar_control');
+                    $this->load->view('auth_sections/employer/navbar_control', ['username' => $username]);
                 }
             } else {
                 $this->load->view('sections/navbar_components/login_link');

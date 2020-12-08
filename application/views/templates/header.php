@@ -10,7 +10,7 @@
     <meta name="description" content="A Job Portal Web Application">
 
     <!-- Website Icon -->
-    <link rel="icon" href="assets/brand/icon.png">
+    <link rel="icon" href="<?php echo base_url() ?>public/img/brand/icon.png">
 
     <!-- FontAwesome CSS -->
     <link rel="stylesheet" href="<?php echo base_url() ?>node_modules/@fortawesome/fontawesome-free/css/all.css">
