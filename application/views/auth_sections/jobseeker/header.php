@@ -43,7 +43,7 @@
             <!-- EDIT PROFILE PICTURE -->
             <div class="mr-3">
                 <small>
-                    <a href="edit_jobseeker_information.html" class="text-light">
+                    <a href="<?php echo base_url() ?>auth/edit_information" class="text-light">
                         <i class="fas fa-pen mr-1"></i>
                         <span>Edit my information</span>
                     </a>

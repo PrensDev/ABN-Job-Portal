@@ -27,7 +27,7 @@
         <div class="card-body p-0">
             <div class="list-group list-group-flush">
 
-                <a class="list-group-item list-group-item-action" href="edit_jobseeker_information.html">
+                <a class="list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/edit_information">
                     <div class="user-nav-icon">
                         <i class="fas fa-pen"></i>
                     </div>
@@ -61,7 +61,7 @@
 
     <!-- USER CONTROLS -->
     <div class="d-flex justify-content-center my-4">
-        <button onclick="history.back()" type="button" class="mx-1 btn btn-light">
+        <button onclick="history.back()" type="button" class="mx-1 btn btn-secondary">
             <i class="fas fa-arrow-left mr-1"></i>
             <span>Back</span>
         </button>

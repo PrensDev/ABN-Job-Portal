@@ -8,7 +8,7 @@
             <h1 class="font-weight-normal">Information</h1>
         </div>
         <div>
-            <a href="edit_employer_information.html" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
+            <a href="<?php echo base_url() ?>auth/edit_information" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
                 <i class="fas fa-pen"></i>
                 <span class="d-none d-sm-inline">Edit information</span>
             </a>
@@ -83,7 +83,7 @@
                             <div>
                                 <p class="m-0 font-weight-bold">Website</p>
                                 <p class="m-0">
-                                    <a href="<?php echo $website ?>" class="btn btn-outline-primary btn-sm mt-1" target="_blank">
+                                    <a href="<?php echo $website ?>" class="btn btn-outline-primary btn-sm mt-1" target="_blank" data-toggle="tooltip" data-placement="left" title="<?php echo $website ?>">
                                         <i class="fas fa-external-link-alt"></i>
                                         <span>Go to this website</span>
                                     </a> 

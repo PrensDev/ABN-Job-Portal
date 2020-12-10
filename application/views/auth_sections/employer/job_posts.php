@@ -5,7 +5,7 @@
     <!-- HEADER OF CONTENT -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="font-weight-normal m-0 mb-3">Job Posts (12)</h1>
+            <h1 class="font-weight-normal m-0 mb-3">Job Posts</h1>
             <span class="text-secondary text-right">Showing page 1 of 2</span>
         </div>
         <div>
@@ -29,10 +29,7 @@
     <div class="row my-2">
         <?php
 
-            $query = $this->db->query("EXEC [GetJobPosts] @employerID = '" . $this->session->id . "'");
-            $rows  = $query->result();
-
-            foreach ( $rows as $row ) {
+            foreach ( $jobPosts as $row ) {
                 $jobType = $row->jobType;
                 if ($jobType == 'Full Time') {
                     $jobTypeClass = 'success';
@@ -55,30 +52,32 @@
                 $minSalary = $row->minSalary;
 
                 if ($minSalary < 1000) {
-                    $minSalary = number_format($minSalary, 0, '.', '');
+                    $minSalary = number_format($minSalary, 1, '.', '');
                 } else if ($minSalary < 1000000) {
-                    $minSalary = number_format($minSalary / 1000, 0, '.', '') . 'K';
+                    $minSalary = number_format($minSalary / 1000, 1, '.', '') . 'K';
                 } else if ($minSalary < 1000000000) {
-                    $minSalary = number_format($minSalary / 1000000, 0, '.', '') . 'M';
+                    $minSalary = number_format($minSalary / 1000000, 1, '.', '') . 'M';
                 } else if ($minSalary < 1000000000000) {
-                    $minSalary = number_format($minSalary / 1000000000, 0, '.', '') . 'B';
+                    $minSalary = number_format($minSalary / 1000000000, 1, '.', '') . 'B';
                 } else if ($minSalary < 1000000000000000) {
-                    $minSalary = number_format($minSalary / 1000000000000, 0, '.', '') . 'T';
+                    $minSalary = number_format($minSalary / 1000000000000, 1, '.', '') . 'T';
                 } 
 
                 $maxSalary = $row->maxSalary;
 
                 if ($maxSalary < 1000) {
-                    $maxSalary = number_format($maxSalary, 0, '.', '');
+                    $maxSalary = number_format($maxSalary, 1, '.', '');
                 } else if ($maxSalary < 1000000) {
-                    $maxSalary = number_format($maxSalary / 1000, 0, '.', '') . 'K';
+                    $maxSalary = number_format($maxSalary / 1000, 1, '.', '') . 'K';
                 } else if ($maxSalary < 1000000000) {
-                    $maxSalary = number_format($maxSalary / 1000000, 0, '.', '') . 'M';
+                    $maxSalary = number_format($maxSalary / 1000000, 1, '.', '') . 'M';
                 } else if ($maxSalary < 1000000000000) {
-                    $maxSalary = number_format($maxSalary / 1000000000, 0, '.', '') . 'B';
+                    $maxSalary = number_format($maxSalary / 1000000000, 1, '.', '') . 'B';
                 } else if ($maxSalary < 1000000000000000) {
-                    $maxSalary = number_format($maxSalary / 1000000000000, 0, '.', '') . 'T';
-                }
+                    $maxSalary = number_format($maxSalary / 1000000000000, 1, '.', '') . 'T';
+                }  
+
+                $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
                 
                 $dateCreated = date_format(date_create($row->dateCreated),"M. d, Y; h:i a");
 
@@ -91,25 +90,25 @@
                             <!-- JOB DETAILS -->
                             <div class="flex-grow-1 mb-3">
                                 <!-- JOB TITLE -->
-                                <p class="h5 text-uppercase m-0">' . $row->jobTitle . '</p>
+                                <p class="h5 text-uppercase m-0" title="Job Title: '. $row->jobTitle .'">' . $row->jobTitle . '</p>
         
                                 <!-- JOB DETAILS -->
                                 <div class="d-flex flex-wrap text-secondary mt-2">
                                     
                                     <!-- OFFERED SALARY -->
-                                    <div class="mr-3">
+                                    <div class="mr-3" title="Offered Salary: ' . $offeredSalary . '">
                                         <i class="fas fa-money-bill-wave mr-1"></i>
-                                        <span>&#8369;' . $minSalary . ' - &#8369;' . $maxSalary . '</span>
+                                        <span>' . $offeredSalary . '</span>
                                     </div>
         
                                     <!-- INDUSTRY TYPE -->
-                                    <div class="mr-3">
+                                    <div class="mr-3" title="Industry Type: ' . $row->industryType . '">
                                         <i class="fas fa-cogs mr-1"></i>
                                         <span>' . $row->industryType . '</span>
                                     </div>
         
                                     <!-- DATE CREATED -->
-                                    <div class="mr-3">
+                                    <div class="mr-3" title="Posted ' . $dateCreated . '">
                                         <i class="fas fa-clock mr-1"></i>
                                         <span>' . $dateCreated . '</span>
                                     </div>
@@ -117,21 +116,24 @@
                                 </div>
         
                                 <!-- JOB TYPE -->
-                                <div class="mt-1">
-                                    <span class="badge badge-' . $jobTypeClass . ' p-2 text-uppercase">' . $row->jobType . '</span>
+                                <div class="mt-1" title="Job Type: ' . $row->jobType . '">
+                                    <span class="badge badge-' . $jobTypeClass . ' p-2 text-uppercase">
+                                        <i class="fas fa-user-tie mr-1"></i>
+                                        ' . $row->jobType . '
+                                    </span>
                                 </div>
         
                             </div>
         
                             <!-- JOB POST STATUS -->
                             <div>
-                                <span class="badge text-uppercase text-' . $statusClass . '">' . $statusLabel . '</span>
+                                <span class="badge text-uppercase text-' . $statusClass . '" title="This post is ' . $statusLabel . '">' . $statusLabel . '</span>
                             </div>
         
                         </div>
         
                         <div>
-                            <p class="text-truncate">' . $row->description . '</p>
+                            <p class="text-truncate" title="View more to read description">' . $row->description . '</p>
                         </div>
         
                         <!-- USER-ACTIONS -->

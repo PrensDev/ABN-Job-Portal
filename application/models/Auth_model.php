@@ -1,4 +1,3 @@
-
 <?php
 
 class Auth_model extends CI_Model {
@@ -22,11 +21,6 @@ class Auth_model extends CI_Model {
         if (! $query) {
             echo $this->db->error();
         } else {
-            $data = [
-                'title' => 'Login',
-                'error' => '',
-            ];
-
             if ( $query->num_rows() == 1 ) {
                 $row = $query->row(0);
 
@@ -53,6 +47,9 @@ class Auth_model extends CI_Model {
                         ]);
                     }
 
+                    if( $row->status == 0 ) {
+                        $this->activate();
+                    }
                     redirect('auth/information');
                 } else {
                     return 'Incorrect Password';
@@ -67,29 +64,29 @@ class Auth_model extends CI_Model {
     public function register_jobseeker() {
         $AddJobseekerAccount_sql = "
             EXEC [AddJobseekerAccount]
-                @email			= '" . $this->input->post( 'email' ) . "',
-                @password		= '" . password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I) . "'
+                @email	  = '" . $this->input->post( 'email' ) . "',
+                @password = '" . password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I) . "'
         ";
         
         if (! $this->db->query($AddJobseekerAccount_sql)) {
             echo $this->db->error();
         } else {
             $RegisterJobseeker_sql = "
-                EXEC [RegisterJobseeker]
-                    @firstName			= '" . $this->input->post( 'firstName'          ) . "',
-                    @middleName			= '" . $this->input->post( 'middleName'         ) . "',
-                    @lastName			= '" . $this->input->post( 'lastName'           ) . "',
-                    @birthDate			= '" . $this->input->post( 'birthDate'          ) . "',
-                    @gender				= '" . $this->input->post( 'gender'             ) . "',
-                    @street				= '" . $this->input->post( 'street'             ) . "',
-                    @brgyDistrict	    = '" . $this->input->post( 'brgyDistrict'       ) . "',
-                    @cityMunicipality	= '" . $this->input->post( 'cityMunicipality'   ) . "',
-                    @contactNumber		= '" . $this->input->post( 'contactNumber'      ) . "',
-                    @email              = '" . $this->input->post( 'email'              ) . "',
-                    @description		= '" . $this->input->post( 'description'        ) . "',
-                    @skills				= '" . $this->input->post( 'skills'             ) . "',
-                    @experiences		= '" . $this->input->post( 'experiences'        ) . "',
-                    @education		    = '" . $this->input->post( 'education'          ) . "'
+                EXEC [RegisterJobseek er]
+                    @firstName		  = '" . $this->input->post( 'firstName'        ) . "',
+                    @middleName		  = '" . $this->input->post( 'middleName'       ) . "',
+                    @lastName		  = '" . $this->input->post( 'lastName'         ) . "',
+                    @birthDate		  = '" . $this->input->post( 'birthDate'        ) . "',
+                    @gender			  = '" . $this->input->post( 'gender'           ) . "',
+                    @street			  = '" . $this->input->post( 'street'           ) . "',
+                    @brgyDistrict	  = '" . $this->input->post( 'brgyDistrict'     ) . "',
+                    @cityMunicipality = '" . $this->input->post( 'cityMunicipality' ) . "',
+                    @contactNumber	  = '" . $this->input->post( 'contactNumber'    ) . "',
+                    @email            = '" . $this->input->post( 'email'            ) . "',
+                    @description	  = '" . $this->input->post( 'description'      ) . "',
+                    @skills			  = '" . $this->input->post( 'skills'           ) . "',
+                    @experiences	  = '" . $this->input->post( 'experiences'      ) . "',
+                    @education		  = '" . $this->input->post( 'education'        ) . "'
             "; 
 
             if (! $this->db->query($RegisterJobseeker_sql)) {
@@ -121,11 +118,9 @@ class Auth_model extends CI_Model {
                     @website			= '" . $this->input->post( 'website'          ) . "',
                     @description		= '" . $this->input->post( 'description'      ) . "'
             ";
-            if (! $this->db->query($RegisterEmployer_sql)) {
-                echo $this->db->error();
-            } else {
+            $this->db->query($RegisterEmployer_sql);
+                
                 $this->login();
-            }
         }
     }
 
@@ -134,7 +129,17 @@ class Auth_model extends CI_Model {
         $sql = "
             EXEC [ChangeUserPassword]
                 @email    = '" . $this->session->email . "',
-                @password = '" . password_hash($input->post( 'retypepassword' ), PASSWORD_ARGON2I) . "',
+                @password = '" . password_hash($this->input->post( 'retypepassword' ), PASSWORD_ARGON2I) . "',
         ";
+    }
+
+    // DEACTIVATE ACCOUNT 
+    public function deactivate() {
+        $this->db->query("EXEC [DeactivateAccount] @email = '" . $this->session->email . "'");
+    }
+
+    // ACTIVATE ACCOUNT 
+    public function activate() {
+        $this->db->query("EXEC [ActivateAccount] @email = '" . $this->session->email . "'");
     }
 }

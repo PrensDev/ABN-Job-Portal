@@ -43,7 +43,7 @@ if( $sessionStatus ) {
 
             <!-- JOBS LINK -->
             <li class="nav-item mx-md-2">
-                <a class="nav-link" href="<?php echo base_url() ?>home/jobs">Jobs</a>
+                <a class="nav-link" href="<?php echo base_url() ?>jobs">Jobs</a>
             </li>
 
             <!-- COMPANIES LINK -->

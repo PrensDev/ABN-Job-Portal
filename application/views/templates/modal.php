@@ -27,7 +27,7 @@
         <?php 
             $icon = isset($actionIcon) ? '<i class="fas fa-' . $actionIcon . '"></i>' : '';
             echo '
-                <a href="' . base_url() . $actionPath . '" class="btn btn-' . $theme . '">
+                <a href="' . base_url() . $actionPath . '" class="btn btn-' . $theme . '" draggable="false">
                     ' .
                         $icon
                     . '

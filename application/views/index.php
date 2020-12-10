@@ -84,10 +84,51 @@
     <div class="row my-5">
         
         <?php
-            $i = 0;
-            while($i<10) {
+            foreach ($recentPosts as $post) {
+                $jobType = $post->jobType;
+                if ($jobType == 'Full Time') {
+                    $jobTypeClass = 'success';
+                } else if ($jobType == 'Part Time') {
+                    $jobTypeClass = 'info';
+                } else if ($jobType == 'Internship/OJT') {
+                    $jobTypeClass = 'warning';
+                } else if ($jobType == 'Temporary') {
+                    $jobTypeClass = 'secondary';
+                }
+
+                $minSalary = $post->minSalary;
+
+                if ($minSalary < 1000) {
+                    $minSalary = number_format($minSalary, 1, '.', '');
+                } else if ($minSalary < 1000000) {
+                    $minSalary = number_format($minSalary / 1000, 1, '.', '') . 'K';
+                } else if ($minSalary < 1000000000) {
+                    $minSalary = number_format($minSalary / 1000000, 1, '.', '') . 'M';
+                } else if ($minSalary < 1000000000000) {
+                    $minSalary = number_format($minSalary / 1000000000, 1, '.', '') . 'B';
+                } else if ($minSalary < 1000000000000000) {
+                    $minSalary = number_format($minSalary / 1000000000000, 1, '.', '') . 'T';
+                } 
+
+                $maxSalary = $post->maxSalary;
+
+                if ($maxSalary < 1000) {
+                    $maxSalary = number_format($maxSalary, 1, '.', '');
+                } else if ($maxSalary < 1000000) {
+                    $maxSalary = number_format($maxSalary / 1000, 1, '.', '') . 'K';
+                } else if ($maxSalary < 1000000000) {
+                    $maxSalary = number_format($maxSalary / 1000000, 1, '.', '') . 'M';
+                } else if ($maxSalary < 1000000000000) {
+                    $maxSalary = number_format($maxSalary / 1000000000, 1, '.', '') . 'B';
+                } else if ($maxSalary < 1000000000000000) {
+                    $maxSalary = number_format($maxSalary / 1000000000000, 1, '.', '') . 'T';
+                }
+
+                $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
+
+                $dateCreated = date_format(date_create($post->dateCreated),"M. d, Y");
+
                 echo '
-                    <!-- JOB LIST DATA -->
                     <div class="col-lg-6 my-1">
                         <div class="bg-white p-3 border">
                             
@@ -101,10 +142,10 @@
                                 <!-- JOB DETAILS -->
                                 <div class="flex-grow-1">
                                     <!-- JOB TITLE -->
-                                    <p class="h5 text-uppercase m-0">Product Designer</p>
+                                    <p class="h5 text-uppercase m-0">' . $post->jobTitle . '</p>
                                     <div class="mr-3 text-primary mt-1">
-                                        <a href="company_profile.html" class="text-primary">
-                                            <span>Puma Inc. PH</span>
+                                        <a href="' . base_url() . 'company_profile/' . $post->employerID . '" class="text-primary">
+                                            <span>' . $post->companyName . '</span>
                                         </a>
                                     </div>
             
@@ -114,24 +155,26 @@
                                         <!-- OFFERED SALARY -->
                                         <div class="mr-3">
                                             <i class="fas fa-money-bill-wave mr-1 text-danger"></i>
-                                            <span>P23k - P35k</span>
+                                            <span>' . $offeredSalary . '</span>
                                         </div>
             
                                         <!-- LOCATION -->
                                         <div class="mr-3">
                                             <i class="fas fa-map-marker-alt mr-1 text-danger"></i>
-                                            <span>Quezon City</span>
+                                            <span>' . $location . '</span>
                                         </div>
                                         
                                     </div>
-            
             
                                 </div>
             
                                 <!-- JOB SUB-DETAILS -->
                                 <div class="text-right">
-                                    <span class="badge badge-success p-2 text-uppercase">Full Time</span>
-                                    <p class="text-secondary font-italic mt-1">Jan. 27</p>
+                                    <span class="badge badge-' . $jobTypeClass . ' p-2 text-uppercase">
+                                        <i class="fas fa-user-tie mr-1"></i>
+                                        ' . $jobType . '
+                                    </span>
+                                    <p class="text-secondary font-italic mt-1">' . $dateCreated . '</p>
                                 </div>
             
                             </div>
@@ -141,14 +184,12 @@
                                 <button class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top" title="Add to bookmark">
                                     <i class="fas fa-bookmark"></i>
                                 </button>
-                                <a href="job_details.html" class="btn btn-outline-secondary">View More</a>
+                                <a href="' . base_url() . 'jobs/details/' . $post->jobPostID . '" class="btn btn-outline-secondary">View More</a>
                             </div>
             
                         </div>
                     </div>
-                    <!-- END OF JOB LIST DATA -->
                 ';
-                $i++;
             }
         ?>
 
@@ -156,7 +197,7 @@
     <!-- END OF JOB LIST -->
 
     <div class="d-flex justify-content-center">
-        <a href="job_list.html" class="btn btn-primary btn-lg">View More Recent Jobs</a>
+        <a href="<?php echo base_url() ?>jobs/recent" class="btn btn-primary btn-lg">View More Recent Jobs</a>
     </div>
 
 </div>
@@ -166,7 +207,7 @@
 <?php
 
     if ( $this->session->userType == 'Job Seeker' ) {
-        #do nothinf
+        #do nothing
     } else {
         $this->load->view('sections/post_a_job');
     }

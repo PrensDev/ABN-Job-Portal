@@ -8,14 +8,15 @@ if ( $status == 1 ) {
     $statusLabel = "Not Active";
 }
 
-$datePosted = date_format(date_create($dateCreated),"M. d, Y; H:i a");
+$datePosted = date_format(date_create($dateCreated),"M. d, Y; h:i a");
 
 if ( $dateModified == NULL) {
     $dateStatus = 'Created ' . date_format(date_create($dateCreated),"F d, Y; h:i a");
+    $dateModifiedLabel = 'This post doesn\'t modified yet.';
 } else {
     $dateStatus = 'Modified ' . date_format(date_create($dateModified),"F d, Y; h:i a");
+    $dateModifiedLabel = date_format(date_create($dateModified),"F d, Y; h:i a");
 }
-
 
 if ($jobType == 'Full Time') {
     $jobTypeClass = 'success';
@@ -28,27 +29,27 @@ if ($jobType == 'Full Time') {
 }
 
 if ($minSalary < 1000) {
-    $minSalary = number_format($minSalary, 0, '.', '');
+    $minSalary = number_format($minSalary, 1, '.', '');
 } else if ($minSalary < 1000000) {
-    $minSalary = number_format($minSalary / 1000, 0, '.', '') . 'K';
+    $minSalary = number_format($minSalary / 1000, 1, '.', '') . 'K';
 } else if ($minSalary < 1000000000) {
-    $minSalary = number_format($minSalary / 1000000, 0, '.', '') . 'M';
+    $minSalary = number_format($minSalary / 1000000, 1, '.', '') . 'M';
 } else if ($minSalary < 1000000000000) {
-    $minSalary = number_format($minSalary / 1000000000, 0, '.', '') . 'B';
+    $minSalary = number_format($minSalary / 1000000000, 1, '.', '') . 'B';
 } else if ($minSalary < 1000000000000000) {
-    $minSalary = number_format($minSalary / 1000000000000, 0, '.', '') . 'T';
+    $minSalary = number_format($minSalary / 1000000000000, 1, '.', '') . 'T';
 } 
 
 if ($maxSalary < 1000) {
-    $maxSalary = number_format($maxSalary, 0, '.', '');
+    $maxSalary = number_format($maxSalary, 1, '.', '');
 } else if ($maxSalary < 1000000) {
-    $maxSalary = number_format($maxSalary / 1000, 0, '.', '') . 'K';
+    $maxSalary = number_format($maxSalary / 1000, 1, '.', '') . 'K';
 } else if ($maxSalary < 1000000000) {
-    $maxSalary = number_format($maxSalary / 1000000, 0, '.', '') . 'M';
+    $maxSalary = number_format($maxSalary / 1000000, 1, '.', '') . 'M';
 } else if ($maxSalary < 1000000000000) {
-    $maxSalary = number_format($maxSalary / 1000000000, 0, '.', '') . 'B';
+    $maxSalary = number_format($maxSalary / 1000000000, 1, '.', '') . 'B';
 } else if ($maxSalary < 1000000000000000) {
-    $maxSalary = number_format($maxSalary / 1000000000000, 0, '.', '') . 'T';
+    $maxSalary = number_format($maxSalary / 1000000000000, 1, '.', '') . 'T';
 }
 
 ?>
@@ -228,6 +229,17 @@ if ($maxSalary < 1000) {
                                 <p class="m-0 text-secondary"><?php echo $datePosted ?></p>
                             </div>
                         </div>
+                        
+                        <!-- DATE MDIFIED -->
+                        <div class="list-group-item d-flex">
+                            <div class="list-group-item-icon h4 text-info">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                            <div>
+                                <p class="m-0 font-weight-bold">Last Modified</p>
+                                <p class="m-0 text-secondary"><?php echo $dateModifiedLabel ?></p>
+                            </div>
+                        </div>
 
                     </div>
                     
@@ -237,7 +249,11 @@ if ($maxSalary < 1000) {
             
             <!-- USER CONTROLS -->
             <div>
-                <a href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" class="btn btn-block btn-primary">
+                <a 
+                    href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" 
+                    class="btn btn-block btn-primary"
+                    draggable="false"
+                >
                     <i class="fas fa-pen mr-2"></i>
                     <span>Edit This Post</span>
                 </a>

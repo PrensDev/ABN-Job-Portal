@@ -9,7 +9,9 @@ $description      = set_value( 'description'      ) == '' ? $description      : 
 $responsibilities = set_value( 'responsibilities' ) == '' ? $responsibilities : set_value( 'responsibilities' );
 $skills           = set_value( 'skills'           ) == '' ? $skills           : set_value( 'skills'           );
 $experiences      = set_value( 'experiences'      ) == '' ? $experiences      : set_value( 'experiences'      );
-$education        = set_value( 'education'        ) == '' ? $education        : set_value( 'education'        );NULL?>
+$education        = set_value( 'education'        ) == '' ? $education        : set_value( 'education'        );
+
+?>
 
 <!-- POST NEW JOB FORM SECTION -->
 <form method="POST">
@@ -268,8 +270,8 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
             <i class="fas fa-pen mr-2"></i>
             <span>Save changes</span>
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
+        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
         </button>
     </div>
 

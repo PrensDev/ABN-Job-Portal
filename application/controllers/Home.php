@@ -40,6 +40,8 @@ class Home extends CI_Controller {
         $this->load->view('sections/navbar', $data['userdata']);
 
         if ( $bodyView == 'index' ) {
+            $recentPosts = $this->View_model->view_recent_posts();
+            $data['recentPosts'] = $recentPosts;
             $this->load->view('index', $data);
         } else {
             $this->load->view('sections/header', $data);
@@ -50,31 +52,41 @@ class Home extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
+    
     // INDEX VIEW
     public function index() {
         $this->load_main_view('Home', 'index');
     }
     
+
     // ABOUT US VIEW
     public function about_us() {
         $this->load_main_view('About Us', 'about_us');
     }
+
 
     // TERMS AND CONDITIONS VIEW
     public function terms_and_conditions() {
         $this->load_main_view('Terms and Conditions', 'terms_and_conditions');
     }
 
+
     // JOBS VIEW
-    public function jobs() {
-        $data = $this->set_data('Jobs');
-        $this->load->view('templates/header', $data);
-        $this->load->view('sections/navbar', $data['userdata']);
-        $this->load->view('sections/search_header');
-        $this->load->view('sections/job_list');
-        $this->load->view('sections/footer');
-        $this->load->view('templates/footer');
+    public function jobs($jobPostsID = NULL) {
+        if( $jobPostsID == NULL ) {
+            $data = $this->set_data('Jobs');
+    
+            $this->load->view('templates/header', $data);
+            $this->load->view('sections/navbar', $data['userdata']);
+            $this->load->view('sections/search_header');
+            $this->load->view('sections/job_list');
+            $this->load->view('sections/footer');
+            $this->load->view('templates/footer');
+        } else {
+            echo $jobPostsID;
+        }
     }
+
 
     // LOGIN VIEW
     public function login() {
@@ -119,12 +131,12 @@ class Home extends CI_Controller {
         }
     }
 
+
     // JOBSEEKER REGISTRATION VIEW
     public function jobseeker_registration() {
         if ($this->session->has_userdata('userType')) {
             redirect();
         } else {
-
             $this->form_validation->set_rules([
                 [
                     'field' => 'firstName',
@@ -224,6 +236,7 @@ class Home extends CI_Controller {
         }
     }
 
+
     // EMPLOYER REGISTRATION VIEW
     public function employer_registration() {
         if ($this->session->has_userdata('userType')) {
@@ -293,10 +306,6 @@ class Home extends CI_Controller {
                 'valid_email'   => 'This email contains invalid characters',
                 'min_length'    => 'Your password must be 8 characters and above',
                 'matches'       => 'It doesn\'t match to your password',
-            ]);
-
-            $this->form_validation->set_message([
-                'is_unique' => 'This email is already used.',
             ]);
 
             if ($this->form_validation->run() === FALSE) {
