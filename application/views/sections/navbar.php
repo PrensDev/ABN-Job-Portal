@@ -18,7 +18,7 @@ if( $sessionStatus ) {
 ?>
 
 <!-- NAVIGATION BAR -->
-<nav class="navbar navbar-expand-md navbar-light bg-white fixed-top shadow user-select-none" id="navbarTop">
+<nav class="navbar navbar-expand-md navbar-light bg-white fixed-top shadow" id="navbarTop">
 <div class="container-fluid">
 <div class="container-md">
 

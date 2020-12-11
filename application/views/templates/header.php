@@ -22,4 +22,4 @@
     <!-- Custom CSS (includes Bootstrap) -->
     <link rel="stylesheet" href="<?php echo base_url() ?>public/css/styles.css">
 </head>
-<body>
+<body class="user-select-none">

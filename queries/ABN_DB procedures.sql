@@ -28,6 +28,7 @@ AS
 		(@email
 		,@password
 		,'Job Seeker')
+;
 
 
 -- Register Job Seeker Procedure
@@ -77,6 +78,7 @@ AS
 		,@skills
 		,@experiences
 		,@education);
+;
 
 
 -- Add Employer Account Procedure
@@ -92,6 +94,7 @@ AS
 		(@email
 		,@password
 		,'Employer')
+;
 
 
 -- Register Employer Procedure
@@ -123,6 +126,7 @@ AS
 		,@email
 		,@website
 		,@description)
+;
 
 
 -- Find User Account Procedure for Login
@@ -157,6 +161,7 @@ AS
 		, [education]
 	FROM [dbo].[JobSeekers]
 	WHERE [email] = @email
+;
 
 
 -- Find Employer Procedure
@@ -165,6 +170,7 @@ CREATE PROCEDURE [dbo].[FindEmployer]
 AS
 	SELECT * FROM [dbo].[Employers]
 	WHERE [email] = @email
+;
 
 
 -- Post New Job Procedure
@@ -208,6 +214,8 @@ AS
 		, @minSalary		
 		, @maxSalary		
 		, @jobPostFlag )
+;
+
 
 -- Get Posted Jobs Procedure
 CREATE PROCEDURE [dbo].[GetJobPosts] 
@@ -231,6 +239,7 @@ AS
 	FROM [dbo].[JobPosts]
 	WHERE [employerID] = @employerID
 	ORDER BY [dateCreated] DESC
+;
 
 
 -- View Job Post
@@ -256,6 +265,7 @@ AS
 		, CAST([jobPostFlag] AS INT) AS [status]
 	FROM [dbo].[JobPosts]
 	WHERE [jobPostID] = @jobPostID AND [employerID] = @employerID
+;
 
 
 -- Deactivate Account Procedure
@@ -273,6 +283,7 @@ AS
 	UPDATE [dbo].[UserAccounts]
 	SET [accountFlag] = 1
 	WHERE [email] = @email
+;
 
 
 -- UpdateJobPost Procedure
@@ -305,6 +316,7 @@ AS
 		, [dateModified] 		= getdate()
 		, [jobPostFlag] 		= @jobPostFlag
 	WHERE [jobPostID]			= @jobPostID
+;
 
 
 -- Delete Job Post Procedure
@@ -314,6 +326,7 @@ CREATE PROCEDURE [dbo].[DeleteJobPost]
 AS
 	DELETE FROM [dbo].[JobPosts] 
 	WHERE [jobPostID] = @jobPostID AND [employerID] = @employerID
+;
 
 
 -- Update Employer Information Procedure
@@ -337,6 +350,7 @@ AS
 		, [website] 		 = @website
 		, [description] 	 = @description
 	WHERE [employerID] = @employerID
+;
 
 
 -- Update Job Seeker Information Procedure
@@ -358,20 +372,21 @@ CREATE PROCEDURE [dbo].[UpdateJobseekerInfo]
 AS
 	UPDATE [dbo].[JobSeekers]
 	SET
-		 [firstName] 		= @firstName
-		,[middleName] 		= @middleName
-		,[lastName] 		= @lastName
-		,[birthDate] 		= @birthDate
-		,[gender] 			= @gender
-		,[street] 			= @street
-		,[brgyDistrict] 	= @brgyDistrict
-		,[cityMunicipality] = @cityMunicipality
-		,[contactNumber] 	= @contactNumber
-		,[description] 		= @description
-		,[skills] 			= @skills
-		,[experiences] 		= @experiences
-		,[education] 		= @education
+		  [firstName] 		 = @firstName
+		, [middleName] 		 = @middleName
+		, [lastName] 		 = @lastName
+		, [birthDate] 		 = @birthDate
+		, [gender] 			 = @gender
+		, [street] 			 = @street
+		, [brgyDistrict] 	 = @brgyDistrict
+		, [cityMunicipality] = @cityMunicipality
+		, [contactNumber] 	 = @contactNumber
+		, [description]		 = @description
+		, [skills] 			 = @skills
+		, [experiences] 	 = @experiences
+		, [education] 		 = @education
 	WHERE [jobseekerID] = @jobseekerID
+;
 
 
 -- View Recent Posts Procedure
@@ -396,7 +411,58 @@ AS
 	FROM [dbo].[JobPosts]
 	INNER JOIN [dbo].[Employers] 
 	ON [JobPosts].[employerID] = [Employers].[employerID]
-	WHERE [jobPostFlag] = 1
+	AND [jobPostFlag] = 1
 	ORDER BY [dateCreated] DESC
+;
 
-SELECT DAY(GETDATE())
+
+-- View Job Details Procedure
+CREATE PROCEDURE [dbo].[ViewJobDetails]
+	@jobPostID	INT
+AS
+	SELECT
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[employerID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[industryType]
+		, [JobPosts].[description]
+		, [JobPosts].[responsibilities]
+		, [JobPosts].[skills]
+		, [JobPosts].[experiences]
+		, [JobPosts].[education]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, [JobPosts].[dateModified]
+		, CAST([JobPosts].[jobPostFlag] AS INT) AS [status]
+		, [Employers].[employerID]
+		, [Employers].[companyName]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
+		, [Employers].[contactNumber]
+		, [Employers].[email]
+		, [Employers].[website]
+	FROM [dbo].[JobPosts]
+	INNER JOIN [dbo].[Employers]
+	ON [JobPosts].[employerID] = [Employers].[employerID]
+	AND [JobPosts].[jobPostID] = @jobPostID AND [JobPosts].[jobPostFlag] = 1
+;
+
+
+-- View Employer Details Procedure
+CREATE PROCEDURE [dbo].[ViewCompanyDetails]
+	@employerID INT
+AS
+	SELECT
+		  [employerID]
+		, [companyName]
+		, [description]
+		, [street] + ', ' + [brgyDistrict] + ', ' + [cityMunicipality] AS [location]
+		, [contactNumber]
+		, [email]
+		, [website]
+	FROM [dbo].[Employers]
+	WHERE [employerID] = @employerID
+;
+
+SELECT * FROM Employers

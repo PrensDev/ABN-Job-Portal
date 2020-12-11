@@ -9,7 +9,7 @@
             <span class="text-secondary text-right">Showing page 1 of 2</span>
         </div>
         <div>
-            <a href="<?php echo base_url() ?>auth/post_new_job" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Post new job">
+            <a href="<?php echo base_url() ?>auth/post_new_job" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Post new job">
                 <i class="fas fa-pen"></i>
                 <span class="d-none d-sm-inline">Post new job</span>
             </a>
@@ -102,7 +102,7 @@
                                     </div>
         
                                     <!-- INDUSTRY TYPE -->
-                                    <div class="mr-3" title="Industry Type: ' . $row->industryType . '">
+                                    <div class="mr-3 text-capitalize" title="Industry Type: ' . $row->industryType . '">
                                         <i class="fas fa-cogs mr-1"></i>
                                         <span>' . $row->industryType . '</span>
                                     </div>

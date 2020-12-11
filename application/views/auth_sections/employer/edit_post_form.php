@@ -22,6 +22,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
     <!-- FORM SECTION HEADER -->
     <div class="mb-4">
         <h1 class="font-weight-normal">Edit job post</h1>
+        <p class="text-secondary">Modify the post you've created here and save the changes.</p>
     </div>
     
 
@@ -64,22 +65,22 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                     >
                         <option 
                             value="Full Time" 
-                            data-content="<i class='fas fa-circle mr-2 text-success'></i>Full Time"
+                            data-content="<i class='fas fa-user-tie mr-3 text-success'></i>Full Time"
                             <?php echo $jobType == "Full Time" ? 'selected' : ''?>
                         ></option>
                         <option 
                             value="Part Time" 
-                            data-content="<i class='fas fa-circle mr-2 text-info'></i>Part Time" 
+                            data-content="<i class='fas fa-user-tie mr-3 text-info'></i>Part Time" 
                             <?php echo $jobType == "Part Time" ? 'selected' : ''?>
                         ></option>
                         <option 
                             value="Internship/OJT" 
-                            data-content="<i class='fas fa-circle mr-2 text-warning'></i>Internship/OJT"
+                            data-content="<i class='fas fa-user-tie mr-3 text-warning'></i>Internship/OJT"
                             <?php echo $jobType == "Internship/OJT" ? 'selected' : ''?>
                         ></option>
                         <option 
                             value="Temporary" 
-                            data-content="<i class='fas fa-circle mr-2 text-secondary'></i>Temporary" 
+                            data-content="<i class='fas fa-user-tie mr-3 text-secondary'></i>Temporary" 
                             <?php echo $jobType == "Temporary" ? 'selected' : ''?>
                         ></option>
                     </select>

@@ -22,7 +22,6 @@ class Jobs extends CI_Controller {
         $data = [
             'title'         => $pageTitle,
             'header'        => $title,
-            'header_img'    => 'header.jpg',
             'userdata'      => $userdata,
         ];
 
@@ -43,7 +42,22 @@ class Jobs extends CI_Controller {
 
     // JOB DETAILS VIEW
     public function details($jobPostID = NULL) {
-        echo $jobPostID;
+        if ($jobPostID == NULL) {
+            $this->Auth_model->err_page();
+        } else {
+            $jobDetails = $this->View_model->view_job_details($jobPostID);
+            if (! $jobDetails) {
+                $this->Auth_model->err_page();
+            } else {
+                $data = $this->set_data('Job Details');
+    
+                $this->load->view('templates/header', $data);
+                $this->load->view('sections/navbar', $data['userdata']);
+                $this->load->view('sections/job_details', $jobDetails);
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');
+            }
+        }
     }
 
 

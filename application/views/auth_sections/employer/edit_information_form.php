@@ -18,6 +18,7 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
     <!-- HEADER OF CONTENT -->
     <div class="mb-4">
         <h1 class="font-weight-normal">Edit Information</h1>
+        <p class="text-secondary">Modify your information here and save your changes.</p>
     </div>
 
     <!-- COMPANY INFORMATION FORM -->

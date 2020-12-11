@@ -5,6 +5,7 @@
     <!-- FORM SECTION HEADER -->
     <div class="mb-4">
         <h1 class="font-weight-normal">Post new job</h1>
+        <p class="text-secondary">Compose the job you want to create here.</p>
     </div>
 
     <!-- GENERAL INFORMATION FORM -->
@@ -49,22 +50,22 @@
                         >
                             <option 
                                 value="Full Time" 
-                                data-content="<i class='fas fa-circle mr-2 text-success'></i>Full Time"
+                                data-content="<i class='fas fa-user-tie mr-3 text-success'></i>Full Time"
                                 <?php echo set_value('jobType') == 'Full Time' ? 'selected' : '' ?>
                             ></option>
                             <option 
                                 value="Part Time" 
-                                data-content="<i class='fas fa-circle mr-2 text-info'></i>Part Time"
+                                data-content="<i class='fas fa-user-tie mr-3 text-info'></i>Part Time"
                                 <?php echo set_value('jobType') == 'Part Time' ? 'selected' : '' ?>
                             ></option>
                             <option 
                                 value="Internship/OJT" 
-                                data-content="<i class='fas fa-circle mr-2 text-warning'></i>Internship/OJT"
+                                data-content="<i class='fas fa-user-tie mr-3 text-warning'></i>Internship/OJT"
                                 <?php echo set_value('jobType') == 'Internship/OJT' ? 'selected' : '' ?>
                             ></option>
                             <option 
                                 value="Temporary" 
-                                data-content="<i class='fas fa-circle mr-2 text-secondary'></i>Temporary"
+                                data-content="<i class='fas fa-user-tie mr-3 text-secondary'></i>Temporary"
                                 <?php echo set_value('jobType') == 'Temporary' ? 'selected' : '' ?>
                             ></option>
                         </select>

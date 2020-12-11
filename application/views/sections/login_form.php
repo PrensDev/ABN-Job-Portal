@@ -1,4 +1,4 @@
-<div class="container-fluid h-100 user-select-none">
+<div class="container-fluid h-100">
 <div class="row h-100 justify-content-center align-items-center">
 <div class="col-sm-8 col-md-6 col-lg-4 my-4">
     

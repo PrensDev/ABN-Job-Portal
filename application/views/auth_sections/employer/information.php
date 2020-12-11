@@ -8,7 +8,7 @@
             <h1 class="font-weight-normal">Information</h1>
         </div>
         <div>
-            <a href="<?php echo base_url() ?>auth/edit_information" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
+            <a href="<?php echo base_url() ?>auth/edit_information" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
                 <i class="fas fa-pen"></i>
                 <span class="d-none d-sm-inline">Edit information</span>
             </a>
@@ -75,7 +75,7 @@
                                 <p class="m-0"><?php echo $email ?></p>
                             </div>
                         </div>
-
+                
                         <div class="list-group-item d-flex">
                             <div class="list-group-item-icon h3 text-danger">
                                 <i class="fas fa-globe-asia"></i>
@@ -83,10 +83,20 @@
                             <div>
                                 <p class="m-0 font-weight-bold">Website</p>
                                 <p class="m-0">
-                                    <a href="<?php echo $website ?>" class="btn btn-outline-primary btn-sm mt-1" target="_blank" data-toggle="tooltip" data-placement="left" title="<?php echo $website ?>">
-                                        <i class="fas fa-external-link-alt"></i>
-                                        <span>Go to this website</span>
-                                    </a> 
+                                    <?php 
+
+                                    if ($website != '' ) {
+                                        echo '
+                                            <a href="' . $website . '" class="btn btn-primary btn-sm mt-1" target="_blank" data-toggle="tooltip" data-placement="left" title="' . $website . '">
+                                                <i class="fas fa-external-link-alt"></i>
+                                                <span>Go to this website</span>
+                                            </a> 
+                                        ';
+                                    }
+                                    else {
+                                        echo "You don't have a website yet.";
+                                    }
+                                    ?>
                                 </p>
                             </div>
                         </div>

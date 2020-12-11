@@ -190,9 +190,10 @@ if ($maxSalary < 1000) {
                             </div>
                             <div>
                                 <p class="m-0 font-weight-bold">Job Type</p>
-                                <p class="m-0 text-secondary">
-                                    <i class="fas fa-circle mr-1 text-<?php echo $jobTypeClass ?>"></i>
-                                    <span><?php echo $jobType ?><span>
+                                <p class="m-0">
+                                    <span class="badge badge-<?php echo $jobTypeClass ?> text-uppercase p-2">
+                                        <?php echo $jobType ?>
+                                    </span>
                                 </p>
                             </div>
                         </div>
@@ -209,7 +210,7 @@ if ($maxSalary < 1000) {
                         </div>
 
                         <!-- OFFERED SALARY -->
-                        <div class="list-group-item d-flex">
+                        <div class="list-group-item d-flex" title="Offered Salary">
                             <div class="list-group-item-icon h4 text-info">
                                 <i class="fas fa-money-bill-wave"></i>
                             </div>

@@ -1,5 +1,5 @@
 <!-- HERO -->
-<div class="container-fluid parallax-window image-overlay text-light py-5 user-select-none" data-parallax="scroll" data-image-src="<?php echo base_url() ?>public/img/hero-bg.jpg">
+<div class="container-fluid parallax-window image-overlay text-light py-5" data-parallax="scroll" data-image-src="<?php echo base_url() ?>public/img/hero-bg.jpg">
 <div class="container-md my-lg-5 py-lg-5">
     
     <h1 class="display-3 mt-0 animate__animated animate__fadeInDown animate__slow">Find your <span class="font-weight-bold">dream job</span> here.</h1>
@@ -129,22 +129,24 @@
                 $dateCreated = date_format(date_create($post->dateCreated),"M. d, Y");
 
                 echo '
-                    <div class="col-lg-6 my-1">
-                        <div class="bg-white p-3 border">
+                    <div class="col-lg-6 my-2">
+                        <div class="bg-white p-3 border d-flex flex-column h-100 justify-content-between">
                             
                             <div class="d-flex mb-3">
             
                                 <!-- COMPANY LOGO -->
                                 <div class="company-logo mr-3 d-none d-sm-block">
-                                    <img class="border" src="assets\job_logo_5.jpg" alt="">
+                                    <a href="' . base_url() . 'companies/details/' . $post->employerID . '">
+                                        <img class="border" src="' . base_url() . 'public/img/job_logo_5.jpg" alt="">
+                                    </a>
                                 </div>
             
                                 <!-- JOB DETAILS -->
                                 <div class="flex-grow-1">
                                     <!-- JOB TITLE -->
-                                    <p class="h5 text-uppercase m-0">' . $post->jobTitle . '</p>
+                                    <p class="h5 text-uppercase m-0" title="Job Title: ' . $post->jobTitle . '">' . $post->jobTitle . '</p>
                                     <div class="mr-3 text-primary mt-1">
-                                        <a href="' . base_url() . 'company_profile/' . $post->employerID . '" class="text-primary">
+                                        <a href="' . base_url() . 'companies/details/' . $post->employerID . '" class="text-primary" title="Company: ' . $post->companyName . '">
                                             <span>' . $post->companyName . '</span>
                                         </a>
                                     </div>
@@ -153,15 +155,21 @@
                                     <div class="d-flex flex-wrap text-secondary mt-2">
                                         
                                         <!-- OFFERED SALARY -->
-                                        <div class="mr-3">
+                                        <div class="mr-3" title="Offered Salary: ' . $offeredSalary . '">
                                             <i class="fas fa-money-bill-wave mr-1 text-danger"></i>
                                             <span>' . $offeredSalary . '</span>
                                         </div>
             
+                                        <!-- INDUSTRY TYPE -->
+                                        <div class="mr-3 text-capitalize" title="Industry Type: ' . $post->industryType . '">
+                                            <i class="fas fa-cog mr-1 text-danger"></i>
+                                            <span>' . $post->industryType . '</span>
+                                        </div>
+
                                         <!-- LOCATION -->
-                                        <div class="mr-3">
+                                        <div class="mr-3 text-capitalize" title="Location: ' . $post->location . '">
                                             <i class="fas fa-map-marker-alt mr-1 text-danger"></i>
-                                            <span>' . $location . '</span>
+                                            <span>' . $post->location . '</span>
                                         </div>
                                         
                                     </div>
@@ -169,12 +177,12 @@
                                 </div>
             
                                 <!-- JOB SUB-DETAILS -->
-                                <div class="text-right">
+                                <div class="text-right" title="Job Type: ' . $jobType . '">
                                     <span class="badge badge-' . $jobTypeClass . ' p-2 text-uppercase">
                                         <i class="fas fa-user-tie mr-1"></i>
                                         ' . $jobType . '
                                     </span>
-                                    <p class="text-secondary font-italic mt-1">' . $dateCreated . '</p>
+                                    <p class="text-secondary font-italic mt-1" title="Posted ' . $dateCreated . '">' . $dateCreated . '</p>
                                 </div>
             
                             </div>
