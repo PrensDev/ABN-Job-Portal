@@ -18,7 +18,7 @@ class Jobseeker_model extends CI_Model {
 
     // GET INFORMATION METHOD
     public function get_info() {
-        $sql   = "EXEC [FindJobseeker] @email = '" . $this->session->email . "'";
+        $sql   = "EXEC [AUTH_FindJobseeker] @email = '" . $this->session->email . "'";
         $query = $this->db->query($sql);
         $row   = $query->row();
 
@@ -58,7 +58,7 @@ class Jobseeker_model extends CI_Model {
     public function update_info() {
         $input = $this->input->post();
         $this->run_query("
-            EXEC [UpdateJobseekerInfo]
+            EXEC [JBSK_UpdateInfo]
                 @jobseekerID	  = '" . $this->session->id . "',
                 @firstName		  = '" . $input[ 'firstName'        ] . "',
                 @middleName		  = '" . $input[ 'middleName'       ] . "',

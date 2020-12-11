@@ -34,7 +34,7 @@ class Companies extends CI_Controller {
         if ($employerID == NULL) {
             $this->Auth_model->err_page();
         } else {
-            $employerDetails = $this->View_model->view_company_details($employerID);
+            $employerDetails = $this->View_model->company_details($employerID);
 
             $data = $this->set_data('Company Details');
 
@@ -46,11 +46,19 @@ class Companies extends CI_Controller {
         }
     }
 
+
+    // AVALIABLE JOBS VIEW
     public function available_jobs($employerID = NULL) {
         if ($employerID == NULL) {
             $this->Auth_model->err_page();
         } else {
-            echo $employerID;
+            echo $this->uri->segment($employerID);
+
+            $config['base_url'] = base_url() . 'companies/available_jobs/' . $employerID . '/';
+            $config['total_rows'] = 200;
+            $config['per_page'] = 20;
+
+            $this->pagination->initialize($config);
         }
     }
 

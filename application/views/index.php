@@ -144,7 +144,9 @@
                                 <!-- JOB DETAILS -->
                                 <div class="flex-grow-1">
                                     <!-- JOB TITLE -->
-                                    <p class="h5 text-uppercase m-0" title="Job Title: ' . $post->jobTitle . '">' . $post->jobTitle . '</p>
+                                    <p class="h5 text-uppercase m-0" title="Job Title: ' . $post->jobTitle . '">
+                                        <a href="' . base_url() . 'jobs/details/' . $post->jobPostID . '" class="text-decoration-none text-dark">' . $post->jobTitle . '</a>
+                                    </p>
                                     <div class="mr-3 text-primary mt-1">
                                         <a href="' . base_url() . 'companies/details/' . $post->employerID . '" class="text-primary" title="Company: ' . $post->companyName . '">
                                             <span>' . $post->companyName . '</span>

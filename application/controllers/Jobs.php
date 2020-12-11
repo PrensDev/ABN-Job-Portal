@@ -45,7 +45,7 @@ class Jobs extends CI_Controller {
         if ($jobPostID == NULL) {
             $this->Auth_model->err_page();
         } else {
-            $jobDetails = $this->View_model->view_job_details($jobPostID);
+            $jobDetails = $this->View_model->job_details($jobPostID);
             if (! $jobDetails) {
                 $this->Auth_model->err_page();
             } else {

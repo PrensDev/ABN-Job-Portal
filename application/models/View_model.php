@@ -2,18 +2,23 @@
 
 class View_model extends CI_Model {
 
+    
+    // __CONSTRUCTOR
     public function __construct() {
         $this->load->database();
     }
 
 
-    public function view_recent_posts() {
-        $query = $this->db->query("EXEC [ViewRecentPosts]");
+    // VIEW RECENT POSTS
+    public function recent_posts() {
+        $query = $this->db->query("EXEC [VIEW_RecentPosts]");
         return $query->result();
     }
 
-    public function view_job_details($jobPostID) {
-        $query = $this->db->query("EXEC [ViewJobDetails] @jobPostID = " . $jobPostID);
+
+    // VIEW JOB MODELS
+    public function job_details($jobPostID) {
+        $query = $this->db->query("EXEC [VIEW_JobDetails] @jobPostID = " . $jobPostID);
 
         if ($query->num_rows() == 1) {
             $row = $query->row();
@@ -45,8 +50,10 @@ class View_model extends CI_Model {
         }
     }
 
-    public function view_company_details($employerID) {
-        $query = $this->db->query("EXEC [ViewCompanyDetails] @employerID = " . $employerID);
+
+    // VIEW COMPANY DETAILS
+    public function company_details($employerID) {
+        $query = $this->db->query("EXEC [VIEW_CompanyDetails] @employerID = " . $employerID);
         $row = $query->row();
 
         $companyDetails = [
@@ -60,5 +67,11 @@ class View_model extends CI_Model {
         ];
 
         return $companyDetails;
+    }
+
+
+    // VIEW COMPANY AVAILABLE JOBS
+    public function available_jobs() {
+
     }
 }

@@ -27,7 +27,7 @@ class Employer_model extends CI_Model {
 
     // GET INFORMATION METHOD
     public function get_info() {
-        $row = $this->get_row("EXEC [FindEmployer] @email = '" . $this->session->email . "'");
+        $row = $this->get_row("EXEC [AUTH_FindEmployer] @email = '" . $this->session->email . "'");
 
         $location = $row->brgyDistrict . ', ' . $row->cityMunicipality;
 
@@ -53,7 +53,7 @@ class Employer_model extends CI_Model {
         $status = $this->input->post('status') == '' ? 0 : 1;
 
         $this->run_query("
-            EXEC [PostNewJob]
+            EXEC [EMPL_PostNewJob]
                 @employerID		  = '" . $this->session->id                       . "',
                 @jobTitle		  = '" . $this->input->post( 'jobTitle'         ) . "',
                 @jobType		  = '" . $this->input->post( 'jobType'          ) . "',
@@ -71,8 +71,8 @@ class Employer_model extends CI_Model {
 
 
     // GET JOB POSTS METHOD
-    public function get_job_posts() {
-        $query = $this->db->query("EXEC [GetJobPosts] @employerID = '" . $this->session->id . "'");
+    public function get_posts() {
+        $query = $this->db->query("EXEC [EMPL_GetPosts] @employerID = '" . $this->session->id . "'");
         return $query->result();
     }
 
@@ -80,7 +80,7 @@ class Employer_model extends CI_Model {
     // GET JOB DETAILS METHOD
     public function get_job_details($jobPostID) {
         $query = $this->db->query("
-            EXEC [ViewJobPost] 
+            EXEC [EMPL_ViewPost] 
                 @jobPostID = " . $jobPostID . ",
                 @employerID = " . $this->session->id
         );
@@ -112,11 +112,11 @@ class Employer_model extends CI_Model {
 
 
     // UPDATE JOB POST METHOD
-    public function update_job_post($jobPostID) {
+    public function update_post($jobPostID) {
         $input  = $this->input->post();
         $status = $input['status'] == '1' ? 1 : 0;
         $this->run_query("
-            EXEC [UpdateJobPost]
+            EXEC [EMPL_UpdatePost]
                 @jobPostID		  = '" . $jobPostID . "',
                 @jobTitle		  = '" . $input[ 'jobTitle'         ] . "',
                 @jobType		  = '" . $input[ 'jobType'          ] . "',
@@ -140,7 +140,7 @@ class Employer_model extends CI_Model {
             $this->Auth_model->err_page();
         } else {
             $this->run_query("
-                EXEC [DeleteJobPost] 
+                EXEC [EMPL_DeletePost] 
                     @jobPostID  = " . $jobPostID . ",
                     @employerID = " . $this->session->id
             , 'job_posts');
@@ -152,7 +152,7 @@ class Employer_model extends CI_Model {
     public function update_info() {
         $input = $this->input->post();
         $this->run_query("
-            EXEC [UpdateEmployerInfo]
+            EXEC [EMPL_UpdateInfo]
                 @employerID       = '" . $this->session->id           . "',
                 @companyName      = '" . $input[ 'companyName'      ] . "',
                 @street           = '" . $input[ 'street'           ] . "',

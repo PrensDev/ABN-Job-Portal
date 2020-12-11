@@ -40,7 +40,7 @@ class Home extends CI_Controller {
         $this->load->view('sections/navbar', $data['userdata']);
 
         if ( $bodyView == 'index' ) {
-            $recentPosts = $this->View_model->view_recent_posts();
+            $recentPosts = $this->View_model->recent_posts();
             $data['recentPosts'] = $recentPosts;
             $this->load->view('index', $data);
         } else {

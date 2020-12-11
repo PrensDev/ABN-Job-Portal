@@ -15,7 +15,7 @@ class Auth_model extends CI_Model {
 
     // LOGIN
     public function login() {
-        $sql = "EXEC [FindUserAccount] @email = '" . $this->input->post( 'email' ) . "'";
+        $sql = "EXEC [AUTH_FindUserAccount] @email = '" . $this->input->post( 'email' ) . "'";
         $query = $this->db->query($sql);
 
         if (! $query) {
@@ -26,7 +26,7 @@ class Auth_model extends CI_Model {
 
                 if ( password_verify( $this->input->post( 'password' ), $row->password ) ) {
                     if ( $row->userType == 'Job Seeker' ) {
-                        $FindJobseeker_sql = "EXEC [FindJobseeker] @email = '" . $this->input->post( 'email' ) . "'";
+                        $FindJobseeker_sql = "EXEC [AUTH_FindJobseeker] @email = '" . $this->input->post( 'email' ) . "'";
                         $Jobseeker_query = $this->db->query($FindJobseeker_sql);
                         $Jobseeker_row  = $Jobseeker_query->row();
 
@@ -36,7 +36,7 @@ class Auth_model extends CI_Model {
                             'email'    => $Jobseeker_row->email,
                         ]);
                     } else if ( $row->userType == 'Employer' ) {
-                        $FindEmployer_sql = "EXEC [FindEmployer] @email = '" . $this->input->post( 'email' ) . "'";
+                        $FindEmployer_sql = "EXEC [AUTH_FindEmployer] @email = '" . $this->input->post( 'email' ) . "'";
                         $Employer_query = $this->db->query($FindEmployer_sql);
                         $Employer_row  = $Employer_query->row(0);
 
@@ -55,7 +55,7 @@ class Auth_model extends CI_Model {
                     return 'Incorrect Password';
                 }
             } else {
-                return 'That account doesn\'t not exist';
+                return "That account doesn't not exist";
             }
         }
     }
@@ -63,7 +63,7 @@ class Auth_model extends CI_Model {
     // REGISTER JOB SEEKER
     public function register_jobseeker() {
         $AddJobseekerAccount_sql = "
-            EXEC [AddJobseekerAccount]
+            EXEC [AUTH_AddJobseekerAccount]
                 @email	  = '" . $this->input->post( 'email' ) . "',
                 @password = '" . password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I) . "'
         ";
@@ -72,7 +72,7 @@ class Auth_model extends CI_Model {
             echo $this->db->error();
         } else {
             $RegisterJobseeker_sql = "
-                EXEC [RegisterJobseek er]
+                EXEC [AUTH_RegisterJobseeker]
                     @firstName		  = '" . $this->input->post( 'firstName'        ) . "',
                     @middleName		  = '" . $this->input->post( 'middleName'       ) . "',
                     @lastName		  = '" . $this->input->post( 'lastName'         ) . "',
@@ -100,7 +100,7 @@ class Auth_model extends CI_Model {
     // REGISTER EMPLOYER
     public function register_employer() {
         $AddEmployerAccount_sql = "
-            EXEC [AddEmployerAccount]
+            EXEC [AUTH_AddEmployerAccount]
                 @email			= '" . $this->input->post( 'email' ) . "',
                 @password		= '" . password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I) . "'
         ";
@@ -108,7 +108,7 @@ class Auth_model extends CI_Model {
             echo $this->db->error();
         } else {
             $RegisterEmployer_sql = "
-                EXEC [RegisterEmployer]
+                EXEC [AUTH_RegisterEmployer]
                     @companyName		= '" . $this->input->post( 'companyName'      ) . "',
                     @street				= '" . $this->input->post( 'street'           ) . "',
                     @brgyDistrict		= '" . $this->input->post( 'brgyDistrict'     ) . "',
@@ -127,7 +127,7 @@ class Auth_model extends CI_Model {
     // CHANGE PASSWORD
     public function change_password() {
         $sql = "
-            EXEC [ChangeUserPassword]
+            EXEC [AUTH_ChangeUserPassword]
                 @email    = '" . $this->session->email . "',
                 @password = '" . password_hash($this->input->post( 'retypepassword' ), PASSWORD_ARGON2I) . "',
         ";
@@ -135,11 +135,11 @@ class Auth_model extends CI_Model {
 
     // DEACTIVATE ACCOUNT 
     public function deactivate() {
-        $this->db->query("EXEC [DeactivateAccount] @email = '" . $this->session->email . "'");
+        $this->db->query("EXEC [AUTH_DeactivateAccount] @email = '" . $this->session->email . "'");
     }
 
     // ACTIVATE ACCOUNT 
     public function activate() {
-        $this->db->query("EXEC [ActivateAccount] @email = '" . $this->session->email . "'");
+        $this->db->query("EXEC [AUTH_ActivateAccount] @email = '" . $this->session->email . "'");
     }
 }

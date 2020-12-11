@@ -233,7 +233,7 @@ class Auth extends CI_Controller {
     public function job_posts($jobPostID = NULL) {
         if ( $this->session->userType == 'Employer' ) {
             $userdata = $this->Employer_model->get_info();
-            $jobPosts = $this->Employer_model->get_job_posts();
+            $jobPosts = $this->Employer_model->get_posts();
 
             if ( $jobPostID == NULL ) {
                 $pagedata = [
@@ -422,7 +422,7 @@ class Auth extends CI_Controller {
                         $this->load->view('templates/footer');
                     }
                 } else {
-                    $this->Employer_model->update_job_post($jobPostID);
+                    $this->Employer_model->update_post($jobPostID);
                 }
             }
         } else {
