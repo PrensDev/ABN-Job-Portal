@@ -29,6 +29,9 @@ class Companies extends CI_Controller {
     }
 
 
+    // ==================================================================================================== //
+
+
     // COMPANY DETAILS VIEW
     public function details($employerID = NULL) {
         if ($employerID == NULL) {
@@ -40,26 +43,10 @@ class Companies extends CI_Controller {
 
             $this->load->view('templates/header', $data);
             $this->load->view('sections/navbar', $data['userdata']);
-            $this->load->view('sections/company_details', $employerDetails);
+            $this->load->view('sections/company_header', $employerDetails);
+            $this->load->view('sections/company_information', $employerDetails);
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         }
     }
-
-
-    // AVALIABLE JOBS VIEW
-    public function available_jobs($employerID = NULL) {
-        if ($employerID == NULL) {
-            $this->Auth_model->err_page();
-        } else {
-            echo $this->uri->segment($employerID);
-
-            $config['base_url'] = base_url() . 'companies/available_jobs/' . $employerID . '/';
-            $config['total_rows'] = 200;
-            $config['per_page'] = 20;
-
-            $this->pagination->initialize($config);
-        }
-    }
-
 }

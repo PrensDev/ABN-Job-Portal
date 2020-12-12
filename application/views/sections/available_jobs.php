@@ -1,88 +1,17 @@
-<!-- HERO -->
-<div class="container-fluid parallax-window image-overlay text-light py-5" data-parallax="scroll" data-image-src="<?php echo base_url() ?>public/img/hero-bg.jpg">
-<div class="container-md my-lg-5 py-lg-5">
-    
-    <h1 class="display-3 mt-0 animate__animated animate__fadeInDown animate__slow">Find your <span class="font-weight-bold">dream job</span> here.</h1>
-    <p class="px-1 m-0 h5 font-weight-light animate__animated animate__fadeInDown animate__slow">Search over thousands of our available jobs posted here.</p>
-
-    <!-- SEARCH BAR -->
-    <div class="search-bar bg-white mt-5 p-1">
-        <form action="" method="POST">
-        <div class="row">
-            
-            <!-- KEYWORD FIELD -->
-            <div class="col-lg">
-            <div class="input-group">
-                <input type="text" class="form-control border-0 shadow-none" placeholder="Keyword..." name="jobKeyword">
-                <div class="input-group-append">
-                    <span class="input-group-text bg-white border-0"><i class="fas fa-search"></i></span>
-                </div>
-            </div>
-            </div>
-
-            <!-- LOCATION FIELD -->
-            <div class="col-lg">
-            <div class="input-group">
-                <input type="text" class="form-control border-0 shadow-none" placeholder="Location..." name="jobKeyword">
-                <div class="input-group-append">
-                    <span class="input-group-text bg-white border-0"><i class="fas fa-map-marker-alt"></i></span>
-                </div>
-            </div>
-            </div>
-
-            <!-- JOB TYPE FIELD -->
-            <div class="col-lg">
-            <select class="selectpicker show-tick border-0 shadow-none form-control bg-white" data-style="btn bg-white text-dark" title="Job Type...">
-                <option value="Full Time">Full Time</option>
-                <option value="Part Time">Part Time</option>
-                <option value="Internship/OJT">Internship/OJT</option>
-                <option value="Temporary">Temporary</option>
-            </select>
-            </div>
-
-            <div class="col-lg">
-            <button type="submit" class="btn btn-primary btn-block">
-                <i class="fas fa-search"></i> Search Now
-            </button>
-            </div>
-            
-        </div>
-        </form>
-    </div>
-    <!-- END OF SEARCH BAR -->
-
-    <p class="mt-1">
-        <span class="font-weight-bold">Suggestions: </span>
-        <a href="#" class="text-white">Software Developer</a>, 
-        <a href="#" class="text-white">Mobile Developer</a>, 
-        <a href="#" class="text-white">Programmer</a>, 
-        <a href="#" class="text-white">more...</a>
-    </p>
-
-</div>
-</div>
-<!-- END OF HERO -->
-
-<?php
-
-    if ( $this->session->has_userdata( 'userType' ) ) {
-        #do nothinf
-    } else {
-        $this->load->view('sections/create_account');
-    }
-
-?>
-
-<!-- RECENT JOB SECTIONS -->
-<div class="container-fluid bg-light">
+<!-- APPLICANT PROFILE DETAILS SECTION -->
+<div class="container-fluid">
 <div class="container-md py-5">
-
-    <h1 class="display-4 text-center">Recent Available Jobs</h1>
-    <p class="h5 font-weight-normal text-center text-secondary">Discover our latest jobs listed here.</p>
+    
+    <div class="mb-3">
+        <h5 class="text-primary">
+            <i class="fas fa-list mr-2"></i>  
+            <span>Available Jobs</span> 
+        </h5>
+    </div>
 
     <!-- JOB LIST -->
-    <div class="row my-5">
-        
+    <div class="row mb-5">
+
         <?php
             foreach ($posts as $post) {
                 $jobType = $post->jobType;
@@ -132,7 +61,7 @@
                     <div class="col-lg-6 my-2">
                         <div class="bg-white p-3 border d-flex flex-column h-100 justify-content-between">
                             
-                            <div class="d-flex mb-3 mr-1">
+                            <div class="d-flex mb-3">
             
                                 <!-- COMPANY LOGO -->
                                 <div class="company-logo mr-3 d-none d-sm-block">
@@ -204,22 +133,8 @@
         ?>
 
     </div>
-    <!-- END OF JOB LIST -->
 
-    <div class="d-flex justify-content-center">
-        <a href="<?php echo base_url() ?>jobs/recent" class="btn btn-primary btn-lg">View More Recent Jobs</a>
-    </div>
+    <?php echo $this->pagination->create_links(); ?>
 
 </div>
 </div>
-<!-- END OF RECENT JOB SECTION -->
-
-<?php
-
-    if ( $this->session->userType == 'Job Seeker' ) {
-        #do nothing
-    } else {
-        $this->load->view('sections/post_a_job');
-    }
-
-?>

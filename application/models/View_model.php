@@ -9,9 +9,18 @@ class View_model extends CI_Model {
     }
 
 
+    // ALL RECENT POSTS
+    public function all_recent_posts() {
+        return $this->db->query("EXEC [VIEW_AllRecentPosts]");
+    }
+
+
     // VIEW RECENT POSTS
-    public function recent_posts() {
-        $query = $this->db->query("EXEC [VIEW_RecentPosts]");
+    public function recent_posts($offsetRows, $fetchedRows) {
+        $query = $this->db->query("EXEC [VIEW_LimitedRecentPosts] 
+            @offsetRows  = " . $offsetRows  . ", 
+            @fetchedRows = " . $fetchedRows ."
+        ");
         return $query->result();
     }
 

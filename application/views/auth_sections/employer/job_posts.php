@@ -26,11 +26,11 @@
 
 
     <!-- JOB LIST -->
-    <div class="row my-2">
+    <div class="row mt-2 mb-5">
         <?php
 
-            foreach ( $jobPosts as $row ) {
-                $jobType = $row->jobType;
+            foreach ( $posts as $post ) {
+                $jobType = $post->jobType;
                 if ($jobType == 'Full Time') {
                     $jobTypeClass = 'success';
                 } else if ($jobType == 'Part Time') {
@@ -41,7 +41,7 @@
                     $jobTypeClass = 'secondary';
                 }
 
-                if ( $row->status == 1 ) {
+                if ( $post->status == 1 ) {
                     $statusClass = 'success';
                     $statusLabel = 'Active';
                 } else {
@@ -49,7 +49,7 @@
                     $statusLabel = 'Not Active';
                 }
 
-                $minSalary = $row->minSalary;
+                $minSalary = $post->minSalary;
 
                 if ($minSalary < 1000) {
                     $minSalary = number_format($minSalary, 1, '.', '');
@@ -63,7 +63,7 @@
                     $minSalary = number_format($minSalary / 1000000000000, 1, '.', '') . 'T';
                 } 
 
-                $maxSalary = $row->maxSalary;
+                $maxSalary = $post->maxSalary;
 
                 if ($maxSalary < 1000) {
                     $maxSalary = number_format($maxSalary, 1, '.', '');
@@ -79,7 +79,7 @@
 
                 $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
                 
-                $dateCreated = date_format(date_create($row->dateCreated),"M. d, Y; h:i a");
+                $dateCreated = date_format(date_create($post->dateCreated),"M. d, Y; h:i a");
 
                 echo '
                     <div class="col-lg-6 my-1 user-select-none">
@@ -90,7 +90,7 @@
                             <!-- JOB DETAILS -->
                             <div class="flex-grow-1 mb-3">
                                 <!-- JOB TITLE -->
-                                <p class="h5 text-uppercase m-0" title="Job Title: '. $row->jobTitle .'">' . $row->jobTitle . '</p>
+                                <p class="h5 text-uppercase m-0" title="Job Title: '. $post->jobTitle .'">' . $post->jobTitle . '</p>
         
                                 <!-- JOB DETAILS -->
                                 <div class="d-flex flex-wrap text-secondary mt-2">
@@ -102,9 +102,9 @@
                                     </div>
         
                                     <!-- INDUSTRY TYPE -->
-                                    <div class="mr-3 text-capitalize" title="Industry Type: ' . $row->industryType . '">
+                                    <div class="mr-3 text-capitalize" title="Industry Type: ' . $post->industryType . '">
                                         <i class="fas fa-cogs mr-1"></i>
-                                        <span>' . $row->industryType . '</span>
+                                        <span>' . $post->industryType . '</span>
                                     </div>
         
                                     <!-- DATE CREATED -->
@@ -116,10 +116,10 @@
                                 </div>
         
                                 <!-- JOB TYPE -->
-                                <div class="mt-1" title="Job Type: ' . $row->jobType . '">
+                                <div class="mt-1" title="Job Type: ' . $post->jobType . '">
                                     <span class="badge badge-' . $jobTypeClass . ' p-2 text-uppercase">
                                         <i class="fas fa-user-tie mr-1"></i>
-                                        ' . $row->jobType . '
+                                        ' . $post->jobType . '
                                     </span>
                                 </div>
         
@@ -133,7 +133,7 @@
                         </div>
         
                         <div>
-                            <p class="text-truncate" title="View more to read description">' . $row->description . '</p>
+                            <p class="text-truncate" title="View more to read description">' . $post->description . '</p>
                         </div>
         
                         <!-- USER-ACTIONS -->
@@ -148,10 +148,10 @@
                                 </a>
                             </div>
                             <div>
-                                <a href="' . base_url() . 'auth/edit_post/' . $row->jobPostID . '" class="btn btn-outline-primary"  data-toggle="tooltip" data-placement="top" title="Edit Post">
+                                <a href="' . base_url() . 'auth/edit_post/' . $post->jobPostID . '" class="btn btn-outline-primary"  data-toggle="tooltip" data-placement="top" title="Edit Post">
                                     <i class="fas fa-pen"></i>
                                 </a>
-                                <a href="' . base_url() . 'auth/job_posts/' . $row->jobPostID . '" class="btn btn-outline-secondary"  data-toggle="tooltip" data-placement="top" title="View More">
+                                <a href="' . base_url() . 'auth/job_details/' . $post->jobPostID . '" class="btn btn-outline-secondary"  data-toggle="tooltip" data-placement="top" title="View More">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </a>
                             </div>
@@ -167,37 +167,7 @@
     </div>
     <!-- END OF JOB LIST -->
 
-    <!-- PAGINATION -->
-    <nav class="mt-3">
-        <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                    <i class="fas fa-caret-left"></i>
-                </a>
-            </li>
-            <li class="page-item active">
-                <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">3</a>
-            </li>
-            <li class="page-item disabled">
-                <a class="page-link" href="#">...</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">18</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">
-                    <i class="fas fa-caret-right"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <!-- END OF PAGINATION -->
+    <?php echo $this->pagination->create_links(); ?>
 
 </div>
 </div>

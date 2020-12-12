@@ -160,7 +160,7 @@ if ($maxSalary < 1000) {
         <div class="col-lg-4"> 
 
             <!-- HIRED STATUS -->
-            <div class="d-flex justify-content-between border border-primary p-3 mb-3">
+            <div class="d-flex justify-content-between alert alert-primary p-3 mb-3">
                 <div class="mr-3">
                     <i class="fas fa-users mr-1 text-primary"></i>
                     <span>You've already hired <strong>0</strong> people.</span>

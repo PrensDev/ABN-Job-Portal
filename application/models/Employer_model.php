@@ -24,6 +24,9 @@ class Employer_model extends CI_Model {
         }
     }
 
+    
+    // ==================================================================================================== //
+
 
     // GET INFORMATION METHOD
     public function get_info() {
@@ -70,9 +73,20 @@ class Employer_model extends CI_Model {
     }
 
 
-    // GET JOB POSTS METHOD
-    public function get_posts() {
-        $query = $this->db->query("EXEC [EMPL_GetPosts] @employerID = '" . $this->session->id . "'");
+    // GET ALL POSTS METHOD
+    public function get_all_posts() {
+        return $this->db->query("EXEC [EMPL_GetAllPosts] @employerID = '" . $this->session->id . "'");
+    }
+
+
+    // GET POSTS METHOD
+    public function get_posts($offsetRows, $fetchedRows) {
+        $query = $this->db->query("EXEC [EMPL_GetPosts] 
+            @employerID  = '" . $this->session->id . "',
+            @offsetRows  = " . $offsetRows . ",
+            @fetchedRows = " . $fetchedRows . "
+        ");
+
         return $query->result();
     }
 

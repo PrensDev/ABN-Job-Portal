@@ -43,8 +43,8 @@ AS
 ;
 
 
--- Get Posted Jobs Procedure
-CREATE PROCEDURE [dbo].[EMPL_GetPosts] 
+-- Get All Posts Procedure
+CREATE PROCEDURE [dbo].[EMPL_GetAllPosts] 
 	@employerID INT
 AS
 	SELECT
@@ -65,6 +65,35 @@ AS
 	FROM [dbo].[JobPosts]
 	WHERE [employerID] = @employerID
 	ORDER BY [dateCreated] DESC
+;
+
+
+-- Get Limited Posts Procedure
+CREATE PROCEDURE [dbo].[EMPL_GetPosts] 
+	@offsetRows  INT,
+	@fetchedRows INT,
+	@employerID  INT
+AS
+	SELECT
+		  [jobPostID]
+		, [employerID]
+		, [jobTitle]
+		, [jobType]
+		, [industryType]
+		, [description]
+		, [responsibilities]
+		, [skills]
+		, [experiences]
+		, [education]
+		, [minSalary]
+		, [maxSalary]
+		, [dateCreated]
+		, CAST([jobPostFlag] AS INT) AS [status]
+	FROM [dbo].[JobPosts]
+	WHERE [employerID] = @employerID
+	ORDER BY [dateCreated] DESC
+	OFFSET @offsetRows ROWS
+	FETCH NEXT @fetchedRows ROWS ONLY;
 ;
 
 

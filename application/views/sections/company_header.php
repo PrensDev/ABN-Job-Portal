@@ -1,20 +1,19 @@
 <!-- HEADER -->
 <div 
-    class="container-fluid py-3 parallax-window image-overlay py-5 user-select-none" 
+    class="container-fluid py-3 parallax-window image-overlay py-5" 
     data-parallax="scroll" 
-    data-image-src="<?php echo base_url() ?>public/img/employer_header.jpg"
->
-<div class="container-md text-white">   
+    data-image-src="<?php echo base_url() ?>public/img/employer_header.jpg">
+<div class="container-md text-white">
 <div class="row">
 
     <!-- COMPANY IMAGE/LOGO -->
     <div class="col-md-auto d-flex justify-content-center">
-        <img src="assets\job_logo_5.jpg" alt="" height="125" class="rounded">
+        <img src="<?php echo base_url() ?>public/img/job_logo_5.jpg" alt="" height="125" class="rounded" draggable="false">
     </div>
     
     <!-- COMPANY INFORMATION -->
     <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
-        <h1 class="font-weight-light"><?php echo $username ?></h1>
+        <h1 class="font-weight-light"><?php echo $companyName ?></h1>
         
         <div class="d-block d-md-flex flex-wrap">
             
@@ -34,20 +33,7 @@
             </div>
 
         </div>
-        
-        <!-- EDIT INFORMATION USER CONTROL -->
-        <div class="mt-3">
-            <div class="mr-3">
-                <small>
-                    <a href="<?php echo base_url() ?>auth/edit_information" class="text-light">
-                        <i class="fas fa-pen mr-1"></i>
-                        <span>Edit information</span>
-                    </a>
-                </small>
-            </div>
-        </div>
-        <!-- END OF EDIT INFORMATION USER CONTROL -->
-
+    
     </div>
     <!-- END OF COMPANY INFORMATION -->
 

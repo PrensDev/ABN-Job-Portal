@@ -40,8 +40,8 @@ class Home extends CI_Controller {
         $this->load->view('sections/navbar', $data['userdata']);
 
         if ( $bodyView == 'index' ) {
-            $recentPosts = $this->View_model->recent_posts();
-            $data['recentPosts'] = $recentPosts;
+            $posts = $this->View_model->recent_posts(0, 10);
+            $data['posts'] = $posts;
             $this->load->view('index', $data);
         } else {
             $this->load->view('sections/header', $data);
@@ -52,7 +52,10 @@ class Home extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
-    
+
+    // ==================================================================================================== //
+
+
     // INDEX VIEW
     public function index() {
         $this->load_main_view('Home', 'index');

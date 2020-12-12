@@ -165,6 +165,28 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
     <!-- JOB SUMMARY -->
     <div class="col-lg-4"> 
 
+        <?php
+
+            if ($this->session->userType == 'Employer') {
+                if ($this->session->id == $employerID) {
+                    echo '
+                        <div class="d-flex justify-content-between border border-primary p-3 mb-3">
+                            <div class="mr-3">
+                                <span>Do you want to edit your post?</span>
+                            </div>
+                            <div class="text-nowrap">
+                                <i class="fas fa-pen text-primary"></i>
+                                <a href="' . base_url() . 'auth/edit_post/' . $jobPostID . '">
+                                    <span>Edit</span>
+                                </a>
+                            </div>
+                        </div>
+                    ';
+                }
+            }
+
+            ?>
+
         <!-- JOB SUMMARY CARD -->
         <div class="card mb-3">
             <div class="card-header">

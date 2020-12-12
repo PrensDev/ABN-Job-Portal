@@ -230,38 +230,75 @@ class Auth extends CI_Controller {
 
 
     // JOB POSTS VIEW
-    public function job_posts($jobPostID = NULL) {
+    public function job_posts($page = 1) {
         if ( $this->session->userType == 'Employer' ) {
             $userdata = $this->Employer_model->get_info();
-            $jobPosts = $this->Employer_model->get_posts();
 
-            if ( $jobPostID == NULL ) {
-                $pagedata = [
-                    'title' => $userdata['username'] . ' - Job Posts',
-                    'jobPosts' => $jobPosts,
-                ];
+            $AllPosts   = $this->Employer_model->get_all_posts();
+            $offsetRows = $page == 1 ? 0 : ($page - 1) * 10;
+            $posts      = $this->Employer_model->get_posts($offsetRows, 10); 
 
-                $this->load->view('templates/header', $pagedata);
-                $this->load->view('sections/navbar', $userdata);
-                $this->load->view('auth_sections/employer/job_posts', $pagedata);
-            } else {
-                $jobDetails = $this->Employer_model->get_job_details($jobPostID);
+            $pagedata = [
+                'title' => $userdata['username'] . ' - Job Posts',
+                'posts' => $posts,
+            ];
 
-                if (! $jobDetails) {
-                    $this->Auth_model->err_page();
-                } else {
-                    $pagedata = ['title' => $jobDetails['jobTitle'] . ' - ' . $userdata['username'] . ' - Job Post'];
-    
-                    $this->load->view('templates/header', $pagedata);
-                    $this->load->view('sections/navbar', $userdata);
-                    $this->load->view('auth_sections/employer/job_details', $jobDetails);
-                }
-            }
+            $config = [
+                'base_url'          => base_url() . 'auth/job_posts/',
+                'total_rows'        => $AllPosts->num_rows(),
+                'use_page_numbers'  => TRUE,
+                'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
+                'full_tag_close'    => '</ul></nav>',
+                'attributes'        => [ 'class' => 'page-link' ],
+                'first_link'        => 'First',
+                'first_tag_open'    => '<li class="page-item">',
+                'first_tag_close'   => '</li>',
+                'prev_link'         => '<i class="fas fa-caret-left"></i>',
+                'prev_tag_open'     => '<li class="page-item">',
+                'prev_tag_close'    => '</li>',
+                'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
+                'cur_tag_close'     => '</span></li>',
+                'num_tag_open'      => '<li class="page-item">',
+                'num_tag_close'     => '</li>',
+                'next_link'         => '<i class="fas fa-caret-right"></i>',
+                'next_tag_open'     => '<li class="page-item">',
+                'next_tag_close'    => '</li>',
+                'last_link'         => 'Last',
+                'last_tag_open'     => '<li class="page-item">',
+                'last_tag_close'    => '<li>',
+            ];
+
+            $this->pagination->initialize($config);
+
+            $this->load->view('templates/header', $pagedata);
+            $this->load->view('sections/navbar', $userdata);
+            $this->load->view('auth_sections/employer/job_posts', $pagedata);
 
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
             $this->Auth_model->err_page();
+        }
+    }
+
+
+    // JOB DETAILS VIEW
+    public function job_details($jobPostID = NULL) {
+        if ($jobPostID == NULL) {
+            $this->Auth_model->err_page();
+        } else {
+            $userdata   = $this->Employer_model->get_info();
+            $jobDetails = $this->Employer_model->get_job_details($jobPostID);
+
+            if (! $jobDetails) {
+                $this->Auth_model->err_page();
+            } else {
+                $pagedata = ['title' => $jobDetails['jobTitle'] . ' - ' . $userdata['username'] . ' - Job Post'];
+
+                $this->load->view('templates/header', $pagedata);
+                $this->load->view('sections/navbar', $userdata);
+                $this->load->view('auth_sections/employer/job_details', $jobDetails);
+            }
         }
     }
 
