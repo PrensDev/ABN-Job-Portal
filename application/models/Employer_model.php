@@ -57,15 +57,15 @@ class Employer_model extends CI_Model {
 
         $this->run_query("
             EXEC [EMPL_PostNewJob]
-                @employerID		  = '" . $this->session->id                       . "',
-                @jobTitle		  = '" . $this->input->post( 'jobTitle'         ) . "',
-                @jobType		  = '" . $this->input->post( 'jobType'          ) . "',
-                @industryType	  = '" . $this->input->post( 'industryType'     ) . "',
-                @description	  = '" . $this->input->post( 'description'      ) . "',
-                @responsibilities = '" . $this->input->post( 'responsibilities' ) . "',
-                @skills			  = '" . $this->input->post( 'skills'           ) . "',
-                @experiences	  = '" . $this->input->post( 'experiences'      ) . "',
-                @education		  = '" . $this->input->post( 'education'        ) . "',
+                @employerID		  = '" . $this->session->id . "',
+                @jobTitle		  = '" . ucwords($this->input->post( 'jobTitle' )) . "',
+                @jobType		  = '" . $this->input->post( 'jobType' ) . "',
+                @industryType	  = '" . $this->input->post( 'industryType' ) . "',
+                @description	  = '" . ucfirst($this->input->post( 'description' )) . "',
+                @responsibilities = '" . ucfirst($this->input->post( 'responsibilities' )) . "',
+                @skills			  = '" . ucfirst($this->input->post( 'skills' )) . "',
+                @experiences	  = '" . ucfirst($this->input->post( 'experiences' )) . "',
+                @education		  = '" . ucfirst($this->input->post( 'education' )) . "',
                 @minSalary		  = '" . $this->input->post( 'minSalary'        ) . "',
                 @maxSalary		  = '" . $this->input->post( 'maxSalary'        ) . "',
                 @jobPostFlag	  =  " . $status                                  . "
@@ -132,18 +132,18 @@ class Employer_model extends CI_Model {
         $this->run_query("
             EXEC [EMPL_UpdatePost]
                 @jobPostID		  = '" . $jobPostID . "',
-                @jobTitle		  = '" . $input[ 'jobTitle'         ] . "',
-                @jobType		  = '" . $input[ 'jobType'          ] . "',
-                @industryType	  = '" . $input[ 'industryType'     ] . "',
-                @description	  = '" . $input[ 'description'      ] . "',
-                @responsibilities = '" . $input[ 'responsibilities' ] . "',
-                @skills			  = '" . $input[ 'skills'           ] . "',
-                @experiences	  = '" . $input[ 'experiences'      ] . "',
-                @education		  = '" . $input[ 'education'        ] . "',
-                @minSalary		  = '" . $input[ 'minSalary'        ] . "',
-                @maxSalary		  = '" . $input[ 'maxSalary'        ] . "',
+                @jobTitle		  = '" . ucwords($input[ 'jobTitle' ]) . "',
+                @jobType		  = '" . $input[ 'jobType' ] . "',
+                @industryType	  = '" . ucwords($input[ 'industryType' ]) . "',
+                @description	  = '" . ucfirst($input[ 'description' ]) . "',
+                @responsibilities = '" . ucfirst($input[ 'responsibilities' ]) . "',
+                @skills			  = '" . ucfirst($input[ 'skills' ]) . "',
+                @experiences	  = '" . ucfirst($input[ 'experiences' ]) . "',
+                @education		  = '" . ucfirst($input[ 'education' ]) . "',
+                @minSalary		  = '" . $input[ 'minSalary' ] . "',
+                @maxSalary		  = '" . $input[ 'maxSalary' ] . "',
                 @jobPostFlag	  =  " . $status . "
-        ", 'job_posts/' . $jobPostID);
+        ", 'job_details/' . $jobPostID);
     }
 
 
@@ -169,12 +169,12 @@ class Employer_model extends CI_Model {
             EXEC [EMPL_UpdateInfo]
                 @employerID       = '" . $this->session->id           . "',
                 @companyName      = '" . $input[ 'companyName'      ] . "',
-                @street           = '" . $input[ 'street'           ] . "',
-                @brgyDistrict     = '" . $input[ 'brgyDistrict'     ] . "',
-                @cityMunicipality = '" . $input[ 'cityMunicipality' ] . "',
-                @contactNumber    = '" . $input[ 'contactNumber'    ] . "',
-                @website          = '" . $input[ 'website'          ] . "',
-                @description      = '" . $input[ 'description'      ] . "'
+                @street           = '" . ucfirst($input[ 'street' ]) . "',
+                @brgyDistrict     = '" . ucfirst($input[ 'brgyDistrict' ]) . "',
+                @cityMunicipality = '" . ucfirst($input[ 'cityMunicipality' ]) . "',
+                @contactNumber    = '" . $input[ 'contactNumber' ] . "',
+                @website          = '" . $input[ 'website' ] . "',
+                @description      = '" . ucfirst($input[ 'description' ]) . "'
         ", 'information');
     }
 }

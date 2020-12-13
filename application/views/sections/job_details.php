@@ -117,7 +117,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     <i class="fas fa-align-left mr-2"></i>  
                     <span>Description</span> 
                 </h5>
-                <p><?php echo $description ?></p>
+                <p class="text-justify"><?php echo $description ?></p>
             </div>
 
             <!-- RESPONSIBILITIES -->
@@ -126,7 +126,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     <i class="fas fa-bullseye mr-2"></i>  
                     <span>Responsibilities</span> 
                 </h5>
-                <p><?php echo $responsibilities ?></p>
+                <p class="text-justify"><?php echo $responsibilities ?></p>
             </div>
             
             <!-- SKILLS SET -->
@@ -135,7 +135,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     <i class="fas fa-cogs mr-2"></i>  
                     <span>Skills Set</span> 
                 </h5>
-                <p><?php echo $skills ?></p>
+                <p class="text-justify"><?php echo $skills ?></p>
             </div>
 
             <!-- EXPERIENCES -->
@@ -144,7 +144,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     <i class="fas fa-chart-line mr-2"></i>  
                     <span>Experiences</span> 
                 </h5>
-                <p><?php echo $experiences ?></p>
+                <p class="text-justify"><?php echo $experiences ?></p>
             </div>
             
             <!-- EDUCATION -->
@@ -153,7 +153,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     <i class="fas fa-book mr-2"></i>  
                     <span>Education</span> 
                 </h5>
-                <p><?php echo $education ?></p>
+                <p class="text-justify"><?php echo $education ?></p>
             </div>
             
         </div>
@@ -163,10 +163,9 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
     <!-- END OF JOB DETAILS -->
     
     <!-- JOB SUMMARY -->
-    <div class="col-lg-4"> 
-
+    <div class="col-lg-4">
+        
         <?php
-
             if ($this->session->userType == 'Employer') {
                 if ($this->session->id == $employerID) {
                     echo '
@@ -184,8 +183,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     ';
                 }
             }
-
-            ?>
+        ?>
 
         <!-- JOB SUMMARY CARD -->
         <div class="card mb-3">

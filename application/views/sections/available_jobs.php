@@ -3,135 +3,33 @@
 <div class="container-md py-5">
     
     <div class="mb-3">
-        <h5 class="text-primary">
-            <i class="fas fa-list mr-2"></i>  
-            <span>Available Jobs</span> 
-        </h5>
+        <div class="d-flex justify-content-between mb-2">
+            <div>
+                <h5 class="text-primary">
+                    <i class="fas fa-list mr-2"></i>  
+                    <span>Available Jobs</span> 
+                </h5>
+            </div>
+            <div>
+                <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>" class="btn btn-primary">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    <span>Back to details<span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="text-secondary d-flex justify-content-between">
+            <p class="m-0"><strong><?php echo $companyName ?></strong> has <strong><?php echo $totalRows ?></strong> available jobs.</p>
+            <?php 
+                if ($totalPages > 1) {
+                    echo '<p class="m-0">Showing page ' . $currentPage . ' of ' . $totalPages . '.</p>';
+                }
+            ?>
+        </div>
     </div>
 
-    <!-- JOB LIST -->
     <div class="row mb-5">
-
-        <?php
-            foreach ($posts as $post) {
-                $jobType = $post->jobType;
-                if ($jobType == 'Full Time') {
-                    $jobTypeClass = 'success';
-                } else if ($jobType == 'Part Time') {
-                    $jobTypeClass = 'info';
-                } else if ($jobType == 'Internship/OJT') {
-                    $jobTypeClass = 'warning';
-                } else if ($jobType == 'Temporary') {
-                    $jobTypeClass = 'secondary';
-                }
-
-                $minSalary = $post->minSalary;
-
-                if ($minSalary < 1000) {
-                    $minSalary = number_format($minSalary, 1, '.', '');
-                } else if ($minSalary < 1000000) {
-                    $minSalary = number_format($minSalary / 1000, 1, '.', '') . 'K';
-                } else if ($minSalary < 1000000000) {
-                    $minSalary = number_format($minSalary / 1000000, 1, '.', '') . 'M';
-                } else if ($minSalary < 1000000000000) {
-                    $minSalary = number_format($minSalary / 1000000000, 1, '.', '') . 'B';
-                } else if ($minSalary < 1000000000000000) {
-                    $minSalary = number_format($minSalary / 1000000000000, 1, '.', '') . 'T';
-                } 
-
-                $maxSalary = $post->maxSalary;
-
-                if ($maxSalary < 1000) {
-                    $maxSalary = number_format($maxSalary, 1, '.', '');
-                } else if ($maxSalary < 1000000) {
-                    $maxSalary = number_format($maxSalary / 1000, 1, '.', '') . 'K';
-                } else if ($maxSalary < 1000000000) {
-                    $maxSalary = number_format($maxSalary / 1000000, 1, '.', '') . 'M';
-                } else if ($maxSalary < 1000000000000) {
-                    $maxSalary = number_format($maxSalary / 1000000000, 1, '.', '') . 'B';
-                } else if ($maxSalary < 1000000000000000) {
-                    $maxSalary = number_format($maxSalary / 1000000000000, 1, '.', '') . 'T';
-                }
-
-                $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
-
-                $dateCreated = date_format(date_create($post->dateCreated),"M. d, Y");
-
-                echo '
-                    <div class="col-lg-6 my-2">
-                        <div class="bg-white p-3 border d-flex flex-column h-100 justify-content-between">
-                            
-                            <div class="d-flex mb-3">
-            
-                                <!-- COMPANY LOGO -->
-                                <div class="company-logo mr-3 d-none d-sm-block">
-                                    <a href="' . base_url() . 'companies/details/' . $post->employerID . '">
-                                        <img class="border" src="' . base_url() . 'public/img/job_logo_5.jpg" alt="">
-                                    </a>
-                                </div>
-            
-                                <!-- JOB DETAILS -->
-                                <div class="flex-grow-1">
-                                    <!-- JOB TITLE -->
-                                    <p class="h5 text-uppercase m-0" title="Job Title: ' . $post->jobTitle . '">
-                                        <a href="' . base_url() . 'jobs/details/' . $post->jobPostID . '" class="text-decoration-none text-dark">' . $post->jobTitle . '</a>
-                                    </p>
-                                    <div class="mr-3 text-primary mt-1">
-                                        <a href="' . base_url() . 'companies/details/' . $post->employerID . '" class="text-primary" title="Company: ' . $post->companyName . '">
-                                            <span>' . $post->companyName . '</span>
-                                        </a>
-                                    </div>
-            
-                                    <!-- JOB DETAILS -->
-                                    <div class="d-flex flex-wrap text-secondary mt-2">
-                                        
-                                        <!-- OFFERED SALARY -->
-                                        <div class="mr-3" title="Offered Salary: ' . $offeredSalary . '">
-                                            <i class="fas fa-money-bill-wave mr-1 text-danger"></i>
-                                            <span>' . $offeredSalary . '</span>
-                                        </div>
-            
-                                        <!-- INDUSTRY TYPE -->
-                                        <div class="mr-3 text-capitalize" title="Industry Type: ' . $post->industryType . '">
-                                            <i class="fas fa-cog mr-1 text-danger"></i>
-                                            <span>' . $post->industryType . '</span>
-                                        </div>
-
-                                        <!-- LOCATION -->
-                                        <div class="mr-3 text-capitalize" title="Location: ' . $post->location . '">
-                                            <i class="fas fa-map-marker-alt mr-1 text-danger"></i>
-                                            <span>' . $post->location . '</span>
-                                        </div>
-                                        
-                                    </div>
-            
-                                </div>
-            
-                                <!-- JOB SUB-DETAILS -->
-                                <div class="text-right" title="Job Type: ' . $jobType . '">
-                                    <span class="badge badge-' . $jobTypeClass . ' p-2 text-uppercase">
-                                        <i class="fas fa-user-tie mr-1"></i>
-                                        ' . $jobType . '
-                                    </span>
-                                    <p class="text-secondary font-italic mt-1" title="Posted ' . $dateCreated . '">' . $dateCreated . '</p>
-                                </div>
-            
-                            </div>
-            
-                            <!-- USER-ACTIONS -->
-                            <div class="text-right">
-                                <button class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top" title="Add to bookmark">
-                                    <i class="fas fa-bookmark"></i>
-                                </button>
-                                <a href="' . base_url() . 'jobs/details/' . $post->jobPostID . '" class="btn btn-outline-secondary">View More</a>
-                            </div>
-            
-                        </div>
-                    </div>
-                ';
-            }
-        ?>
-
+        <?php foreach ($posts as $post) { $this->load->view('sections/components/job_post_card', $post); } ?>
     </div>
 
     <?php echo $this->pagination->create_links(); ?>

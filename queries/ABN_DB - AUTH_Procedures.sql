@@ -184,3 +184,4 @@ AS
 	WHERE [email] = @email
 ;
 
+SELECT * FROM UserAccounts

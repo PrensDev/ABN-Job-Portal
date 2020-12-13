@@ -17,10 +17,6 @@ AS
 		, [JobPosts].[jobType]
 		, [JobPosts].[industryType]
 		, [JobPosts].[description]
-		, [JobPosts].[responsibilities]
-		, [JobPosts].[skills]
-		, [JobPosts].[experiences]
-		, [JobPosts].[education]
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
 		, [JobPosts].[dateCreated]
@@ -31,12 +27,11 @@ AS
 	INNER JOIN [dbo].[Employers] 
 	ON [JobPosts].[employerID] = [Employers].[employerID]
 	AND [jobPostFlag] = 1
-	ORDER BY [dateCreated] DESC
 ;
 
 
--- View Limited Active Posts
-CREATE PROCEDURE [dbo].[VIEW_LimitedRecentPosts]
+-- View Active Posts
+CREATE PROCEDURE [dbo].[VIEW_RecentPosts]
 	@offsetRows		INT,
 	@fetchedRows	INT
 AS
@@ -46,10 +41,6 @@ AS
 		, [JobPosts].[jobType]
 		, [JobPosts].[industryType]
 		, [JobPosts].[description]
-		, [JobPosts].[responsibilities]
-		, [JobPosts].[skills]
-		, [JobPosts].[experiences]
-		, [JobPosts].[education]
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
 		, [JobPosts].[dateCreated]
@@ -65,7 +56,6 @@ AS
 	FETCH NEXT @fetchedRows ROWS ONLY;
 ;
 
-EXEC 
 
 -- View Job Details Procedure
 CREATE PROCEDURE [dbo].[VIEW_JobDetails]
@@ -117,7 +107,56 @@ AS
 ;
 
 
+-- View All Available Jobs
+CREATE PROCEDURE [dbo].[VIEW_AllAvailableJobs]
+	@employerID  INT
+AS
+	SELECT
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[industryType]
+		, [JobPosts].[description]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, [Employers].[employerID]
+		, [Employers].[companyName]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
+	FROM [dbo].[JobPosts]
+	INNER JOIN [dbo].[Employers] 
+	ON [JobPosts].[employerID] = [Employers].[employerID]
+	AND [JobPosts].[employerID] = @employerID
+	AND [jobPostFlag] = 1
+;
+
+
 -- View Available Jobs
 CREATE PROCEDURE [dbo].[VIEW_AvailableJobs]
-	@employerID
+	@employerID  INT,
+	@offsetRows  INT,
+	@fetchedRows INT
 AS
+	SELECT
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[industryType]
+		, [JobPosts].[description]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, [Employers].[employerID]
+		, [Employers].[companyName]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
+	FROM [dbo].[JobPosts]
+	INNER JOIN [dbo].[Employers] 
+	ON [JobPosts].[employerID] = [Employers].[employerID]
+	AND [JobPosts].[employerID] = @employerID
+	AND [jobPostFlag] = 1
+	ORDER BY [dateCreated] DESC
+	OFFSET @offsetRows ROWS
+	FETCH NEXT @fetchedRows ROWS ONLY;
+;
+
+EXEC VIEW_AvailableJobs @employerID = 1, @offsetRows = 0, @fetchedRows = 100

@@ -11,6 +11,7 @@ class Auth_model extends CI_Model {
         $this->load->view('templates/fullpage_header', ['title' => '404: Page Not Found']);
         $this->load->view('_404');
         $this->load->view('templates/footer');
+        set_status_header(404);
     }
 
     // LOGIN

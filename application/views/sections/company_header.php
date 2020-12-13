@@ -13,7 +13,11 @@
     
     <!-- COMPANY INFORMATION -->
     <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
-        <h1 class="font-weight-light"><?php echo $companyName ?></h1>
+        <h1>
+            <a class="text-decoration-none text-white font-weight-light" href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
+                <?php echo $companyName ?>
+            </a>
+        </h1>
         
         <div class="d-block d-md-flex flex-wrap">
             

@@ -17,7 +17,7 @@ class View_model extends CI_Model {
 
     // VIEW RECENT POSTS
     public function recent_posts($offsetRows, $fetchedRows) {
-        $query = $this->db->query("EXEC [VIEW_LimitedRecentPosts] 
+        $query = $this->db->query("EXEC [VIEW_RecentPosts] 
             @offsetRows  = " . $offsetRows  . ", 
             @fetchedRows = " . $fetchedRows ."
         ");
@@ -79,8 +79,20 @@ class View_model extends CI_Model {
     }
 
 
-    // VIEW COMPANY AVAILABLE JOBS
-    public function available_jobs() {
+    // VIEW ALL AVAILABLE JOBS
+    public function all_available_jobs($employerID) {
+        return $this->db->query("EXEC [VIEW_AllAvailableJobs] @employerID = " . $employerID);
+    }
 
+
+    // VIEW AVAILABLE JOBS
+    public function available_jobs($employerID, $offsetRows, $fetchedRows   ) {
+        $query = $this->db->query("
+            EXEC [VIEW_AvailableJobs]
+                @employerID  = " . $employerID  . ",
+                @offsetRows  = " . $offsetRows  . ",
+                @fetchedRows = " . $fetchedRows . "
+        ");
+        return $query->result();
     }
 }
