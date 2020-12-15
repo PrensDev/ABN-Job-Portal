@@ -104,15 +104,27 @@ $dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
     </div>    
 
     <!-- USER-ACTIONS -->
-    <div class="d-flex justify-content-between mt-4">
+    <div class="d-flex justify-content-between align-items-center mt-4">
         <div>
-            <a href="manage_applicants.html" class="btn btn-primary"data-toggle="tooltip" data-placement="top" title="Manage Applicants">
-                <span class="mr-2">
-                    <i class="fas fa-users"></i>
-                    <span class="d-none d-sm-inline">Manage Applicants</span>
-                </span>
-                <span class="badge badge-light">34</span>
-            </a>
+            <?php
+                if ($numOfApplicants > 0) {
+                    $s = $numOfApplicants > 1 ? 's' : '';
+                    echo '
+                        <a href="' . base_url() . 'auth/manage_applicants/' . $jobPostID . '" class="btn btn-primary"data-toggle="tooltip" data-placement="top" title="' . $numOfApplicants . ' applicant' . $s . ' apply for ' . $jobTitle . '.">
+                            <span class="mr-4">
+                                <i class="fas fa-users"></i>
+                                <span class="d-none d-sm-inline">Manage Applicants</span>
+                            </span>
+                            <span class="badge badge-light">' . $numOfApplicants . '</span>
+                        </a>
+                    ';
+                } else {
+                    echo '
+                        <p class="m-0">No applicants yet.</p>
+                    ';
+                }
+            ?>
+            
         </div>
         <div>
             <a href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" class="btn btn-info"  data-toggle="tooltip" data-placement="top" title="Edit Post">

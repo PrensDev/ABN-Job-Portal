@@ -89,28 +89,16 @@
                 <i class="fas fa-user-tie mr-1"></i>
                 <span><?php echo $jobType ?></span>
             </span>
-            <p class="text-secondary font-italic mt-1" title="Applied <?php echo $dateApplied ?>">Applied <?php echo $dateApplied ?></p>
+            <p class="text-secondary font-italic mt-1" title="Applied <?php echo $dateApplied ?>">Applied<?php echo $dateApplied ?></p>
         </div>
 
     </div>
 
     <!-- USER-ACTIONS -->
     <div class="text-right">
-        <?php
-            if ($this->session->userType == 'Job Seeker') {
-                echo '
-                    <button class="btn border border-warning text-warning" data-toggle="tooltip" data-placement="top" title="Add to bookmark">
-                        <i class="far fa-bookmark"></i>
-                    </button>    
-                ';
-            } else if ($this->session->userType == 'Employer' && $this->session->id == $employerID) {
-                echo '
-                    <a href="' . base_url() . 'auth/edit_post/' . $jobPostID . '" class="btn btn-info"  data-toggle="tooltip" data-placement="top" title="Edit Post">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                ';
-            }
-        ?>
+        <button class="btn border border-warning text-warning" data-toggle="tooltip" data-placement="top" title="Add to bookmark">
+            <i class="far fa-bookmark"></i>
+        </button>
         <a href="<?php echo base_url() ?>jobs/details/<?php echo $jobPostID ?>" class="btn btn-secondary">View More</a>
     </div>
 

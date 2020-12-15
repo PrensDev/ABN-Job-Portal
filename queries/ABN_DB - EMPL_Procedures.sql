@@ -75,25 +75,43 @@ CREATE PROCEDURE [dbo].[EMPL_GetPosts]
 	@employerID  INT
 AS
 	SELECT
-		  [jobPostID]
-		, [employerID]
-		, [jobTitle]
-		, [jobType]
-		, [industryType]
-		, [description]
-		, [responsibilities]
-		, [skills]
-		, [experiences]
-		, [education]
-		, [minSalary]
-		, [maxSalary]
-		, [dateCreated]
-		, CAST([jobPostFlag] AS INT) AS [status]
-	FROM [dbo].[JobPosts]
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[employerID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[industryType]
+		, [JobPosts].[description]
+		, [JobPosts].[responsibilities]
+		, [JobPosts].[skills]
+		, [JobPosts].[experiences]
+		, [JobPosts].[education]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, CAST([JobPosts].[jobPostFlag] AS INT) AS [status]
+		, COUNT([Applications].[applicationID]) AS [numOfApplicants]
+	FROM [JobPosts]
+	FULL OUTER JOIN [Applications]
+	ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
 	WHERE [employerID] = @employerID
+	GROUP BY
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[employerID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[industryType]
+		, [JobPosts].[description]
+		, [JobPosts].[responsibilities]
+		, [JobPosts].[skills]
+		, [JobPosts].[experiences]
+		, [JobPosts].[education]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, [JobPosts].[jobPostFlag]
 	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
-	FETCH NEXT @fetchedRows ROWS ONLY;
+	FETCH NEXT @fetchedRows ROWS ONLY
 ;
 
 
@@ -189,4 +207,57 @@ AS
 	WHERE [employerID] = @employerID
 ;
 
-SELECT * FROM Employers
+
+-- View All Applicants Procedure
+CREATE PROCEDURE [dbo].[EMPL_ViewAllApplicants]
+	@jobPostID   INT
+AS
+	SELECT
+		  [JobSeekers].[firstName]
+		, [JobSeekers].[middleName]
+		, [JobSeekers].[lastName]
+		, [JobSeekers].[lastName]
+		, [JobSeekers].[gender]
+		, [JobSeekers].[brgyDistrict]
+		, [JobSeekers].[cityMunicipality]
+		, [JobSeekers].[email]
+		, [Applications].[applicationID]
+		, [Applications].[jobPostID]
+		, [Applications].[status]
+		, [Applications].[dateApplied]
+	FROM [Applications]
+	INNER JOIN [JobSeekers]
+	ON [JobSeekers].[jobseekerID] = [Applications].[jobseekerID]
+	WHERE [Applications].[jobPostID] = @jobPostID
+;
+
+
+-- View Applicants Procedure
+CREATE PROCEDURE [dbo].[EMPL_ViewApplicants]
+	@offsetRows  INT,
+	@fetchedRows INT,
+	@jobPostID   INT
+AS
+	SELECT
+		  [JobSeekers].[firstName]
+		, [JobSeekers].[middleName]
+		, [JobSeekers].[lastName]
+		, [JobSeekers].[lastName]
+		, [JobSeekers].[gender]
+		, [JobSeekers].[brgyDistrict]
+		, [JobSeekers].[cityMunicipality]
+		, [JobSeekers].[email]
+		, [Applications].[applicationID]
+		, [Applications].[jobPostID]
+		, [Applications].[status]
+		, [Applications].[dateApplied]
+	FROM [Applications]
+	INNER JOIN [JobSeekers]
+	ON [JobSeekers].[jobseekerID] = [Applications].[jobseekerID]
+	WHERE [Applications].[jobPostID] = @jobPostID
+	ORDER BY [Applications].[dateApplied] ASC
+	OFFSET @offsetRows ROWS
+	FETCH NEXT @fetchedRows ROWS ONLY
+;
+
+EXEC EMPL_ViewApplicants @offsetRows = 0, @fetchedRows = 10, @jobPostID = 29

@@ -125,6 +125,25 @@ class Employer_model extends CI_Model {
     }
 
 
+    // VIEW ALL APPLICANTS METHOD
+    public function view_all_applicants($jobPostID) {
+        return $this->db->query("EXEC [EMPL_ViewAllApplicants] @jobPostID = " . $jobPostID);
+    }
+
+
+    // VIEW APPLICANTS METHOD
+    public function view_applicants($offsetRows, $fetchedRows, $jobPostID) {
+        $query = $this->db->query("
+            EXEC [EMPL_ViewApplicants]
+                @offsetRows  = " . $offsetRows .",
+                @fetchedRows = " . $fetchedRows . ",
+                @jobPostID   = " . $jobPostID . "
+        ");
+
+        return $query->result();
+    }
+
+
     // UPDATE JOB POST METHOD
     public function update_post($jobPostID) {
         $input  = $this->input->post();
