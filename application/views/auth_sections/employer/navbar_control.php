@@ -22,33 +22,25 @@
             </span>
         </a>
 
-        <a class="dropdown-item d-flex justify-content-between align-items-center" href="<?php echo base_url() ?>auth/job_posts">
-            <span class="pr-5">
-                <div class="user-nav-icon">
-                    <i class="fas fa-file-contract"></i>
-                </div>
-                <span class="pl-1">Job Posts</span>
-            </span>
-            <span class="badge badge-primary">12</span>
+        <a class="dropdown-item" href="<?php echo base_url() ?>auth/job_posts">
+            <div class="user-nav-icon">
+                <i class="fas fa-file-contract"></i>
+            </div>
+            <span class="pl-1">Job Posts</span>
         </a>
 
-        <a class="dropdown-item d-flex justify-content-between align-items-center" href="employer_notifications.html">
-            <span class="pr-5">
-                <div class="user-nav-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <span class="pl-1">Notifications</span>
-            </span>
-            <span class="badge badge-primary">12</span>
+        <a class="dropdown-item" href="employer_notifications.html">
+            <div class="user-nav-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <span class="pl-1">Notifications</span>
         </a>
 
         <a class="dropdown-item" href="<?php echo base_url() ?>auth/settings">
-            <span class="pr-5">
-                <div class="user-nav-icon">
-                    <i class="fas fa-cogs"></i>
-                </div>
-                <span class="pl-1">Settings</span>
-            </span>
+            <div class="user-nav-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <span class="pl-1">Settings</span>
         </a>
 
         <div class="dropdown-divider"></div>

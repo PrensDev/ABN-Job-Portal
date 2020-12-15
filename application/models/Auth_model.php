@@ -48,9 +48,8 @@ class Auth_model extends CI_Model {
                         ]);
                     }
 
-                    if( $row->status == 0 ) {
-                        $this->activate();
-                    }
+                    if ( $row->status == 0 ) { $this->activate(); }
+                    
                     redirect('auth/information');
                 } else {
                     return 'Incorrect Password';

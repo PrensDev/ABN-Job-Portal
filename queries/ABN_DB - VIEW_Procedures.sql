@@ -4,7 +4,8 @@
 SELECT 
   ROUTINE_NAME
 FROM INFORMATION_SCHEMA.ROUTINES
-WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME LIKE 'VIEW%';
+WHERE ROUTINE_TYPE = 'PROCEDURE' --AND ROUTINE_NAME LIKE 'EMPL_%';
+ORDER BY ROUTINE_NAME
 
 ----------------------------------------------------------------
 
@@ -158,5 +159,3 @@ AS
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;
 ;
-
-EXEC VIEW_AvailableJobs @employerID = 1, @offsetRows = 0, @fetchedRows = 100

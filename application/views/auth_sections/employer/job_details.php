@@ -191,7 +191,7 @@ if ($maxSalary < 1000) {
                             <div>
                                 <p class="m-0 font-weight-bold">Job Type</p>
                                 <p class="m-0">
-                                    <span class="badge badge-<?php echo $jobTypeClass ?> text-uppercase p-2">
+                                    <span class="badge border border-<?php echo $jobTypeClass ?> text-<?php echo $jobTypeClass ?> text-uppercase p-2">
                                         <i class="fas fa-user-tie mr-1"></i>
                                         <?php echo $jobType ?>
                                     </span>
@@ -253,7 +253,7 @@ if ($maxSalary < 1000) {
             <div>
                 <a 
                     href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" 
-                    class="btn btn-block btn-primary"
+                    class="btn btn-block btn-info"
                     draggable="false"
                 >
                     <i class="fas fa-pen mr-2"></i>
@@ -276,7 +276,7 @@ if ($maxSalary < 1000) {
 
 <?php
 
-$this->load->view('templates/modal', [
+$this->load->view('sections/components/modal', [
     'id'            => 'deletePostModal',
     'theme'         => 'danger',
     'title'         => 'Delete this post',

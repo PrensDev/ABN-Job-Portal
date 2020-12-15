@@ -3,7 +3,7 @@
 $sessionStatus = $this->session->has_userdata( 'userType' );
 
 if( $sessionStatus ) {
-    $this->load->view('templates/modal', [
+    $this->load->view('sections/components/modal', [
         'id'            => 'logoutModal',
         'theme'         => 'danger',
         'title'         => 'Log out',

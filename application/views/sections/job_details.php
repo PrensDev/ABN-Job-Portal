@@ -91,10 +91,6 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
         </div>
         
     </div>
-    
-    <div>
-        <button class="btn btn-primary">Apply Now</button>
-    </div>
 
 </div>
 </div>
@@ -169,13 +165,13 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
             if ($this->session->userType == 'Employer') {
                 if ($this->session->id == $employerID) {
                     echo '
-                        <div class="d-flex justify-content-between border border-primary p-3 mb-3">
+                        <div class="d-flex justify-content-between border border-info p-3 mb-3">
                             <div class="mr-3">
                                 <span>Do you want to edit your post?</span>
                             </div>
                             <div class="text-nowrap">
-                                <i class="fas fa-pen text-primary"></i>
-                                <a href="' . base_url() . 'auth/edit_post/' . $jobPostID . '">
+                                <i class="fas fa-pen text-info"></i>
+                                <a class="text-info" href="' . base_url() . 'auth/edit_post/' . $jobPostID . '">
                                     <span>Edit</span>
                                 </a>
                             </div>
@@ -204,7 +200,10 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                         </div>
                         <div>
                             <p class="m-0 font-weight-bold">Job Type</p>
-                            <p class="m-0 text-secondary"><?php echo $jobType ?></p>
+                            <span class="badge border border-<?php echo $jobTypeClass ?> text-<?php echo $jobTypeClass ?> p-2 text-uppercase">
+                                <i class="fas fa-user-tie mr-2"></i>
+                                <?php echo $jobType ?>
+                            </span>
                         </div>
                     </div>
 
@@ -339,7 +338,22 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
         <?php 
 
         if ($this->session->userType == 'Job Seeker') {
-            $this->load->view('auth_sections/jobseeker/user_controls');
+            if ($status == NULL) {
+                $userControlConfig = [
+                    'theme'         => 'primary',
+                    'modalID'       => 'submitApplicationModal',
+                    'statusLabel'   => 'Apply now!',
+                ];
+            } else {
+                if ($status == 'Pending') {
+                    $userControlConfig = [
+                        'theme'         => 'success',
+                        'modalID'       => 'cancelApplicationModal',
+                        'statusLabel'   => $status,
+                    ];
+                }
+            }
+            $this->load->view('auth_sections/jobseeker/user_controls', $userControlConfig);
         }
         
         ?>
@@ -349,3 +363,42 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 </div>
 </div>
 </div>
+
+<?php
+
+if ($this->session->userType == 'Job Seeker') {
+    if ($status == NULL) {
+        $modalConfig = [
+            'id'            => 'submitApplicationModal',
+            'theme'         => 'primary',
+            'title'         => 'Submit Application',
+            'icon'          => 'file',
+            'message'       => '
+                <p>Are you sure you want to apply for this job?</p>
+                <p><strong>Note: Your information will be submitted to the employer for review.</strong></p>
+            ',
+            'actionPath'    => 'auth/submit_application/' . $jobPostID,
+            'actionLabel'   => 'Apply me!',
+            'actionIcon'    => NULL,
+        ];
+    } else {
+        if ($status = 'Pending') {
+            $modalConfig = [
+                'id'            => 'cancelApplicationModal',
+                'theme'         => 'warning',
+                'title'         => 'Cancel Application',
+                'icon'          => 'file',
+                'message'       => '
+                    <p>Are you sure you want to cancel you application for this job?</p>
+                    <p><strong>Note: You may apply again if this job is still available.</strong></p>
+                ',
+                'actionPath'    => 'auth/cancel_application/' . $jobPostID,
+                'actionLabel'   => 'Cancel my application!',
+                'actionIcon'    => NULL,
+            ];
+        }
+    }
+    $this->load->view('sections/components/modal', $modalConfig);
+}
+
+?>

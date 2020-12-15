@@ -17,43 +17,32 @@
             </span>
         </a>
 
-        <a class="dropdown-item d-flex justify-content-between align-items-center" href="applications.html">
-            <span class="pr-5">
-                <div class="user-nav-icon">
-                    <i class="fas fa-file-contract"></i>
-                </div>
-                <span class="pl-1">Applications</span>
-            </span>
-            <span class="badge badge-primary">12</span>
+        <a class="dropdown-item" href="<?php echo base_url() ?>auth/applications">
+            <div class="user-nav-icon">
+                <i class="fas fa-file-contract"></i>
+            </div>
+            <span class="pl-1">Applications</span>
         </a>
 
-        <a class="dropdown-item d-flex justify-content-between align-items-center" href="bookmarks.html">
-            <span class="pr-5">
-                <div class="user-nav-icon">
-                    <i class="fas fa-bookmark"></i>
-                </div>
-                <span class="pl-1">Bookmarks</span>
-            </span>
-            <span class="badge badge-primary">12</span>
+        <a class="dropdown-item" href="bookmarks.html">
+            <div class="user-nav-icon">
+                <i class="fas fa-bookmark"></i>
+            </div>
+            <span class="pl-1">Bookmarks</span>
         </a>
 
-        <a class="dropdown-item d-flex justify-content-between align-items-center" href="jobseeker_notifications.html">
-            <span class="pr-5">
-                <div class="user-nav-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <span class="pl-1">Notifications</span>
-            </span>
-            <span class="badge badge-primary">12</span>
+        <a class="dropdown-item" href="jobseeker_notifications.html">
+            <div class="user-nav-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <span class="pl-1">Notifications</span>
         </a>
 
         <a class="dropdown-item" href="<?php echo base_url() ?>auth/settings">
-            <span class="pr-5">
-                <div class="user-nav-icon">
-                    <i class="fas fa-cogs"></i>
-                </div>
-                <span class="pl-1">Settings</span>
-            </span>
+            <div class="user-nav-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <span class="pl-1">Settings</span>
         </a>
 
         <div class="dropdown-divider"></div>

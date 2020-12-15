@@ -72,13 +72,13 @@
 
 <?php
 
-$this->load->view('templates/modal', [
+$this->load->view('sections/components/modal', [
     'id'            => 'deactivateModal',
     'theme'         => 'warning',
     'title'         => 'Deactivate account',
     'icon'          => 'user-times',
     'message'       => '
-    <p>Are you sure you want to deactivate your account?</p>
+        <p>Are you sure you want to deactivate your account?</p>
         <p><strong>Note: You can reactivate your account by just logging in again.</strong></p>
     ',
     'actionPath'    => 'auth/deactivate',

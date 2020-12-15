@@ -3,20 +3,10 @@
 <div class="container-md py-5">
     
     <div class="mb-4">
-        <div class="d-flex justify-content-between">
-            <div>
-                <h1 class="font-weight-normal mb-2">Job Posts</h1>
-            </div>
-            <div>
-                <a href="<?php echo base_url() ?>auth/post_new_job" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Post new job">
-                    <i class="fas fa-plus"></i>
-                    <span class="d-none d-sm-inline">Post new job</span>
-                </a>
-            </div>
-        </div>
+        <h1 class="font-weight-normal mb-2">Applications</h1>
 
         <div class="text-secondary d-flex justify-content-between">
-            <p class="m-0">You already have <strong><?php echo $totalRows ?></strong> post<?php echo $totalRows > 1 ? 's' : '' ?>.</p>
+            <p class="m-0">You already applied to <strong><?php echo $totalRows ?></strong> available job<?php echo $totalRows > 1 ? 's' : '' ?>.</p>
             <?php
                 if ($totalPages > 1) {
                     echo '
@@ -39,7 +29,7 @@
 
     <!-- JOB LIST -->
     <div class="row mt-2 mb-5">
-        <?php foreach ( $posts as $post ) { $this->load->view('auth_sections/employer/components/job_post_card', $post); } ?>
+        <?php foreach ( $posts as $post ) { $this->load->view('auth_sections/jobseeker/components/job_post_card', $post); } ?>
     </div>
     <!-- END OF JOB LIST -->
 

@@ -31,7 +31,7 @@
 
     $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
 
-    $dateCreated = date_format(date_create($dateCreated),"M. d, Y");
+    $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
 ?>
 
 <div class="col-lg-6 my-2">
@@ -89,7 +89,7 @@
                 <i class="fas fa-user-tie mr-1"></i>
                 <span><?php echo $jobType ?></span>
             </span>
-            <p class="text-secondary font-italic mt-1" title="Posted <?php echo $dateCreated ?>"><?php echo $dateCreated ?></p>
+            <p class="text-secondary font-italic mt-1" title="Applied <?php echo $dateApplied ?>">Applied <?php echo $dateApplied ?></p>
         </div>
 
     </div>

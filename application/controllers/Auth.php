@@ -5,6 +5,20 @@ class Auth extends CI_Controller {
     public function __construct() {
         parent::__construct();
     }
+
+    
+    // GET USER DATA
+    protected function get_userdata() {
+        if ( $this->session->userType == 'Job Seeker' ) {
+            return $this->Jobseeker_model->get_info();
+        } else if ( $this->session->userType == 'Employer' ) {
+            return $this->Employer_model->get_info();
+        }
+    }
+
+    // ==================================================================================================== //
+    // USER MAIN VIEWS
+    // ==================================================================================================== //
     
 
     // INDEX FUNCTION
@@ -31,16 +45,43 @@ class Auth extends CI_Controller {
         redirect();
     }
 
-    
-    // GET USER DATA
-    protected function get_userdata() {
-        if ( $this->session->userType == 'Job Seeker' ) {
-            return $this->Jobseeker_model->get_info();
-        } else if ( $this->session->userType == 'Employer' ) {
-            return $this->Employer_model->get_info();
+    // USER CHANGE PASSWORD VIEW
+    public function change_password() {
+        if (! $this->session->has_userdata('userType')) {
+            redirect();
+        } else {
+            if ($this->session->userType == 'Job Seeker') {
+                $userdata = $this->Jobseeker_model->get_info();
+            } else if ($this->session->userType == 'Employer') {
+                $userdata = $this->Employer_model->get_info();
+            } 
+            $pagedata = ['title' => $userdata['username'] . 'Change Password'];
+
+            $this->form_validation->set_rules([
+                [
+                    'field' => 'oldPassword',
+                    'rules' => 'required',
+                ],
+                [
+                    'field' => 'newPassword',
+                    'rules' => 'required|min_length[8]',
+                ],
+                [
+                    'field' => 'retypeNewPassword',
+                    'rules' => 'required|matches[newPassword]',
+                ],
+            ]);
+
+            if ($this->form_validation->run() === FALSE) {    
+                $this->load->view('templates/fullpage_header', $pagedata);
+                $this->load->view('auth_sections/change_password', $userdata);
+                $this->load->view('templates/footer');
+            } else {
+                $this->Auth_model->change_password($this->input->post());
+            }
         }
     }
-    
+
 
     // USER INFORMATION VIEW
     public function information() {
@@ -89,6 +130,126 @@ class Auth extends CI_Controller {
             $this->Auth_model->err_page();
         }
     }
+
+
+     // ==================================================================================================== //
+    // JOB SEEKER VIEWS
+    // ==================================================================================================== //
+
+
+    // APPLICATIONS VIEW
+    public function applications($page = 1) {
+        if ($this->session->userType == "Job Seeker") {
+            $userdata = $this->get_userdata();
+            $pagedata = ['title' => $userdata['username'] . ' - Applications'];
+
+            $AllAppliedJobs = $this->Jobseeker_model->all_applied_jobs();
+
+            if ($AllAppliedJobs->result() == NULL) {
+                $this->load->view('templates/header', $pagedata);
+                $this->load->view('sections/navbar', $userdata);
+                $this->load->view('auth_sections/jobseeker/empty_applications');
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');   
+            } else {
+                $numRows = $AllAppliedJobs->num_rows();
+                $fetchedRows = 10;
+                $totalPages = ceil($numRows / $fetchedRows);
+
+                if ($page > 0 && $page <= $totalPages) {
+                    $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
+                    $posts      = $this->Jobseeker_model->applied_jobs($offsetRows, $fetchedRows); 
+                    
+                    $pagedata = [
+                        'title'         => $userdata['username'] . ' - Applications',
+                        'posts'         => $posts,
+                        'totalRows'     => $numRows,
+                        'totalPages'    => $totalPages,
+                        'currentPage'   => $page,
+                    ];
+                    
+                    $config = [
+                        'base_url'          => base_url() . 'auth/applications/',
+                        'total_rows'        => $numRows,
+                        'use_page_numbers'  => TRUE,
+                        'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
+                        'full_tag_close'    => '</ul></nav>',
+                        'attributes'        => [ 'class' => 'page-link' ],
+                        'first_link'        => 'First',
+                        'first_tag_open'    => '<li class="page-item">',
+                        'first_tag_close'   => '</li>',
+                        'prev_link'         => '<i class="fas fa-caret-left"></i>',
+                        'prev_tag_open'     => '<li class="page-item">',
+                        'prev_tag_close'    => '</li>',
+                        'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
+                        'cur_tag_close'     => '</span></li>',
+                        'num_tag_open'      => '<li class="page-item">',
+                        'num_tag_close'     => '</li>',
+                        'next_link'         => '<i class="fas fa-caret-right"></i>',
+                        'next_tag_open'     => '<li class="page-item">',
+                        'next_tag_close'    => '</li>',
+                        'last_link'         => 'Last',
+                        'last_tag_open'     => '<li class="page-item">',
+                        'last_tag_close'    => '<li>',
+                    ];
+                    
+                    $this->pagination->initialize($config);
+                    
+                    $this->load->view('templates/header', $pagedata);
+                    $this->load->view('sections/navbar', $userdata);                    
+                    $this->load->view('auth_sections/jobseeker/applications', $pagedata);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                }
+            }         
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+
+
+    // SUBMIT APPLICATION
+    public function submit_application($jobPostID = NULL) {
+        if ($this->session->userType == "Job Seeker") {
+            if ($jobPostID == NULL) {
+                $this->Auth_model->err_page();
+            } else {
+                $this->Jobseeker_model->submit_application($jobPostID);
+            }
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+
+    // CANCEL APPLICATION
+    public function cancel_application($jobPostID = NULL) {
+        if ($this->session->userType == "Job Seeker") {
+            if ($jobPostID == NULL) {
+                $this->Auth_model->err_page();
+            } else {
+                $this->Jobseeker_model->cancel_application($jobPostID);
+            }
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+    public function test() {
+        $this->load->database();
+        $query = $this->db->query("SELECT * FROM Applications");
+
+        echo"<pre>";
+        var_dump($query->row());
+        echo"</pre>";
+        exit;
+    }
+
+
+    // ==================================================================================================== //
+    // EMPLOYER VIEWS
+    // ==================================================================================================== //
 
     
     // EDIT INFORMATION VIEW
@@ -232,60 +393,70 @@ class Auth extends CI_Controller {
     // JOB POSTS VIEW
     public function job_posts($page = 1) {
         if ( $this->session->userType == 'Employer' ) {
-            $AllPosts   = $this->Employer_model->get_all_posts();
-            $numRows = $AllPosts->num_rows();
-            $fetchedRows = 10;
-            $totalPages = ceil($numRows / $fetchedRows);
+            $userdata = $this->Employer_model->get_info();
+            $pagedata['title'] = $userdata['username'] . ' - Job Posts';
+            
+            $AllPosts = $this->Employer_model->get_all_posts();
 
-            if ($page > 0 && $page <= $totalPages) {
-                $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                $posts      = $this->Employer_model->get_posts($offsetRows, $fetchedRows); 
-                $userdata = $this->Employer_model->get_info();
-    
-                $pagedata = [
-                    'title'         => $userdata['username'] . ' - Job Posts',
-                    'posts'         => $posts,
-                    'totalRows'       => $numRows,
-                    'totalPages'    => $totalPages,
-                    'currentPage'   => $page,
-                ];
-    
-                $config = [
-                    'base_url'          => base_url() . 'auth/job_posts/',
-                    'total_rows'        => $numRows,
-                    'use_page_numbers'  => TRUE,
-                    'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
-                    'full_tag_close'    => '</ul></nav>',
-                    'attributes'        => [ 'class' => 'page-link' ],
-                    'first_link'        => 'First',
-                    'first_tag_open'    => '<li class="page-item">',
-                    'first_tag_close'   => '</li>',
-                    'prev_link'         => '<i class="fas fa-caret-left"></i>',
-                    'prev_tag_open'     => '<li class="page-item">',
-                    'prev_tag_close'    => '</li>',
-                    'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
-                    'cur_tag_close'     => '</span></li>',
-                    'num_tag_open'      => '<li class="page-item">',
-                    'num_tag_close'     => '</li>',
-                    'next_link'         => '<i class="fas fa-caret-right"></i>',
-                    'next_tag_open'     => '<li class="page-item">',
-                    'next_tag_close'    => '</li>',
-                    'last_link'         => 'Last',
-                    'last_tag_open'     => '<li class="page-item">',
-                    'last_tag_close'    => '<li>',
-                ];
-    
-                $this->pagination->initialize($config);
-    
+            if ($AllPosts->result() == NULL) {    
                 $this->load->view('templates/header', $pagedata);
                 $this->load->view('sections/navbar', $userdata);
-                $this->load->view('auth_sections/employer/job_posts', $pagedata);
-    
+                $this->load->view('auth_sections/employer/empty_job_posts');
                 $this->load->view('sections/footer');
                 $this->load->view('templates/footer');
             } else {
-                $this->Auth_model->err_page();
-            }
+                $numRows = $AllPosts->num_rows();
+                $fetchedRows = 10;
+                $totalPages = ceil($numRows / $fetchedRows);
+
+                if ($page > 0 && $page <= $totalPages) {
+                    $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
+                    $posts      = $this->Employer_model->get_posts($offsetRows, $fetchedRows); 
+                    
+                    $pagedata = [
+                        'title'         => $userdata['username'] . ' - Job Posts',
+                        'posts'         => $posts,
+                        'totalRows'     => $numRows,
+                        'totalPages'    => $totalPages,
+                        'currentPage'   => $page,
+                    ];
+                    
+                    $config = [
+                        'base_url'          => base_url() . 'auth/job_posts/',
+                        'total_rows'        => $numRows,
+                        'use_page_numbers'  => TRUE,
+                        'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
+                        'full_tag_close'    => '</ul></nav>',
+                        'attributes'        => [ 'class' => 'page-link' ],
+                        'first_link'        => 'First',
+                        'first_tag_open'    => '<li class="page-item">',
+                        'first_tag_close'   => '</li>',
+                        'prev_link'         => '<i class="fas fa-caret-left"></i>',
+                        'prev_tag_open'     => '<li class="page-item">',
+                        'prev_tag_close'    => '</li>',
+                        'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
+                        'cur_tag_close'     => '</span></li>',
+                        'num_tag_open'      => '<li class="page-item">',
+                        'num_tag_close'     => '</li>',
+                        'next_link'         => '<i class="fas fa-caret-right"></i>',
+                        'next_tag_open'     => '<li class="page-item">',
+                        'next_tag_close'    => '</li>',
+                        'last_link'         => 'Last',
+                        'last_tag_open'     => '<li class="page-item">',
+                        'last_tag_close'    => '<li>',
+                    ];
+                    
+                    $this->pagination->initialize($config);
+                    
+                    $this->load->view('templates/header', $pagedata);
+                    $this->load->view('sections/navbar', $userdata);                    
+                    $this->load->view('auth_sections/employer/job_posts', $pagedata);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                } else {
+                    $this->Auth_model->err_page();
+                }
+            } 
         } else {
             $this->Auth_model->err_page();
         }
@@ -491,43 +662,5 @@ class Auth extends CI_Controller {
         } else {
             $this->Auth_model->err_page();
         }      
-    }
-
-
-    // USER CHANGE PASSWORD VIEW
-    public function change_password() {
-        if (! $this->session->has_userdata('userType')) {
-            redirect();
-        } else {
-            if ($this->session->userType == 'Job Seeker') {
-                $userdata = $this->Jobseeker_model->get_info();
-            } else if ($this->session->userType == 'Employer') {
-                $userdata = $this->Employer_model->get_info();
-            } 
-            $pagedata = ['title' => $userdata['username'] . 'Change Password'];
-
-            $this->form_validation->set_rules([
-                [
-                    'field' => 'oldPassword',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'newPassword',
-                    'rules' => 'required|min_length[8]',
-                ],
-                [
-                    'field' => 'retypeNewPassword',
-                    'rules' => 'required|matches[newPassword]',
-                ],
-            ]);
-
-            if ($this->form_validation->run() === FALSE) {    
-                $this->load->view('templates/fullpage_header', $pagedata);
-                $this->load->view('auth_sections/change_password', $userdata);
-                $this->load->view('templates/footer');
-            } else {
-                $this->Auth_model->change_password($this->input->post());
-            }
-        }
     }
 }

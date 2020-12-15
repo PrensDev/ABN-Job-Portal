@@ -19,7 +19,7 @@
         </div>
         
         <div class="text-secondary d-flex justify-content-between">
-            <p class="m-0"><strong><?php echo $companyName ?></strong> has <strong><?php echo $totalRows ?></strong> available jobs.</p>
+            <p class="m-0"><strong><?php echo $companyName ?></strong> has <strong><?php echo $totalRows ?></strong> available job<?php echo $totalRows > 1 ? 's' : '' ?>.</p>
             <?php 
                 if ($totalPages > 1) {
                     echo '<p class="m-0">Showing page ' . $currentPage . ' of ' . $totalPages . '.</p>';

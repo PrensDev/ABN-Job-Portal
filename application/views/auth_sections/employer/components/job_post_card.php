@@ -47,67 +47,64 @@ $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
 $dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
 
 ?>
-<div class="col-lg-6 my-1 user-select-none">
-<div class="bg-white p-3 border d-flex flex-column justify-content-between h-100">
+
+
+<div class="col-lg-6 my-2 user-select-none">
+<div class="bg-white p-3 shadow d-flex flex-column justify-content-between h-100">
     
     <div>
         <div class="d-flex">
-
-            <!-- JOB DETAILS -->
-            <div class="flex-grow-1 mb-3">
-                <!-- JOB TITLE -->
+            <div class="flex-grow-1 mr-1">
                 <p class="h5 text-uppercase m-0">
                     <a class="text-decoration-none text-dark" title="Job Title: <?php echo $jobTitle ?>" href="<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>">
                     <?php echo $jobTitle ?>
                     </a>    
-                </p>
-
-                <!-- JOB DETAILS -->
-                <div class="d-flex flex-wrap text-secondary mt-2">
-                    
-                    <!-- OFFERED SALARY -->
-                    <div class="mr-3" title="Offered Salary: <?php echo $offeredSalary ?>">
-                        <i class="fas fa-money-bill-wave mr-1"></i>
-                        <span><?php echo $offeredSalary ?></span>
-                    </div>
-
-                    <!-- INDUSTRY TYPE -->
-                    <div class="mr-3 text-capitalize" title="Industry Type: <?php echo $industryType ?>">
-                        <i class="fas fa-cogs mr-1"></i>
-                        <span><?php echo $industryType ?></span>
-                    </div>
-
-                    <!-- DATE CREATED -->
-                    <div class="mr-3" title="Posted <?php echo $dateCreated ?>">
-                        <i class="fas fa-clock mr-1"></i>
-                        <span><?php echo $dateCreated ?></span>
-                    </div>
-                    
-                </div>
-
-                <!-- JOB TYPE -->
-                <div class="mt-1">
-                    <span class="badge badge-<?php echo $jobTypeClass ?> p-2 text-uppercase" title="Job Type: <?php echo $jobType ?>">
-                        <i class="fas fa-user-tie mr-1"></i>
-                        <?php echo $jobType ?>
-                    </span>
-                </div>
-
+                </p>                
             </div>
 
-            <!-- JOB POST STATUS -->
             <div>
-                <span class="badge text-uppercase text-<?php echo $statusClass ?>" title="This post is <?php echo $statusLabel ?>"><?php echo $statusLabel ?></span>
+                <span class="badge text-uppercase text-<?php echo $statusClass ?>" title="This post is <?php echo ucwords($statusLabel) ?>">
+                    <i class="fas fa-circle mr-1 text-<?php echo $statusClass ?>"></i>
+                    <?php echo $statusLabel ?>
+                </span>
             </div>
         </div>
-    
-        <div>
-            <p class="text-truncate" title="View more to read description"><?php echo $description ?></p>
+
+        <!-- JOB DETAILS -->
+        <div class="d-flex flex-wrap text-secondary mt-2">
+            
+            <!-- OFFERED SALARY -->
+            <div class="mr-3" title="Offered Salary: <?php echo $offeredSalary ?>">
+                <i class="fas fa-money-bill-wave mr-1"></i>
+                <span><?php echo $offeredSalary ?></span>
+            </div>
+
+            <!-- INDUSTRY TYPE -->
+            <div class="mr-3 text-capitalize" title="Industry Type: <?php echo $industryType ?>">
+                <i class="fas fa-cogs mr-1"></i>
+                <span><?php echo $industryType ?></span>
+            </div>
+
+            <!-- DATE CREATED -->
+            <div class="mr-3" title="Posted <?php echo $dateCreated ?>">
+                <i class="fas fa-clock mr-1"></i>
+                <span><?php echo $dateCreated ?></span>
+            </div>
+            
         </div>
+
+        <!-- JOB TYPE -->
+        <div class="mt-2">
+            <span class="badge border border-<?php echo $jobTypeClass ?> text-<?php echo $jobTypeClass ?> p-2 text-uppercase" title="Job Type: <?php echo $jobType ?>">
+                <i class="fas fa-user-tie mr-1"></i>
+                <?php echo $jobType ?>
+            </span>
+        </div>
+
     </div>    
 
     <!-- USER-ACTIONS -->
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between mt-4">
         <div>
             <a href="manage_applicants.html" class="btn btn-primary"data-toggle="tooltip" data-placement="top" title="Manage Applicants">
                 <span class="mr-2">
@@ -118,10 +115,10 @@ $dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
             </a>
         </div>
         <div>
-            <a href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" class="btn btn-outline-primary"  data-toggle="tooltip" data-placement="top" title="Edit Post">
+            <a href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" class="btn btn-info"  data-toggle="tooltip" data-placement="top" title="Edit Post">
                 <i class="fas fa-pen"></i>
             </a>
-            <a href="<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>" class="btn btn-outline-secondary"  data-toggle="tooltip" data-placement="top" title="View More">
+            <a href="<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>" class="btn btn-secondary"  data-toggle="tooltip" data-placement="top" title="View More">
                 <i class="fas fa-ellipsis-h"></i>
             </a>
         </div>

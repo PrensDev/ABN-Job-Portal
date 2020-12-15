@@ -29,7 +29,7 @@ CREATE TABLE [UserAccounts] (
 	,
 	[accountFlag]
 		BINARY NOT NULL DEFAULT 1
-)
+);
 
 
 -- JobSeekers Table
@@ -88,7 +88,7 @@ CREATE TABLE [JobSeekers] (
 	,
 	[education]
 		VARCHAR(MAX) NOT NULL
-)
+);
 
 
 -- Employers Table
@@ -122,7 +122,7 @@ CREATE TABLE [Employers] (
 	,
 	[description]
 		VARCHAR(MAX) NOT NULL
-)
+);
 
 
 -- JobPosts Table
@@ -185,7 +185,8 @@ CREATE TABLE [JobPosts] (
 	,
 	[jobPostFlag]
 		BINARY NOT NULL
-)
+);
+
 
 
 -- Applications Table
@@ -204,6 +205,9 @@ CREATE TABLE [Applications] (
 		CONSTRAINT FK_jobseekerID@Applications FOREIGN KEY
 			REFERENCES [JobSeekers] ([jobseekerID])
 	,
+	[dateApplied]
+		DATETIME NOT NULL DEFAULT GETDATE()
+	,
 	[status]
 		VARCHAR(MAX) NOT NULL DEFAULT 'Pending'
 		CONSTRAINT CK_status@Applications
@@ -214,7 +218,7 @@ CREATE TABLE [Applications] (
 				'Rejected'
 			))
 	,
-)
+);
 
 
 -- Bookmarks Table
@@ -232,7 +236,7 @@ CREATE TABLE [Bookmarks] (
 		INT NOT NULL
 		CONSTRAINT FK_jobPostID@Bookmarks FOREIGN KEY
 			REFERENCES [JobPosts] ([jobPostID])
-)
+);
 
 
 -- Notifications Table
@@ -259,6 +263,6 @@ CREATE TABLE [Notifications] (
 	,
 	[readFlag]
 		BINARY NOT NULL DEFAULT 0
-)
+);
 
 --------------------------------------------------------

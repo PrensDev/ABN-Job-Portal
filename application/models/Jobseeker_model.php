@@ -11,7 +11,7 @@ class Jobseeker_model extends CI_Model {
         if (! $this->db->query($sql) ) {
             echo $this->db->error();
         } else {
-            redirect('auth/' . $successPath);
+            redirect($successPath);
         }
     }
 
@@ -73,6 +73,57 @@ class Jobseeker_model extends CI_Model {
                 @skills			  = '" . $input[ 'skills'           ] . "',
                 @experiences	  = '" . $input[ 'experiences'      ] . "',
                 @education		  = '" . $input[ 'education'        ] . "'
-        ", 'information');
+        ", 'auth/information');
+    }
+
+
+    // SUBMIT APPLICATION
+    public function submit_application($jobPostID) {
+        $this->run_query("
+            EXEC [JBSK_SubmitApplication]
+                @jobPostID   = " . $jobPostID . ",
+                @jobseekerID = " . $this->session->id ."
+        ", 'jobs/details/' . $jobPostID);
+    }
+
+
+    // CANCEL APPLICATION
+    public function cancel_application($jobPostID) {
+        $this->run_query("
+            EXEC [JBSK_CancelApplication]
+                @jobPostID   = " . $jobPostID . ",
+                @jobseekerID = " . $this->session->id ."
+        ", 'jobs/details/' . $jobPostID);
+    }
+
+
+    // IS JOB APPLIED
+    public function is_job_applied($jobPostID) {
+        $query = $this->db->query("
+            EXEC [JBSK_IsJobApplied]
+                @jobPostID   = " . $jobPostID . ",
+                @jobseekerID = " . $this->session->id . "
+        ");
+        
+        return $query;
+    }
+
+
+    // ALL APPLIED JOBS
+    public function all_applied_jobs() {
+        return $this->db->query("EXEC [JBSK_AllAppliedJobs] @jobseekerID = " . $this->session->id);
+    }
+
+
+    // APPLIED JOBS
+    public function applied_jobs($offsetRows, $fetchedRows) {
+        $query = $this->db->query("
+            EXEC [JBSK_AppliedJobs]
+                @offsetRows     = " . $offsetRows . ",
+                @fetchedRows    = " . $fetchedRows . ",
+                @jobseekerID    = " . $this->session->id . "
+        ");
+
+        return $query->result();
     }
 }

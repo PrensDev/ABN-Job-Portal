@@ -188,3 +188,5 @@ AS
 		, [description] 	 = @description
 	WHERE [employerID] = @employerID
 ;
+
+SELECT * FROM Employers

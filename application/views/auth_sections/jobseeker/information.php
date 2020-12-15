@@ -8,7 +8,7 @@
             <h1 class="font-weight-normal">Information</h1>
         </div>
         <div>
-            <a href="<?php echo base_url() ?>auth/edit_information" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
+            <a href="<?php echo base_url() ?>auth/edit_information" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
                 <i class="fas fa-pen"></i>
                 <span class="d-none d-sm-inline">Edit information</span>
             </a>
@@ -160,7 +160,7 @@
 
             <!-- USER CONTROLS -->
             <div>
-                <button class="btn btn-outline-warning btn-block" data-toggle="modal" data-target="#messageForm">
+                <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#messageForm">
                     <i class="fas fa-file-contract"></i>
                     <span>View Resume/CV</span>
                 </button>

@@ -66,7 +66,7 @@
 <?php
 
     if ( $this->session->has_userdata( 'userType' ) ) {
-        #do nothinf
+        #do nothing
     } else {
         $this->load->view('sections/create_account');
     }
@@ -79,10 +79,16 @@
 
     <h1 class="display-4 text-center">Recent Available Jobs</h1>
     <p class="h5 font-weight-normal text-center text-secondary">Discover our latest jobs listed here.</p>
-
+    
     <!-- JOB LIST -->
     <div class="row my-5">
-        <?php foreach ($posts as $post) { $this->load->view('sections/components/job_post_card', $post); } ?>
+        <?php
+            if ($posts == NULL) {
+                echo "NO RECENT POSTS YET";
+            } else {
+                foreach ($posts as $post) { $this->load->view('sections/components/job_post_card', $post); }
+            }
+        ?>
     </div>
     <!-- END OF JOB LIST -->
 
