@@ -127,3 +127,5 @@ AS
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
 ;
+
+SELECT * FROM Applications

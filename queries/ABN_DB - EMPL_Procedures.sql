@@ -239,7 +239,8 @@ CREATE PROCEDURE [dbo].[EMPL_ViewApplicants]
 	@jobPostID   INT
 AS
 	SELECT
-		  [JobSeekers].[firstName]
+		  [JobSeekers].[jobseekerID]
+		, [JobSeekers].[firstName]
 		, [JobSeekers].[middleName]
 		, [JobSeekers].[lastName]
 		, [JobSeekers].[lastName]
@@ -260,4 +261,41 @@ AS
 	FETCH NEXT @fetchedRows ROWS ONLY
 ;
 
-EXEC EMPL_ViewApplicants @offsetRows = 0, @fetchedRows = 10, @jobPostID = 29
+
+-- View Applicant Profile Procedure
+CREATE PROCEDURE [dbo].[EMPL_ViewApplicantProfile]
+	@jobseekerID INT,
+	@jobPostID   INT
+AS
+	SELECT
+		  [JobSeekers].[jobseekerID]
+		, [JobSeekers].[firstName]
+		, [JobSeekers].[middleName]
+		, [JobSeekers].[lastName]
+		, [JobSeekers].[birthDate]
+		, DATEDIFF(year, [JobSeekers].[birthDate], getdate()) as [age]
+		, [JobSeekers].[gender]
+		, [JobSeekers].[street]
+		, [JobSeekers].[brgyDistrict]
+		, [JobSeekers].[cityMunicipality]
+		, [JobSeekers].[contactNumber]
+		, [JobSeekers].[email]
+		, [JobSeekers].[description]
+		, [JobSeekers].[skills]
+		, [JobSeekers].[experiences]
+		, [JobSeekers].[education]
+		, [Applications].[applicationID]
+		, [Applications].[jobPostID]
+		, [Applications].[status]
+		, [JobPosts].[jobTitle]
+	FROM [dbo].[Applications]
+	INNER JOIN [dbo].[JobSeekers]
+	ON [Applications].[jobseekerID] = [JobSeekers].[jobseekerID]
+	INNER JOIN [dbo].[JobPosts]
+	ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
+	AND [JobSeekers].[jobseekerID] = @jobseekerID
+	AND [Applications].[jobPostID] = @jobPostID
+;
+
+
+SELECT * FROM Applications ORDER BY jobseekerID

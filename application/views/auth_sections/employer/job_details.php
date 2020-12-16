@@ -8,7 +8,7 @@ if ( $status == 1 ) {
     $statusLabel = "Not Active";
 }
 
-$datePosted = date_format(date_create($dateCreated),"M. d, Y; h:i a");
+$datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 
 if ( $dateModified == NULL) {
     $dateStatus = 'Created ' . date_format(date_create($dateCreated),"F d, Y; h:i a");
@@ -72,7 +72,7 @@ if ($maxSalary < 1000) {
             </div>
         </div>
         <div>
-            <a href="manage_applicants.html" class="btn btn-primary text-nowrap" data-toggle="tooltip" data-placement="left" title="Manage Applicants">
+            <a href="<?php echo base_url() ?>auth/manage_applicants/<?php echo $jobPostID ?>" class="btn btn-primary text-nowrap" data-toggle="tooltip" data-placement="left" title="Manage Applicants">
                 <i class="fas fa-users"></i>
                 <span class="d-none d-sm-inline">
                     <span>Manage Applicants</span>
@@ -83,9 +83,7 @@ if ($maxSalary < 1000) {
     </div>
     <!-- END OF HEADER OF CONTENT -->
 
-    <div class="mb-4">
-        <hr>
-    </div>
+    <div class="mb-4"><hr></div>
 
 
     <div class="alert alert-success alert-dismissible fade show my-4 mb-4" role="alert">
@@ -158,19 +156,17 @@ if ($maxSalary < 1000) {
         
         <!-- JOB SUMMARY -->
         <div class="col-lg-4"> 
-
-            <!-- HIRED STATUS -->
+            
             <div class="d-flex justify-content-between alert alert-primary p-3 mb-3">
                 <div class="mr-3">
                     <i class="fas fa-users mr-1 text-primary"></i>
                     <span>You've already hired <strong>0</strong> people.</span>
                 </div>
                 <div>
-                    <a class="text-nowrap" href="hired_applicants.html">View All</a>
+                    <a class="text-nowrap text-primary" href="hired_applicants.html">View All</a>
                 </div>
             </div>
-            <!-- END OF HIRED STATUS -->
-            
+
             <!-- JOB SUMMARY CARD -->
             <div class="card mb-3">
                 <div class="card-header">

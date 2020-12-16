@@ -11,7 +11,7 @@
             </p>
         </div>
         <div>
-            <a href="<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>" class="btn btn-outline-primary text-nowrap" data-toggle="tooltip" data-placement="left" title="About this job">
+            <a href="<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>" class="btn btn-primary text-nowrap" data-toggle="tooltip" data-placement="left" title="About this job">
                 <i class="fas fa-exclamation-circle"></i>
                 <span class="d-none d-sm-inline">
                     <span>About this job</span>

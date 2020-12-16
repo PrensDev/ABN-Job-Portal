@@ -9,7 +9,7 @@
 
     <!-- COMPANY IMAGE/LOGO -->
     <div class="col-md-auto d-flex justify-content-center">
-        <img src="assets\job_logo_5.jpg" alt="" height="125" class="rounded">
+        <img src="<?php echo base_url() ?>public/img/job_logo_5.jpg" alt="" height="125" class="rounded" draggable="false">
     </div>
     
     <!-- COMPANY INFORMATION -->

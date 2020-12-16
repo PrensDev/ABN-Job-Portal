@@ -16,6 +16,34 @@ class Auth extends CI_Controller {
         }
     }
 
+
+    protected function pagination_config($path, $numRows) {
+        return [
+            'base_url'          => base_url() . $path . '/',
+            'total_rows'        => $numRows,
+            'use_page_numbers'  => TRUE,
+            'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
+            'full_tag_close'    => '</ul></nav>',
+            'attributes'        => [ 'class' => 'page-link' ],
+            'first_link'        => 'First',
+            'first_tag_open'    => '<li class="page-item">',
+            'first_tag_close'   => '</li>',
+            'prev_link'         => '<i class="fas fa-caret-left"></i>',
+            'prev_tag_open'     => '<li class="page-item">',
+            'prev_tag_close'    => '</li>',
+            'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
+            'cur_tag_close'     => '</span></li>',
+            'num_tag_open'      => '<li class="page-item">',
+            'num_tag_close'     => '</li>',
+            'next_link'         => '<i class="fas fa-caret-right"></i>',
+            'next_tag_open'     => '<li class="page-item">',
+            'next_tag_close'    => '</li>',
+            'last_link'         => 'Last',
+            'last_tag_open'     => '<li class="page-item">',
+            'last_tag_close'    => '<li>',
+        ];
+    }
+
     // ==================================================================================================== //
     // USER MAIN VIEWS
     // ==================================================================================================== //
@@ -168,32 +196,7 @@ class Auth extends CI_Controller {
                         'currentPage'   => $page,
                     ];
                     
-                    $config = [
-                        'base_url'          => base_url() . 'auth/applications/',
-                        'total_rows'        => $numRows,
-                        'use_page_numbers'  => TRUE,
-                        'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
-                        'full_tag_close'    => '</ul></nav>',
-                        'attributes'        => [ 'class' => 'page-link' ],
-                        'first_link'        => 'First',
-                        'first_tag_open'    => '<li class="page-item">',
-                        'first_tag_close'   => '</li>',
-                        'prev_link'         => '<i class="fas fa-caret-left"></i>',
-                        'prev_tag_open'     => '<li class="page-item">',
-                        'prev_tag_close'    => '</li>',
-                        'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
-                        'cur_tag_close'     => '</span></li>',
-                        'num_tag_open'      => '<li class="page-item">',
-                        'num_tag_close'     => '</li>',
-                        'next_link'         => '<i class="fas fa-caret-right"></i>',
-                        'next_tag_open'     => '<li class="page-item">',
-                        'next_tag_close'    => '</li>',
-                        'last_link'         => 'Last',
-                        'last_tag_open'     => '<li class="page-item">',
-                        'last_tag_close'    => '<li>',
-                    ];
-                    
-                    $this->pagination->initialize($config);
+                    $this->pagination->initialize($this->pagination_config('auth/applications', $numRows));
                     
                     $this->load->view('templates/header', $pagedata);
                     $this->load->view('sections/navbar', $userdata);                    
@@ -421,32 +424,7 @@ class Auth extends CI_Controller {
                         'currentPage'   => $page,
                     ];
                     
-                    $config = [
-                        'base_url'          => base_url() . 'auth/job_posts/',
-                        'total_rows'        => $numRows,
-                        'use_page_numbers'  => TRUE,
-                        'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
-                        'full_tag_close'    => '</ul></nav>',
-                        'attributes'        => [ 'class' => 'page-link' ],
-                        'first_link'        => 'First',
-                        'first_tag_open'    => '<li class="page-item">',
-                        'first_tag_close'   => '</li>',
-                        'prev_link'         => '<i class="fas fa-caret-left"></i>',
-                        'prev_tag_open'     => '<li class="page-item">',
-                        'prev_tag_close'    => '</li>',
-                        'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
-                        'cur_tag_close'     => '</span></li>',
-                        'num_tag_open'      => '<li class="page-item">',
-                        'num_tag_close'     => '</li>',
-                        'next_link'         => '<i class="fas fa-caret-right"></i>',
-                        'next_tag_open'     => '<li class="page-item">',
-                        'next_tag_close'    => '</li>',
-                        'last_link'         => 'Last',
-                        'last_tag_open'     => '<li class="page-item">',
-                        'last_tag_close'    => '<li>',
-                    ];
-                    
-                    $this->pagination->initialize($config);
+                    $this->pagination->initialize($this->pagination_config('auth/job_posts', $numRows));
                     
                     $this->load->view('templates/header', $pagedata);
                     $this->load->view('sections/navbar', $userdata);                    
@@ -664,6 +642,7 @@ class Auth extends CI_Controller {
         }      
     }
 
+
     // MANAGE APPLICANTS
     public function manage_applicants($jobPostID = NULL, $page = 1) {
         if ($this->session->userType == 'Employer') {
@@ -692,32 +671,7 @@ class Auth extends CI_Controller {
                         'jobPostID'   => $jobDetails['jobPostID'],
                     ];
                     
-                    $config = [
-                        'base_url'          => base_url() . 'auth/manage_applicants/' . $jobPostID . '/',
-                        'total_rows'        => $numRows,
-                        'use_page_numbers'  => TRUE,
-                        'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
-                        'full_tag_close'    => '</ul></nav>',
-                        'attributes'        => [ 'class' => 'page-link' ],
-                        'first_link'        => 'First',
-                        'first_tag_open'    => '<li class="page-item">',
-                        'first_tag_close'   => '</li>',
-                        'prev_link'         => '<i class="fas fa-caret-left"></i>',
-                        'prev_tag_open'     => '<li class="page-item">',
-                        'prev_tag_close'    => '</li>',
-                        'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
-                        'cur_tag_close'     => '</span></li>',
-                        'num_tag_open'      => '<li class="page-item">',
-                        'num_tag_close'     => '</li>',
-                        'next_link'         => '<i class="fas fa-caret-right"></i>',
-                        'next_tag_open'     => '<li class="page-item">',
-                        'next_tag_close'    => '</li>',
-                        'last_link'         => 'Last',
-                        'last_tag_open'     => '<li class="page-item">',
-                        'last_tag_close'    => '<li>',
-                    ];
-                    
-                    $this->pagination->initialize($config);
+                    $this->pagination->initialize($this->pagination_config('auth/manage_applicants/' . $jobPostID, $numRows));
                     
                     $this->load->view('templates/header', $pagedata);
                     $this->load->view('sections/navbar', $userdata);
@@ -727,6 +681,31 @@ class Auth extends CI_Controller {
                 } else {
                     $this->Auth_model->err_page();
                 }
+            }
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+
+    // APPICANT PROFILE
+    public function applicant_profile($jobPostID = NULL, $jobseekerID = NULL) {
+        if ($this->session->userType == 'Employer') {
+            if ($jobseekerID == NULL || $jobPostID == NULL) {
+                $this->Auth_model->err_page();
+            } else {
+                $ApplicantDetails = $this->Employer_model->view_applicant_profile($jobseekerID, $jobPostID);
+
+                $userdata = $this->Employer_model->get_info();
+                $pagedata = [
+                    'title'       => $userdata['username'] . ' - Applicant Profile'
+                ];
+
+                $this->load->view('templates/header', $pagedata);
+                $this->load->view('sections/navbar', $userdata);
+                $this->load->view('auth_sections/employer/applicant_profile', $ApplicantDetails);
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');
             }
         } else {
             $this->Auth_model->err_page();

@@ -196,4 +196,16 @@ class Employer_model extends CI_Model {
                 @description      = '" . ucfirst($input[ 'description' ]) . "'
         ", 'information');
     }
+
+
+    // VIEW APPLICANT PROFILE
+    public function view_applicant_profile($jobseekerID, $jobPostID) {
+        $query = $this->db->query("
+            EXEC [EMPL_ViewApplicantProfile]
+                @jobseekerID = " . $jobseekerID . ",
+                @jobPostID   = " . $jobPostID . "
+        ");
+
+        return $query->row();
+    }
 }

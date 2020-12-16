@@ -89,7 +89,7 @@
                 <i class="fas fa-user-tie mr-1"></i>
                 <span><?php echo $jobType ?></span>
             </span>
-            <p class="text-secondary font-italic mt-1" title="Applied <?php echo $dateApplied ?>">Applied<?php echo $dateApplied ?></p>
+            <p class="text-secondary font-italic mt-1" title="Applied <?php echo $dateApplied ?>">Applied <?php echo $dateApplied ?></p>
         </div>
 
     </div>
