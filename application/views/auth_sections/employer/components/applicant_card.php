@@ -8,6 +8,12 @@ if ($middleName == NULL) {
 
 $location = $brgyDistrict . ', ' . $cityMunicipality;
 
+if ($status == 'Pending') {
+    $statusTheme = 'success';
+} else if ($status == "Hired") {
+    $statusTheme = 'info';
+}
+
 ?>
 
 <div class="col-md-6 col-lg-4 my-3">
@@ -20,7 +26,9 @@ $location = $brgyDistrict . ', ' . $cityMunicipality;
 
         <h4 class="font-weight-normal text-center"><?php echo $fullName ?></h4>
 
-        <p class="font-weight-bold text-center text-info"><?php echo $status ?></p>
+        <div class="text-center">
+            <span class="badge badge-<?php echo $statusTheme ?> py-1 px-2"><?php echo $status ?></span>
+        </div>
 
         <div class="list-group list-group-flush">
 
@@ -57,14 +65,62 @@ $location = $brgyDistrict . ', ' . $cityMunicipality;
     </div>
 
     <div>
-        <a href="" class="btn btn-warning btn-block btn-sm">
-            <i class="fas fa-file-contract"></i>
+        <a href="" class="btn btn-outline-warning btn-block btn-sm">
+            <i class="fas fa-file-contract mr-1"></i>
             <span>View Resume/CV</span>
         </a>
-        <a href="<?php echo base_url() ?>auth/applicant_profile/<?php echo $jobPostID . '/' . $jobseekerID ?>" class="btn btn-secondary btn-block btn-sm">
-            <i class="fas fa-ellipsis-h"></i>
+        <a href="<?php echo base_url() ?>auth/applicant_profile/<?php echo $jobPostID . '/' . $jobseekerID ?>" class="btn btn-outline-primary btn-block btn-sm">
+            <i class="fas fa-ellipsis-h mr-1"></i>
             <span>View Information</span>
         </a>
+
+        <?php
+            if ($status == 'Pending') {
+                echo '
+                    <div class="row mt-2">
+                        <div class="col-6 pr-1">
+                            <button 
+                                type               = "button"
+                                class              = "btn btn-sm btn-block btn-success text-nowrap" 
+                                data-toggle        = "modal" 
+                                data-target        = "#hireApplicantModal" 
+                                data-applicationid = "' . $applicationID . '"
+                                data-applicantname = "' . $fullName . '"
+                            >
+                                <i class="fas fa-check mr-1"></i>
+                                <span>Hire</span>
+                            </button>
+                        </div>
+                        <div class="col-6 pl-1">
+                            <button 
+                                type="button"
+                                class="btn btn-sm btn-block btn-danger text-nowrap" 
+                                data-toggle        = "modal" 
+                                data-target        = "#rejectApplicantModal" 
+                                data-applicationid = "' . $applicationID . '"
+                                data-applicantname = "' . $fullName . '"
+                            >
+                                <i class="fas fa-times mr-1"></i>
+                                <span>Reject</span>
+                            </button>
+                        </div>
+                    </div>
+                ';
+            } else if ($status == 'Hired') {
+                echo '
+                    <div class="mt-2">
+                        <button
+                            type="button" 
+                            class="btn btn-secondary btn-block btn-sm"
+                            data-toggle        = "modal" 
+                            data-target        = "#cancelHiringModal" 
+                            data-applicationid = "' . $applicationID . '"
+                            data-applicantname = "' . $fullName . '"
+                        >Cancel Hiring</button>
+                    </div>
+                ';
+            }
+        ?>
     </div>
 
 </div>    

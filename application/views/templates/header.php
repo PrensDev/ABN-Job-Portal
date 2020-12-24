@@ -21,5 +21,9 @@
 
     <!-- Custom CSS (includes Bootstrap) -->
     <link rel="stylesheet" href="<?php echo base_url() ?>public/css/styles.css">
+
+    <!-- JQuery -->
+    <script src="<?php echo base_url() ?>node_modules/jquery/dist/jquery.js"></script>
+
 </head>
 <body class="user-select-none">

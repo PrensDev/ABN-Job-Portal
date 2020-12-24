@@ -72,19 +72,27 @@ if ($maxSalary < 1000) {
             </div>
         </div>
         <div>
-            <a href="<?php echo base_url() ?>auth/manage_applicants/<?php echo $jobPostID ?>" class="btn btn-primary text-nowrap" data-toggle="tooltip" data-placement="left" title="Manage Applicants">
-                <i class="fas fa-users"></i>
-                <span class="d-none d-sm-inline">
-                    <span>Manage Applicants</span>
-                </span>
-                <span class="badge badge-light ml-1">12</span>
-            </a>
+            <?php
+                if ($numOfApplicants > 0) {
+                    echo '
+                        <a href="' . base_url() .'auth/manage_applicants/' . $jobPostID . '" class="btn btn-primary text-nowrap" data-toggle="tooltip" data-placement="left" title="Manage Applicants">
+                            <div class="d-inline mr-3">
+                                <i class="fas fa-users mr-1"></i>
+                                <span class="d-none d-sm-inline">
+                                    <span>Manage Applicants</span>
+                                </span>
+                            </div>
+                            <span class="badge badge-light">'. $numOfApplicants . '</span>
+                        </a>
+                    ';
+                } else {
+                    echo '<p class="font-italic text-secondary">No applicants had applied yet.</p>';
+                }
+            ?>
         </div>
     </div>
-    <!-- END OF HEADER OF CONTENT -->
 
     <div class="mb-4"><hr></div>
-
 
     <div class="alert alert-success alert-dismissible fade show my-4 mb-4" role="alert">
         <span>The changes you made has been <strong>saved</strong>.</span>
@@ -92,7 +100,6 @@ if ($maxSalary < 1000) {
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <!-- END OF SUCCESS ALERT BOX -->
 
 
     <div class="row mt-1">
@@ -276,14 +283,16 @@ $this->load->view('sections/components/modal', [
     'id'            => 'deletePostModal',
     'theme'         => 'danger',
     'title'         => 'Delete this post',
-    'icon'          => 'trash',
+    'modalIcon'     => 'WARNING',
     'message'       => '
-        <p>Are you sure you want to delete this post?</p>
-        <p><strong>Note: You cannot retrieved this after you delete it.</strong></p>
+        <p class="m-1">Are you sure you want to delete this post?</p>
+        <p class="m-1"><strong>Note: You cannot retrieved this after you delete it.</strong></p>
     ',
     'actionPath'    => 'auth/delete_post/' . $jobPostID,
-    'actionLabel'   => 'Delete',
+    'actionID'      => NULL,
+    'actionValue'   => NULL,
     'actionIcon'    => 'trash',
+    'actionLabel'   => 'Delete',
 ]);
 
 ?>

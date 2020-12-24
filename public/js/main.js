@@ -15,7 +15,8 @@ $(window).resize(function() {
 // TO TOGGLE ALL THE TOOLTIPS
 $('[data-toggle="tooltip"]').tooltip();
 
-// TO TOGGLE ALL POPOVERS
 $(function () {
+  // TO TOGGLE ALL POPOVERS
   $('[data-toggle="popover"]').popover();
 });
+

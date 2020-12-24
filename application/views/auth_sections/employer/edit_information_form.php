@@ -22,11 +22,11 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
     </div>
 
     <!-- COMPANY INFORMATION FORM -->
-    <div class="card border-secondary my-4">
+    <div class="card my-4 border-0 shadow">
 
-        <div class="card-header h6 bg-secondary text-white">
-            <i class="fas fa-briefcase mr-2"></i>
-            <span>Edit information</span>
+        <div class="card-header h6 bg-light border-0">
+            <i class="fas fa-briefcase text-primary mr-2"></i>
+            <span>Basic information</span>
         </div>
         
         <div class="card-body">
@@ -138,10 +138,10 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
     <!-- END OF COMPANY INFORMATION FORM -->
     
     <!-- CONTACT INFORMATION FORM -->
-    <div class="card border-secondary my-4">
+    <div class="card my-4 border-0 shadow">
 
-        <div class="card-header h6 bg-secondary text-white">
-            <i class="fas fa-phone-alt mr-2"></i>
+        <div class="card-header h6 bg-light border-0">
+            <i class="fas fa-phone-alt text-primary mr-2"></i>
             <span>Contact Information</span>
         </div>
 
@@ -170,7 +170,6 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
         </div>
 
     </div>
-    <!-- END OF CONTACT INFORMATION FORM -->
 
     <!-- USER CONTROLS -->
     <div class="d-flex justify-content-center my-4">
@@ -187,7 +186,7 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
 <div class="modal-dialog">
 <div class="modal-content">
 
-    <div class="modal-header">
+    <div class="modal-header align-items-center">
         <h5 class="modal-title text-primary">
             <i class="fas fa-pen mr-2"></i>
             <span>Save changes</span>
@@ -199,8 +198,8 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
 
     <div class="modal-body">
     <div class="d-flex">
-            <div class="mr-2">
-                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+            <div class="display-4 mr-2">
+                <i class="fas fa-exclamation-circle text-primary mr-2"></i>
             </div>
             <div>
                 <span>Are you sure you want to save this changes?</span>

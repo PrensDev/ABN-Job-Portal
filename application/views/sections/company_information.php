@@ -29,7 +29,7 @@
         if ($this->session->userType == 'Employer') {
             if ($this->session->id == $employerID) {
                 echo '
-                    <div class="d-flex justify-content-between border border-primary p-3 mb-3">
+                    <div class="d-flex justify-content-between alert alert-primary p-3 mb-3">
                         <div class="mr-3">
                             <span>Do you want to edit your info?</span>
                         </div>

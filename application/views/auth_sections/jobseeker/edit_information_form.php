@@ -17,19 +17,20 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 
 <form method="POST">
 
-<div class="container-fluid py-3 user-select-none">
+<div class="container-fluid py-5 user-select-none">
 <div class="container">
 
     <!-- HEADER OF CONTENT -->
     <div class="mb-4">
         <h1 class="font-weight-normal">Edit Information</h1>
+        <p class="text-secondary">Modify your information here and save your changes.</p>
     </div>
 
     <!-- PERSONAL INFORMATION FORM -->
-    <div class="card border-secondary my-4">
+    <div class="card my-4 border-0 shadow">
 
-        <div class="card-header h6 bg-secondary text-white">
-            <i class="fas fa-user mr-2"></i>
+        <div class="card-header h6 bg-light border-0">
+            <i class="fas fa-user text-primary mr-2"></i>
             <span>Personal Information</span>
         </div>
         
@@ -177,13 +178,12 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
         </div>
 
     </div>
-    <!-- END OF PERSONAL INFORMATION FORM -->
 
     <!-- CONTACT INFORMATION FORM -->
-    <div class="card border-secondary my-4">
+    <div class="card my-4 border-0 shadow">
 
-        <div class="card-header h6 bg-secondary text-white">
-            <i class="fas fa-phone-alt mr-2"></i>
+        <div class="card-header h6 bg-light border-0">
+            <i class="fas fa-phone-alt text-primary mr-2"></i>
             <span>Contact Information</span>
         </div>
 
@@ -225,13 +225,12 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
         </div>
 
     </div>
-    <!-- END OF CONTACT INFORMATION FORM -->
 
     <!-- CURRICULUM VITAE CONTENT -->
-    <div class="card border-secondary my-4">
+    <div class="card my-4 border-0 shadow">
 
-        <div class="card-header h6 bg-secondary text-white">
-            <i class="fas fa-file-contract mr-2"></i>
+        <div class="card-header h6 bg-light border-0">
+            <i class="fas fa-file-contract text-primary mr-2"></i>
             <span>Curriculum Vitae</span>
         </div>
 
@@ -292,7 +291,6 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
         </div>
 
     </div>
-    <!-- END OF CURRICULUM VITAE CONTENT -->
 
     <!-- USER CONTROLS -->
     <div class="d-flex justify-content-center my-4">
@@ -309,7 +307,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 <div class="modal-dialog">
 <div class="modal-content">
 
-    <div class="modal-header">
+    <div class="modal-header align-items-center">
         <h5 class="modal-title text-primary">
             <i class="fas fa-pen mr-2"></i>
             <span>Save changes</span>
@@ -321,8 +319,8 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 
     <div class="modal-body">
     <div class="d-flex">
-            <div class="mr-2">
-                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+            <div class="display-4 mr-2">
+                <i class="fas fa-exclamation-circle text-primary mr-2"></i>
             </div>
             <div>
                 <span>Are you sure you want to save this changes?</span>

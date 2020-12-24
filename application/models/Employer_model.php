@@ -4,7 +4,6 @@ class Employer_model extends CI_Model {
     
     public function __construct() {
         $this->load->database();
-        $this->load->library('session');
     }
 
     protected function get_row($sql) {
@@ -26,6 +25,13 @@ class Employer_model extends CI_Model {
 
     
     // ==================================================================================================== //
+
+
+    // NUMBER OF POSTED JOBS METHOD
+    public function posts_num() {
+        $query = $this->get_row("EXEC [EMPL_NumOfPosts] @employerID = " . $this->session->id);
+        return $query->postsNum;
+    }
 
 
     // GET INFORMATION METHOD
@@ -117,6 +123,7 @@ class Employer_model extends CI_Model {
                 'dateCreated'      => $row->dateCreated,
                 'dateModified'     => $row->dateModified,
                 'status'           => $row->status,
+                'numOfApplicants'  => $row->numOfApplicants,
             ];
             return $jobDetails;
         } else {
@@ -207,5 +214,20 @@ class Employer_model extends CI_Model {
         ");
 
         return $query->row();
+    }
+
+    // HIRE APPLICANT
+    public function hire_applicant($applicationID) {
+        return $this->db->query("EXEC [EMPL_HireApplicant] @applicationID = " . $applicationID);
+    }
+
+    // REJECT APPLICANT
+    public function reject_applicant($applicationID) {
+        return $this->db->query("EXEC [EMPL_RejectApplicant] @applicationID = " . $applicationID);
+    }
+
+    // CANCEL HIRING
+    public function cancel_hiring($applicationID) {
+        return $this->db->query("EXEC [EMPL_CancelHiring] @applicationID = " . $applicationID);
     }
 }

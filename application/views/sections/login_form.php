@@ -28,7 +28,7 @@
     ?>
 
     <!-- FORM SECTION -->
-    <div class="bg-white border p-3 rounded my-2">
+    <div class="bg-white p-3 rounded my-2 shadow">
     <form method="POST">
         
         <!-- EMAIL FIELD -->

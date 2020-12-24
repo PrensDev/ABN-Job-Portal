@@ -158,7 +158,7 @@ AS
 
 
 -- Find Employer Procedure
-CREATE PROCEDURE [dbo].[FindEmployer]
+CREATE PROCEDURE [dbo].[AUTH_FindEmployer]
 	@email	VARCHAR(450)
 AS
 	SELECT * FROM [dbo].[Employers]

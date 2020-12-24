@@ -1,28 +1,23 @@
-<!-- APPLICANT PROFILE DETAILS SECTION -->
 <div class="container-fluid">
 <div class="container-md py-5">
     
-    <!-- HEADER OF CONTENT -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="font-weight-normal">Information</h1>
         </div>
         <div>
             <a href="<?php echo base_url() ?>auth/edit_information" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
-                <i class="fas fa-pen"></i>
+                <i class="fas fa-pen mr-1"></i>
                 <span class="d-none d-sm-inline">Edit information</span>
             </a>
         </div>
     </div>
-    <!-- END OF HEADER OF CONTENT -->
 
     <div class="row">
         
-        <!-- APPLICANT INFORMATION -->
         <div class="col-lg-8">
             <div class="mb-3 mb-lg-0">
 
-                <!-- ABOUT ME -->
                 <div class="mb-5">
                     <h5 class="text-primary mb-3">
                         <i class="fas fa-book-reader mr-2"></i>  
@@ -30,9 +25,7 @@
                     </h5>
                     <p class="text-justify"><?php echo $description ?></p>
                 </div>
-                <!-- END OF ABOUT ME -->
-
-                <!-- MY EXPERIENCES -->
+    
                 <div class="mb-5">
                     <h5 class="text-primary mb-3">
                         <i class="fas fa-chart-line mr-2"></i>  
@@ -40,9 +33,7 @@
                     </h5>
                     <p class="text-justify"><?php echo $experiences ?></p>
                 </div>
-                <!-- END OF MY EXPERIENCES -->
-                
-                <!-- MY SKILLS -->
+
                 <div class="mb-5">
                     <h5 class="text-primary mb-3">
                         <i class="fas fa-cogs mr-2"></i>  
@@ -50,11 +41,8 @@
                     </h5>
                     <p class="text-justify"><?php echo $skills ?></p>
 
-                <!-- MY SKILLS -->
                 </div>
-                <!-- END OF MY SKILLS -->
 
-                <!-- MY EDUCATION -->
                 <div class="mb-5">
                     <h5 class="text-primary mb-3">
                         <i class="fas fa-book-reader mr-2"></i>  
@@ -63,13 +51,10 @@
                     <p class="text-justify"><?php echo $education ?></p>
 
                 </div>
-                <!-- END OF MY EDUCATION -->
 
             </div>
         </div>
-        <!-- END OF APPLICANT INFORMATION -->
-
-        <!-- APPLICANT INFORMATION SUMMARY -->
+        
         <div class="col-lg-4">
             
             <!-- GENERAL INFORMATION CARD -->
@@ -208,10 +193,8 @@
             <!-- END OF MESSAGE FORM MODAL -->
 
         </div>
-        <!-- END OF APPLICANT INFORMATION SUMMARY -->
 
     </div>
     
 </div>
 </div>
-<!-- APPLICANT PROFILE DETAILS SECTION -->

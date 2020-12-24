@@ -13,10 +13,10 @@
     <form method="POST" novalidate>
 
         <!-- PERSONAL INFORMATION FORM -->
-        <div class="card border-secondary my-4">
+        <div class="card my-4 border-0 shadow">
 
-            <div class="card-header h6 bg-secondary text-white">
-                <i class="fas fa-user mr-2"></i>
+            <div class="card-header h6 bg-light border-0">
+                <i class="fas fa-user text-primary mr-2"></i>
                 <span>Personal Information</span>
             </div>
             
@@ -164,13 +164,12 @@
             </div>
 
         </div>
-        <!-- END OF PERSONAL INFORMATION FORM -->
-
+        
         <!-- CONTACT INFORMATION FORM -->
-        <div class="card border-secondary my-4">
+        <div class="card my-4 border-0 shadow">
 
-            <div class="card-header h6 bg-secondary text-white">
-                <i class="fas fa-phone-alt mr-2"></i>
+            <div class="card-header h6 bg-light border-0">
+                <i class="fas fa-phone-alt text-primary mr-2"></i>
                 <span>Contact Information</span>
             </div>
 
@@ -212,13 +211,12 @@
             </div>
 
         </div>
-        <!-- END OF CONTACT INFORMATION FORM -->
 
         <!-- CURRICULUM VITAE CONTENT -->
-        <div class="card border-secondary my-4">
+        <div class="card my-4 border-0 shadow">
 
-            <div class="card-header h6 bg-secondary text-white">
-                <i class="fas fa-file-contract mr-2"></i>
+            <div class="card-header h6 bg-light border-0">
+                <i class="fas fa-file-contract text-primary mr-2"></i>
                 <span>Curriculum Vitae</span>
             </div>
 
@@ -280,13 +278,11 @@
 
         </div>
 
-        <!-- END OF CURRICULUM VITAE CONTENT -->
-
         <!-- ACCOUNT INFORMATION FORM -->
-        <div class="card border-secondary my-4">
+        <div class="card my-4 border-0 shadow">
 
-            <div class="card-header h6 bg-secondary text-white">
-                <i class="fas fa-user-tie mr-2"></i>
+            <div class="card-header h6 bg-light border-0">
+                <i class="fas fa-user-tie text-primary mr-2"></i>
                 <span>Account Information</span>
             </div>
 
@@ -361,17 +357,14 @@
             </div>
 
         </div>
-        <!-- END OF ACCOUNT INFORMATION FORM -->
 
         <!-- USER CONTROLS -->
         <div class="d-flex justify-content-center my-4">
             <button type="submit" class="btn btn-primary btn-lg">Register as Job Seeker</button>
         </div>
-        <!-- END OF USER CONTROLS -->
 
     </form>
     <!-- END OF JOBSEEKER REGISTRATION FORM -->
-
+    
 </div>
 </div>
-<!-- END OF FORM SECTION -->

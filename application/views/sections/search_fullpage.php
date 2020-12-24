@@ -60,6 +60,10 @@
         <a href="#" class="text-secondary">more...</a>
     </p>
 
+    <div class="mt-5 text-center">
+        <a href="<?php echo base_url() ?>jobs/recent" class="btn btn-primary">Go to Recent Jobs</a>
+    </div>
+
 </div>
 </div>
 <!-- END OF HEADER SECTION -->

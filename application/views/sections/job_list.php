@@ -7,7 +7,11 @@
 
     <div class="d-flex justify-content-between">
         <p><?php echo $totalRows ?> match found.</p>
-        <p>Showing page <?php echo $currentPage ?> of <?php echo $totalPages ?>.</p>
+        <?php 
+            if ($totalPages > 1) {
+                echo '<p>Showing page ' . $currentPage . ' of ' . $totalPages . '.</p>';
+            }
+        ?>
     </div>
 
     <div class="row mb-5">
@@ -18,4 +22,3 @@
 
 </div>
 </div>
-<!-- END OF JOB LIST SECTION -->

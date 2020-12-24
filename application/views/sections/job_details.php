@@ -42,7 +42,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 
 <!-- HEADER -->
 <div 
-    class="container-fluid py-3 parallax-window image-overlay py-5" \
+    class="container-fluid py-3 parallax-window image-overlay py-5"
     data-parallax="scroll" 
     data-image-src="<?php echo base_url() ?>public/img/job_title_bg.jpeg"
 >
@@ -50,7 +50,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
     
     <!-- COMPANY IMAGE/LOGO -->
     <div class="d-none d-sm-inline mr-sm-3">
-        <img src="<?php echo base_url() ?>public/img/job_logo_5.jpg" alt="" height="125" class="rounded">
+        <img src="<?php echo base_url() ?>public/img/job_logo_5.jpg" alt="" height="125" class="rounded" draggable="false">
     </div>
     
     <!-- JOB DETAILS -->
@@ -99,6 +99,40 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 <!-- JOB DETAILS SECTION -->
 <div class="container-fluid">
 <div class="container py-5">
+
+<?php
+    if ($this->session->userType == 'Job Seeker') {
+        if(isset($status) && isset($dateApplied)) {
+            $dateApplied = date_format(date_create($dateApplied),"F d, Y, h:i a");
+
+            if ($status == 'Pending') {
+                echo '
+                    <div class="container-fluid alert alert-success mb-5">
+                        <div class="row align-items-center">
+                            <div class="col-md-8 text-md-left text-center">
+                                <div class="m-1">
+                                    You submitted your application for this job at <strong>' . $dateApplied . '</strong></a>. 
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-md-right mt-2 mt-md-0">
+                                <span class="badge badge-success py-2 px-3">' . $status . '</span>
+                            </div> 
+                        </div> 
+                    </div>
+                ';
+            } else if ($status == 'Hired') {
+                echo '
+                    <div class="alert alert-primary mb-5 text-md-left text-center">
+                        You are <strong>hired</strong> for this job.</a>
+                    </div>
+                ';
+            }
+        }
+    }
+?>
+
+
+
 <div class="row">
 
     <!-- JOB DETAILS -->
@@ -165,7 +199,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
             if ($this->session->userType == 'Employer') {
                 if ($this->session->id == $employerID) {
                     echo '
-                        <div class="d-flex justify-content-between border border-info p-3 mb-3">
+                        <div class="d-flex justify-content-between alert alert-info p-3 mb-3">
                             <div class="mr-3">
                                 <span>Do you want to edit your post?</span>
                             </div>
@@ -309,56 +343,57 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     </div>
 
                     <?php
-
-                    if ($website != '') {
-                        echo '
-                            <div class="list-group-item d-flex">
-                                <div class="list-group-item-icon h4 text-danger">
-                                    <i class="fas fa-globe-asia"></i>
+                        if ($website != '') {
+                            echo '
+                                <div class="list-group-item d-flex">
+                                    <div class="list-group-item-icon h4 text-danger">
+                                        <i class="fas fa-globe-asia"></i>
+                                    </div>
+                                    <div>
+                                        <p class="m-0 font-weight-bold">Website</p>
+                                        <p class="m-0">
+                                            <a href="' . $website  . '" class="btn btn-primary btn-sm mt-1" target="_blank" data-toggle="tooltip" data-placement="left" title="' . $website . '">
+                                                <i class="fas fa-external-link-alt"></i>
+                                                <span>Go to their website</span>
+                                            </a> 
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="m-0 font-weight-bold">Website</p>
-                                    <p class="m-0">
-                                        <a href="' . $website  . '" class="btn btn-primary btn-sm mt-1" target="_blank" data-toggle="tooltip" data-placement="left" title="' . $website . '">
-                                            <i class="fas fa-external-link-alt"></i>
-                                            <span>Go to their website</span>
-                                        </a> 
-                                    </p>
-                                </div>
-                            </div>
-                        ';
-                    }
-                    
+                            ';
+                        }
                     ?>
                 </div>
             
             </div>
         </div>
-        <!-- END OF COMPANY DETAILS CARD -->
-        <?php 
 
-        if ($this->session->userType == 'Job Seeker') {
-            if ($status == NULL) {
-                $userControlConfig = [
-                    'theme'         => 'primary',
-                    'modalID'       => 'submitApplicationModal',
-                    'statusLabel'   => 'Apply now!',
-                ];
-            } else {
-                if ($status == 'Pending') {
+        <?php
+            if ($this->session->userType == 'Job Seeker') {
+                if (! isset($status)) {
                     $userControlConfig = [
-                        'theme'         => 'success',
-                        'modalID'       => 'cancelApplicationModal',
-                        'statusLabel'   => $status,
+                        'theme'         => 'primary',
+                        'modalID'       => 'submitApplicationModal',
+                        'statusLabel'   => 'Apply now!',
                     ];
+                } else {
+                    if ($status == 'Pending') {
+                        $userControlConfig = [
+                            'theme'         => 'warning',
+                            'modalID'       => 'cancelApplicationModal',
+                            'statusLabel'   => 'Cancel my application',
+                        ];
+                    } else if ($status == 'Hired') {
+                        $userControlConfig = [
+                            'theme'         => NULL,
+                            'modalID'       => NULL,
+                            'statusLabel'   => NULL,
+                        ];
+                    }
                 }
+                $this->load->view('auth_sections/jobseeker/user_controls', $userControlConfig);
             }
-            $this->load->view('auth_sections/jobseeker/user_controls', $userControlConfig);
-        }
-        
         ?>
     </div>
-    <!-- END OF JOB SUMMARY -->
 
 </div>
 </div>
@@ -367,19 +402,21 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 <?php
 
 if ($this->session->userType == 'Job Seeker') {
-    if ($status == NULL) {
+    if (! isset($status)) {
         $modalConfig = [
             'id'            => 'submitApplicationModal',
             'theme'         => 'primary',
             'title'         => 'Submit Application',
-            'icon'          => 'file',
+            'modalIcon'     => 'INFO',
             'message'       => '
-                <p>Are you sure you want to apply for this job?</p>
-                <p><strong>Note: Your information will be submitted to the employer for review.</strong></p>
+                <p class="m-1">Are you sure you want to apply for this job?</p>
+                <p class="m-1"><strong>Note: Your information will be submitted to the employer for review.</strong></p>
             ',
-            'actionPath'    => 'auth/submit_application/' . $jobPostID,
+            'actionPath'    => NULL,
+            'actionID'      => 'submitApplicationBtn',
+            'actionValue'   => $jobPostID,
+            'actionIcon'    => 'file',
             'actionLabel'   => 'Apply me!',
-            'actionIcon'    => NULL,
         ];
     } else {
         if ($status = 'Pending') {
@@ -387,14 +424,16 @@ if ($this->session->userType == 'Job Seeker') {
                 'id'            => 'cancelApplicationModal',
                 'theme'         => 'warning',
                 'title'         => 'Cancel Application',
-                'icon'          => 'file',
+                'modalIcon'     => 'WARNING',
                 'message'       => '
-                    <p>Are you sure you want to cancel you application for this job?</p>
-                    <p><strong>Note: You may apply again if this job is still available.</strong></p>
+                    <p class="m-1">Are you sure you want to cancel you application for this job?</p>
+                    <p class="m-1"><strong>Note: You may apply again if this job is still available.</strong></p>
                 ',
-                'actionPath'    => 'auth/cancel_application/' . $jobPostID,
+                'actionPath'    => NULL,
+                'actionID'      => 'cancelApplicationBtn',
+                'actionValue'   => $jobPostID,
+                'actionIcon'    => 'file',
                 'actionLabel'   => 'Cancel my application!',
-                'actionIcon'    => NULL,
             ];
         }
     }
@@ -402,3 +441,37 @@ if ($this->session->userType == 'Job Seeker') {
 }
 
 ?>
+
+<script>
+    $(document).on('click','#submitApplicationBtn', function(e) {
+        e.preventDefault();
+        var jobPostID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/submit_application",
+            type:       "post",
+            dataType:   "json",
+            data: {
+                jobPostID: jobPostID
+            },
+            success:    function(data) {
+                location.reload();
+            }
+        });
+    });
+
+    $(document).on('click','#cancelApplicationBtn', function(e) {
+        e.preventDefault();
+        var jobPostID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/cancel_application",
+            type:       "post",
+            dataType:   "json",
+            data: {
+                jobPostID: jobPostID
+            },
+            success:    function(data) {
+                location.reload();
+            }
+        });
+    });
+</script>

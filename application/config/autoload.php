@@ -60,7 +60,8 @@ $autoload['packages'] = array();
 */
 $autoload['libraries'] = [
     'form_validation',
-    'pagination'
+    'pagination',
+    'session'
 ];
 
 /*

@@ -8,10 +8,9 @@
         <p>You sign in as <strong><?php echo $username ?></strong>.</p>
         <h5 class="font-weight-light">Change your password here.</h5>
     </div>
-    <!-- END OF HEADER -->
 
     <!-- FORM SECTION -->
-    <div class="bg-white border p-3 rounded my-2">
+    <div class="bg-white border p-3 my-2 border-0 shadow">
         <form method="POST">
 
             <div class="form-group">
@@ -86,7 +85,6 @@
 
         </form>
     </div>
-    <!-- END OF FORM SECTION -->
     
     <!-- FOOTER LINK SECTION -->
     <div class="d-flex justify-content-between">
@@ -97,7 +95,6 @@
             <small><a href="<?php echo base_url() ?>home/terms_and_conditions" title="Read the terms and conditions.">Terms and Conditions</a></small>
         </div>
     </div>
-    <!-- END PF FOOTER LINK SECTION -->
 
 </div>
 </div>

@@ -61,50 +61,18 @@
 
 </div>
 </div>
-<!-- END OF HERO -->
 
 <?php
 
-    if ( $this->session->has_userdata( 'userType' ) ) {
-        #do nothing
-    } else {
+    if (! $this->session->has_userdata( 'userType' ) ) {
         $this->load->view('sections/create_account');
     }
 
-?>
+    if ($posts != NULL) {
+        $this->load->view('sections/recent_posts');
+    }
 
-<!-- RECENT JOB SECTIONS -->
-<div class="container-fluid bg-light">
-<div class="container-md py-5">
-
-    <h1 class="display-4 text-center">Recent Available Jobs</h1>
-    <p class="h5 font-weight-normal text-center text-secondary">Discover our latest jobs listed here.</p>
-    
-    <!-- JOB LIST -->
-    <div class="row my-5">
-        <?php
-            if ($posts == NULL) {
-                echo "NO RECENT POSTS YET";
-            } else {
-                foreach ($posts as $post) { $this->load->view('sections/components/job_post_card', $post); }
-            }
-        ?>
-    </div>
-    <!-- END OF JOB LIST -->
-
-    <div class="d-flex justify-content-center">
-        <a href="<?php echo base_url() ?>jobs/recent" class="btn btn-primary btn-lg">View More Recent Jobs</a>
-    </div>
-
-</div>
-</div>
-<!-- END OF RECENT JOB SECTION -->
-
-<?php
-
-    if ( $this->session->userType == 'Job Seeker' ) {
-        #do nothing
-    } else {
+    if ( $this->session->userType != 'Job Seeker' ) {
         $this->load->view('sections/post_a_job');
     }
 

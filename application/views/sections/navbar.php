@@ -2,16 +2,19 @@
 
 $sessionStatus = $this->session->has_userdata( 'userType' );
 
-if( $sessionStatus ) {
+if ( $sessionStatus ) {
+
     $this->load->view('sections/components/modal', [
         'id'            => 'logoutModal',
         'theme'         => 'danger',
         'title'         => 'Log out',
-        'icon'          => 'sign-out-alt',
+        'modalIcon'     => 'WARNING',
         'message'       => '<p>Are you sure you want to logout?</p>',
         'actionPath'    => 'auth/logout',
-        'actionLabel'   => 'Log out',
+        'actionID'      => NULL,
+        'actionValue'   => NULL,
         'actionIcon'    => 'sign-out-alt',
+        'actionLabel'   => 'Log out',
     ]);
 }
 
@@ -62,9 +65,19 @@ if( $sessionStatus ) {
             
             if ( $sessionStatus ) {
                 if( $this->session->userType == 'Job Seeker' ) {
-                    $this->load->view('auth_sections/jobseeker/navbar_control', ['username' => $username]);
+                    $navbarData = [
+                        'username'          => $username,
+                        'appliedJobsNum'    => $this->Jobseeker_model->applied_jobs_num(),
+                    ];
+
+                    $this->load->view('auth_sections/jobseeker/navbar_control', $navbarData);
                 } else if( $this->session->userType == 'Employer' ) {
-                    $this->load->view('auth_sections/employer/navbar_control', ['username' => $username]);
+                    $navbarData = [
+                        'username' => $username,
+                        'postsNum' => $this->Employer_model->posts_num(),
+                    ];
+
+                    $this->load->view('auth_sections/employer/navbar_control', $navbarData);
                 }
             } else {
                 $this->load->view('sections/navbar_components/login_link');
@@ -75,7 +88,6 @@ if( $sessionStatus ) {
             
         </ul>
     </div>
-    <!-- END OF NAVBAR LINKS -->
 
 </div>
 </div>

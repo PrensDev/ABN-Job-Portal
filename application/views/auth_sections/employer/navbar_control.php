@@ -1,10 +1,16 @@
+<?php
+
+    $postsNumContent = $postsNum > 0 ? '<span class="badge badge-secondary">' . $postsNum . '</span>' : '';
+
+?>
+
 <!-- EMPLOYER USER CONTROL -->
 <li class="nav-link mx-md-2 nav-item dropdown">
                                 
     <span class="d-flex align-items-center" role="button" data-toggle="dropdown">
         <img 
             class   = "rounded-pill border mr-1" 
-            src     = "assets\job_logo_5.jpg" 
+            src     = "<?php echo base_url() ?>public/img/job_logo_5.jpg" 
             height  = "30" 
             width   = "30"
         >
@@ -14,30 +20,33 @@
     <div class="dropdown-menu dropdown-menu-right mt-3 mt-lg-0">
 
         <a class="dropdown-item" href="<?php echo base_url() ?>auth/information">
-            <span class="pr-4">
-                <div class="user-nav-icon">
+            <div class="pr-4">
+                <div class="user-nav-icon text-secondary">
                     <i class="fas fa-list"></i>
                 </div>
                 <span class="pl-1">Information</span>
-            </span>
+            </div>
         </a>
 
-        <a class="dropdown-item" href="<?php echo base_url() ?>auth/job_posts">
-            <div class="user-nav-icon">
-                <i class="fas fa-file-contract"></i>
+        <a class="dropdown-item d-flex justify-content-between align-items-center" href="<?php echo base_url() ?>auth/job_posts">
+            <div class="pr-5">
+                <div class="user-nav-icon text-secondary">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <span class="pl-1">Job Posts</span>
             </div>
-            <span class="pl-1">Job Posts</span>
+            <?php echo $postsNumContent ?>
         </a>
 
         <a class="dropdown-item" href="employer_notifications.html">
-            <div class="user-nav-icon">
+            <div class="user-nav-icon text-secondary">
                 <i class="fas fa-bell"></i>
             </div>
             <span class="pl-1">Notifications</span>
         </a>
 
         <a class="dropdown-item" href="<?php echo base_url() ?>auth/settings">
-            <div class="user-nav-icon">
+            <div class="user-nav-icon text-secondary">
                 <i class="fas fa-cogs"></i>
             </div>
             <span class="pl-1">Settings</span>

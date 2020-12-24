@@ -27,11 +27,11 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
     
 
     <!-- COMPANY INFORMATION FORM -->
-    <div class="card border-secondary my-4">
+    <div class="card my-4 border-0 shadow">
 
-        <div class="card-header h6 bg-secondary text-white">
-            <i class="fas fa-exclamation-circle mr-2"></i>
-            <span>General Information</span>
+        <div class="card-header h6 bg-light border-0">
+            <i class="fas fa-exclamation-circle text-primary mr-2"></i>
+            <span>Basic Information</span>
         </div>
         
         <div class="card-body">
@@ -171,13 +171,12 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
         </div>
 
     </div>
-    <!-- END OF GENERAL INFORMATION FORM -->
     
     <!-- JOB DESCRIPTION FORM -->
-    <div class="card border-secondary my-4">
+    <div class="card my-4 border-0 shadow">
 
-        <div class="card-header h6 bg-secondary text-white">
-            <i class="fas fa-exclamation-circle mr-2"></i>
+        <div class="card-header h6 bg-light border-0">
+            <i class="fas fa-exclamation-circle text-primary mr-2"></i>
             <span>Job Description</span>
         </div>
 
@@ -266,9 +265,9 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 <div class="modal-dialog">
 <div class="modal-content">
 
-    <div class="modal-header">
+    <div class="modal-header align-items-center">
         <h5 class="modal-title text-primary">
-            <i class="fas fa-pen mr-2"></i>
+            <i class="fas fa-pen mr-1"></i>
             <span>Save changes</span>
         </h5>
         <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
@@ -278,8 +277,8 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 
     <div class="modal-body">
     <div class="d-flex">
-            <div class="mr-2">
-                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+            <div class="mr-2 display-4">
+                <i class="fas fa-exclamation-circle text-primary mr-2"></i>
             </div>
             <div>
                 <span>Are you sure you want to save this changes?</span>

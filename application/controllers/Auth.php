@@ -44,6 +44,9 @@ class Auth extends CI_Controller {
         ];
     }
 
+
+
+
     // ==================================================================================================== //
     // USER MAIN VIEWS
     // ==================================================================================================== //
@@ -83,7 +86,7 @@ class Auth extends CI_Controller {
             } else if ($this->session->userType == 'Employer') {
                 $userdata = $this->Employer_model->get_info();
             } 
-            $pagedata = ['title' => $userdata['username'] . 'Change Password'];
+            $pagedata = ['title' => $userdata['username'] . ' - Change Password'];
 
             $this->form_validation->set_rules([
                 [
@@ -160,7 +163,9 @@ class Auth extends CI_Controller {
     }
 
 
-     // ==================================================================================================== //
+
+
+    // ==================================================================================================== //
     // JOB SEEKER VIEWS
     // ==================================================================================================== //
 
@@ -211,14 +216,16 @@ class Auth extends CI_Controller {
     }
 
 
-
     // SUBMIT APPLICATION
-    public function submit_application($jobPostID = NULL) {
-        if ($this->session->userType == "Job Seeker") {
-            if ($jobPostID == NULL) {
-                $this->Auth_model->err_page();
+    public function submit_application() {
+        if ($this->session->userType == 'Job Seeker') {
+            if ($this->input->is_ajax_request()) {
+                $jobPostID = $this->input->post('jobPostID');
+                $applicationStatus = $this->Jobseeker_model->submit_application($jobPostID);
+                $data['response'] = $applicationStatus ? 'success' : 'failed';    
+                echo json_encode($data);
             } else {
-                $this->Jobseeker_model->submit_application($jobPostID);
+                $this->Auth_model->err_page();
             }
         } else {
             $this->Auth_model->err_page();
@@ -227,17 +234,25 @@ class Auth extends CI_Controller {
 
 
     // CANCEL APPLICATION
-    public function cancel_application($jobPostID = NULL) {
-        if ($this->session->userType == "Job Seeker") {
-            if ($jobPostID == NULL) {
-                $this->Auth_model->err_page();
+    public function cancel_application() {
+        if ($this->session->userType == 'Job Seeker') {
+            if ($this->input->is_ajax_request()) {
+                $jobPostID = $this->input->post('jobPostID');
+                $applicationStatus = $this->Jobseeker_model->cancel_application($jobPostID);
+                $data['response'] = $applicationStatus ? 'success' : 'failed';    
+                echo json_encode($data);
             } else {
-                $this->Jobseeker_model->cancel_application($jobPostID);
+                $this->Auth_model->err_page();
             }
         } else {
             $this->Auth_model->err_page();
         }
     }
+
+
+
+
+
 
     public function test() {
         $this->load->database();
@@ -396,7 +411,7 @@ class Auth extends CI_Controller {
     // JOB POSTS VIEW
     public function job_posts($page = 1) {
         if ( $this->session->userType == 'Employer' ) {
-            $userdata = $this->Employer_model->get_info();
+            $userdata = $this->get_userdata();
             $pagedata['title'] = $userdata['username'] . ' - Job Posts';
             
             $AllPosts = $this->Employer_model->get_all_posts();
@@ -446,13 +461,13 @@ class Auth extends CI_Controller {
         if ($jobPostID == NULL) {
             $this->Auth_model->err_page();
         } else {
-            $userdata   = $this->Employer_model->get_info();
+            $userdata   = $this->get_userdata();
             $jobDetails = $this->Employer_model->get_job_details($jobPostID);
 
             if (! $jobDetails) {
                 $this->Auth_model->err_page();
             } else {
-                $pagedata = ['title' => $jobDetails['jobTitle'] . ' - ' . $userdata['username'] . ' - Job Post'];
+                $pagedata = ['title' => $jobDetails['jobTitle'] . ' - Job Details'];
 
                 $this->load->view('templates/header', $pagedata);
                 $this->load->view('sections/navbar', $userdata);
@@ -610,7 +625,7 @@ class Auth extends CI_Controller {
                     if(! $jobDetails) {
                         $this->Auth_model->err_page();
                     } else {
-                        $userdata = $this->Employer_model->get_info();
+                        $userdata = $this->get_userdata();
                         $pagedata = ['title' => $userdata['username'] . ' - Edit Job Post'];
     
                         $this->load->view('templates/header', $pagedata);
@@ -706,6 +721,54 @@ class Auth extends CI_Controller {
                 $this->load->view('auth_sections/employer/applicant_profile', $ApplicantDetails);
                 $this->load->view('sections/footer');
                 $this->load->view('templates/footer');
+            }
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+    // HIRE APPLICANT
+    public function hire_applicant() {
+        if ($this->session->userType == 'Employer') {
+            if ($this->input->is_ajax_request()) {
+                $applicationID = $this->input->post('applicationID');
+                $hireStatus = $this->Employer_model->hire_applicant($applicationID);
+                $data['response'] = $hireStatus ? 'success' : 'failed';    
+                echo json_encode($data);
+            } else {
+                $this->Auth_model->err_page();
+            }
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+    // REJECT APPLICANT
+    public function reject_applicant() {
+        if ($this->session->userType == 'Employer') {
+            if ($this->input->is_ajax_request()) {
+                $applicationID = $this->input->post('applicationID');
+                $hireStatus = $this->Employer_model->reject_applicant($applicationID);
+                $data['response'] = $hireStatus ? 'success' : 'failed';    
+                echo json_encode($data);
+            } else {
+                $this->Auth_model->err_page();
+            }
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+    // CANCEL HIRING
+    public function cancel_hiring() {
+        if ($this->session->userType == 'Employer') {
+            if ($this->input->is_ajax_request()) {
+                $applicationID = $this->input->post('applicationID');
+                $hireStatus = $this->Employer_model->cancel_hiring($applicationID);
+                $data['response'] = $hireStatus ? 'success' : 'failed';    
+                echo json_encode($data);
+            } else {
+                $this->Auth_model->err_page();
             }
         } else {
             $this->Auth_model->err_page();

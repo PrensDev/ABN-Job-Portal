@@ -318,4 +318,10 @@ class Home extends CI_Controller {
             }
         }
     }
+
+    public function test() {
+        $this->load->view('templates/header');
+        $this->load->view('templates/test');
+        $this->load->view('templates/footer');
+    }
 }

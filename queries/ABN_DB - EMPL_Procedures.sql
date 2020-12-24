@@ -1,4 +1,4 @@
-
+ 
 -- Post New Job Procedure
 CREATE PROCEDURE [dbo].[EMPL_PostNewJob]
 	@employerID			INT,
@@ -47,24 +47,9 @@ AS
 CREATE PROCEDURE [dbo].[EMPL_GetAllPosts] 
 	@employerID INT
 AS
-	SELECT
-		  [jobPostID]
-		, [employerID]
-		, [jobTitle]
-		, [jobType]
-		, [industryType]
-		, [description]
-		, [responsibilities]
-		, [skills]
-		, [experiences]
-		, [education]
-		, [minSalary]
-		, [maxSalary]
-		, [dateCreated]
-		, CAST([jobPostFlag] AS INT) AS [status]
+	SELECT [jobPostID]
 	FROM [dbo].[JobPosts]
 	WHERE [employerID] = @employerID
-	ORDER BY [dateCreated] DESC
 ;
 
 
@@ -93,6 +78,7 @@ AS
 	FROM [JobPosts]
 	FULL OUTER JOIN [Applications]
 	ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
+	AND [Applications].[status]  != 'Rejected'
 	WHERE [employerID] = @employerID
 	GROUP BY
 		  [JobPosts].[jobPostID]
@@ -121,23 +107,43 @@ CREATE PROCEDURE [dbo].[EMPL_ViewPost]
 	@employerID INT
 AS
 	SELECT
-		  [jobPostID]
-		, [employerID]
-		, [jobTitle]
-		, [jobType]
-		, [industryType]
-		, [description]
-		, [responsibilities]
-		, [skills]
-		, [experiences]
-		, [education]
-		, [minSalary]
-		, [maxSalary]
-		, [dateCreated]
-		, [dateModified]
-		, CAST([jobPostFlag] AS INT) AS [status]
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[employerID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[industryType]
+		, [JobPosts].[description]
+		, [JobPosts].[responsibilities]
+		, [JobPosts].[skills]
+		, [JobPosts].[experiences]
+		, [JobPosts].[education]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, [JobPosts].[dateModified]
+		, CAST([JobPosts].[jobPostFlag] AS INT) AS [status]
+		, COUNT([Applications].[applicationID]) AS [numOfApplicants]
 	FROM [dbo].[JobPosts]
-	WHERE [jobPostID] = @jobPostID AND [employerID] = @employerID
+	FULL OUTER JOIN [dbo].[Applications]
+	ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
+	WHERE [JobPosts].[jobPostID] = @jobPostID 
+	AND [JobPosts].[employerID] = @employerID
+	GROUP BY
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[employerID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[industryType]
+		, [JobPosts].[description]
+		, [JobPosts].[responsibilities]
+		, [JobPosts].[skills]
+		, [JobPosts].[experiences]
+		, [JobPosts].[education]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, [JobPosts].[dateModified]
+		, [JobPosts].[jobPostFlag]
 ;
 
 
@@ -212,23 +218,12 @@ AS
 CREATE PROCEDURE [dbo].[EMPL_ViewAllApplicants]
 	@jobPostID   INT
 AS
-	SELECT
-		  [JobSeekers].[firstName]
-		, [JobSeekers].[middleName]
-		, [JobSeekers].[lastName]
-		, [JobSeekers].[lastName]
-		, [JobSeekers].[gender]
-		, [JobSeekers].[brgyDistrict]
-		, [JobSeekers].[cityMunicipality]
-		, [JobSeekers].[email]
-		, [Applications].[applicationID]
-		, [Applications].[jobPostID]
-		, [Applications].[status]
-		, [Applications].[dateApplied]
+	SELECT [Applications].[applicationID]
 	FROM [Applications]
 	INNER JOIN [JobSeekers]
 	ON [JobSeekers].[jobseekerID] = [Applications].[jobseekerID]
 	WHERE [Applications].[jobPostID] = @jobPostID
+	AND [Applications].[status]  != 'Rejected'
 ;
 
 
@@ -256,6 +251,7 @@ AS
 	INNER JOIN [JobSeekers]
 	ON [JobSeekers].[jobseekerID] = [Applications].[jobseekerID]
 	WHERE [Applications].[jobPostID] = @jobPostID
+	AND [Applications].[status]  != 'Rejected'
 	ORDER BY [Applications].[dateApplied] ASC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
@@ -297,5 +293,44 @@ AS
 	AND [Applications].[jobPostID] = @jobPostID
 ;
 
+-- Number of Job Posts Procedure
+CREATE PROCEDURE [dbo].[EMPL_NumOfPosts]
+	@employerID INT
+AS
+	SELECT COUNT(jobPostID) AS [postsNum]
+	FROM JobPosts 
+	WHERE employerID = @employerID
+;
 
-SELECT * FROM Applications ORDER BY jobseekerID
+
+-- Hire Applicant Procedure
+CREATE PROCEDURE [dbo].[EMPL_HireApplicant]
+	@applicationID INT
+AS
+	UPDATE [dbo].Applications
+	SET
+		[status] = 'Hired'
+	WHERE [applicationID] = @applicationID
+;
+
+
+-- Reject Applicant Procedure
+CREATE PROCEDURE [dbo].[EMPL_RejectApplicant]
+	@applicationID INT
+AS
+	UPDATE [dbo].Applications
+	SET
+		[status] = 'Rejected'
+	WHERE [applicationID] = @applicationID
+;
+
+
+-- Cancel Hiring Procedure
+CREATE PROCEDURE [dbo].[EMPL_CancelHiring]
+	@applicationID INT
+AS
+	UPDATE [dbo].Applications
+	SET
+		[status] = 'Pending'
+	WHERE [applicationID] = @applicationID
+;

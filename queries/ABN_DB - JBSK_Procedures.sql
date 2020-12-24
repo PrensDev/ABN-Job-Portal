@@ -65,7 +65,10 @@ CREATE PROCEDURE [dbo].[JBSK_IsJobApplied]
 	@jobPostID		INT,
 	@jobseekerID	INT
 AS
-	SELECT [status] FROM [Applications]
+	SELECT 
+		  [status]
+		, [dateApplied]
+	FROM [Applications]
 	WHERE [jobPostID] = @jobPostID
 	AND [jobseekerID] = @jobseekerID
 ;
@@ -128,4 +131,25 @@ AS
 	FETCH NEXT @fetchedRows ROWS ONLY
 ;
 
-SELECT * FROM Applications
+
+-- Number of Applied Jobs Procedure
+CREATE PROCEDURE [dbo].[JBSK_NumOfAppliedJobs]
+	@jobseekerID INT
+AS
+	SELECT COUNT(JobPostID) AS [appliedJobsNum]
+	FROM Applications
+	WHERE jobseekerID = @jobseekerID
+;
+
+
+-- Add to Bookmark Procdure
+CREATE PROCEDURE [JBSK_AddBookmark]
+	@jobseekerID INT,
+	@jobPostID	 INT
+AS
+	INSERT INTO [dbo].[Bookmarks]
+		( [jobseekerID]
+		, [jobPostID] )
+	VALUES 
+		( @jobseekerID
+		, @jobPostID )

@@ -9,7 +9,7 @@
         </div>
         <div>
             <a href="<?php echo base_url() ?>auth/edit_information" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
-                <i class="fas fa-pen"></i>
+                <i class="fas fa-pen mr-1"></i>
                 <span class="d-none d-sm-inline">Edit information</span>
             </a>
         </div>

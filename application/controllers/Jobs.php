@@ -69,8 +69,11 @@ class Jobs extends CI_Controller {
                 $data = $this->set_data('Job Details');
 
                 if ($this->session->userType == "Job Seeker") {
-                    $status = $this->Jobseeker_model->is_job_applied($jobPostID);
-                    $jobDetails['status'] = $status->result() ==  NULL ? NULL : $status->row()->status;
+                    $applied = $this->Jobseeker_model->is_job_applied($jobPostID);
+                    if ($applied) {
+                        $jobDetails['status']        = $applied->status;
+                        $jobDetails['dateApplied']   = $applied->dateApplied;
+                    }
                 }
     
                 $this->load->view('templates/header', $data);

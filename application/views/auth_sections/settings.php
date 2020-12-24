@@ -19,7 +19,7 @@
     </div>
     <!-- END OF SUCCESS ALERT BOX -->
 
-    <div class="card border-secondary">
+    <div class="card">
         <div class="card-header h6 bg-secondary text-white">
             <i class="fas fa-user-cog mr-2"></i>
             <span>Account Settings</span>
@@ -71,19 +71,19 @@
 </div>
 
 <?php
-
-$this->load->view('sections/components/modal', [
-    'id'            => 'deactivateModal',
-    'theme'         => 'warning',
-    'title'         => 'Deactivate account',
-    'icon'          => 'user-times',
-    'message'       => '
-        <p>Are you sure you want to deactivate your account?</p>
-        <p><strong>Note: You can reactivate your account by just logging in again.</strong></p>
-    ',
-    'actionPath'    => 'auth/deactivate',
-    'actionLabel'   => 'Deactivate',
-    'actionIcon'    => NULL,
-]);
-
+    $this->load->view('sections/components/modal', [
+        'id'            => 'deactivateModal',
+        'theme'         => 'warning',
+        'title'         => 'Deactivate Account',
+        'modalIcon'     => 'WARNING',
+        'message'       => '
+            <p class="m-1">Are you sure you want to deactivate your account?</p>
+            <p class="m-1"><strong>Note: You can reactivate your account by just logging in again.</strong></p>
+        ',
+        'actionPath'    => 'auth/deactivate',
+        'actionID'      => NULL,
+        'actionValue'   => NULL,
+        'actionIcon'    => 'user-times',
+        'actionLabel'   => 'Deactivate',
+    ]);
 ?>

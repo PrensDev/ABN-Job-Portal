@@ -4,7 +4,6 @@ class Jobseeker_model extends CI_Model {
 
     public function __construct() {
         $this->load->database();
-        $this->load->library('session');
     }
 
     protected function run_query($sql, $successPath) {
@@ -22,16 +21,10 @@ class Jobseeker_model extends CI_Model {
         $query = $this->db->query($sql);
         $row   = $query->row();
 
-        if ( $row->middleName == '' ) {
-            $fullName = $row->firstName . ' ' . $row->lastName;
-        } else {
-            $fullName = $row->firstName . ' ' . $row->middleName . ' ' . $row->lastName;
-        }
-
         $location = $row->brgyDistrict . ', ' . $row->cityMunicipality;
 
         $userdata = [
-            'username'         => $fullName,
+            'username'         => $row->firstName,
             'firstName'        => $row->firstName,
             'middleName'       => $row->middleName,
             'lastName'         => $row->lastName,
@@ -79,21 +72,21 @@ class Jobseeker_model extends CI_Model {
 
     // SUBMIT APPLICATION
     public function submit_application($jobPostID) {
-        $this->run_query("
+        return $this->db->query("
             EXEC [JBSK_SubmitApplication]
                 @jobPostID   = " . $jobPostID . ",
                 @jobseekerID = " . $this->session->id ."
-        ", 'jobs/details/' . $jobPostID);
+        ");
     }
 
 
     // CANCEL APPLICATION
     public function cancel_application($jobPostID) {
-        $this->run_query("
+        return $this->db->query("
             EXEC [JBSK_CancelApplication]
                 @jobPostID   = " . $jobPostID . ",
                 @jobseekerID = " . $this->session->id ."
-        ", 'jobs/details/' . $jobPostID);
+        ");
     }
 
 
@@ -104,8 +97,8 @@ class Jobseeker_model extends CI_Model {
                 @jobPostID   = " . $jobPostID . ",
                 @jobseekerID = " . $this->session->id . "
         ");
-        
-        return $query;
+
+        return $query->row();
     }
 
 
@@ -125,5 +118,18 @@ class Jobseeker_model extends CI_Model {
         ");
 
         return $query->result();
+    }
+
+    // NUMBER OF APPLIED JOBS
+    public function applied_jobs_num() {
+        $query = $this->db->query("EXEC [JBSK_NumOfAppliedJobs] @jobseekerID = " . $this->session->id);
+        $row = $query->row();
+        return $row->appliedJobsNum;
+    }
+
+
+    // ADD BOOKMARK
+    public function add_bookmark() {
+        
     }
 }

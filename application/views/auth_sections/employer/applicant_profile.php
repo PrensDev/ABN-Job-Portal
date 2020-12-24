@@ -15,7 +15,7 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
     
     <div class="row mb-4">
         <div class="col-md-auto d-flex justify-content-center">
-            <img src="assets\97.jpg" height="125" width="125" class="rounded-pill">
+            <img src="<?php echo base_url() ?>public/img/97.jpg" height="125" width="125" class="rounded-pill" draggable="false">
         </div>
         
         <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
@@ -47,21 +47,43 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
 
     <div class="mb-4"><hr></div>
 
-    <!-- APPLIED JOB INFORMATION -->
-    <div class="container-fluid border border-primary mb-4 p-2">
-        <div class="row align-items-center">
-            <div class="col-md-8 text-md-left text-center">
-                <div class="m-1">
-                    <strong><?php echo $fullName ?></strong> is applying for <a href="<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>"><?php echo $jobTitle ?></a>. 
-                </div>
-            </div>
-            <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
-                <button type="submit" class="btn btn-success m-1 text-nowrap">Hire Now!</button>
-                <button type="submit" class="btn btn-danger m-1 text-nowrap">Reject</button>
-            </div> 
-        </div> 
+    <div id="applicationStatus">
+        <?php
+            if ($status == 'Pending') {
+                echo '
+                    <div class="container-fluid alert alert-primary mb-4 p-2" id="pendingStatus">
+                        <div class="row align-items-center">
+                            <div class="col-md-8 text-md-left text-center">
+                                <div class="m-1">
+                                    <strong>' . $fullName . '</strong> is applying for <strong><a href="' . base_url() . 'auth/job_details/' . $jobPostID . '">' . $jobTitle . '</strong></a>. 
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
+                                <button type="submit" class="btn btn-success m-1 text-nowrap" data-toggle="modal" data-target="#hireModal">Hire Now!</button>
+                                <button type="submit" class="btn btn-danger m-1 text-nowrap" data-toggle="modal" data-target="#rejectModal">Reject</button>
+                            </div> 
+                        </div> 
+                    </div>
+                ';
+            } else if ($status == 'Hired') {
+                echo '
+                    <div class="container-fluid alert alert-success mb-4 p-2" id="hiredStatus">
+                        <div class="row align-items-center">
+                            <div class="col-md-8 text-md-left text-center">
+                                <div class="m-1">
+                                    You hired <strong>' . $fullName . '</strong> for <strong><a href="' . base_url() . 'auth/job_details/' . $jobPostID . '">' . $jobTitle . '</strong></a>. 
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
+                                <button type="submit" class="btn btn-warning m-1 text-nowrap" data-toggle="modal" data-target="#cancelHiringModal">Cancel</button>
+                            </div> 
+                        </div> 
+                    </div>
+                ';
+            }
+        ?>
     </div>
-    <!-- END OF APPLIED JOB INFORMATION -->
+
 
     <div class="row">
         
@@ -121,6 +143,7 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                     
                     <div class="list-group list-group-flush">
 
+                        <!-- GENDER -->
                         <div class="list-group-item d-flex">
                             <div class="list-group-item-icon h4 text-info">
                                 <i class="fas fa-user-tie"></i>
@@ -131,6 +154,7 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                             </div>
                         </div>
 
+                        <!-- AGE -->
                         <div class="list-group-item d-flex">
                             <div class="list-group-item-icon h4 text-info">
                                 <i class="fas fa-clock"></i>
@@ -141,6 +165,7 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                             </div>
                         </div>
 
+                        <!-- LOCATION -->
                         <div class="list-group-item d-flex">
                             <div class="list-group-item-icon h4 text-info">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -155,7 +180,6 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                     
                 </div>
             </div>
-            <!-- END OF GENERAL INFORMATION CARD -->
 
             <!-- CONTACT INFORMATION CARD -->
             <div class="card mb-3">
@@ -169,6 +193,7 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                     
                     <div class="list-group list-group-flush">
 
+                        <!-- CONTACT NUMBER -->
                         <div class="list-group-item d-flex">
                             <div class="list-group-item-icon h4 text-danger">
                                 <i class="fas fa-phone-alt"></i>
@@ -179,6 +204,7 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                             </div>
                         </div>
 
+                        <!-- EMAIL -->
                         <div class="list-group-item d-flex">
                             <div class="list-group-item-icon h4 text-danger">
                                 <i class="fas fa-envelope"></i>
@@ -207,3 +233,102 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
 
 </div>
 </div>
+
+
+
+<?php
+
+if ($status == 'Pending') {
+    $this->load->view('sections/components/modal', [
+        'id'            => 'hireModal',
+        'theme'         => 'success',
+        'title'         => 'Hire an applicant',
+        'modalIcon'     => 'INFO',
+        'message'       => '<p class="m-1">Are you sure you want to hire <strong>' . $fullName . '</strong> for <strong>' . $jobTitle . '</strong>?</p>',
+        'actionPath'    => NULL,
+        'actionID'      => 'hireApplicantBtn',
+        'actionValue'   => $applicationID,
+        'actionIcon'    => NULL,
+        'actionLabel'   => 'Hire now!',
+    ]);
+
+    $this->load->view('sections/components/modal', [
+        'id'            => 'rejectModal',
+        'theme'         => 'danger',
+        'title'         => 'Reject an applicant',
+        'modalIcon'     => 'WARNING',
+        'message'       => '<p class="m-1">Are you sure you want to reject this applicant?</p>',
+        'actionPath'    => NULL,
+        'actionID'      => 'rejectApplicantBtn',
+        'actionValue'   => $applicationID,
+        'actionIcon'    => 'user-times',
+        'actionLabel'   => 'Reject',
+    ]);
+} else if ($status == 'Hired') {
+    $this->load->view('sections/components/modal', [
+        'id'            => 'cancelHiringModal',
+        'theme'         => 'warning',
+        'title'         => 'Cancel hiring',
+        'modalIcon'     => 'WARNING',
+        'message'       => '<p class="m-1">Are you sure you want to <strong>cancel hiring</strong> for <strong>' . $fullName . '</strong>?</p>',
+        'actionPath'    => NULL,
+        'actionID'      => 'cancelHiringBtn',
+        'actionValue'   => $applicationID,
+        'actionIcon'    => 'user-times',
+        'actionLabel'   => 'Continue',
+    ]);
+}
+
+
+?>
+
+
+<script>     
+    $(document).on('click','#hireApplicantBtn', function(e) {
+        e.preventDefault();
+        var applicationID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/hire_applicant",
+            type:       "post",
+            dataType:   "json",
+            data: {
+                applicationID: applicationID
+            },
+            success:    function(data) {
+                location.reload();
+            } 
+        });
+    });
+
+    $(document).on('click','#rejectApplicantBtn', function(e) {
+        e.preventDefault();
+        var applicationID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/reject_applicant",
+            type:       "post",
+            dataType:   "json",
+            data: {
+                applicationID: applicationID
+            },
+            success:    function(data) {
+                location.reload();
+            } 
+        });
+    });
+
+    $(document).on('click','#cancelHiringBtn', function(e) {
+        e.preventDefault();
+        var applicationID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/cancel_hiring",
+            type:       "post",
+            dataType:   "json",
+            data: {
+                applicationID: applicationID
+            },
+            success:    function(data) {
+                location.reload();
+            } 
+        });
+    });
+</script>

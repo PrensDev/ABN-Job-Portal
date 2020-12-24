@@ -13,10 +13,10 @@
     <form method="POST">
 
         <!-- COMPANY INFORMATION FORM -->
-        <div class="card border-secondary my-4">
+        <div class="card my-4 border-0 shadow">
 
-            <div class="card-header h6 bg-secondary text-white">
-                <i class="fas fa-briefcase mr-2"></i>
+            <div class="card-header h6 bg-light border-0">
+                <i class="fas fa-briefcase text-primary mr-2"></i>
                 <span>Company Information</span>
             </div>
             
@@ -126,13 +126,12 @@
             </div>
 
         </div>
-        <!-- END OF COMPANY INFORMATION FORM -->
         
         <!-- CONTACT INFORMATION FORM -->
-        <div class="card border-secondary my-4">
+        <div class="card my-4 border-0 shadow">
 
-            <div class="card-header h6 bg-secondary text-white">
-                <i class="fas fa-phone-alt mr-2"></i>
+            <div class="card-header h6 bg-light border-0">
+                <i class="fas fa-phone-alt text-primary mr-2"></i>
                 <span>Contact Information</span>
             </div>
 
@@ -175,13 +174,12 @@
             </div>
 
         </div>
-        <!-- END OF CONTACT INFORMATION FORM -->
 
         <!-- ACCOUNT INFORMATION FORM -->
-        <div class="card border-secondary my-4">
+        <div class="card my-4 border-0 shadow">
 
-            <div class="card-header h6 bg-secondary text-white">
-                <i class="fas fa-user-tie mr-2"></i>
+            <div class="card-header h6 bg-light border-0">
+                <i class="fas fa-user-tie text-primary mr-2"></i>
                 <span>Account Information</span>
             </div>
 

@@ -10,8 +10,8 @@
         <h2 class="font-weight-normal">You don't apply to any job yet.</h2>
         <p class="text-secondary">Search our recent posts to get started.</p>
         <div class="mt-5">
-            <a href="<?php echo base_url() ?>jobs/recent" class="btn btn-primary">
-                <span>Go to Recent Jobs</span>
+            <a href="<?php echo base_url() ?>jobs" class="btn btn-primary">
+                <span>Browse for Available Jobs</span>
             </a>
         </div>
     </div>

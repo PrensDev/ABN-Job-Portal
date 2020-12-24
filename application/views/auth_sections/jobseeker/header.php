@@ -1,4 +1,12 @@
-<!-- HEADER -->
+<?php 
+
+    if ($middleName != '') {
+        $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
+    } else {
+        $fullName = $firstName . ' ' . $lastName;
+    }
+
+?>
 <div 
     class="container-fluid py-3 parallax-window image-overlay py-5 user-select-none" 
     data-parallax="scroll" 
@@ -9,12 +17,12 @@
 
     <!-- COMPANY IMAGE/LOGO -->
     <div class="col-md-auto d-flex justify-content-center">
-        <img src="assets\97.jpg" alt="" height="125" width="125" class="rounded-pill">
+        <img src="<?php echo base_url() ?>public/img/97.jpg" alt="" height="125" width="125" class="rounded-pill">
     </div>
     
     <!-- COMPANY INFORMATION -->
     <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
-        <h1 class="font-weight-light"><?php echo $username ?></h1>
+        <h1 class="font-weight-light"><?php echo $fullName ?></h1>
         
         <div class="d-block d-md-flex flex-wrap">
             

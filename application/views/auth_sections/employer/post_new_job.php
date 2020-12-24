@@ -12,10 +12,10 @@
     <form method="POST">
 
         <!-- COMPANY INFORMATION FORM -->
-        <div class="card border-secondary my-4">
+        <div class="card my-4 border-0 shadow">
 
-            <div class="card-header h6 bg-secondary text-white">
-                <i class="fas fa-exclamation-circle mr-2"></i>
+            <div class="card-header h6 bg-light border-0">
+                <i class="fas fa-exclamation-circle text-primary mr-2"></i>
                 <span>General Information</span>
             </div>
             
@@ -156,13 +156,12 @@
             </div>
 
         </div>
-        <!-- END OF GENERAL INFORMATION FORM -->
         
         <!-- JOB DESCRIPTION FORM -->
-        <div class="card border-secondary my-4">
+        <div class="card my-4 border-0 shadow">
 
-            <div class="card-header h6 bg-secondary text-white">
-                <i class="fas fa-exclamation-circle mr-2"></i>
+            <div class="card-header h6 bg-light border-0">
+                <i class="fas fa-exclamation-circle text-primary mr-2"></i>
                 <span>Job Description</span>
             </div>
 

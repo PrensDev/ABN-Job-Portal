@@ -52,11 +52,39 @@
             <p class="h5 text-uppercase m-0" title="Job Title: <?php echo $jobTitle ?>">
                 <a href="<?php echo base_url() ?>jobs/details/<?php echo $jobPostID ?>" class="text-decoration-none text-dark"><?php echo $jobTitle ?></a>
             </p>
+
             <div class="mr-3 text-primary mt-1">
                 <a href="<?php echo base_url() ?>companies/details/<?php echo $employerID ?>" class="text-primary" title="Company: <?php echo $companyName ?>">
                     <span><?php echo $companyName ?></span>
                 </a>
             </div>
+
+            <?php
+                if ($this->session->userType == 'Job Seeker') {
+                    $applied = $this->Jobseeker_model->is_job_applied($jobPostID);
+                    if (isset($applied)) {
+                        if ($applied->status == 'Pending') {
+                            echo '
+                                <div>
+                                    <span class="badge badge-success px-2 py-1" title="Your application is pending.">Pending</span>
+                                </div>
+                            ';
+                        } else if ($applied->status == 'Hired') {
+                            echo '
+                                <div>
+                                    <span class="badge badge-primary px-2 py-1" title="You are hired for this job.">Hired</span>
+                                </div>
+                            ';
+                        } else if ($applied->status == 'Rejected') {
+                            echo '
+                                <div>
+                                    <span class="badge badge-danger px-2 py-1" title="You are rejected for this job.">Rejected</span>
+                                </div>
+                            ';
+                        }
+                    }
+                }            
+            ?>
 
             <!-- JOB DETAILS -->
             <div class="d-flex flex-wrap text-secondary mt-2">
@@ -89,7 +117,7 @@
                 <i class="fas fa-user-tie mr-1"></i>
                 <span><?php echo $jobType ?></span>
             </span>
-            <p class="text-secondary font-italic mt-1" title="Applied <?php echo $dateApplied ?>">Applied <?php echo $dateApplied ?></p>
+            <span class="badge text-secondary mt-1" title="Applied <?php echo $dateApplied ?>">Applied <?php echo $dateApplied ?></span>
         </div>
 
     </div>
