@@ -40,7 +40,11 @@ class Home extends CI_Controller {
         $this->load->view('sections/navbar', $data['userdata']);
 
         if ( $bodyView == 'index' ) {
-            $posts = $this->View_model->recent_posts(0, 10);
+            if ($this->session->userType == 'Job Seeker') {
+                $posts = $this->Jobseeker_model->view_recent_posts(0, 10);
+            } else {
+                $posts = $this->View_model->recent_posts(0, 10);
+            }
             $data['posts'] = $posts;
             $this->load->view('index', $data);
         } else {
@@ -317,11 +321,5 @@ class Home extends CI_Controller {
                 $this->Auth_model->register_employer();
             }
         }
-    }
-
-    public function test() {
-        $this->load->view('templates/header');
-        $this->load->view('templates/test');
-        $this->load->view('templates/footer');
     }
 }

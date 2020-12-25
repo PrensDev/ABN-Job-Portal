@@ -11,13 +11,17 @@ $location = $brgyDistrict . ', ' . $cityMunicipality;
 if ($status == 'Pending') {
     $statusTheme = 'success';
 } else if ($status == "Hired") {
-    $statusTheme = 'info';
+    $statusTheme = 'primary';
+} else if ($status == 'Rejected') {
+    $statusTheme = 'danger';
 }
+
+$dateApplied = date_format(date_create($dateApplied),"M. d, Y \a\\t h:i a");
 
 ?>
 
 <div class="col-md-6 col-lg-4 my-3">
-<div class="border bg-white shadow p-3 d-flex flex-column justify-content-between h-100">
+<div class="bg-white shadow p-3 d-flex flex-column justify-content-between h-100">
 
     <div class="flex-grow-1">
         <div class="d-flex justify-content-center mb-3">
@@ -27,6 +31,7 @@ if ($status == 'Pending') {
         <h4 class="font-weight-normal text-center"><?php echo $fullName ?></h4>
 
         <div class="text-center">
+            <p class="font-italic text-secondary">Applied <?php echo $dateApplied ?></p>
             <span class="badge badge-<?php echo $statusTheme ?> py-1 px-2"><?php echo $status ?></span>
         </div>
 
@@ -117,6 +122,19 @@ if ($status == 'Pending') {
                             data-applicationid = "' . $applicationID . '"
                             data-applicantname = "' . $fullName . '"
                         >Cancel Hiring</button>
+                    </div>
+                ';
+            } else if ($status == 'Rejected') {
+                echo '
+                    <div class="mt-2">
+                        <button
+                            type="button" 
+                            class="btn btn-secondary btn-block btn-sm"
+                            data-toggle        = "modal" 
+                            data-target        = "#cancelRejectModal" 
+                            data-applicationid = "' . $applicationID . '"
+                            data-applicantname = "' . $fullName . '"
+                        >Cancel Rejecting</button>
                     </div>
                 ';
             }

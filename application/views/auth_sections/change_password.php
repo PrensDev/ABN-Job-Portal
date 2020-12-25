@@ -22,28 +22,21 @@
                         <label><a href="forgot_password.html" data-toggle="tooltip" data-placement="top" title="Did you forget your password? Click Here">Forgot Password?</a></label>
                     </div>
                 </div>
-                <div class="input-group">
-                    <input 
-                        type        = "password" 
-                        class       = "form-control <?php echo form_error('oldPassword') ? 'is-invalid' : '' ?>" 
-                        id          = "oldPassword" 
-                        name        = "oldPassword"
-                        placeholder = "Type your old password"
-                        value       = "<?php set_value('oldPassword') ?>"
-                    >
-                    <div class="input-group-append">
-                        <span class="input-group-text bg-white" id="togglePassword">
-                            <i class="fas fa-eye" id="passwordIcon"></i>
-                        </span>
-                    </div>
-                    <small class="invalid-feedback">This is a required field.</small>
+                <input 
+                    type        = "password" 
+                    class       = "form-control <?php echo form_error('oldPassword') ? 'is-invalid' : '' ?>" 
+                    id          = "oldPassword" 
+                    name        = "oldPassword"
+                    placeholder = "Type your old password"
+                    value       = "<?php set_value('oldPassword') ?>"
+                >
+                <small class="invalid-feedback">This is a required field.</small>
                 </div>
                 
             </div>
 
             <div class="form-group">
                 <label for="password">Type New Password:</label>
-                <div class="input-group">
                     <input 
                         type        = "password" 
                         class       = "form-control <?php echo form_error('newPassword') ? 'is-invalid' : '' ?>" 
@@ -51,11 +44,6 @@
                         name        = "newPassword"
                         placeholder = "Type your new password"
                     >
-                    <div class="input-group-append">
-                        <span class="input-group-text bg-white" id="togglePassword">
-                            <i class="fas fa-eye" id="passwordIcon"></i>
-                        </span>
-                    </div>
                     <small class="invalid-feedback">This is a required field.</small>
                 </div>
                 
@@ -63,20 +51,14 @@
 
             <div class="form-group">
                 <label for="password">Retype New Password to Confirm:</label>
-                <div class="input-group">
-                    <input
-                        type        = "password" 
-                        class       = "form-control <?php echo form_error('retypeNewPassword') ? 'is-invalid' : '' ?>" 
-                        id          = "retypeNewPassword" 
-                        name        = "retypeNewPassword"
-                        placeholder = "Retype your new password"
-                    >
-                    <div class="input-group-append">
-                        <span class="input-group-text bg-white" id="togglePassword">
-                            <i class="fas fa-eye" id="passwordIcon"></i>
-                        </span>
-                    </div>
-                    <small class="invalid-feedback">This is a required field.</small>
+                <input
+                    type        = "password" 
+                    class       = "form-control <?php echo form_error('retypeNewPassword') ? 'is-invalid' : '' ?>" 
+                    id          = "retypeNewPassword" 
+                    name        = "retypeNewPassword"
+                    placeholder = "Retype your new password"
+                >
+                <small class="invalid-feedback">This is a required field.</small>
                 </div>
                 
             </div>

@@ -1,7 +1,5 @@
 <?php
-
-    $postsNumContent = $postsNum > 0 ? '<span class="badge badge-secondary">' . $postsNum . '</span>' : '';
-
+    $postsNumContent = $postsNum > 0 ? '<span class="badge badge-primary">' . $postsNum . '</span>' : '';
 ?>
 
 <!-- EMPLOYER USER CONTROL -->
@@ -9,10 +7,11 @@
                                 
     <span class="d-flex align-items-center" role="button" data-toggle="dropdown">
         <img 
-            class   = "rounded-pill border mr-1" 
-            src     = "<?php echo base_url() ?>public/img/job_logo_5.jpg" 
-            height  = "30" 
-            width   = "30"
+            class     = "rounded-pill border mr-1" 
+            src       = "<?php echo base_url() ?>public/img/job_logo_5.jpg" 
+            height    = "30" 
+            width     = "30"
+            draggable ="false"
         >
         <span><?php echo $username ?></span>
     </span>
@@ -64,4 +63,3 @@
     </div>
 
 </li>
-<!-- END OF EMPLOYER USER CONTROL -->

@@ -1,13 +1,12 @@
 <?php
-
     $appliedJobsNumContent = $appliedJobsNum > 0 ? '<span class="badge badge-primary">' . $appliedJobsNum . '</span>' : '';
-
+    $bookmarksNumContent   = $bookmarksNum   > 0 ? '<span class="badge badge-primary">' . $bookmarksNum   . '</span>' : '';
 ?>
 
 <li class="nav-link mx-md-2 nav-item dropdown">
                                 
     <span class="d-flex align-items-center" role="button" data-toggle="dropdown">
-        <img class="rounded-pill border mr-1" src="<?php echo base_url() ?>public/img/97.jpg" alt="" height="30" width="30">
+        <img class="rounded-pill border mr-1" src="<?php echo base_url() ?>public/img/97.jpg" alt="" height="30" width="30" draggable="false">
         <span><?php echo $username ?></span>
     </span>
     
@@ -39,7 +38,7 @@
                 </div>
                 <span class="pl-1">Bookmarks</span>
             </div>
-            <?php echo $appliedJobsNumContent ?>
+            <?php echo $bookmarksNumContent ?>
         </a>
 
         <a class="dropdown-item" href="jobseeker_notifications.html">

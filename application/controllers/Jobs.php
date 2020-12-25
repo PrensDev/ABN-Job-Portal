@@ -62,20 +62,11 @@ class Jobs extends CI_Controller {
         if ($jobPostID == NULL) {
             $this->Auth_model->err_page();
         } else {
-            $jobDetails = $this->View_model->job_details($jobPostID);
+            $jobDetails = $this->session->userType == 'Job Seeker' ? $this->Jobseeker_model->job_details($jobPostID) : $this->View_model->job_details($jobPostID);
             if (! $jobDetails) {
                 $this->Auth_model->err_page();
             } else {
-                $data = $this->set_data('Job Details');
-
-                if ($this->session->userType == "Job Seeker") {
-                    $applied = $this->Jobseeker_model->is_job_applied($jobPostID);
-                    if ($applied) {
-                        $jobDetails['status']        = $applied->status;
-                        $jobDetails['dateApplied']   = $applied->dateApplied;
-                    }
-                }
-    
+                $data = $this->set_data('Job Details');    
                 $this->load->view('templates/header', $data);
                 $this->load->view('sections/navbar', $data['userdata']);
                 $this->load->view('sections/job_details', $jobDetails);
@@ -88,14 +79,15 @@ class Jobs extends CI_Controller {
 
     // RECENT JOB LIST 
     public function recent($page = 1) {
-        $AllRecentPosts     = $this->View_model->all_recent_posts();
+        $AllRecentPosts = $this->session->userType == 'Job Seeker' ? $this->Jobseeker_model->view_all_recent_posts() : $this->View_model->all_recent_posts();
         $totalRows = $AllRecentPosts->num_rows();
         $fetchedRows = 10;
         $totalPages = ceil($totalRows / $fetchedRows);
         
         if ($page > 0 && $page <= $totalPages) {
             $offsetRows         = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-            $RecentPosts = $this->View_model->recent_posts($offsetRows, $fetchedRows); 
+            
+            $RecentPosts = $this->session->userType == 'Job Seeker' ? $this->Jobseeker_model->view_recent_posts($offsetRows, $fetchedRows) : $this->View_model->recent_posts($offsetRows, $fetchedRows); 
 
             $data = $this->set_jobpage_data(
                 'Recent Jobs',

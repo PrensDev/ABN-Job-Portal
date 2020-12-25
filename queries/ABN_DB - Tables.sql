@@ -5,8 +5,6 @@ CREATE DATABASE [ABN_DB]
 USE [ABN_DB]
 GO
 
-DROP TABLE JobPosts
-
 --------------------------------------------------------
 
 -- UserAccounts Table
@@ -236,6 +234,9 @@ CREATE TABLE [Bookmarks] (
 		INT NOT NULL
 		CONSTRAINT FK_jobPostID@Bookmarks FOREIGN KEY
 			REFERENCES [JobPosts] ([jobPostID])
+	,
+	[dateBookmarked]
+		DATETIME NOT NULL DEFAULT GETDATE()
 );
 
 

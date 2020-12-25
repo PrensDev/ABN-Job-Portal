@@ -19,4 +19,3 @@ $(function () {
   // TO TOGGLE ALL POPOVERS
   $('[data-toggle="popover"]').popover();
 });
-

@@ -1,6 +1,6 @@
  
 -- Post New Job Procedure
-CREATE PROCEDURE [dbo].[EMPL_PostNewJob]
+CREATE PROCEDURE [EMPL_PostNewJob]
 	@employerID			INT,
 	@jobTitle			VARCHAR(MAX),
 	@jobType			VARCHAR(MAX),
@@ -14,7 +14,7 @@ CREATE PROCEDURE [dbo].[EMPL_PostNewJob]
 	@maxSalary			MONEY,
 	@jobPostFlag		BINARY
 AS
-	INSERT INTO [dbo].[JobPosts]
+	INSERT INTO [JobPosts]
 		( [employerID]
 		, [jobTitle]
 		, [jobType]
@@ -44,17 +44,17 @@ AS
 
 
 -- Get All Posts Procedure
-CREATE PROCEDURE [dbo].[EMPL_GetAllPosts] 
+CREATE PROCEDURE [EMPL_GetAllPosts] 
 	@employerID INT
 AS
 	SELECT [jobPostID]
-	FROM [dbo].[JobPosts]
+	FROM [JobPosts]
 	WHERE [employerID] = @employerID
 ;
 
 
 -- Get Limited Posts Procedure
-CREATE PROCEDURE [dbo].[EMPL_GetPosts] 
+CREATE PROCEDURE [EMPL_GetPosts] 
 	@offsetRows  INT,
 	@fetchedRows INT,
 	@employerID  INT
@@ -78,7 +78,7 @@ AS
 	FROM [JobPosts]
 	FULL OUTER JOIN [Applications]
 	ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
-	AND [Applications].[status]  != 'Rejected'
+	-- AND [Applications].[status]  != 'Rejected'
 	WHERE [employerID] = @employerID
 	GROUP BY
 		  [JobPosts].[jobPostID]
@@ -102,7 +102,7 @@ AS
 
 
 -- View Job Post
-CREATE PROCEDURE [dbo].[EMPL_ViewPost]
+CREATE PROCEDURE [EMPL_ViewPost]
 	@jobPostID	INT,
 	@employerID INT
 AS
@@ -123,8 +123,8 @@ AS
 		, [JobPosts].[dateModified]
 		, CAST([JobPosts].[jobPostFlag] AS INT) AS [status]
 		, COUNT([Applications].[applicationID]) AS [numOfApplicants]
-	FROM [dbo].[JobPosts]
-	FULL OUTER JOIN [dbo].[Applications]
+	FROM [JobPosts]
+	FULL OUTER JOIN [Applications]
 	ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
 	WHERE [JobPosts].[jobPostID] = @jobPostID 
 	AND [JobPosts].[employerID] = @employerID
@@ -148,7 +148,7 @@ AS
 
 
 -- UpdateJobPost Procedure
-CREATE PROCEDURE [dbo].[EMPL_UpdatePost]
+CREATE PROCEDURE [EMPL_UpdatePost]
 	@jobPostID			INT,
 	@jobTitle			VARCHAR(MAX),
 	@jobType			VARCHAR(MAX),
@@ -162,7 +162,7 @@ CREATE PROCEDURE [dbo].[EMPL_UpdatePost]
 	@maxSalary			MONEY,
 	@jobPostFlag		BINARY
 AS
-	UPDATE [dbo].[JobPosts]
+	UPDATE [JobPosts]
 	SET
 		  [jobTitle] 			= @jobTitle
 		, [jobType] 			= @jobType
@@ -181,17 +181,17 @@ AS
 
 
 -- Delete Job Post Procedure
-CREATE PROCEDURE [dbo].[EMPL_DeletePost]
+CREATE PROCEDURE [EMPL_DeletePost]
 	@jobPostID	INT,
 	@employerID INT
 AS
-	DELETE FROM [dbo].[JobPosts] 
+	DELETE FROM [JobPosts] 
 	WHERE [jobPostID] = @jobPostID AND [employerID] = @employerID
 ;
 
 
 -- Update Employer Information Procedure
-CREATE PROCEDURE [dbo].[EMPL_UpdateInfo]
+CREATE PROCEDURE [EMPL_UpdateInfo]
 	@employerID			INT,
 	@companyName		VARCHAR(MAX),
 	@street				VARCHAR(MAX),
@@ -201,7 +201,7 @@ CREATE PROCEDURE [dbo].[EMPL_UpdateInfo]
 	@website			VARCHAR(MAX),
 	@description		VARCHAR(MAX)
 AS
-	UPDATE [dbo].[Employers]
+	UPDATE [Employers]
 	SET
 		  [companyName] 	 = @companyName
 		, [street] 			 = @street
@@ -215,20 +215,19 @@ AS
 
 
 -- View All Applicants Procedure
-CREATE PROCEDURE [dbo].[EMPL_ViewAllApplicants]
+CREATE PROCEDURE [EMPL_ViewAllApplicants]
 	@jobPostID   INT
 AS
 	SELECT [Applications].[applicationID]
 	FROM [Applications]
 	INNER JOIN [JobSeekers]
-	ON [JobSeekers].[jobseekerID] = [Applications].[jobseekerID]
-	WHERE [Applications].[jobPostID] = @jobPostID
-	AND [Applications].[status]  != 'Rejected'
+		ON [JobSeekers].[jobseekerID] = [Applications].[jobseekerID]
+		AND [Applications].[jobPostID] = @jobPostID
 ;
 
 
 -- View Applicants Procedure
-CREATE PROCEDURE [dbo].[EMPL_ViewApplicants]
+CREATE PROCEDURE [EMPL_ViewApplicants]
 	@offsetRows  INT,
 	@fetchedRows INT,
 	@jobPostID   INT
@@ -249,9 +248,8 @@ AS
 		, [Applications].[dateApplied]
 	FROM [Applications]
 	INNER JOIN [JobSeekers]
-	ON [JobSeekers].[jobseekerID] = [Applications].[jobseekerID]
-	WHERE [Applications].[jobPostID] = @jobPostID
-	AND [Applications].[status]  != 'Rejected'
+		ON [JobSeekers].[jobseekerID] = [Applications].[jobseekerID]
+		AND [Applications].[jobPostID] = @jobPostID
 	ORDER BY [Applications].[dateApplied] ASC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
@@ -259,7 +257,7 @@ AS
 
 
 -- View Applicant Profile Procedure
-CREATE PROCEDURE [dbo].[EMPL_ViewApplicantProfile]
+CREATE PROCEDURE [EMPL_ViewApplicantProfile]
 	@jobseekerID INT,
 	@jobPostID   INT
 AS
@@ -284,53 +282,51 @@ AS
 		, [Applications].[jobPostID]
 		, [Applications].[status]
 		, [JobPosts].[jobTitle]
-	FROM [dbo].[Applications]
-	INNER JOIN [dbo].[JobSeekers]
-	ON [Applications].[jobseekerID] = [JobSeekers].[jobseekerID]
-	INNER JOIN [dbo].[JobPosts]
-	ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
-	AND [JobSeekers].[jobseekerID] = @jobseekerID
-	AND [Applications].[jobPostID] = @jobPostID
+	FROM [Applications]
+		INNER JOIN [JobSeekers]
+		ON [Applications].[jobseekerID] = [JobSeekers].[jobseekerID]
+	INNER JOIN [JobPosts]
+		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
+		AND [JobSeekers].[jobseekerID] = @jobseekerID
+		AND [Applications].[jobPostID] = @jobPostID
 ;
 
+
 -- Number of Job Posts Procedure
-CREATE PROCEDURE [dbo].[EMPL_NumOfPosts]
+CREATE PROCEDURE [EMPL_NumOfPosts]
 	@employerID INT
 AS
-	SELECT COUNT(jobPostID) AS [postsNum]
+	SELECT COUNT([jobPostID]) AS [postsNum]
 	FROM JobPosts 
 	WHERE employerID = @employerID
 ;
 
 
 -- Hire Applicant Procedure
-CREATE PROCEDURE [dbo].[EMPL_HireApplicant]
+CREATE PROCEDURE [EMPL_HireApplicant]
 	@applicationID INT
 AS
-	UPDATE [dbo].Applications
-	SET
-		[status] = 'Hired'
+	UPDATE [Applications]
+	SET [status] = 'Hired'
 	WHERE [applicationID] = @applicationID
 ;
 
 
 -- Reject Applicant Procedure
-CREATE PROCEDURE [dbo].[EMPL_RejectApplicant]
+CREATE PROCEDURE [EMPL_RejectApplicant]
 	@applicationID INT
 AS
-	UPDATE [dbo].Applications
-	SET
-		[status] = 'Rejected'
+	UPDATE [Applications]
+	SET [status] = 'Rejected'
 	WHERE [applicationID] = @applicationID
 ;
 
 
--- Cancel Hiring Procedure
-CREATE PROCEDURE [dbo].[EMPL_CancelHiring]
+-- Cancel Hiring or Rejecting Procedure
+CREATE PROCEDURE [EMPL_CancelHiringOrRejecting]
 	@applicationID INT
 AS
-	UPDATE [dbo].Applications
-	SET
-		[status] = 'Pending'
+	UPDATE [Applications]
+	SET [status] = 'Pending'
 	WHERE [applicationID] = @applicationID
 ;

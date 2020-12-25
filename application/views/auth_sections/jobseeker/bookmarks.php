@@ -1,27 +1,34 @@
-<!-- JOB LIST SECTION -->
-<div class="container-fluid py-5 bg-light">
-<div class="container-md">
+<!-- APPLICANT PROFILE DETAILS SECTION -->
+<div class="container-fluid bg-light">
+<div class="container-md py-5">
+    
+    <div class="mb-4">
+        <h1 class="font-weight-normal mb-2">Bookmarks</h1>
 
-    <h1 class="font-weight-normal"><?php echo $bodyTitle ?></h1>
-    <p class="text-secondary"><?php echo $bodySubtitle ?></p>
-
-    <div class="d-flex justify-content-between">
-        <p><?php echo $totalRows ?> match found.</p>
-        <?php 
-            if ($totalPages > 1) {
-                echo '<p>Showing page ' . $currentPage . ' of ' . $totalPages . '.</p>';
-            }
-        ?>
+        <div class="text-secondary d-flex justify-content-between">
+            <p class="m-0">You already saved <strong><?php echo $totalRows ?></strong> bookmark<?php echo $totalRows > 1 ? 's' : '' ?>.</p>
+            <?php
+                if ($totalPages > 1) {
+                    echo '
+                        <p class="m-0">Showing page ' . $currentPage . ' of ' . $totalPages . '.</p>
+                    ';
+                }
+            ?>
+        </div>
     </div>
 
-    <div class="row mb-5">
-        <?php foreach ($posts as $post) { $this->load->view('sections/components/job_post_card', $post); } ?>
+
+    <!-- JOB LIST -->
+    <div class="row mt-2 mb-5">
+        <?php foreach ( $posts as $post ) { $this->load->view('auth_sections/jobseeker/components/job_post_card', $post); } ?>
     </div>
+    <!-- END OF JOB LIST -->
 
     <?php echo $this->pagination->create_links(); ?>
 
 </div>
 </div>
+
 
 <script>
     $(document).on('click','#addBookmarkBtn', function(e) {

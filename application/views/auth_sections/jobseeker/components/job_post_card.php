@@ -31,7 +31,11 @@
 
     $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
 
-    $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
+    if (isset($dateApplied)) {
+        $userDate = 'Applied ' . date_format(date_create($dateApplied),"M. d, Y") . ' at ' . date_format(date_create($dateApplied),"h:i a");
+    } else if (isset($dateBookmarked)) {
+        $userDate = 'Added ' . date_format(date_create($dateBookmarked),"M. d, Y") . ' at ' . date_format(date_create($dateBookmarked),"h:i a");
+    }
 ?>
 
 <div class="col-lg-6 my-2">
@@ -61,21 +65,20 @@
 
             <?php
                 if ($this->session->userType == 'Job Seeker') {
-                    $applied = $this->Jobseeker_model->is_job_applied($jobPostID);
-                    if (isset($applied)) {
-                        if ($applied->status == 'Pending') {
+                    if (isset($status)) {
+                        if ($status == 'Pending') {
                             echo '
                                 <div>
                                     <span class="badge badge-success px-2 py-1" title="Your application is pending.">Pending</span>
                                 </div>
                             ';
-                        } else if ($applied->status == 'Hired') {
+                        } else if ($status == 'Hired') {
                             echo '
                                 <div>
                                     <span class="badge badge-primary px-2 py-1" title="You are hired for this job.">Hired</span>
                                 </div>
                             ';
-                        } else if ($applied->status == 'Rejected') {
+                        } else if ($status == 'Rejected') {
                             echo '
                                 <div>
                                     <span class="badge badge-danger px-2 py-1" title="You are rejected for this job.">Rejected</span>
@@ -117,16 +120,42 @@
                 <i class="fas fa-user-tie mr-1"></i>
                 <span><?php echo $jobType ?></span>
             </span>
-            <span class="badge text-secondary mt-1" title="Applied <?php echo $dateApplied ?>">Applied <?php echo $dateApplied ?></span>
+            <span class="badge text-wrap text-secondary text-right mt-1" title="<?php echo $userDate ?>"><?php echo $userDate ?></span>
         </div>
 
     </div>
 
     <!-- USER-ACTIONS -->
     <div class="text-right">
-        <button class="btn border border-warning text-warning" data-toggle="tooltip" data-placement="top" title="Add to bookmark">
-            <i class="far fa-bookmark"></i>
-        </button>
+        <?php
+            if ($bookmarkID == NULL) {
+                echo '
+                    <button 
+                        class           = "btn border border-warning text-warning" 
+                        data-toggle     = "tooltip" 
+                        data-placement  = "top" 
+                        title           = "Add to bookmark" 
+                        value           = "' . $jobPostID . '" 
+                        id              = "addBookmarkBtn"
+                    >
+                        <i class="far fa-bookmark"></i>
+                    </button>    
+                ';
+            } else {
+                echo '
+                    <button 
+                        class           = "btn border border-warning text-warning" 
+                        data-toggle     = "tooltip" 
+                        data-placement  = "top" 
+                        title           = "Remove bookmark" 
+                        value           = "' . $bookmarkID . '" 
+                        id              = "removeBookmarkBtn"
+                    >
+                        <i class="fas fa-bookmark"></i>
+                    </button>    
+                ';
+            }
+        ?>
         <a href="<?php echo base_url() ?>jobs/details/<?php echo $jobPostID ?>" class="btn btn-secondary">View More</a>
     </div>
 

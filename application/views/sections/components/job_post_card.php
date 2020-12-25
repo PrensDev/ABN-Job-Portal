@@ -61,18 +61,23 @@
 
             <?php
                 if ($this->session->userType == 'Job Seeker') {
-                    $applied = $this->Jobseeker_model->is_job_applied($jobPostID);
-                    if (isset($applied)) {
-                        if ($applied->status == 'Pending') {
+                    if (isset($status)) {
+                        if ($status == 'Pending') {
                             echo '
                                 <div>
                                     <span class="badge badge-success px-2 py-1" title="Your application is pending.">Pending</span>
                                 </div>
                             ';
-                        } else if ($applied->status == 'Hired') {
+                        } else if ($status == 'Hired') {
                             echo '
                                 <div>
                                     <span class="badge badge-primary px-2 py-1" title="You are hired for this job.">Hired</span>
+                                </div>
+                            ';
+                        } else if ($status == 'Rejected') {
+                            echo '
+                                <div>
+                                    <span class="badge badge-danger px-2 py-1" title="You are rejected for this job.">Rejected</span>
                                 </div>
                             ';
                         }
@@ -105,6 +110,7 @@
 
         </div>
 
+        
         <!-- JOB SUB-DETAILS -->
         <div class="text-right" title="Job Type: <?php echo $jobType ?>">
             <span class="badge border border-<?php echo $jobTypeClass ?> text-<?php echo $jobTypeClass ?> p-2 text-uppercase">
@@ -123,11 +129,34 @@
     <div class="text-right">
         <?php
             if ($this->session->userType == 'Job Seeker') {
-                echo '
-                    <button class="btn border border-warning text-warning" data-toggle="tooltip" data-placement="top" title="Add to bookmark">
-                        <i class="far fa-bookmark"></i>
-                    </button>    
-                ';
+                if ($bookmarkID == NULL) {
+                    echo '
+                        <button 
+                            class           = "btn border border-warning text-warning" 
+                            data-toggle     = "tooltip" 
+                            data-placement  = "top" 
+                            title           = "Add to bookmark" 
+                            value           = "' . $jobPostID . '" 
+                            id              = "addBookmarkBtn"
+                        >
+                            <i class="far fa-bookmark"></i>
+                        </button>    
+                    ';
+                } else {
+                    echo '
+                        <button 
+                            class           = "btn border border-warning text-warning" 
+                            data-toggle     = "tooltip" 
+                            data-placement  = "top" 
+                            title           = "Remove bookmark" 
+                            value           = "' . $bookmarkID . '" 
+                            id              = "removeBookmarkBtn"
+                        >
+                            <i class="fas fa-bookmark"></i>
+                        </button>    
+                    ';
+                }
+                
             } else if ($this->session->userType == 'Employer' && $this->session->id == $employerID) {
                 echo '
                     <a href="' . base_url() . 'auth/edit_post/' . $jobPostID . '" class="btn btn-info"  data-toggle="tooltip" data-placement="top" title="Edit Post">

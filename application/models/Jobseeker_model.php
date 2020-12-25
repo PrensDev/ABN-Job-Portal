@@ -70,6 +70,24 @@ class Jobseeker_model extends CI_Model {
     }
 
 
+    // VIEW RECENT POSTS
+    public function view_recent_posts($offsetRows, $fetchedRows) {
+        $query = $this->db->query("
+            EXEC [JBSK_ViewRecentPosts]
+                @jobseekerID = " . $this->session->id . ",
+                @offsetRows  = " . $offsetRows . ",
+                @fetchedRows = " . $fetchedRows . "
+        ");
+        
+        return $query->result();
+    }
+
+    // VIEW ALL RECENT POSTS
+    public function view_all_recent_posts() {
+        return $this->db->query("EXEC [JBSK_ViewAllRecentPosts] @jobseekerID = " . $this->session->id);
+    }
+
+
     // SUBMIT APPLICATION
     public function submit_application($jobPostID) {
         return $this->db->query("
@@ -87,18 +105,6 @@ class Jobseeker_model extends CI_Model {
                 @jobPostID   = " . $jobPostID . ",
                 @jobseekerID = " . $this->session->id ."
         ");
-    }
-
-
-    // IS JOB APPLIED
-    public function is_job_applied($jobPostID) {
-        $query = $this->db->query("
-            EXEC [JBSK_IsJobApplied]
-                @jobPostID   = " . $jobPostID . ",
-                @jobseekerID = " . $this->session->id . "
-        ");
-
-        return $query->row();
     }
 
 
@@ -120,6 +126,7 @@ class Jobseeker_model extends CI_Model {
         return $query->result();
     }
 
+
     // NUMBER OF APPLIED JOBS
     public function applied_jobs_num() {
         $query = $this->db->query("EXEC [JBSK_NumOfAppliedJobs] @jobseekerID = " . $this->session->id);
@@ -129,7 +136,85 @@ class Jobseeker_model extends CI_Model {
 
 
     // ADD BOOKMARK
-    public function add_bookmark() {
+    public function add_bookmark($jobPostID) {
+        return $this->db->query("
+            EXEC [JBSK_AddBookmark] 
+                @jobseekerID = " . $this->session->id . ",
+                @jobPostID   = " . $jobPostID . "
+        ");
+    }
+
+
+    // REMOVE BOOKMARK
+    public function remove_bookmark($bookmarkID) {
+        return $this->db->query("EXEC [JBSK_RemoveBookmark] @bookmarkID = " . $bookmarkID);
+    }
+
+
+    // GET ALL BOOKMARKS
+    public function get_all_bookmarks() {
+        return $this->db->query("EXEC [JBSK_GetAllBookmarks] @jobseekerID = " . $this->session->id);
+    }
+
+
+    // GET BOOKMARKS
+    public function get_bookmarks($offsetRows, $fetchedRows) {
+        $query = $this->db->query("
+            EXEC [JBSK_GetBookmarks]
+                @jobseekerID = " . $this->session->id . ",
+                @offsetRows  = " . $offsetRows . ",
+                @fetchedRows = " . $fetchedRows . "
+        ");
         
+        return $query->result();
+    }
+
+
+    // NUMBER OF BOOKMARKS
+    public function bookmarks_num() {
+        $query = $this->db->query("EXEC [JBSK_NumOfBookmarks] @jobseekerID = " . $this->session->id);
+        $row = $query->row();
+        return $row->bookmarksNum;
+    }
+
+
+    // VIEW JOB DETAILS
+    public function job_details($jobPostID) {
+        $query = $this->db->query("
+            EXEC [JBSK_ViewJobDetails] 
+                @jobPostID   = " . $jobPostID . ",
+                @jobseekerID = " . $this->session->id . "
+        ");
+
+        if ($query->num_rows() == 1) {
+            $row = $query->row();
+            
+            $jobDetails = [
+                'jobPostID'        => $row->jobPostID,
+                'jobTitle'         => $row->jobTitle,
+                'jobType'          => $row->jobType,
+                'industryType'     => $row->industryType,
+                'description'      => $row->description,
+                'responsibilities' => $row->responsibilities,
+                'skills'           => $row->skills,
+                'experiences'      => $row->experiences,
+                'education'        => $row->education,
+                'minSalary'        => $row->minSalary,
+                'maxSalary'        => $row->maxSalary,
+                'dateCreated'      => $row->dateCreated,
+                'dateModified'     => $row->dateModified,
+                'employerID'       => $row->employerID,
+                'companyName'      => $row->companyName,
+                'location'         => $row->location,
+                'contactNumber'    => $row->contactNumber,
+                'email'            => $row->email,
+                'website'          => $row->website,
+                'dateApplied'      => $row->dateApplied,
+                'status'           => $row->status,
+            ];
+            return $jobDetails;
+        } else {
+            return FALSE;
+        }
     }
 }

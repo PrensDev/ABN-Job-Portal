@@ -53,21 +53,14 @@
                 <div>
                     <label><a href="forgot_password.html" data-toggle="tooltip" data-placement="top" title="Did you forgot your password? Click Here.">Forgot Password?</a></label>
                 </div>
-            </div>
-            <div class="input-group">
-                <input 
-                    type    =   "password" 
-                    class   =   "form-control <?php echo form_error('password') ? 'is-invalid' : '' ;?>" 
-                    id      =   "password"
-                    name    =   "password"
-                >
-                <div class="input-group-append">
-                    <span class="input-group-text bg-white" id="togglePassword">
-                        <i class="fas fa-eye" id="passwordIcon"></i>
-                    </span>
-                </div>
-                <small class="invalid-feedback">This is a required field.</small>
-            </div>
+            </div>            
+            <input 
+                type    =   "password" 
+                class   =   "form-control <?php echo form_error('password') ? 'is-invalid' : '' ;?>" 
+                id      =   "password"
+                name    =   "password"
+            >
+            <small class="invalid-feedback">This is a required field.</small>
         </div>
 
         <!-- LOGIN USER CO -->

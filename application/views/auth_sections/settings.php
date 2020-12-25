@@ -13,7 +13,7 @@
     <!-- SUCCESS ALERT BOX -->
     <div class="alert alert-success alert-dismissible fade show my-4" role="alert">
         <span>Your password is successfully <strong>changed</strong>.</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -52,7 +52,7 @@
                     <div class="user-nav-icon">
                         <i class="fas fa-sign-out-alt"></i>
                     </div>
-                    <span>Log Out</span>
+                    <span>Log out</span>
                 </a>
 
             </div>

@@ -227,7 +227,7 @@ class Employer_model extends CI_Model {
     }
 
     // CANCEL HIRING
-    public function cancel_hiring($applicationID) {
-        return $this->db->query("EXEC [EMPL_CancelHiring] @applicationID = " . $applicationID);
+    public function cancel_hiring_rejecting($applicationID) {
+        return $this->db->query("EXEC [EMPL_CancelHiringOrRejecting] @applicationID = " . $applicationID);
     }
 }

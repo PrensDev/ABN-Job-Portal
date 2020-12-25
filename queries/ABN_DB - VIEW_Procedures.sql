@@ -10,7 +10,7 @@ ORDER BY ROUTINE_NAME
 ----------------------------------------------------------------
 
 -- View All Active Posts Procedure
-CREATE PROCEDURE [dbo].[VIEW_AllRecentPosts]
+CREATE PROCEDURE [VIEW_AllRecentPosts]
 AS
 	SELECT
 		  [JobPosts].[jobPostID]
@@ -24,15 +24,15 @@ AS
 		, [Employers].[employerID]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
-	FROM [dbo].[JobPosts]
-	INNER JOIN [dbo].[Employers] 
-	ON [JobPosts].[employerID] = [Employers].[employerID]
-	AND [jobPostFlag] = 1
+	FROM [JobPosts]
+	INNER JOIN [Employers] 
+		ON [JobPosts].[employerID] = [Employers].[employerID]
+		AND [jobPostFlag] = 1
 ;
 
 
 -- View Active Posts
-CREATE PROCEDURE [dbo].[VIEW_RecentPosts]
+CREATE PROCEDURE [VIEW_RecentPosts]
 	@offsetRows		INT,
 	@fetchedRows	INT
 AS
@@ -48,10 +48,10 @@ AS
 		, [Employers].[employerID]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
-	FROM [dbo].[JobPosts]
-	INNER JOIN [dbo].[Employers] 
-	ON [JobPosts].[employerID] = [Employers].[employerID]
-	AND [jobPostFlag] = 1
+	FROM [JobPosts]
+	INNER JOIN [Employers] 
+		ON [JobPosts].[employerID] = [Employers].[employerID]
+		AND [jobPostFlag] = 1
 	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;
@@ -59,7 +59,7 @@ AS
 
 
 -- View Job Details Procedure
-CREATE PROCEDURE [dbo].[VIEW_JobDetails]
+CREATE PROCEDURE [VIEW_JobDetails]
 	@jobPostID	INT
 AS
 	SELECT
@@ -84,15 +84,15 @@ AS
 		, [Employers].[contactNumber]
 		, [Employers].[email]
 		, [Employers].[website]
-	FROM [dbo].[JobPosts]
-	INNER JOIN [dbo].[Employers]
+	FROM [JobPosts]
+	INNER JOIN [Employers]
 	ON [JobPosts].[employerID] = [Employers].[employerID]
 	AND [JobPosts].[jobPostID] = @jobPostID AND [JobPosts].[jobPostFlag] = 1
 ;
 
 
 -- View Employer Details Procedure
-CREATE PROCEDURE [dbo].[VIEW_CompanyDetails]
+CREATE PROCEDURE [VIEW_CompanyDetails]
 	@employerID INT
 AS
 	SELECT
@@ -103,13 +103,13 @@ AS
 		, [contactNumber]
 		, [email]
 		, [website]
-	FROM [dbo].[Employers]
+	FROM [Employers]
 	WHERE [employerID] = @employerID
 ;
 
 
 -- View All Available Jobs
-CREATE PROCEDURE [dbo].[VIEW_AllAvailableJobs]
+CREATE PROCEDURE [VIEW_AllAvailableJobs]
 	@employerID  INT
 AS
 	SELECT
@@ -124,8 +124,8 @@ AS
 		, [Employers].[employerID]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
-	FROM [dbo].[JobPosts]
-	INNER JOIN [dbo].[Employers] 
+	FROM [JobPosts]
+	INNER JOIN [Employers] 
 	ON [JobPosts].[employerID] = [Employers].[employerID]
 	AND [JobPosts].[employerID] = @employerID
 	AND [jobPostFlag] = 1
@@ -133,7 +133,7 @@ AS
 
 
 -- View Available Jobs
-CREATE PROCEDURE [dbo].[VIEW_AvailableJobs]
+CREATE PROCEDURE [VIEW_AvailableJobs]
 	@employerID  INT,
 	@offsetRows  INT,
 	@fetchedRows INT
@@ -150,8 +150,8 @@ AS
 		, [Employers].[employerID]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
-	FROM [dbo].[JobPosts]
-	INNER JOIN [dbo].[Employers] 
+	FROM [JobPosts]
+	INNER JOIN [Employers] 
 	ON [JobPosts].[employerID] = [Employers].[employerID]
 	AND [JobPosts].[employerID] = @employerID
 	AND [jobPostFlag] = 1

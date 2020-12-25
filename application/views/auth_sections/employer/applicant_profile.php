@@ -51,7 +51,7 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
         <?php
             if ($status == 'Pending') {
                 echo '
-                    <div class="container-fluid alert alert-primary mb-4 p-2" id="pendingStatus">
+                    <div class="container-fluid alert alert-success mb-4 p-2" id="pendingStatus">
                         <div class="row align-items-center">
                             <div class="col-md-8 text-md-left text-center">
                                 <div class="m-1">
@@ -67,7 +67,7 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                 ';
             } else if ($status == 'Hired') {
                 echo '
-                    <div class="container-fluid alert alert-success mb-4 p-2" id="hiredStatus">
+                    <div class="container-fluid alert alert-primary mb-4 p-2" id="hiredStatus">
                         <div class="row align-items-center">
                             <div class="col-md-8 text-md-left text-center">
                                 <div class="m-1">
@@ -76,6 +76,21 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                             </div>
                             <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
                                 <button type="submit" class="btn btn-warning m-1 text-nowrap" data-toggle="modal" data-target="#cancelHiringModal">Cancel</button>
+                            </div> 
+                        </div> 
+                    </div>
+                ';
+            } else if ($status == 'Rejected') {
+                echo '
+                    <div class="container-fluid alert alert-danger mb-4 p-2" id="rejectedStatus">
+                        <div class="row align-items-center">
+                            <div class="col-md-8 text-md-left text-center">
+                                <div class="m-1">
+                                    You rejected <strong>' . $fullName . '</strong> for <strong><a href="' . base_url() . 'auth/job_details/' . $jobPostID . '">' . $jobTitle . '</strong></a>. 
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
+                                <button type="submit" class="btn btn-warning m-1 text-nowrap" data-toggle="modal" data-target="#cancelRejectingModal">Cancel</button>
                             </div> 
                         </div> 
                     </div>
@@ -270,7 +285,20 @@ if ($status == 'Pending') {
         'theme'         => 'warning',
         'title'         => 'Cancel hiring',
         'modalIcon'     => 'WARNING',
-        'message'       => '<p class="m-1">Are you sure you want to <strong>cancel hiring</strong> for <strong>' . $fullName . '</strong>?</p>',
+        'message'       => '<p class="m-1">Are you sure you want to <strong>cancel hiring</strong> to <strong>' . $fullName . '</strong>?</p>',
+        'actionPath'    => NULL,
+        'actionID'      => 'cancelHiringBtn',
+        'actionValue'   => $applicationID,
+        'actionIcon'    => 'user-times',
+        'actionLabel'   => 'Continue',
+    ]);
+} else if ($status == 'Rejected') {
+    $this->load->view('sections/components/modal', [
+        'id'            => 'cancelRejectingModal',
+        'theme'         => 'warning',
+        'title'         => 'Cancel rejecting',
+        'modalIcon'     => 'WARNING',
+        'message'       => '<p class="m-1">Are you sure you want to <strong>cancel rejecting </strong> to <strong>' . $fullName . '</strong>?</p>',
         'actionPath'    => NULL,
         'actionID'      => 'cancelHiringBtn',
         'actionValue'   => $applicationID,
@@ -320,7 +348,23 @@ if ($status == 'Pending') {
         e.preventDefault();
         var applicationID = $(this).attr('value');
         $.ajax({
-            url:        "<?php echo base_url() ?>auth/cancel_hiring",
+            url:        "<?php echo base_url() ?>auth/cancel_hiring_rejecting",
+            type:       "post",
+            dataType:   "json",
+            data: {
+                applicationID: applicationID
+            },
+            success:    function(data) {
+                location.reload();
+            } 
+        });
+    });
+
+    $(document).on('click','#cancelRejectingBtn', function(e) {
+        e.preventDefault();
+        var applicationID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/cancel_hiring_rejecting",
             type:       "post",
             dataType:   "json",
             data: {

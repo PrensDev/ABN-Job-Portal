@@ -6,7 +6,7 @@ class Auth extends CI_Controller {
         parent::__construct();
     }
 
-    
+
     // GET USER DATA
     protected function get_userdata() {
         if ( $this->session->userType == 'Job Seeker' ) {
@@ -50,7 +50,7 @@ class Auth extends CI_Controller {
     // ==================================================================================================== //
     // USER MAIN VIEWS
     // ==================================================================================================== //
-    
+
 
     // INDEX FUNCTION
     public function index() {
@@ -233,6 +233,23 @@ class Auth extends CI_Controller {
     }
 
 
+    // REJECT APPLICATION
+    public function reject_application() {
+        if ($this->session->userType == 'Job Seeker') {
+            if ($this->input->is_ajax_request()) {
+                $jobPostID = $this->input->post('jobPostID');
+                $applicationStatus = $this->Jobseeker_model->reject_application($jobPostID);
+                $data['response'] = $applicationStatus ? 'success' : 'failed';    
+                echo json_encode($data);
+            } else {
+                $this->Auth_model->err_page();
+            }
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+
     // CANCEL APPLICATION
     public function cancel_application() {
         if ($this->session->userType == 'Job Seeker') {
@@ -250,6 +267,80 @@ class Auth extends CI_Controller {
     }
 
 
+    // BOOKMARKS
+    public function bookmarks($page = 1) {
+        if ($this->session->userType == "Job Seeker") {
+            $userdata = $this->get_userdata();
+            $pagedata = ['title' => $userdata['username'] . ' - Bookmarks'];
+
+            $AllAppliedJobs = $this->Jobseeker_model->get_all_bookmarks();
+
+            if ($AllAppliedJobs->result() == NULL) {
+                $this->load->view('templates/header', $pagedata);
+                $this->load->view('sections/navbar', $userdata);
+                $this->load->view('auth_sections/jobseeker/empty_bookmarks');
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');   
+            } else {
+                $numRows = $AllAppliedJobs->num_rows();
+                $fetchedRows = 10;
+                $totalPages = ceil($numRows / $fetchedRows);
+
+                if ($page > 0 && $page <= $totalPages) {
+                    $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
+                    $posts      = $this->Jobseeker_model->get_bookmarks($offsetRows, $fetchedRows); 
+                    
+                    $pagedata = [
+                        'title'         => $userdata['username'] . ' - Bookmarks',
+                        'posts'         => $posts,
+                        'totalRows'     => $numRows,
+                        'totalPages'    => $totalPages,
+                        'currentPage'   => $page,
+                    ];
+                    
+                    $this->pagination->initialize($this->pagination_config('auth/bookmarks', $numRows));
+                    
+                    $this->load->view('templates/header', $pagedata);
+                    $this->load->view('sections/navbar', $userdata);                    
+                    $this->load->view('auth_sections/jobseeker/bookmarks', $pagedata);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                }
+            }         
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+
+    // ADD BOOKMARK
+    public function add_bookmark() {
+        if ($this->session->userType == 'Job Seeker') {
+            if ($this->input->is_ajax_request()) {
+                $jobPostID = $this->input->post('jobPostID');
+                $bookmarkStatus = $this->Jobseeker_model->add_bookmark($jobPostID);
+                $data['response'] = $bookmarkStatus ? 'success' : 'failed';    
+                echo json_encode($data);
+            } else {
+                $this->Auth_model->err_page();
+            }
+        }
+    }
+
+
+    // REMOVE BOOKMARK
+    public function remove_bookmark() {
+        if ($this->session->userType == 'Job Seeker') {
+            if ($this->input->is_ajax_request()) {
+                $jobPostID = $this->input->post('jobPostID');
+                $bookmarkStatus = $this->Jobseeker_model->remove_bookmark($jobPostID);
+                $data['response'] = $bookmarkStatus ? 'success' : 'failed';    
+                echo json_encode($data);
+            } else {
+                $this->Auth_model->err_page();
+            }
+        }
+    }
 
 
 
@@ -760,11 +851,11 @@ class Auth extends CI_Controller {
     }
 
     // CANCEL HIRING
-    public function cancel_hiring() {
+    public function cancel_hiring_rejecting() {
         if ($this->session->userType == 'Employer') {
             if ($this->input->is_ajax_request()) {
                 $applicationID = $this->input->post('applicationID');
-                $hireStatus = $this->Employer_model->cancel_hiring($applicationID);
+                $hireStatus = $this->Employer_model->cancel_hiring_rejecting($applicationID);
                 $data['response'] = $hireStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {

@@ -9,11 +9,11 @@ WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME LIKE 'AUTH%';
 --------------------------------------------------------
 
 -- Add Job Seeker Account Procedure
-CREATE PROCEDURE [dbo].[AUTH_AddJobseekerAccount]
+CREATE PROCEDURE [AUTH_AddJobseekerAccount]
 	@email				VARCHAR(450),
 	@password			VARCHAR(MAX)
 AS
-	INSERT INTO [dbo].[UserAccounts] 
+	INSERT INTO [UserAccounts] 
 		( [email]
 		, [password]
 		, [userType] )
@@ -25,7 +25,7 @@ AS
 
 
 -- Register Job Seeker Procedure
-CREATE PROCEDURE [dbo].[AUTH_RegisterJobseeker]
+CREATE PROCEDURE [AUTH_RegisterJobseeker]
 	@firstName			VARCHAR(MAX),
 	@middleName			VARCHAR(MAX),
 	@lastName			VARCHAR(MAX),
@@ -41,7 +41,7 @@ CREATE PROCEDURE [dbo].[AUTH_RegisterJobseeker]
 	@experiences		VARCHAR(MAX),
 	@education			VARCHAR(MAX)
 AS
-	INSERT INTO [dbo].[JobSeekers] 
+	INSERT INTO [JobSeekers] 
 		( [firstName]
 		, [middleName]
 		, [lastName]
@@ -75,11 +75,11 @@ AS
 
 
 -- Add Employer Account Procedure
-CREATE PROCEDURE [dbo].[AUTH_AddEmployerAccount]
+CREATE PROCEDURE [AUTH_AddEmployerAccount]
 	@email				VARCHAR(450),
 	@password			VARCHAR(MAX)
 AS
-	INSERT INTO [dbo].[UserAccounts] 
+	INSERT INTO [UserAccounts] 
 		([email]
 		,[password]
 		,[userType])
@@ -91,7 +91,7 @@ AS
 
 
 -- Register Employer Procedure
-CREATE PROCEDURE [dbo].[AUTH_RegisterEmployer]
+CREATE PROCEDURE [AUTH_RegisterEmployer]
 	@companyName		VARCHAR(MAX),
 	@street				VARCHAR(MAX),
 	@brgyDistrict		VARCHAR(MAX),
@@ -101,7 +101,7 @@ CREATE PROCEDURE [dbo].[AUTH_RegisterEmployer]
 	@website			VARCHAR(MAX),
 	@description		VARCHAR(MAX)
 AS
-	INSERT INTO [dbo].[Employers]
+	INSERT INTO [Employers]
 		( [companyName]
 		, [street]
 		, [brgyDistrict]
@@ -123,16 +123,16 @@ AS
 
 
 -- Find User Account Procedure for Login
-CREATE PROCEDURE [dbo].[AUTH_FindUserAccount]
+CREATE PROCEDURE [AUTH_FindUserAccount]
 	@email		VARCHAR(450)
 AS
 	SELECT [email], [password], [userType], CAST([accountFlag] AS INT) AS [status]
-	FROM [dbo].[UserAccounts]
+	FROM [UserAccounts]
 	WHERE [email] = @email
 
 
 -- Find Job Seeker Procedure
-CREATE PROCEDURE [dbo].[AUTH_FindJobseeker]
+CREATE PROCEDURE [AUTH_FindJobseeker]
 	@email	VARCHAR(450)
 AS
 	SELECT
@@ -152,34 +152,34 @@ AS
 		, [skills]
 		, [experiences]
 		, [education]
-	FROM [dbo].[JobSeekers]
+	FROM [JobSeekers]
 	WHERE [email] = @email
 ;
 
 
 -- Find Employer Procedure
-CREATE PROCEDURE [dbo].[AUTH_FindEmployer]
+CREATE PROCEDURE [AUTH_FindEmployer]
 	@email	VARCHAR(450)
 AS
-	SELECT * FROM [dbo].[Employers]
+	SELECT * FROM [Employers]
 	WHERE [email] = @email
 ;
 
 
 -- Deactivate Account Procedure
-CREATE PROCEDURE [dbo].[AUTH_DeactivateAccount]
+CREATE PROCEDURE [AUTH_DeactivateAccount]
 	@email VARCHAR(450)
 AS
-	UPDATE [dbo].[UserAccounts]
+	UPDATE [UserAccounts]
 	SET [accountFlag] = 0
 	WHERE [email] = @email
 
 
 -- Activate Account Procedure
-CREATE PROCEDURE [dbo].[AUTH_ActivateAccount]
+CREATE PROCEDURE [AUTH_ActivateAccount]
 	@email VARCHAR(450)
 AS
-	UPDATE [dbo].[UserAccounts]
+	UPDATE [UserAccounts]
 	SET [accountFlag] = 1
 	WHERE [email] = @email
 ;

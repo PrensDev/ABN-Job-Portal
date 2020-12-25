@@ -37,3 +37,38 @@
 
 </div>
 </div>
+
+
+<script>
+    $(document).on('click','#addBookmarkBtn', function(e) {
+        e.preventDefault();
+        var jobPostID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/add_bookmark",
+            type:       "post",
+            dataType:   "json",
+            data: {
+                jobPostID: jobPostID
+            },
+            success:    function(data) {
+                location.reload();
+            } 
+        });
+    });
+
+    $(document).on('click','#removeBookmarkBtn', function(e) {
+        e.preventDefault();
+        var jobPostID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/remove_bookmark",
+            type:       "post",
+            dataType:   "json",
+            data: {
+                jobPostID: jobPostID
+            },
+            success:    function(data) {
+                location.reload();
+            } 
+        });
+    });
+</script>

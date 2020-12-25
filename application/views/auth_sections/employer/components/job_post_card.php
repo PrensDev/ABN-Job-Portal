@@ -105,6 +105,7 @@ $dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
 
         </div>
     </div>
+    
 
     <!-- USER-ACTIONS -->
     <div class="d-flex justify-content-between align-items-center mt-4">

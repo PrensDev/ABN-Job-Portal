@@ -66,8 +66,9 @@ if ( $sessionStatus ) {
             if ( $sessionStatus ) {
                 if( $this->session->userType == 'Job Seeker' ) {
                     $navbarData = [
-                        'username'          => $username,
-                        'appliedJobsNum'    => $this->Jobseeker_model->applied_jobs_num(),
+                        'username'       => $username,
+                        'appliedJobsNum' => $this->Jobseeker_model->applied_jobs_num(),
+                        'bookmarksNum'   => $this->Jobseeker_model->bookmarks_num(),
                     ];
 
                     $this->load->view('auth_sections/jobseeker/navbar_control', $navbarData);
