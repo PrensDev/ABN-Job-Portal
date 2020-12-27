@@ -6,7 +6,6 @@ class Auth extends CI_Controller {
         parent::__construct();
     }
 
-
     // GET USER DATA
     protected function get_userdata() {
         if ( $this->session->userType == 'Job Seeker' ) {
@@ -16,7 +15,7 @@ class Auth extends CI_Controller {
         }
     }
 
-
+    // PAGINATION CONFIGURATION
     protected function pagination_config($path, $numRows) {
         return [
             'base_url'          => base_url() . $path . '/',
@@ -44,30 +43,43 @@ class Auth extends CI_Controller {
         ];
     }
 
+    public function upload_img() {
+        if ($this->session->has_userdata('userType')) {
+            $img = $this->input->post('img');
+            $img_array1 = explode(';', $img);
+            $img_array2 = explode(',', $img_array1[1]);
+            $base64_decode = base64_decode($img_array2[1]);
 
-
+            if ($this->session->userType == "Job Seeker") {
+                $imgName = 'JBSK_' . time() . '.png';
+                file_put_contents('public/img/jobseekers/' . $imgName, $base64_decode);
+                $this->Jobseeker_model->set_profile_pic($imgName);
+            } else if ($this->session->userType == "Employer") {
+                $imgName = 'EMPL_' . time() . '.png';
+                file_put_contents('public/img/employers/' . $imgName, $base64_decode);
+                $this->Employer_model->set_profile_pic($imgName);
+            }
+        }
+    }
 
     // ==================================================================================================== //
     // USER MAIN VIEWS
     // ==================================================================================================== //
 
-
     // INDEX FUNCTION
     public function index() {
-        if ( $this->session->has_userdata('userType') ) {
+        if ($this->session->has_userdata('userType')) {
             redirect();
         } else {
             $this->Auth_model->err_page();
         }
     }
 
-
     // LOGOUT VIEW
     public function logout() {
         session_destroy();
         redirect();
     }
-
 
     // DEACTIVATE VIEW
     public function deactivate() {
@@ -113,7 +125,6 @@ class Auth extends CI_Controller {
         }
     }
 
-
     // USER INFORMATION VIEW
     public function information() {
         if( $this->session->has_userdata('userType') ) {
@@ -138,7 +149,6 @@ class Auth extends CI_Controller {
         }
     }
 
-
     // USER SETTINGS
     public function settings() {
         if( $this->session->has_userdata('userType') ) {
@@ -162,13 +172,9 @@ class Auth extends CI_Controller {
         }
     }
 
-
-
-
     // ==================================================================================================== //
     // JOB SEEKER VIEWS
     // ==================================================================================================== //
-
 
     // APPLICATIONS VIEW
     public function applications($page = 1) {
@@ -215,7 +221,6 @@ class Auth extends CI_Controller {
         }
     }
 
-
     // SUBMIT APPLICATION
     public function submit_application() {
         if ($this->session->userType == 'Job Seeker') {
@@ -231,7 +236,6 @@ class Auth extends CI_Controller {
             $this->Auth_model->err_page();
         }
     }
-
 
     // REJECT APPLICATION
     public function reject_application() {
@@ -265,7 +269,6 @@ class Auth extends CI_Controller {
             $this->Auth_model->err_page();
         }
     }
-
 
     // BOOKMARKS
     public function bookmarks($page = 1) {
@@ -312,7 +315,6 @@ class Auth extends CI_Controller {
         }
     }
 
-
     // ADD BOOKMARK
     public function add_bookmark() {
         if ($this->session->userType == 'Job Seeker') {
@@ -326,7 +328,6 @@ class Auth extends CI_Controller {
             }
         }
     }
-
 
     // REMOVE BOOKMARK
     public function remove_bookmark() {
@@ -342,25 +343,10 @@ class Auth extends CI_Controller {
         }
     }
 
-
-
-
-    public function test() {
-        $this->load->database();
-        $query = $this->db->query("SELECT * FROM Applications");
-
-        echo"<pre>";
-        var_dump($query->row());
-        echo"</pre>";
-        exit;
-    }
-
-
     // ==================================================================================================== //
     // EMPLOYER VIEWS
     // ==================================================================================================== //
 
-    
     // EDIT INFORMATION VIEW
     public function edit_information() {
         if ( $this->session->has_userdata('userType')) {
@@ -498,7 +484,6 @@ class Auth extends CI_Controller {
         } 
     }
 
-
     // JOB POSTS VIEW
     public function job_posts($page = 1) {
         if ( $this->session->userType == 'Employer' ) {
@@ -546,7 +531,6 @@ class Auth extends CI_Controller {
         }
     }
 
-
     // JOB DETAILS VIEW
     public function job_details($jobPostID = NULL) {
         if ($jobPostID == NULL) {
@@ -568,7 +552,6 @@ class Auth extends CI_Controller {
             }
         }
     }
-
 
     // POST NEW JOB VIEW
     public function post_new_job() {
@@ -646,7 +629,6 @@ class Auth extends CI_Controller {
             $this->Auth_model->err_page();
         }
     }
-
 
     // EDIT POST VIEW
     public function edit_post($jobPostID = NULL) {
@@ -734,7 +716,6 @@ class Auth extends CI_Controller {
         }        
     }
 
-
     // DELETE POST VIEW
     public function delete_post($jobPostID = NULL) {
         if ($this->session->userType == 'Employer') {
@@ -747,7 +728,6 @@ class Auth extends CI_Controller {
             $this->Auth_model->err_page();
         }      
     }
-
 
     // MANAGE APPLICANTS
     public function manage_applicants($jobPostID = NULL, $page = 1) {
@@ -793,7 +773,6 @@ class Auth extends CI_Controller {
         }
     }
 
-
     // APPICANT PROFILE
     public function applicant_profile($jobPostID = NULL, $jobseekerID = NULL) {
         if ($this->session->userType == 'Employer') {
@@ -803,9 +782,7 @@ class Auth extends CI_Controller {
                 $ApplicantDetails = $this->Employer_model->view_applicant_profile($jobseekerID, $jobPostID);
 
                 $userdata = $this->Employer_model->get_info();
-                $pagedata = [
-                    'title'       => $userdata['username'] . ' - Applicant Profile'
-                ];
+                $pagedata = ['title' => $userdata['username'] . ' - Applicant Profile'];
 
                 $this->load->view('templates/header', $pagedata);
                 $this->load->view('sections/navbar', $userdata);
@@ -850,7 +827,7 @@ class Auth extends CI_Controller {
         }
     }
 
-    // CANCEL HIRING
+    // CANCEL HIRING AND REJECTING
     public function cancel_hiring_rejecting() {
         if ($this->session->userType == 'Employer') {
             if ($this->input->is_ajax_request()) {

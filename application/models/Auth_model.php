@@ -4,9 +4,9 @@ class Auth_model extends CI_Model {
 
     public function __construct() {
         $this->load->database();
-        $this->load->library('session');
     }
 
+    // ERROR PAGE
     public function err_page() {
         $this->load->view('templates/fullpage_header', ['title' => '404: Page Not Found']);
         $this->load->view('_404');
@@ -48,7 +48,7 @@ class Auth_model extends CI_Model {
                         ]);
                     }
 
-                    if ( $row->status == 0 ) { $this->activate(); }
+                    if ( $row->status == 0 ) { $this->setAccountFlag(1); }
                     
                     redirect('auth/information');
                 } else {
@@ -63,9 +63,10 @@ class Auth_model extends CI_Model {
     // REGISTER JOB SEEKER
     public function register_jobseeker() {
         $AddJobseekerAccount_sql = "
-            EXEC [AUTH_AddJobseekerAccount]
+            EXEC [AUTH_AddUserAccount]
                 @email	  = '" . $this->input->post( 'email' ) . "',
-                @password = '" . password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I) . "'
+                @password = '" . password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I) . "',
+                @userType = 'Job Seeker'
         ";
         
         if (! $this->db->query($AddJobseekerAccount_sql)) {
@@ -88,21 +89,18 @@ class Auth_model extends CI_Model {
                     @experiences	  = '" . $this->input->post( 'experiences'      ) . "',
                     @education		  = '" . $this->input->post( 'education'        ) . "'
             "; 
-
-            if (! $this->db->query($RegisterJobseeker_sql)) {
-                echo $this->db->error();
-            } else {
-                $this->login();
-            }
+            $this->db->query($RegisterJobseeker_sql);
+            $this->login();
         }         
     }
 
     // REGISTER EMPLOYER
     public function register_employer() {
         $AddEmployerAccount_sql = "
-            EXEC [AUTH_AddEmployerAccount]
+            EXEC [AUTH_AddUserAccount]
                 @email			= '" . $this->input->post( 'email' ) . "',
-                @password		= '" . password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I) . "'
+                @password		= '" . password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I) . "',
+                @userType       = 'Employer'
         ";
         if (! $this->db->query($AddEmployerAccount_sql)) {
             echo $this->db->error();
@@ -118,9 +116,9 @@ class Auth_model extends CI_Model {
                     @website			= '" . $this->input->post( 'website'          ) . "',
                     @description		= '" . $this->input->post( 'description'      ) . "'
             ";
+
             $this->db->query($RegisterEmployer_sql);
-                
-                $this->login();
+            $this->login();
         }
     }
 
@@ -133,13 +131,12 @@ class Auth_model extends CI_Model {
         ";
     }
 
-    // DEACTIVATE ACCOUNT 
-    public function deactivate() {
-        $this->db->query("EXEC [AUTH_DeactivateAccount] @email = '" . $this->session->email . "'");
-    }
-
-    // ACTIVATE ACCOUNT 
-    public function activate() {
-        $this->db->query("EXEC [AUTH_ActivateAccount] @email = '" . $this->session->email . "'");
+    // SET ACCOUNT FLAG 
+    public function setAccountFlag($flag) {
+        $this->db->query("
+            EXEC [AUTH_SetAccountFlag] 
+                @email = '" . $this->session->email . "',
+                @flag  =  " . $flag . "
+        ");
     }
 }

@@ -41,9 +41,33 @@
 
         <!-- COMPANY LOGO -->
         <div class="company-logo mr-3 d-none d-sm-block">
-            <a href="<?php echo base_url() ?>companies/details/<?php echo $employerID ?>">
-                <img class="border" src="<?php echo base_url() ?>public/img/job_logo_5.jpg" alt="">
-            </a>
+            <?php
+                if ($profilePic != NULL) {
+                    echo '
+                        <a href="' . base_url() . 'companies/details/' . $employerID . '">
+                            <img 
+                                class       = "border" 
+                                src         = "' . base_url() . 'public/img/employers/' . $profilePic . '" 
+                                alt         = "' . $jobTitle .'"
+                                height      = "100"
+                                draggable   = "false"
+                            >
+                        </a>
+                    ';
+                } else {
+                    echo '
+                        <a href="' . base_url() . 'companies/details/' . $employerID . '">
+                            <img 
+                                class       = "border" 
+                                src         = "' . base_url() . 'public/img/employers/blank_dp.png" 
+                                alt         = "' . $jobTitle .'" 
+                                height      = "100"
+                                draggable   = "false"
+                            >
+                        </a>
+                    ';
+                }
+            ?>
         </div>
 
         <!-- JOB DETAILS -->
@@ -129,20 +153,7 @@
     <div class="text-right">
         <?php
             if ($this->session->userType == 'Job Seeker') {
-                if ($bookmarkID == NULL) {
-                    echo '
-                        <button 
-                            class           = "btn border border-warning text-warning" 
-                            data-toggle     = "tooltip" 
-                            data-placement  = "top" 
-                            title           = "Add to bookmark" 
-                            value           = "' . $jobPostID . '" 
-                            id              = "addBookmarkBtn"
-                        >
-                            <i class="far fa-bookmark"></i>
-                        </button>    
-                    ';
-                } else {
+                if (isset($bookmarkID)) {
                     echo '
                         <button 
                             class           = "btn border border-warning text-warning" 
@@ -153,6 +164,19 @@
                             id              = "removeBookmarkBtn"
                         >
                             <i class="fas fa-bookmark"></i>
+                        </button>    
+                    ';
+                } else {
+                    echo '
+                        <button 
+                            class           = "btn border border-warning text-warning" 
+                            data-toggle     = "tooltip" 
+                            data-placement  = "top" 
+                            title           = "Add to bookmark" 
+                            value           = "' . $jobPostID . '" 
+                            id              = "addBookmarkBtn"
+                        >
+                            <i class="far fa-bookmark"></i>
                         </button>    
                     ';
                 }

@@ -14,7 +14,6 @@ class Jobseeker_model extends CI_Model {
         }
     }
 
-
     // GET INFORMATION METHOD
     public function get_info() {
         $sql   = "EXEC [AUTH_FindJobseeker] @email = '" . $this->session->email . "'";
@@ -41,11 +40,11 @@ class Jobseeker_model extends CI_Model {
             'skills'           => $row->skills,
             'experiences'      => $row->experiences,
             'education'        => $row->education,
+            'profilePic'       => $row->profilePic,
         ];
 
         return $userdata;
     }
-
 
     // UPDATE INFORMATION METHOD
     public function update_info() {
@@ -69,7 +68,6 @@ class Jobseeker_model extends CI_Model {
         ", 'auth/information');
     }
 
-
     // VIEW RECENT POSTS
     public function view_recent_posts($offsetRows, $fetchedRows) {
         $query = $this->db->query("
@@ -78,7 +76,6 @@ class Jobseeker_model extends CI_Model {
                 @offsetRows  = " . $offsetRows . ",
                 @fetchedRows = " . $fetchedRows . "
         ");
-        
         return $query->result();
     }
 
@@ -86,7 +83,6 @@ class Jobseeker_model extends CI_Model {
     public function view_all_recent_posts() {
         return $this->db->query("EXEC [JBSK_ViewAllRecentPosts] @jobseekerID = " . $this->session->id);
     }
-
 
     // SUBMIT APPLICATION
     public function submit_application($jobPostID) {
@@ -97,7 +93,6 @@ class Jobseeker_model extends CI_Model {
         ");
     }
 
-
     // CANCEL APPLICATION
     public function cancel_application($jobPostID) {
         return $this->db->query("
@@ -107,12 +102,10 @@ class Jobseeker_model extends CI_Model {
         ");
     }
 
-
     // ALL APPLIED JOBS
     public function all_applied_jobs() {
         return $this->db->query("EXEC [JBSK_AllAppliedJobs] @jobseekerID = " . $this->session->id);
     }
-
 
     // APPLIED JOBS
     public function applied_jobs($offsetRows, $fetchedRows) {
@@ -122,10 +115,8 @@ class Jobseeker_model extends CI_Model {
                 @fetchedRows    = " . $fetchedRows . ",
                 @jobseekerID    = " . $this->session->id . "
         ");
-
         return $query->result();
     }
-
 
     // NUMBER OF APPLIED JOBS
     public function applied_jobs_num() {
@@ -133,7 +124,6 @@ class Jobseeker_model extends CI_Model {
         $row = $query->row();
         return $row->appliedJobsNum;
     }
-
 
     // ADD BOOKMARK
     public function add_bookmark($jobPostID) {
@@ -144,18 +134,15 @@ class Jobseeker_model extends CI_Model {
         ");
     }
 
-
     // REMOVE BOOKMARK
     public function remove_bookmark($bookmarkID) {
         return $this->db->query("EXEC [JBSK_RemoveBookmark] @bookmarkID = " . $bookmarkID);
     }
 
-
     // GET ALL BOOKMARKS
     public function get_all_bookmarks() {
         return $this->db->query("EXEC [JBSK_GetAllBookmarks] @jobseekerID = " . $this->session->id);
     }
-
 
     // GET BOOKMARKS
     public function get_bookmarks($offsetRows, $fetchedRows) {
@@ -165,18 +152,15 @@ class Jobseeker_model extends CI_Model {
                 @offsetRows  = " . $offsetRows . ",
                 @fetchedRows = " . $fetchedRows . "
         ");
-        
         return $query->result();
     }
-
 
     // NUMBER OF BOOKMARKS
     public function bookmarks_num() {
         $query = $this->db->query("EXEC [JBSK_NumOfBookmarks] @jobseekerID = " . $this->session->id);
-        $row = $query->row();
+        $row   = $query->row();
         return $row->bookmarksNum;
     }
-
 
     // VIEW JOB DETAILS
     public function job_details($jobPostID) {
@@ -204,6 +188,7 @@ class Jobseeker_model extends CI_Model {
                 'dateCreated'      => $row->dateCreated,
                 'dateModified'     => $row->dateModified,
                 'employerID'       => $row->employerID,
+                'profilePic'       => $row->profilePic,
                 'companyName'      => $row->companyName,
                 'location'         => $row->location,
                 'contactNumber'    => $row->contactNumber,
@@ -211,10 +196,32 @@ class Jobseeker_model extends CI_Model {
                 'website'          => $row->website,
                 'dateApplied'      => $row->dateApplied,
                 'status'           => $row->status,
+                'bookmarkID'       => $row->bookmarkID,
             ];
             return $jobDetails;
         } else {
             return FALSE;
         }
+    }
+
+    // SET PROFILE PICTURE
+    public function set_profile_pic($imgName) {
+        $this->db->query("
+            EXEC [JBSK_SetProfilePic]
+                @jobseekerID =  " . $this->session->id . ",
+                @profilePic  = '" . $imgName . "'
+        ");
+    }
+
+    // VIEW AVAILABLE JOBS
+    public function view_available_jobs($employerID, $offsetRows, $fetchedRows) {
+        $query = $this->db->query("
+            EXEC [JBSK_ViewAvailableJobs]
+                @jobseekerID = " . $this->session->id . ",
+                @employerID  = " . $employerID  . ",
+                @offsetRows  = " . $offsetRows  . ",
+                @fetchedRows = " . $fetchedRows . "
+        ");
+        return $query->result();
     }
 }

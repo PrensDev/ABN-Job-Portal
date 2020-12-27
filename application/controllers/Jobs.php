@@ -41,9 +41,7 @@ class Jobs extends CI_Controller {
         return $data;
     }
 
-
     // ==================================================================================================== //
-
 
     // JOBS VIEW / INDEX
     public function index() {
@@ -55,7 +53,6 @@ class Jobs extends CI_Controller {
         $this->load->view('sections/footer');
         $this->load->view('templates/footer');
     }
-
 
     // JOB DETAILS VIEW
     public function details($jobPostID = NULL) {
@@ -75,7 +72,6 @@ class Jobs extends CI_Controller {
             }
         }
     }
-
 
     // RECENT JOB LIST 
     public function recent($page = 1) {
@@ -136,7 +132,6 @@ class Jobs extends CI_Controller {
             $this->Auth_model->err_page();
         }
     }
-
 
     public function search() {
         

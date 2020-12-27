@@ -1,13 +1,7 @@
+
 <!-- FORM SECTION -->
 <div class="container-fluid py-3">
 <div class="container">
-
-    <!-- <div class="alert alert-danger alert-dismissible fade show my-4" role="alert">
-        <span>You entered some <strong>invalid</strong> input.</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-    </div> -->
 
     <!-- EMPLOYER REGISTRATION FORM -->
     <form method="POST">
@@ -82,7 +76,6 @@
                     </div>
                     
                 </div>
-                <!-- END OF ADDRESS FIELD -->
 
                 <!-- DESCRIPTION FIELD -->
                 <div class="form-group">
@@ -97,7 +90,6 @@
                     ><?php echo set_value('description'); ?></textarea>
                     <small class="invalid-feedback"><?php echo form_error('website')?></small>
                 </div>
-                <!-- END OF DESCRIPTION FIELD -->
 
                 <!-- WEBSITE FIELD -->
                 <div class="form-group">
@@ -121,12 +113,11 @@
                     </div>
                     <small class="invalid-feedback"><?php echo form_error('website')?></small>
                 </div>
-                <!-- END OF WEBSITE FIELD -->
                 
             </div>
 
         </div>
-        
+
         <!-- CONTACT INFORMATION FORM -->
         <div class="card my-4 border-0 shadow">
 
@@ -169,7 +160,6 @@
                     </div>
 
                 </div>
-                <!-- END OF CONTACT FIELD -->
 
             </div>
 
@@ -191,48 +181,30 @@
                     <!-- PASSWORD -->
                     <div class="form-group col-md">
                         <label for="password">Password</label>
-                        <div class="input-group">
-                            <input 
-                                type        = "password" 
-                                class       = "form-control  <?php echo form_error('password') ? 'is-invalid' : '' ;?>" 
-                                id          = "password" 
-                                name        = "password" 
-                                placeholder = "Password" 
-                            >
-                            <div class="input-group-append">
-                                <span class="input-group-text bg-white" id="togglePassword">
-                                    <i class="fas fa-eye" id="passwordIcon"></i>
-                                </span>
-                                <span class="input-group-text text-info bg-white">
-                                    <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Password must be 8 characters and above containing an uppercase letter, lowecase letter, number, and special character."></i>
-                                </span>
-                            </div>
-                            <small class="invalid-feedback"><?php echo form_error('password')?></small>
-                        </div>
+                        <input 
+                            type        = "password" 
+                            class       = "form-control  <?php echo form_error('password') ? 'is-invalid' : '' ;?>" 
+                            id          = "password" 
+                            name        = "password" 
+                            placeholder = "Password" 
+                        >
+                        <small class="invalid-feedback"><?php echo form_error('password')?></small>
                     </div>
 
                     <!-- REPEAT PASSWORD -->
                     <div class="form-group col-md">
                         <label for="retypePassword">Retype Password to confirm</label>
-                        <div class="input-group">
-                            <input 
-                                type        = "password" 
-                                class       = "form-control <?php echo form_error('retypePassword') ? 'is-invalid' : '' ;?>" 
-                                id          = "retypePassword" 
-                                name        = "retypePassword" 
-                                placeholder = "Retype password to confirm" 
-                            >
-                            <div class="input-group-append">
-                                <span class="input-group-text bg-white" id="toggleRetypePassword">
-                                    <i class="fas fa-eye" id="retypePasswordIcon"></i>
-                                </span>
-                            </div>
-                            <small class="invalid-feedback" id="retypePasswordFeedback"><?php echo form_error('retypePassword')?></small>
-                        </div>
+                        <input 
+                            type        = "password" 
+                            class       = "form-control <?php echo form_error('retypePassword') ? 'is-invalid' : '' ;?>" 
+                            id          = "retypePassword" 
+                            name        = "retypePassword" 
+                            placeholder = "Retype password to confirm" 
+                        >
+                        <small class="invalid-feedback" id="retypePasswordFeedback"><?php echo form_error('retypePassword')?></small>
                     </div>
 
                 </div>
-                <!-- END OF PASSWORD FIELD -->
 
                 <!-- CHECKBOX FOR USER AGREEMENT IN TERMS AND CONDITIONS -->
                 <div class="form-group">
@@ -249,22 +221,17 @@
                         <small class="invalid-feedback" id="retypePasswordFeedback"><?php echo form_error('agreement')?></small>
                     </div>
                 </div>
-                <!-- END OF CHECKBOX FOR USER AGREEMENT IN TERMS AND CONDITIONS -->
 
             </div>
 
         </div>
-        <!-- END OF ACCOUNT INFORMATION FORM -->
 
         <!-- USER CONTROLS -->
         <div class="d-flex justify-content-center my-4">
             <button type="submit" class="btn btn-primary btn-lg">Register as an Employer</button>
         </div>
-        <!-- END OF USER CONTROLS -->
 
     </form>
-    <!-- END OF EMPLOYER REGISTRATION FORM -->
 
 </div>
 </div>
-<!-- END OF FORM SECTION -->

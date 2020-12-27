@@ -14,16 +14,6 @@ CREATE PROCEDURE [VIEW_AllRecentPosts]
 AS
 	SELECT
 		  [JobPosts].[jobPostID]
-		, [JobPosts].[jobTitle]
-		, [JobPosts].[jobType]
-		, [JobPosts].[industryType]
-		, [JobPosts].[description]
-		, [JobPosts].[minSalary]
-		, [JobPosts].[maxSalary]
-		, [JobPosts].[dateCreated]
-		, [Employers].[employerID]
-		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
 	FROM [JobPosts]
 	INNER JOIN [Employers] 
 		ON [JobPosts].[employerID] = [Employers].[employerID]
@@ -46,6 +36,7 @@ AS
 		, [JobPosts].[maxSalary]
 		, [JobPosts].[dateCreated]
 		, [Employers].[employerID]
+		, [Employers].[profilePic]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
 	FROM [JobPosts]
@@ -79,6 +70,7 @@ AS
 		, [JobPosts].[dateModified]
 		, CAST([JobPosts].[jobPostFlag] AS INT) AS [status]
 		, [Employers].[employerID]
+		, [Employers].[profilePic]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
 		, [Employers].[contactNumber]
@@ -97,6 +89,7 @@ CREATE PROCEDURE [VIEW_CompanyDetails]
 AS
 	SELECT
 		  [employerID]
+		, [profilePic]
 		, [companyName]
 		, [description]
 		, [street] + ', ' + [brgyDistrict] + ', ' + [cityMunicipality] AS [location]
@@ -148,13 +141,14 @@ AS
 		, [JobPosts].[maxSalary]
 		, [JobPosts].[dateCreated]
 		, [Employers].[employerID]
+		, [Employers].[profilePic]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
 	FROM [JobPosts]
 	INNER JOIN [Employers] 
-	ON [JobPosts].[employerID] = [Employers].[employerID]
-	AND [JobPosts].[employerID] = @employerID
-	AND [jobPostFlag] = 1
+		ON [JobPosts].[employerID] = [Employers].[employerID]
+		AND [JobPosts].[employerID] = @employerID
+		AND [jobPostFlag] = 1
 	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;

@@ -20,18 +20,43 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y \a\\t h:i a");
 
 ?>
 
-<div class="col-md-6 col-lg-4 my-3">
+<div class="col-md-6 col-xl-4 my-3">
 <div class="bg-white shadow p-3 d-flex flex-column justify-content-between h-100">
 
     <div class="flex-grow-1">
         <div class="d-flex justify-content-center mb-3">
-            <img src="<?php echo base_url() ?>public/img/97.jpg" alt="" class="rounded-pill" draggable="false">
+            <?php
+                if (isset($profilePic)) {
+                    echo '
+                        <img 
+                            src         = "' . base_url() . 'public/img/jobseekers/' . $profilePic .'" 
+                            alt         = "' . $fullName . '" 
+                            height      = "125"
+                            class       = "rounded-pill" 
+                            draggable   = "false"
+                        >
+                    ';
+                } else {
+                    echo '
+                        <img 
+                            src         = "' . base_url() . 'public/img/jobseekers/blank_dp.png" 
+                            alt         = "' . $fullName . '" 
+                            height      = "125"
+                            class       = "rounded-pill" 
+                            draggable   = "false"
+                        >
+                    ';
+                }
+            ?>
+            
         </div>
 
         <h4 class="font-weight-normal text-center"><?php echo $fullName ?></h4>
 
         <div class="text-center">
-            <p class="font-italic text-secondary">Applied <?php echo $dateApplied ?></p>
+            <small>
+                <p class="font-italic text-secondary">Applied <?php echo $dateApplied ?></p>
+            </small>
             <span class="badge badge-<?php echo $statusTheme ?> py-1 px-2"><?php echo $status ?></span>
         </div>
 

@@ -26,18 +26,15 @@ class Employer_model extends CI_Model {
     
     // ==================================================================================================== //
 
-
     // NUMBER OF POSTED JOBS METHOD
     public function posts_num() {
         $query = $this->get_row("EXEC [EMPL_NumOfPosts] @employerID = " . $this->session->id);
         return $query->postsNum;
     }
 
-
     // GET INFORMATION METHOD
     public function get_info() {
         $row = $this->get_row("EXEC [AUTH_FindEmployer] @email = '" . $this->session->email . "'");
-
         $location = $row->brgyDistrict . ', ' . $row->cityMunicipality;
 
         $userdata = [
@@ -51,11 +48,11 @@ class Employer_model extends CI_Model {
             'email'            => $row->email,
             'website'          => $row->website,
             'description'      => $row->description,
+            'profilePic'       => $row->profilePic,
         ];
 
         return $userdata;
     }
-
 
     // POST NEW JOB METHOD
     public function post_new_job() {
@@ -78,12 +75,10 @@ class Employer_model extends CI_Model {
         ", 'job_posts');
     }
 
-
     // GET ALL POSTS METHOD
     public function get_all_posts() {
         return $this->db->query("EXEC [EMPL_GetAllPosts] @employerID = '" . $this->session->id . "'");
     }
-
 
     // GET POSTS METHOD
     public function get_posts($offsetRows, $fetchedRows) {
@@ -95,7 +90,6 @@ class Employer_model extends CI_Model {
 
         return $query->result();
     }
-
 
     // GET JOB DETAILS METHOD
     public function get_job_details($jobPostID) {
@@ -131,12 +125,10 @@ class Employer_model extends CI_Model {
         }
     }
 
-
     // VIEW ALL APPLICANTS METHOD
     public function view_all_applicants($jobPostID) {
         return $this->db->query("EXEC [EMPL_ViewAllApplicants] @jobPostID = " . $jobPostID);
     }
-
 
     // VIEW APPLICANTS METHOD
     public function view_applicants($offsetRows, $fetchedRows, $jobPostID) {
@@ -149,7 +141,6 @@ class Employer_model extends CI_Model {
 
         return $query->result();
     }
-
 
     // UPDATE JOB POST METHOD
     public function update_post($jobPostID) {
@@ -172,7 +163,6 @@ class Employer_model extends CI_Model {
         ", 'job_details/' . $jobPostID);
     }
 
-
     // DELETE POST METHOD
     public function delete_post($jobPostID) {
         $exist = $this->get_job_details($jobPostID, $this->session->id);
@@ -186,7 +176,6 @@ class Employer_model extends CI_Model {
             , 'job_posts');
         }
     }
-
 
     // UPDATE INFORMATION METHOD
     public function update_info() {
@@ -204,7 +193,6 @@ class Employer_model extends CI_Model {
         ", 'information');
     }
 
-
     // VIEW APPLICANT PROFILE
     public function view_applicant_profile($jobseekerID, $jobPostID) {
         $query = $this->db->query("
@@ -218,16 +206,37 @@ class Employer_model extends CI_Model {
 
     // HIRE APPLICANT
     public function hire_applicant($applicationID) {
-        return $this->db->query("EXEC [EMPL_HireApplicant] @applicationID = " . $applicationID);
+        return $this->db->query("
+            EXEC [EMPL_SetApplicantStatus] 
+                @applicationID = " . $applicationID . ",
+                @status        = 'Hired'
+        ");
     }
 
     // REJECT APPLICANT
     public function reject_applicant($applicationID) {
-        return $this->db->query("EXEC [EMPL_RejectApplicant] @applicationID = " . $applicationID);
+        return $this->db->query("
+            EXEC [EMPL_SetApplicantStatus] 
+                @applicationID = " . $applicationID . ",
+                @status        = 'Rejected'
+        ");
     }
 
     // CANCEL HIRING
     public function cancel_hiring_rejecting($applicationID) {
-        return $this->db->query("EXEC [EMPL_CancelHiringOrRejecting] @applicationID = " . $applicationID);
+        return $this->db->query("
+            EXEC [EMPL_SetApplicantStatus] 
+                @applicationID = " . $applicationID . ",
+                @status        = 'Pending'
+        ");
+    }
+
+    // SET PROFILE PICTURE
+    public function set_profile_pic($imgName) {
+        $this->db->query("
+            EXEC [EMPL_SetProfilePic]
+                @employerID =  " . $this->session->id . ",
+                @profilePic = '" . $imgName . "'
+        ");
     }
 }

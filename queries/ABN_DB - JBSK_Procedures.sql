@@ -35,6 +35,7 @@ AS
 		, [JobPosts].[dateCreated]
 		, [JobPosts].[jobPostFlag]
 		, [Employers].[employerID]
+		, [Employers].[profilePic]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
 		, [Bookmarks].[bookmarkID]
@@ -99,10 +100,9 @@ AS
 	INSERT INTO [Applications]
 		( [jobPostID]
 		, [jobseekerID] )
-	VALUES (
-		@jobPostID,
-		@jobseekerID
-	)
+	VALUES 
+		( @jobPostID
+		, @jobseekerID )
 ;
 
 
@@ -149,6 +149,7 @@ AS
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
 		, [Employers].[employerID]
+		, [Employers].[profilePic]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
 		, [Applications].[applicationID]
@@ -236,6 +237,7 @@ AS
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
 		, [Employers].[employerID]
+		, [Employers].[profilePic]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
 		, [Applications].[status]
@@ -285,6 +287,8 @@ AS
 		, [JobPosts].[dateCreated]
 		, [JobPosts].[dateModified]
 		, CAST([JobPosts].[jobPostFlag] AS INT) AS [status]
+		, [Employers].[employerID]
+		, [Employers].[profilePic]
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
 		, [Employers].[contactNumber]
@@ -292,6 +296,7 @@ AS
 		, [Employers].[website]
 		, [Applications].[dateApplied]
 		, [Applications].[status]
+		, [Bookmarks].[bookmarkID]
 	FROM [JobPosts]
 	INNER JOIN [Employers]
 		ON [JobPosts].[employerID] = [Employers].[employerID]
@@ -299,4 +304,56 @@ AS
 	LEFT JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 		AND [Applications].[jobseekerID] = @jobseekerID
+	LEFT JOIN [Bookmarks]
+		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
+		AND [Bookmarks].[jobseekerID] = @jobseekerID
+;
+
+-- Set Profile Pic
+CREATE PROCEDURE [JBSK_SetProfilePic]
+	@jobseekerID INT,
+	@profilePic	 VARCHAR(MAX)
+AS
+	UPDATE [JobSeekers]
+	SET [profilePic] = @profilePic
+	WHERE [jobseekerID] = @jobseekerID
+;
+
+-- View Available Jobs
+CREATE PROCEDURE [JBSK_ViewAvailableJobs]
+	@jobseekerID INT,
+	@employerID  INT,
+	@offsetRows  INT,
+	@fetchedRows INT
+AS
+	SELECT
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[industryType]
+		, [JobPosts].[description]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, [Employers].[employerID]
+		, [Employers].[profilePic]
+		, [Employers].[companyName]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
+		, [Bookmarks].[bookmarkID]
+		, [Applications].[dateApplied]
+		, [Applications].[status]
+	FROM [JobPosts]
+	INNER JOIN [Employers] 
+		ON [JobPosts].[employerID] = [Employers].[employerID]
+		AND [JobPosts].[employerID] = @employerID
+		AND [jobPostFlag] = 1
+	LEFT JOIN [Bookmarks]
+		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
+		AND [Bookmarks].[jobseekerID] = @jobseekerID
+	LEFT JOIN [Applications]
+		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
+		AND [Applications].[jobseekerID] =  @jobseekerID
+	ORDER BY [dateCreated] DESC
+	OFFSET @offsetRows ROWS
+	FETCH NEXT @fetchedRows ROWS ONLY;
 ;

@@ -56,27 +56,16 @@ class Home extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
-
     // ==================================================================================================== //
 
-
     // INDEX VIEW
-    public function index() {
-        $this->load_main_view('Home', 'index');
-    }
+    public function index()                 {$this->load_main_view('Home', 'index');}
     
-
     // ABOUT US VIEW
-    public function about_us() {
-        $this->load_main_view('About Us', 'about_us');
-    }
-
+    public function about_us()              {$this->load_main_view('About Us', 'about_us');}
 
     // TERMS AND CONDITIONS VIEW
-    public function terms_and_conditions() {
-        $this->load_main_view('Terms and Conditions', 'terms_and_conditions');
-    }
-
+    public function terms_and_conditions()  {$this->load_main_view('Terms and Conditions', 'terms_and_conditions');}
 
     // JOBS VIEW
     public function jobs($jobPostsID = NULL) {

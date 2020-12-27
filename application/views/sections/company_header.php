@@ -8,7 +8,32 @@
 
     <!-- COMPANY IMAGE/LOGO -->
     <div class="col-md-auto d-flex justify-content-center">
-        <img src="<?php echo base_url() ?>public/img/job_logo_5.jpg" alt="" height="125" class="rounded" draggable="false">
+        <?php
+            if (isset($profilePic)) {
+                echo '
+                    <img 
+                        src         = "'. base_url() . 'public/img/employers/' . $profilePic . '" 
+                        alt         = "' . $companyName . '" 
+                        height      = "125"
+                        width       = "125" 
+                        class       = "rounded" 
+                        draggable   = "false"
+                    >
+                ';
+            } else {
+                echo '
+                    <img 
+                        src         = "'. base_url() . 'public/img/employers/blank_dp.png" 
+                        alt         = "' . $companyName . '" 
+                        height      = "125"
+                        width       = "125" 
+                        class       = "rounded" 
+                        draggable   = "false"
+                    >
+                ';
+            }
+        ?>
+        
     </div>
     
     <!-- COMPANY INFORMATION -->

@@ -27,29 +27,36 @@
         <div class="card-body p-0">
             <div class="list-group list-group-flush">
 
-                <a class="list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/edit_information">
-                    <div class="user-nav-icon">
+                <a class="btn list-group-item list-group-item-action" data-toggle="modal" data-target="#editImageModal">
+                    <div class="user-nav-icon mr-1">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <span>Edit profile picture</span>
+                </a>
+
+                <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/edit_information">
+                    <div class="user-nav-icon mr-1">
                         <i class="fas fa-pen"></i>
                     </div>
                     <span>Edit information</span>
                 </a>
 
-                <a class="list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/change_password">
-                    <div class="user-nav-icon">
+                <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/change_password">
+                    <div class="user-nav-icon mr-1">
                         <i class="fas fa-lock"></i>
                     </div>
                     <span>Change password</span>
                 </a>
 
                 <a class="btn list-group-item list-group-item-action" data-toggle="modal" data-target="#deactivateModal">
-                    <div class="user-nav-icon">
+                    <div class="user-nav-icon mr-1">
                         <i class="fas fa-user-times"></i>
                     </div>
                     <span>Deactivate my account</span>
                 </a>
 
                 <a class="btn list-group-item list-group-item-action" data-toggle="modal" data-target="#logoutModal">
-                    <div class="user-nav-icon">
+                    <div class="user-nav-icon mr-1">
                         <i class="fas fa-sign-out-alt"></i>
                     </div>
                     <span>Log out</span>

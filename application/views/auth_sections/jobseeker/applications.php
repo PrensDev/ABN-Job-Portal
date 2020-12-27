@@ -17,27 +17,15 @@
         </div>
     </div>    
 
-
-    <!-- 
-    <div class="alert alert-success alert-dismissible fade show my-2 mb-4" role="alert">
-        <span>New job has successfully been <strong>added</strong>.</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div> -->
-
-
     <!-- JOB LIST -->
     <div class="row mt-2 mb-5">
         <?php foreach ( $posts as $post ) { $this->load->view('auth_sections/jobseeker/components/job_post_card', $post); } ?>
     </div>
-    <!-- END OF JOB LIST -->
 
     <?php echo $this->pagination->create_links(); ?>
 
 </div>
 </div>
-
 
 <script>
     $(document).on('click','#addBookmarkBtn', function(e) {

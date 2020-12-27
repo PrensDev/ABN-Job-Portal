@@ -50,7 +50,27 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
     
     <!-- COMPANY IMAGE/LOGO -->
     <div class="d-none d-sm-inline mr-sm-3">
-        <img src="<?php echo base_url() ?>public/img/job_logo_5.jpg" alt="" height="125" class="rounded" draggable="false">
+        <?php
+            if (isset($profilePic)) {
+                echo '
+                    <img 
+                        src         = "' . base_url() . 'public/img/employers/' . $profilePic . '" 
+                        alt         = "' . $jobTitle . '" 
+                        height      = "125" 
+                        draggable   = "false"
+                    >
+                ';
+            } else {
+                echo '
+                    <img 
+                        src         = "' . base_url() . 'public/img/employers/blank_dp.png" 
+                        alt         = "' . $jobTitle . '" 
+                        height      = "125" 
+                        draggable   = "false"
+                    >
+                ';
+            }
+        ?>
     </div>
     
     <!-- JOB DETAILS -->
@@ -378,7 +398,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                 } else {
                     if ($status == 'Pending') {
                         $userControlConfig = [
-                            'theme'         => 'warning',
+                            'theme'         => 'secondary',
                             'modalID'       => 'cancelApplicationModal',
                             'statusLabel'   => 'Cancel my application',
                         ];
@@ -472,6 +492,38 @@ if ($this->session->userType == 'Job Seeker') {
             success:    function(data) {
                 location.reload();
             }
+        });
+    });
+
+    $(document).on('click','#addBookmarkBtn', function(e) {
+        e.preventDefault();
+        var jobPostID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/add_bookmark",
+            type:       "post",
+            dataType:   "json",
+            data: {
+                jobPostID: jobPostID
+            },
+            success:    function(data) {
+                location.reload();
+            } 
+        });
+    });
+
+    $(document).on('click','#removeBookmarkBtn', function(e) {
+        e.preventDefault();
+        var jobPostID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/remove_bookmark",
+            type:       "post",
+            dataType:   "json",
+            data: {
+                jobPostID: jobPostID
+            },
+            success:    function(data) {
+                location.reload();
+            } 
         });
     });
 </script>

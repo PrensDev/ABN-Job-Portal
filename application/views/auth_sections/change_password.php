@@ -31,22 +31,19 @@
                     value       = "<?php set_value('oldPassword') ?>"
                 >
                 <small class="invalid-feedback">This is a required field.</small>
-                </div>
                 
             </div>
 
             <div class="form-group">
                 <label for="password">Type New Password:</label>
-                    <input 
-                        type        = "password" 
-                        class       = "form-control <?php echo form_error('newPassword') ? 'is-invalid' : '' ?>" 
-                        id          = "newPassword" 
-                        name        = "newPassword"
-                        placeholder = "Type your new password"
-                    >
-                    <small class="invalid-feedback">This is a required field.</small>
-                </div>
-                
+                <input 
+                    type        = "password" 
+                    class       = "form-control <?php echo form_error('newPassword') ? 'is-invalid' : '' ?>" 
+                    id          = "newPassword" 
+                    name        = "newPassword"
+                    placeholder = "Type your new password"
+                >
+                <small class="invalid-feedback">This is a required field.</small>                
             </div>
 
             <div class="form-group">
@@ -58,9 +55,7 @@
                     name        = "retypeNewPassword"
                     placeholder = "Retype your new password"
                 >
-                <small class="invalid-feedback">This is a required field.</small>
-                </div>
-                
+                <small class="invalid-feedback">This is a required field.</small>                
             </div>
             
             <button type="submit" class="btn btn-warning btn-block">Change Password</button>

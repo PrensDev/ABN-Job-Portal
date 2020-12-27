@@ -124,10 +124,10 @@ AS
 		, CAST([JobPosts].[jobPostFlag] AS INT) AS [status]
 		, COUNT([Applications].[applicationID]) AS [numOfApplicants]
 	FROM [JobPosts]
-	FULL OUTER JOIN [Applications]
-	ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
+	LEFT OUTER JOIN [Applications]
+		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
 	WHERE [JobPosts].[jobPostID] = @jobPostID 
-	AND [JobPosts].[employerID] = @employerID
+		AND [JobPosts].[employerID] = @employerID
 	GROUP BY
 		  [JobPosts].[jobPostID]
 		, [JobPosts].[employerID]
@@ -234,6 +234,7 @@ CREATE PROCEDURE [EMPL_ViewApplicants]
 AS
 	SELECT
 		  [JobSeekers].[jobseekerID]
+		, [JobSeekers].[profilePic]
 		, [JobSeekers].[firstName]
 		, [JobSeekers].[middleName]
 		, [JobSeekers].[lastName]
@@ -263,6 +264,7 @@ CREATE PROCEDURE [EMPL_ViewApplicantProfile]
 AS
 	SELECT
 		  [JobSeekers].[jobseekerID]
+		, [JobSeekers].[profilePic]
 		, [JobSeekers].[firstName]
 		, [JobSeekers].[middleName]
 		, [JobSeekers].[lastName]
@@ -283,7 +285,7 @@ AS
 		, [Applications].[status]
 		, [JobPosts].[jobTitle]
 	FROM [Applications]
-		INNER JOIN [JobSeekers]
+	INNER JOIN [JobSeekers]
 		ON [Applications].[jobseekerID] = [JobSeekers].[jobseekerID]
 	INNER JOIN [JobPosts]
 		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
@@ -302,31 +304,23 @@ AS
 ;
 
 
--- Hire Applicant Procedure
-CREATE PROCEDURE [EMPL_HireApplicant]
-	@applicationID INT
+-- Set Applicant Status Procedure
+CREATE PROCEDURE [EMPL_SetApplicantStatus]
+	@applicationID INT,
+	@status		   VARCHAR(MAX)
 AS
 	UPDATE [Applications]
-	SET [status] = 'Hired'
+	SET [status] = @status
 	WHERE [applicationID] = @applicationID
 ;
 
 
--- Reject Applicant Procedure
-CREATE PROCEDURE [EMPL_RejectApplicant]
-	@applicationID INT
+-- Set Profile Pic
+CREATE PROCEDURE [EMPL_SetProfilePic]
+	@employerID INT,
+	@profilePic	VARCHAR(MAX)
 AS
-	UPDATE [Applications]
-	SET [status] = 'Rejected'
-	WHERE [applicationID] = @applicationID
-;
-
-
--- Cancel Hiring or Rejecting Procedure
-CREATE PROCEDURE [EMPL_CancelHiringOrRejecting]
-	@applicationID INT
-AS
-	UPDATE [Applications]
-	SET [status] = 'Pending'
-	WHERE [applicationID] = @applicationID
+	UPDATE [Employers]
+	SET [profilePic] = @profilePic
+	WHERE [employerID] = @employerID
 ;

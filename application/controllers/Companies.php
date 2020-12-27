@@ -63,7 +63,7 @@ class Companies extends CI_Controller {
 
             if ($page > 0 && $page <= $totalPages) {
                 $offsetRows    = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                $AvailableJobs = $this->View_model->available_jobs($employerID, $offsetRows, $fetchedRows);
+                $AvailableJobs = $this->session->userType == 'Job Seeker' ? $this->Jobseeker_model->view_available_jobs($employerID, $offsetRows, $fetchedRows) : $this->View_model->available_jobs($employerID, $offsetRows, $fetchedRows);
     
                 $employerDetails = $this->View_model->company_details($employerID);
 

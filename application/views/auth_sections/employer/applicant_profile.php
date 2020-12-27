@@ -15,7 +15,30 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
     
     <div class="row mb-4">
         <div class="col-md-auto d-flex justify-content-center">
-            <img src="<?php echo base_url() ?>public/img/97.jpg" height="125" width="125" class="rounded-pill" draggable="false">
+            <?php
+                if (isset($profilePic)) {
+                    echo '
+                        <img 
+                            src         = "' . base_url() .'public/img/jobseekers/' . $profilePic . '" 
+                            height      = "125" 
+                            width       = "125" 
+                            class       = "rounded-pill" 
+                            draggable   = "false"
+                        >
+                    ';
+                } else {
+                    echo '
+                        <img 
+                            src         = "' . base_url() .'public/img/jobseekers/blank_dp.png" 
+                            height      = "125" 
+                            width       = "125" 
+                            class       = "rounded-pill" 
+                            draggable   = "false"
+                        >
+                    ';
+                }
+            ?>
+            
         </div>
         
         <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
@@ -38,7 +61,7 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                 <!-- EMAIL ADDRESS -->
                 <div class="mr-3">
                     <i class="fas fa-envelope mr-1 text-danger"></i>
-                    <span class=" text-secondary"><?php echo $email ?></span>
+                    <span class="text-secondary text-truncate"><?php echo $email ?></span>
                 </div>
 
             </div>

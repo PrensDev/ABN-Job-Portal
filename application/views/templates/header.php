@@ -14,10 +14,18 @@
 
     <!-- FontAwesome CSS -->
     <link rel="stylesheet" href="<?php echo base_url() ?>node_modules/@fortawesome/fontawesome-free/css/all.css">
+    
     <!-- Bootstrap-select CSS -->
     <link rel="stylesheet" href="<?php echo base_url() ?>node_modules/bootstrap-select/dist/css/bootstrap-select.min.css">
+    
     <!-- Animate.css -->
     <link rel="stylesheet" href="<?php echo base_url() ?>node_modules/animate.css/animate.css">
+    
+    <!-- Croppie CSS -->
+    <link rel="stylesheet" href="<?php echo base_url() ?>node_modules/croppie/croppie.css">
+
+    <!-- Dropify CSS -->
+    <link rel="stylesheet" href="<?php echo base_url() ?>node_modules/dropify/dist/css/dropify.css">
 
     <!-- Custom CSS (includes Bootstrap) -->
     <link rel="stylesheet" href="<?php echo base_url() ?>public/css/styles.css">

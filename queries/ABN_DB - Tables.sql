@@ -3,7 +3,6 @@ CREATE DATABASE [ABN_DB]
 
 -- USE ABN_DB
 USE [ABN_DB]
-GO
 
 --------------------------------------------------------
 
@@ -86,6 +85,9 @@ CREATE TABLE [JobSeekers] (
 	,
 	[education]
 		VARCHAR(MAX) NOT NULL
+	,
+	[profilePic]
+		VARCHAR(MAX)
 );
 
 
@@ -120,6 +122,9 @@ CREATE TABLE [Employers] (
 	,
 	[description]
 		VARCHAR(MAX) NOT NULL
+	,
+	[profilePic]
+		VARCHAR(MAX)
 );
 
 

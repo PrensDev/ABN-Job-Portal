@@ -9,9 +9,10 @@ WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME LIKE 'AUTH%';
 --------------------------------------------------------
 
 -- Add Job Seeker Account Procedure
-CREATE PROCEDURE [AUTH_AddJobseekerAccount]
+CREATE PROCEDURE [AUTH_AddUserAccount]
 	@email				VARCHAR(450),
-	@password			VARCHAR(MAX)
+	@password			VARCHAR(MAX),
+	@userType			VARCHAR(MAX)
 AS
 	INSERT INTO [UserAccounts] 
 		( [email]
@@ -20,7 +21,7 @@ AS
 	VALUES 
 		( @email
 		, @password
-		, 'Job Seeker')
+		, @userType )
 ;
 
 
@@ -74,22 +75,6 @@ AS
 ;
 
 
--- Add Employer Account Procedure
-CREATE PROCEDURE [AUTH_AddEmployerAccount]
-	@email				VARCHAR(450),
-	@password			VARCHAR(MAX)
-AS
-	INSERT INTO [UserAccounts] 
-		([email]
-		,[password]
-		,[userType])
-	VALUES 
-		(@email
-		,@password
-		,'Employer')
-;
-
-
 -- Register Employer Procedure
 CREATE PROCEDURE [AUTH_RegisterEmployer]
 	@companyName		VARCHAR(MAX),
@@ -118,7 +103,7 @@ AS
 		, @contactNumber
 		, @email
 		, @website
-		, @description)
+		, @description )
 ;
 
 
@@ -126,9 +111,14 @@ AS
 CREATE PROCEDURE [AUTH_FindUserAccount]
 	@email		VARCHAR(450)
 AS
-	SELECT [email], [password], [userType], CAST([accountFlag] AS INT) AS [status]
+	SELECT 
+		  [email]
+		, [password]
+		, [userType]
+		, CAST([accountFlag] AS INT) AS [status]
 	FROM [UserAccounts]
 	WHERE [email] = @email
+;
 
 
 -- Find Job Seeker Procedure
@@ -152,6 +142,7 @@ AS
 		, [skills]
 		, [experiences]
 		, [education]
+		, [profilePic]
 	FROM [JobSeekers]
 	WHERE [email] = @email
 ;
@@ -166,22 +157,12 @@ AS
 ;
 
 
--- Deactivate Account Procedure
-CREATE PROCEDURE [AUTH_DeactivateAccount]
-	@email VARCHAR(450)
+-- Set Account Procedure
+CREATE PROCEDURE [AUTH_SetAccountFlag]
+	@email VARCHAR(450),
+	@flag  INT
 AS
 	UPDATE [UserAccounts]
-	SET [accountFlag] = 0
-	WHERE [email] = @email
-
-
--- Activate Account Procedure
-CREATE PROCEDURE [AUTH_ActivateAccount]
-	@email VARCHAR(450)
-AS
-	UPDATE [UserAccounts]
-	SET [accountFlag] = 1
+	SET [accountFlag] = @flag
 	WHERE [email] = @email
 ;
-
-SELECT * FROM UserAccounts
