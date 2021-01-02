@@ -3,18 +3,18 @@
 <div class="container-md py-5">
     
     <!-- FORM SECTION HEADER -->
-    <div class="mb-4">
-        <h1 class="font-weight-normal">Post new job</h1>
-        <p class="text-secondary">Compose the job you want to create here.</p>
-    </div>
+    <h1 class="font-weight-light">Post new <span class="text-primary">job</span></h1>
+    <p class="text-secondary">Compose the job you want to create here.</p>
+
+    <p class="text-danger"><small>* Required</small></p>
 
     <!-- GENERAL INFORMATION FORM -->
     <form method="POST">
 
         <!-- COMPANY INFORMATION FORM -->
-        <div class="card my-4 border-0 shadow">
+        <div class="card my-4 border-0">
 
-            <div class="card-header h6 bg-light border-0">
+            <div class="card-header h6 bg-white border-primary">
                 <i class="fas fa-exclamation-circle text-primary mr-2"></i>
                 <span>General Information</span>
             </div>
@@ -24,6 +24,7 @@
                 <!-- COMPANY NAME -->
                 <div class="form-group">
                     <label for="jobTitle">Job Title</label>
+                    <span class="text-danger">*</span>
                     <input 
                         type        = "text" 
                         class       = "form-control <?php echo form_error('jobTitle') ? 'is-invalid' : '' ;?>" 
@@ -35,12 +36,13 @@
                     <small class="invalid-feedback"><?php echo form_error('jobTitle') ?></small>
                 </div>
 
-                <!-- JOB AND INDUSTRY TYPE FIELD -->
+                <!-- JOB TYPE AND FIELD -->
                 <div class="form-row">
 
                     <!-- JOB TYPE -->
                     <div class="form-group col-md">
                         <label for="jobType">Job Type</label>
+                        <span class="text-danger">*</span>
                         <select 
                             class       = "selectpicker show-tick form-control border <?php echo form_error('jobType') ? 'is-invalid' : '' ;?>" 
                             title       = "Select job type ..." 
@@ -59,9 +61,9 @@
                                 <?php echo set_value('jobType') == 'Part Time' ? 'selected' : '' ?>
                             ></option>
                             <option 
-                                value="Internship/OJT" 
-                                data-content="<i class='fas fa-user-tie mr-3 text-warning'></i>Internship/OJT"
-                                <?php echo set_value('jobType') == 'Internship/OJT' ? 'selected' : '' ?>
+                                value="Intern/OJT" 
+                                data-content="<i class='fas fa-user-tie mr-3 text-warning'></i>Intern/OJT"
+                                <?php echo set_value('jobType') == 'Intern/OJT' ? 'selected' : '' ?>
                             ></option>
                             <option 
                                 value="Temporary" 
@@ -72,22 +74,22 @@
                         <small class="invalid-feedback"><?php echo form_error('jobType') ?></small>
                     </div>
 
-                    <!-- INDUSTRY TYPE -->
+                    <!-- FIELD -->
                     <div class="form-group col-md">
-                        <label for="industryType">Industry Type</label>
+                        <label for="field">Field</label>
+                        <span class="text-danger">*</span>
                         <input 
                             type        = "text" 
-                            class       = "form-control <?php echo form_error('industryType') ? 'is-invalid' : '' ;?>" 
-                            id          = "industryType"
-                            name        = "industryType"
-                            placeholder = "Industry Type"
-                            value       = "<?php echo set_value('industryType') ?>"
+                            class       = "form-control <?php echo form_error('field') ? 'is-invalid' : '' ;?>" 
+                            id          = "field"
+                            name        = "field"
+                            placeholder = "Field"
+                            value       = "<?php echo set_value('field') ?>"
                         >
-                        <small class="invalid-feedback"><?php echo form_error('industryType') ?></small>
+                        <small class="invalid-feedback"><?php echo form_error('field') ?></small>
                     </div>
                     
                 </div>
-                <!-- END OF JOB AND INDUSTRY TYPE FIELD -->
 
                 <!-- OFFERED SALARY FIELD -->
                 <div class="form-row">
@@ -95,6 +97,7 @@
                     <!-- MINIMUM SALARY -->
                     <div class="form-group col-md">
                         <label for="minSalary">Minimum Offered Salary</label>
+                        <span class="text-danger">*</span>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">&#8369;</span>
@@ -115,6 +118,7 @@
                     <!-- MAXIMUM SALARY -->
                     <div class="form-group col-md">
                         <label for="maxSalary">Maximum Offered Salary</label>
+                        <span class="text-danger">*</span>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">&#8369;</span>
@@ -133,12 +137,11 @@
                     </div>
 
                 </div>
-                <!-- END OF JOB AND INDUSTRY TYPE FIELD -->
-
 
                 <!-- STATUS -->
                 <div class="form-group">
                     <label>Status</label>
+                    <span class="text-danger">*</span>
                     <div class="custom-control custom-switch">
                         <input 
                             type    = "checkbox" 
@@ -149,18 +152,18 @@
                             checked
                         >
                         <label class="custom-control-label text-success font-weight-bold" for="status">ACTIVE</label>
+                        <p class="text-secondary">Note: If status is not active, this post will never be searched and only you can view this.</p>
                     </div>
                 </div>
-
 
             </div>
 
         </div>
         
         <!-- JOB DESCRIPTION FORM -->
-        <div class="card my-4 border-0 shadow">
+        <div class="card my-4 border-0">
 
-            <div class="card-header h6 bg-light border-0">
+            <div class="card-header h6 bg-white border-primary">
                 <i class="fas fa-exclamation-circle text-primary mr-2"></i>
                 <span>Job Description</span>
             </div>
@@ -170,6 +173,7 @@
                 <!-- DESCRIPTION -->
                 <div class="form-group">
                     <label for="description">Description</label>
+                    <span class="text-danger">*</span>
                     <textarea 
                         class       = "form-control <?php echo form_error('description') ? 'is-invalid' : '' ;?>" 
                         id          = "description" 
@@ -183,6 +187,7 @@
                 <!-- RESPONSIBILITIES -->
                 <div class="form-group">
                     <label for="responsibilities">Responsibilities</label>
+                    <span class="text-danger">*</span>
                     <textarea 
                         class       = "form-control <?php echo form_error('responsibilities') ? 'is-invalid' : '' ;?>" 
                         id          = "responsibilities" 
@@ -196,6 +201,7 @@
                 <!-- SKILLS SET -->
                 <div class="form-group">
                     <label for="skills">Skills Set</label>
+                    <span class="text-danger">*</span>
                     <textarea 
                         class       = "form-control <?php echo form_error('skills') ? 'is-invalid' : '' ;?>" 
                         id          = "skills" 
@@ -209,6 +215,7 @@
                 <!-- EXPERIENCES -->
                 <div class="form-group">
                     <label for="experiences">Experiences</label>
+                    <span class="text-danger">*</span>
                     <textarea 
                         class       = "form-control <?php echo form_error('experiences') ? 'is-invalid' : '' ;?>" 
                         id          = "experiences" 
@@ -222,6 +229,7 @@
                 <!-- EDUCATION -->
                 <div class="form-group">
                     <label for="education">Education</label>
+                    <span class="text-danger">*</span>
                     <textarea
                         class       = "form-control <?php echo form_error('education') ? 'is-invalid' : '' ;?>" 
                         id          = "education" 

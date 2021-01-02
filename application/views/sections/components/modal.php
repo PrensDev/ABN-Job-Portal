@@ -6,8 +6,8 @@
     $actionIcon  = isset($actionIcon)  ? '<i class="fas fa-' . $actionIcon . ' mr-1"></i>' : '';
 ?>
 
-<div class="modal fade user-select-none" id="<?php echo $id ?>" tabindex="-1">
-<div class="modal-dialog">
+<div class="modal<?php echo isset($nofade) ? '' : ' fade' ?> user-select-none" id="<?php echo $id ?>"<?php echo isset($static) ? ' data-backdrop="static" data-keyboard="false"' : '' ?> tabindex="-1">
+<div class="modal-dialog<?php echo isset($centered) ? ' modal-dialog-centered' : ''?>">
 <div class="modal-content">
 
     <div class="modal-header align-items-center">

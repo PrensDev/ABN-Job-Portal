@@ -5,7 +5,7 @@
     <!-- HEADER OF CONTENT -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="font-weight-normal">Information</h1>
+            <h1 class="font-weight-light">Information</h1>
         </div>
         <div>
             <a href="<?php echo base_url() ?>auth/edit_information" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
@@ -14,7 +14,6 @@
             </a>
         </div>
     </div>
-    <!-- END OF HEADER OF CONTENT -->
 
     <!-- INFORMAION DETAILS -->
     <div class="row">
@@ -24,11 +23,10 @@
             <div class="mb-5">
                 <h5 class="text-primary mb-3">
                     <i class="fas fa-users mr-2"></i>  
-                    <span>About Our Company</span> 
+                    <span>About this company</span> 
                 </h5>
                 <p class="text-justify"><?php echo $description ?></p>
             </div>
-            <!-- END OF USER DESCRIPTIONS -->
 
         </div>
         
@@ -36,7 +34,7 @@
             
             <!-- COMPANY DETAILS CARD -->
             <div class="card mb-3">
-                <div class="card-header">
+                <div class="card-header bg-white">
                     <strong>
                         <i class="fas fa-briefcase mr-2"></i>
                         <span>Company Details</span>    
@@ -46,8 +44,8 @@
                     
                     <div class="list-group list-group-flush">
 
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-danger">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-danger">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div>
@@ -56,8 +54,8 @@
                             </div>
                         </div>
 
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-danger">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-danger">
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                             <div>
@@ -66,8 +64,8 @@
                             </div>
                         </div>
 
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-danger">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-danger">
                                 <i class="fas fa-envelope"></i>
                             </div>
                             <div>
@@ -76,8 +74,8 @@
                             </div>
                         </div>
                 
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h3 text-danger">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-danger">
                                 <i class="fas fa-globe-asia"></i>
                             </div>
                             <div>

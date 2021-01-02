@@ -41,117 +41,117 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 ?>
 
 <!-- HEADER -->
-<div 
-    class="container-fluid py-3 parallax-window image-overlay py-5"
-    data-parallax="scroll" 
-    data-image-src="<?php echo base_url() ?>public/img/job_title_bg.jpeg"
->
-<div class="container d-flex justify-content-between">
+<div class="container-fluid py-5">
+<div class="container">
     
-    <!-- COMPANY IMAGE/LOGO -->
-    <div class="d-none d-sm-inline mr-sm-3">
-        <?php
-            if (isset($profilePic)) {
-                echo '
-                    <img 
-                        src         = "' . base_url() . 'public/img/employers/' . $profilePic . '" 
-                        alt         = "' . $jobTitle . '" 
-                        height      = "125" 
-                        draggable   = "false"
-                    >
-                ';
-            } else {
-                echo '
-                    <img 
-                        src         = "' . base_url() . 'public/img/employers/blank_dp.png" 
-                        alt         = "' . $jobTitle . '" 
-                        height      = "125" 
-                        draggable   = "false"
-                    >
-                ';
-            }
-        ?>
-    </div>
-    
-    <!-- JOB DETAILS -->
-    <div class="text-white flex-grow-1">
-        <h1 class="font-weight-light text-capitalize"><?php echo $jobTitle ?></h1>
+    <div class="row">
+
+        <!-- COMPANY IMAGE/LOGO -->
+        <div class="col-auto d-none d-sm-inline">
+            <?php
+                if (isset($profilePic)) {
+                    echo '
+                        <a href="' . base_url() . 'companies/details/' . $employerID . '">
+                            <img 
+                                src         = "' . base_url() . 'public/img/employers/' . $profilePic . '" 
+                                alt         = "' . $jobTitle . '" 
+                                height      = "125" 
+                                width       = "125" 
+                                draggable   = "false"
+                                class       = "border"
+                            >
+                        </a>
+                    ';
+                } else {
+                    echo '
+                        <a href="' . base_url() . 'companies/details/' . $employerID . '">
+                            <img 
+                                src         = "' . base_url() . 'public/img/employers/blank_dp.png" 
+                                alt         = "' . $jobTitle . '" 
+                                height      = "125" 
+                                width       = "125" 
+                                draggable   = "false"
+                                class       = "border"
+                            >
+                        </a>
+                    ';
+                }
+            ?>
+        </div>
         
-        <div class="d-flex flex-wrap">
+        <!-- JOB DETAILS -->
+        <div class="col flex-grow-1">
+            <h1 class="font-weight-normal text-uppercase"><?php echo $jobTitle ?></h1>
             
-            <div class="mr-3">
-                    <i class="fas fa-briefcase mr-1"></i>
-                    <a href="<?php echo base_url() ?>companies/details/<?php echo $employerID ?>" class="text-white">
+            <div class="d-flex flex-wrap">
+                
+                <div class="mr-3">
+                    <i class="fas fa-briefcase mr-1 text-info"></i>
+                    <a href="<?php echo base_url() ?>companies/details/<?php echo $employerID ?>" class="text-secondary">
                         <span><?php echo $companyName ?></span>
                     </a>
+                </div>
+
+                <div class="mr-3">
+                    <i class="fas fa-map-marker-alt mr-1 text-info"></i>
+                    <span class="text-secondary"><?php echo $location ?></span>
+                </div>
+
+                <div class="mr-3">
+                    <i class="fas fa-money-bill-wave mr-1 text-info"></i>
+                    <span class="text-secondary"><?php echo $offeredSalary ?></span>
+                </div>
+
+                <div class="mr-3">
+                    <i class="fas fa-cog mr-1 text-info"></i>
+                    <span class="text-secondary"><?php echo $field ?></span>
+                </div>
+
             </div>
 
-            <div class="mr-3">
-                <i class="fas fa-map-marker-alt mr-1"></i>
-                <span><?php echo $location ?></span>
+            <div class="pt-2">
+                <span class="badge text-<?php echo $jobTypeClass ?> border border-<?php echo $jobTypeClass ?> p-2 text-uppercase">
+                    <i class="fas fa-user-tie mr-2"></i>
+                    <?php echo $jobType ?>
+                </span>
             </div>
-
-            <div class="mr-3">
-                <i class="fas fa-money-bill-wave mr-1"></i>
-                <span><?php echo $offeredSalary ?></span>
-            </div>
-
-            <div class="mr-3">
-                <i class="fas fa-cog mr-1"></i>
-                <span><?php echo $industryType ?></span>
-            </div>
-
+            
         </div>
 
-        <div class="pt-2">
-            <span class="badge badge-<?php echo $jobTypeClass ?> p-2 text-uppercase">
-                <i class="fas fa-user-tie mr-2"></i>
-                <?php echo $jobType ?>
-            </span>
-        </div>
-        
     </div>
 
-</div>
-</div>
+    <hr class="my-4">
 
+    <?php
+        if ($this->session->userType == 'Job Seeker') {
+            if(isset($status) && isset($dateApplied)) {
+                $dateApplied = date_format(date_create($dateApplied),"F d, Y, h:i a");
 
-<!-- JOB DETAILS SECTION -->
-<div class="container-fluid">
-<div class="container py-5">
-
-<?php
-    if ($this->session->userType == 'Job Seeker') {
-        if(isset($status) && isset($dateApplied)) {
-            $dateApplied = date_format(date_create($dateApplied),"F d, Y, h:i a");
-
-            if ($status == 'Pending') {
-                echo '
-                    <div class="container-fluid alert alert-success mb-5">
-                        <div class="row align-items-center">
-                            <div class="col-md-8 text-md-left text-center">
-                                <div class="m-1">
-                                    You submitted your application for this job at <strong>' . $dateApplied . '</strong></a>. 
+                if ($status == 'Pending') {
+                    echo '
+                        <div class="container-fluid alert alert-success mb-5">
+                            <div class="row align-items-center">
+                                <div class="col-md-8 text-md-left text-center">
+                                    <div class="m-1">
+                                        You submitted your application for this job at <strong>' . $dateApplied . '</strong></a>. 
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4 text-md-right mt-2 mt-md-0">
-                                <span class="badge badge-success py-2 px-3">' . $status . '</span>
+                                <div class="col-md-4 text-md-right mt-2 mt-md-0">
+                                    <span class="badge badge-success py-2 px-3">' . $status . '</span>
+                                </div> 
                             </div> 
-                        </div> 
-                    </div>
-                ';
-            } else if ($status == 'Hired') {
-                echo '
-                    <div class="alert alert-primary mb-5 text-md-left text-center">
-                        You are <strong>hired</strong> for this job.</a>
-                    </div>
-                ';
+                        </div>
+                    ';
+                } else if ($status == 'Hired') {
+                    echo '
+                        <div class="alert alert-primary mb-5 text-md-left text-center">
+                            You are <strong>hired</strong> for this job.</a>
+                        </div>
+                    ';
+                }
             }
         }
-    }
-?>
-
-
+    ?>
 
 <div class="row">
 
@@ -207,7 +207,6 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
             </div>
             
         </div>
-        <!-- END OF JOB DESCRIPTION SECTION -->
 
     </div>
     <!-- END OF JOB DETAILS -->
@@ -237,7 +236,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 
         <!-- JOB SUMMARY CARD -->
         <div class="card mb-3">
-            <div class="card-header">
+            <div class="card-header bg-white">
                 <strong>
                     <i class="fas fa-briefcase mr-2"></i>
                     <span>Job Summary</span>    
@@ -248,8 +247,8 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                 <div class="list-group list-group-flush">
 
                     <!-- JOB TYPE -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-info">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-info">
                             <i class="fas fa-user-tie"></i>
                         </div>
                         <div>
@@ -262,19 +261,19 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     </div>
 
                     <!-- INDUSTRY TYPE -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-info">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-info">
                             <i class="fas fa-cogs"></i>
                         </div>
                         <div>
-                            <p class="m-0 font-weight-bold">Industry Type</p>
-                            <p class="m-0 text-secondary"><?php echo $industryType ?></p>
+                            <p class="m-0 font-weight-bold">Field</p>
+                            <p class="m-0 text-secondary"><?php echo $field ?></p>
                         </div>
                     </div>
 
                     <!-- OFFERED SALARY -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-info">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-info">
                             <i class="fas fa-money-bill-wave"></i>
                         </div>
                         <div>
@@ -284,8 +283,8 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     </div>
 
                     <!-- DATE POSTED -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-info">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-info">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
                         <div>
@@ -298,11 +297,10 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                 
             </div>
         </div>
-        <!-- END OF JOB SUMMARY CARD -->
         
         <!-- COMPANY DETAILS CARD -->
         <div class="card mb-3">
-            <div class="card-header">
+            <div class="card-header bg-white">
                 <strong>
                     <i class="fas fa-briefcase mr-2"></i>
                     <span>Company Details</span>    
@@ -313,8 +311,8 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                 <div class="list-group list-group-flush">
                     
                     <!-- COMPANY NAME -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-danger">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-danger">
                             <i class="fas fa-city"></i>
                         </div>
                         <div>
@@ -330,8 +328,8 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     </div>
 
                     <!-- COMPANY LOCATION -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-danger">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-danger">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div>
@@ -341,8 +339,8 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     </div>
 
                     <!-- CONTACT NUMBER -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-danger">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-danger">
                             <i class="fas fa-phone-alt"></i>
                         </div>
                         <div>
@@ -352,8 +350,8 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     </div>
 
                     <!-- COMPANY EMAIL -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-danger">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-danger">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div>

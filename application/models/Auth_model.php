@@ -72,24 +72,17 @@ class Auth_model extends CI_Model {
         if (! $this->db->query($AddJobseekerAccount_sql)) {
             echo $this->db->error();
         } else {
-            $RegisterJobseeker_sql = "
+            $this->db->query("
                 EXEC [AUTH_RegisterJobseeker]
-                    @firstName		  = '" . $this->input->post( 'firstName'        ) . "',
-                    @middleName		  = '" . $this->input->post( 'middleName'       ) . "',
-                    @lastName		  = '" . $this->input->post( 'lastName'         ) . "',
-                    @birthDate		  = '" . $this->input->post( 'birthDate'        ) . "',
-                    @gender			  = '" . $this->input->post( 'gender'           ) . "',
-                    @street			  = '" . $this->input->post( 'street'           ) . "',
-                    @brgyDistrict	  = '" . $this->input->post( 'brgyDistrict'     ) . "',
-                    @cityMunicipality = '" . $this->input->post( 'cityMunicipality' ) . "',
-                    @contactNumber	  = '" . $this->input->post( 'contactNumber'    ) . "',
-                    @email            = '" . $this->input->post( 'email'            ) . "',
-                    @description	  = '" . $this->input->post( 'description'      ) . "',
-                    @skills			  = '" . $this->input->post( 'skills'           ) . "',
-                    @experiences	  = '" . $this->input->post( 'experiences'      ) . "',
-                    @education		  = '" . $this->input->post( 'education'        ) . "'
-            "; 
-            $this->db->query($RegisterJobseeker_sql);
+                    @firstName	   = '" . $this->input->post( 'firstName'     ) . "',
+                    @middleName	   = '" . $this->input->post( 'middleName'    ) . "',
+                    @lastName	   = '" . $this->input->post( 'lastName'      ) . "',
+                    @birthDate	   = '" . $this->input->post( 'birthDate'     ) . "',
+                    @gender		   = '" . $this->input->post( 'gender'        ) . "',
+                    @cityProvince  = '" . $this->input->post( 'cityProvince'  ) . "',
+                    @contactNumber = '" . $this->input->post( 'contactNumber' ) . "',
+                    @email         = '" . $this->input->post( 'email'         ) . "'
+            ");
             $this->login();
         }         
     }
@@ -105,19 +98,17 @@ class Auth_model extends CI_Model {
         if (! $this->db->query($AddEmployerAccount_sql)) {
             echo $this->db->error();
         } else {
-            $RegisterEmployer_sql = "
+            $this->db->query("
                 EXEC [AUTH_RegisterEmployer]
-                    @companyName		= '" . $this->input->post( 'companyName'      ) . "',
-                    @street				= '" . $this->input->post( 'street'           ) . "',
-                    @brgyDistrict		= '" . $this->input->post( 'brgyDistrict'     ) . "',
-                    @cityMunicipality	= '" . $this->input->post( 'cityMunicipality' ) . "',
-                    @contactNumber		= '" . $this->input->post( 'contactNumber'    ) . "',
-                    @email				= '" . $this->input->post( 'email'            ) . "',
-                    @website			= '" . $this->input->post( 'website'          ) . "',
-                    @description		= '" . $this->input->post( 'description'      ) . "'
-            ";
-
-            $this->db->query($RegisterEmployer_sql);
+                    @companyName	= '" . $this->input->post( 'companyName'   ) . "',
+                    @street			= '" . $this->input->post( 'street'        ) . "',
+                    @brgyDistrict	= '" . $this->input->post( 'brgyDistrict'  ) . "',
+                    @cityProvince	= '" . $this->input->post( 'cityProvince'  ) . "',
+                    @contactNumber	= '" . $this->input->post( 'contactNumber' ) . "',
+                    @email			= '" . $this->input->post( 'email'         ) . "',
+                    @website		= '" . $this->input->post( 'website'       ) . "',
+                    @description	= '" . $this->input->post( 'description'   ) . "'
+            ");
             $this->login();
         }
     }

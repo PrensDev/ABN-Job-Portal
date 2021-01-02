@@ -22,12 +22,16 @@ CREATE TABLE [UserAccounts] (
 	[userType]
 		VARCHAR(MAX) NOT NULL
 		CONSTRAINT CK_userType@UserAccounts
-			CHECK (userType IN ('Job Seeker', 'Employer'))
+			CHECK (
+				userType IN (
+					'Job Seeker', 
+					'Employer'
+				)
+			)
 	,
 	[accountFlag]
 		BINARY NOT NULL DEFAULT 1
 );
-
 
 -- JobSeekers Table
 CREATE TABLE [JobSeekers] (
@@ -50,20 +54,16 @@ CREATE TABLE [JobSeekers] (
 	[gender]
 		VARCHAR(MAX) NOT NULL
 		CONSTRAINT CK_gender@JobSeekers
-			CHECK ([gender] IN (
-				'Male', 
-				'Female',
-				'LGBTQA++',
-				'Prefer not to say'
-			))
+			CHECK (
+				[gender] IN (
+					'Male', 
+					'Female',
+					'LGBTQA+',
+					'Prefer not to say'
+				)
+			)
 	,
-	[street]
-		VARCHAR(MAX) NOT NULL
-	,
-	[brgyDistrict]
-		VARCHAR(MAX) NOT NULL
-	,
-	[cityMunicipality]
+	[cityProvince]
 		VARCHAR(MAX) NOT NULL
 	,
 	[contactNumber]
@@ -73,6 +73,25 @@ CREATE TABLE [JobSeekers] (
 		VARCHAR(450) NOT NULL
 		CONSTRAINT FK_email@JobSeekers FOREIGN KEY
 			REFERENCES [UserAccounts] ([email])
+	,
+	[profilePic]
+		VARCHAR(MAX)
+);
+
+-- Resumes Table
+CREATE TABLE [Resumes] (
+	[resumeID]
+		INT NOT NULL IDENTITY(1,1)
+		CONSTRAINT PK_resumeID@Resumes PRIMARY KEY
+	,
+	[jobseekerID]
+		INT NOT NULL
+		CONSTRAINT FK_jobseekerID@Resumes FOREIGN KEY
+			REFERENCES [JobSeekers] ([jobseekerID])
+		CONSTRAINT UK_jobseekerID@Resumes UNIQUE
+	,
+	[headline]
+		VARCHAR(MAX) NOT NULL
 	,
 	[description]
 		VARCHAR(MAX) NOT NULL
@@ -86,10 +105,9 @@ CREATE TABLE [JobSeekers] (
 	[education]
 		VARCHAR(MAX) NOT NULL
 	,
-	[profilePic]
-		VARCHAR(MAX)
+	[lastUpdated]
+		DATETIME NOT NULL DEFAULT GETDATE()
 );
-
 
 -- Employers Table
 CREATE TABLE [Employers] (
@@ -106,7 +124,7 @@ CREATE TABLE [Employers] (
 	[brgyDistrict]
 		VARCHAR(MAX) NOT NULL
 	,
-	[cityMunicipality]
+	[cityProvince]
 		VARCHAR(MAX) NOT NULL
 	,
 	[contactNumber]
@@ -127,7 +145,6 @@ CREATE TABLE [Employers] (
 		VARCHAR(MAX)
 );
 
-
 -- JobPosts Table
 CREATE TABLE [JobPosts] (
 	[jobPostID]
@@ -145,14 +162,16 @@ CREATE TABLE [JobPosts] (
 	[jobType]
 		VARCHAR(MAX) NOT NULL
 		CONSTRAINT CK_jobType@JobPosts
-			CHECK ([jobType] IN (
-				'Full Time',
-				'Part Time',
-				'Internship/OJT',
-				'Temporary'
-			))
+			CHECK (
+				[jobType] IN (
+					'Full Time',
+					'Part Time',
+					'Intern/OJT',
+					'Temporary'
+				)
+			)
 	,
-	[industryType]
+	[field]
 		VARCHAR(MAX) NOT NULL
 	,
 	[description]
@@ -190,8 +209,6 @@ CREATE TABLE [JobPosts] (
 		BINARY NOT NULL
 );
 
-
-
 -- Applications Table
 CREATE TABLE [Applications] (
 	[applicationID]
@@ -203,7 +220,7 @@ CREATE TABLE [Applications] (
 		CONSTRAINT FK_jobPostID@Applications FOREIGN KEY
 			REFERENCES [JobPosts] ([jobPostID])
 	,
-	[jobseekerID]
+	[resumeID]
 		INT NOT NULL
 		CONSTRAINT FK_jobseekerID@Applications FOREIGN KEY
 			REFERENCES [JobSeekers] ([jobseekerID])
@@ -214,15 +231,18 @@ CREATE TABLE [Applications] (
 	[status]
 		VARCHAR(MAX) NOT NULL DEFAULT 'Pending'
 		CONSTRAINT CK_status@Applications
-			CHECK ([status] IN (
-				'Pending',
-				'Hired',
-				'Call Back',
-				'Rejected'
-			))
+			CHECK (
+				[status] IN (
+					'Pending',
+					'Hired',
+					'Call Back',
+					'Rejected'
+				)
+			)
 	,
+	[statusDate]
+		DATETIME
 );
-
 
 -- Bookmarks Table
 CREATE TABLE [Bookmarks] (
@@ -270,5 +290,3 @@ CREATE TABLE [Notifications] (
 	[readFlag]
 		BINARY NOT NULL DEFAULT 0
 );
-
---------------------------------------------------------

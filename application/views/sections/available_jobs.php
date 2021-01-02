@@ -1,8 +1,11 @@
+
 <!-- APPLICANT PROFILE DETAILS SECTION -->
-<div class="container-fluid bg-light">
+<div class="container-fluid">
 <div class="container-md py-5">
-    
-    <div class="mb-3">
+
+    <?php $this->load->view('sections/company_header', $employerDetails) ?>
+
+    <div class="mb-4">
         <div class="d-flex justify-content-between mb-2">
             <div>
                 <h5 class="text-primary">

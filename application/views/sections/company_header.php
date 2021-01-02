@@ -1,12 +1,4 @@
-<!-- HEADER -->
-<div 
-    class="container-fluid py-3 parallax-window image-overlay py-5" 
-    data-parallax="scroll" 
-    data-image-src="<?php echo base_url() ?>public/img/employer_header.jpg">
-<div class="container-md text-white">
 <div class="row">
-
-    <!-- COMPANY IMAGE/LOGO -->
     <div class="col-md-auto d-flex justify-content-center">
         <?php
             if (isset($profilePic)) {
@@ -16,7 +8,7 @@
                         alt         = "' . $companyName . '" 
                         height      = "125"
                         width       = "125" 
-                        class       = "rounded" 
+                        class       = "border" 
                         draggable   = "false"
                     >
                 ';
@@ -27,45 +19,40 @@
                         alt         = "' . $companyName . '" 
                         height      = "125"
                         width       = "125" 
-                        class       = "rounded" 
+                        class       = "border" 
                         draggable   = "false"
                     >
                 ';
             }
         ?>
-        
     </div>
-    
+
     <!-- COMPANY INFORMATION -->
-    <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
+    <div class="col-md text-center text-md-left mt-3 mt-md-0">
         <h1>
-            <a class="text-decoration-none text-white font-weight-light" href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
+            <a class="text-decoration-none text-dark font-weight-normal" href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
                 <?php echo $companyName ?>
             </a>
         </h1>
         
         <div class="d-block d-md-flex flex-wrap">
-            
             <div class="mr-3">
-                <i class="fas fa-map-marker-alt mr-1"></i>
-                <span><?php echo $location ?></span>
+                <i class="fas fa-map-marker-alt mr-1 text-danger"></i>
+                <span class="text-secondary"><?php echo $location ?></span>
             </div>
 
             <div class="mr-3">
-                <i class="fas fa-phone-alt mr-1"></i>
-                <span><?php echo $contactNumber ?></span>
+                <i class="fas fa-phone-alt mr-1 text-danger"></i>
+                <span class="text-secondary"><?php echo $contactNumber ?></span>
             </div>
 
             <div class="mr-3">
-                <i class="fas fa-envelope mr-1"></i>
-                <span><?php echo $email ?></span>
+                <i class="fas fa-envelope mr-1 text-danger"></i>
+                <span class="text-secondary"><?php echo $email ?></span>
             </div>
-
         </div>
-    
-    </div>
-    <!-- END OF COMPANY INFORMATION -->
 
+    </div>
 </div>
-</div>
-</div>
+
+<hr class="my-4">

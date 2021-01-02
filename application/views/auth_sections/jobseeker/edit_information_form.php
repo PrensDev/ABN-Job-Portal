@@ -1,17 +1,11 @@
 <?php
 
-$firstName        = set_value( 'firstName'        ) == '' ? $firstName        : set_value( 'firstName'        );
-$middleName       = set_value( 'middleName'       ) == '' ? $middleName       : set_value( 'middleName'       );
-$lastName         = set_value( 'lastName'         ) == '' ? $lastName         : set_value( 'lastName'         );
-$birthDate        = set_value( 'birthDate'        ) == '' ? $birthDate        : set_value( 'birthDate'        );
-$gender           = set_value( 'gender'           ) == '' ? $gender           : set_value( 'gender'           );
-$street           = set_value( 'street'           ) == '' ? $street           : set_value( 'street'           );
-$brgyDistrict     = set_value( 'brgyDistrict'     ) == '' ? $brgyDistrict     : set_value( 'brgyDistrict'     );
-$cityMunicipality = set_value( 'cityMunicipality' ) == '' ? $cityMunicipality : set_value( 'cityMunicipality' );
-$description      = set_value( 'description'      ) == '' ? $description      : set_value( 'description'      );
-$skills           = set_value( 'skills'           ) == '' ? $skills           : set_value( 'skills'           );
-$experiences      = set_value( 'experiences'      ) == '' ? $experiences      : set_value( 'experiences'      );
-$education        = set_value( 'education'        ) == '' ? $education        : set_value( 'education'        );
+$firstName    = set_value( 'firstName'    ) == '' ? $firstName    : set_value( 'firstName'    );
+$middleName   = set_value( 'middleName'   ) == '' ? $middleName   : set_value( 'middleName'   );
+$lastName     = set_value( 'lastName'     ) == '' ? $lastName     : set_value( 'lastName'     );
+$birthDate    = set_value( 'birthDate'    ) == '' ? $birthDate    : set_value( 'birthDate'    );
+$gender       = set_value( 'gender'       ) == '' ? $gender       : set_value( 'gender'       );
+$cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( 'cityProvince' );
 
 ?>
 
@@ -20,16 +14,15 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 <div class="container-fluid py-5 user-select-none">
 <div class="container">
 
-    <!-- HEADER OF CONTENT -->
-    <div class="mb-4">
-        <h1 class="font-weight-normal">Edit Information</h1>
-        <p class="text-secondary">Modify your information here and save your changes.</p>
-    </div>
+    <h1 class="font-weight-light">Edit <span class="text-primary">information</span></h1>
+    <p class="text-secondary">Modify your information here and save your changes.</p>
+
+    <p class="text-danger"><small>* Required</small></p>
 
     <!-- PERSONAL INFORMATION FORM -->
-    <div class="card my-4 border-0 shadow">
+    <div class="card border-0">
 
-        <div class="card-header h6 bg-light border-0">
+        <div class="card-header h6 bg-white border-primary">
             <i class="fas fa-user text-primary mr-2"></i>
             <span>Personal Information</span>
         </div>
@@ -42,6 +35,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                 <!-- FIRST NAME -->
                 <div class="form-group col-md">
                     <label for="firstName">First Name</label>
+                    <span class="text-danger">*</span>
                     <input 
                         type        = "text" 
                         class       = "form-control <?php echo form_error('firstName') ? 'is-invalid' : '' ?>" 
@@ -76,6 +70,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                 <!-- LAST NAME -->
                 <div class="form-group col-md">
                     <label for="lastName">Last Name</label>
+                    <span class="text-danger">*</span>
                     <input
                         type        = "text" 
                         class       = "form-control <?php echo form_error('lastName') ? 'is-invalid' : '' ?>" 
@@ -88,7 +83,6 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                 </div>
 
             </div>
-            <!-- END OF NAME FIELD -->
 
             <!-- BIRTHDATE AND GENDER FIELD -->
             <div class="form-row">
@@ -96,6 +90,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                 <!-- DATE OF BIRTH -->
                 <div class="form-group col-md">
                     <label for="birthDate">Date of Birth</label>
+                    <span class="text-danger">*</span>
                     <input 
                         type    = "date" 
                         class   = "form-control <?php echo form_error('birthDate') ? 'is-invalid' : '' ?>" 
@@ -109,6 +104,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                 <!-- GENDER -->
                 <div class="form-group col-md">
                     <label for="gender">Gender</label>
+                    <span class="text-danger">*</span>
                     <select 
                         class       = "selectpicker show-tick form-control border <?php echo form_error('gender') ? 'is-invalid' : '' ?>" 
                         data-style  = "bg-white text-dark" 
@@ -127,167 +123,50 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
             </div>
             <!-- END OF BIRTHDATE AND GENDER FIELD -->
 
-            <!-- ADDRESS FIELD -->
-            <div class="form-row">
-
-                <!-- STREET NAME -->
-                <div class="form-group col-md">
-                    <label for="street">Street Name</label>
-                    <input 
-                        type        = "text" 
-                        class       = "form-control <?php echo form_error('street') ? 'is-invalid' : '' ?>" 
-                        id          = "street"
-                        name        = "street"
-                        value       = "<?php echo $street ?>"
-                        placeholder = "Street Name"
-                    >
-                    <small class="invalid-feedback"><?php echo form_error('street')?></small>
-                </div>
-
-                <!-- BARANGGAY/DISTRICT NAME -->
-                <div class="form-group col-md">
-                    <label for="brgyDistrict">Baranggay/District Name</label>
-                    <input 
-                        type        = "text" 
-                        class       = "form-control <?php echo form_error('brgyDistrict') ? 'is-invalid' : '' ?>" 
-                        id          = brgyDistrict 
-                        name        = "brgyDistrict" 
-                        value       = "<?php echo $brgyDistrict ?>"
-                        placeholder = "Baranggay/District Name"
-                    >
-                    <small class="invalid-feedback"><?php echo form_error('brgyDistrict')?></small>
-                </div>
-
-                <!-- CITY/MUNICIPALITY NAME -->
-                <div class="form-group col-md">
-                    <label for="cityMunicipality">City/Municipality Name</label>
-                    <input 
-                        type        = "text" 
-                        class       = "form-control <?php echo form_error('cityMunicipality') ? 'is-invalid' : '' ?>" 
-                        id          = "cityMunicipality"
-                        name        = "cityMunicipality"
-                        value       = "<?php echo $cityMunicipality ?>"
-                        placeholder = "City/Municipality Name"
-                    >
-                    <small class="invalid-feedback"><?php echo form_error('cityMunicipality')?></small>
-                </div>
-
+            <!-- CITY AND STATE / PROVINCE -->
+            <div class="form-group">
+                <label for="cityProvince">City and state / Province</label>
+                <span class="text-danger">*</span>
+                <input 
+                    type        = "text" 
+                    class       = "form-control <?php echo form_error('cityProvince') ? 'is-invalid' : '' ?>" 
+                    id          = "cityProvince"
+                    name        = "cityProvince"
+                    value       = "<?php echo $cityProvince ?>"
+                    placeholder = "City and state / Province"
+                >
+                <small class="invalid-feedback"><?php echo form_error('cityProvince')?></small>
             </div>
-            <!-- ADDRESS FIELD -->
-            
+
         </div>
 
     </div>
 
     <!-- CONTACT INFORMATION FORM -->
-    <div class="card my-4 border-0 shadow">
+    <div class="card border-0">
 
-        <div class="card-header h6 bg-light border-0">
+        <div class="card-header h6 bg-white border-primary">
             <i class="fas fa-phone-alt text-primary mr-2"></i>
             <span>Contact Information</span>
         </div>
 
         <div class="card-body">
 
-            <!-- CONTACT FIELD -->
-            <div class="form-row">
-
-                <!-- CONTACT NUMBER -->
-                <div class="form-group col-md">
-                    <label for="contactNumber">Contact Number</label>
-                    <input 
-                        type        = "text" 
-                        class       = "form-control <?php echo form_error('contactNumber') ? 'is-invalid' : '' ?>" 
-                        id          = "contactNumber"
-                        name        = "contactNumber"
-                        value       = "<?php echo $contactNumber ?>"
-                        placeholder = "Contact Number"
-                    >
-                    <small class="invalid-feedback"><?php echo form_error('contactNumber')?></small>
-                </div>
-
-                <!-- EMAIL ADDRESS -->
-                <div class="form-group col-md">
-                    <label for="email">Email Address</label>
-                    <input 
-                        type        = "email" 
-                        class       = "form-control <?php echo form_error('email') ? 'is-invalid' : '' ?>" 
-                        id          = "email"
-                        name        = "email"
-                        value       = "<?php echo $email ?>"
-                        placeholder = "Email" 
-                    >
-                    <small class="invalid-feedback"><?php echo form_error('email')?></small>
-                </div>
-            </div>
-            <!-- CONTACT FIELD -->
-
-        </div>
-
-    </div>
-
-    <!-- CURRICULUM VITAE CONTENT -->
-    <div class="card my-4 border-0 shadow">
-
-        <div class="card-header h6 bg-light border-0">
-            <i class="fas fa-file-contract text-primary mr-2"></i>
-            <span>Curriculum Vitae</span>
-        </div>
-
-        <div class="card-body">
-
+            <!-- CONTACT NUMBER -->
             <div class="form-group">
-                <label for="description">Description</label>
-                <textarea 
+                <label for="contactNumber">Contact Number</label>
+                <span class="text-danger">*</span>
+                <input 
                     type        = "text" 
-                    class       = "form-control <?php echo form_error('description') ? 'is-invalid' : '' ?>" 
-                    id          = "description"
-                    name        = "description"
-                    placeholder = "Description about yourself ..."
-                    rows        = 5
-                ><?php echo $description ?></textarea>
-                <small class="invalid-feedback"><?php echo form_error('description')?></small>
+                    class       = "form-control <?php echo form_error('contactNumber') ? 'is-invalid' : '' ?>" 
+                    id          = "contactNumber"
+                    name        = "contactNumber"
+                    value       = "<?php echo $contactNumber ?>"
+                    placeholder = "Contact Number"
+                >
+                <small class="invalid-feedback"><?php echo form_error('contactNumber')?></small>
             </div>
 
-            <div class="form-group">
-                <label for="skills">Skills</label>
-                <textarea 
-                    type        = "text" 
-                    class       = "form-control <?php echo form_error('skills') ? 'is-invalid' : '' ?>" 
-                    id          = "skills"
-                    name        = "skills"
-                    placeholder = "List your skills here ..."
-                    rows        = 5
-                ><?php echo $skills ?></textarea>
-                <small class="invalid-feedback"><?php echo form_error('skills')?></small>
-            </div>
-
-            <div class="form-group">
-                <label for="experiences">Experiences</label>
-                <textarea 
-                    type        = "text" 
-                    class       = "form-control <?php echo form_error('experiences') ? 'is-invalid' : '' ?>" 
-                    id          = "experiences"
-                    name        = "experiences"
-                    placeholder = "Mention your experiences here ..."
-                    rows        = 5
-                ><?php echo $experiences ?></textarea>
-                <small class="invalid-feedback"><?php echo form_error('experiences')?></small>
-            </div>
-
-            <div class="form-group">
-                <label for="education">Education</label>
-                <textarea 
-                    type        = "text" 
-                    class       = "form-control <?php echo form_error('education') ? 'is-invalid' : '' ?>" 
-                    id          = "education"
-                    name        = "education"
-                    placeholder = "Description about yourself ..."
-                    rows        = 5
-                ><?php echo $education ?></textarea>
-                <small class="invalid-feedback"><?php echo form_error('education')?></small>
-            </div>
-        
         </div>
 
     </div>
@@ -303,8 +182,8 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 </div>
 
 <!-- SAVE CHANGES MODAL -->
-<div class="modal fade user-select-none" id="saveChangesModal" tabindex="-1">
-<div class="modal-dialog">
+<div class="modal fade user-select-none" id="saveChangesModal" data-backdrop="static" data-keyboard="false" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
 <div class="modal-content">
 
     <div class="modal-header align-items-center">

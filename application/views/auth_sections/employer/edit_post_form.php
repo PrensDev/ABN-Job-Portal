@@ -2,7 +2,7 @@
 
 $jobTitle         = set_value( 'jobTitle'         ) == '' ? $jobTitle         : set_value( 'jobTitle'         );
 $jobType          = set_value( 'jobType'          ) == '' ? $jobType          : set_value( 'jobType'          );
-$industryType     = set_value( 'industryType'     ) == '' ? $industryType     : set_value( 'industryType'     );
+$field            = set_value( 'field'            ) == '' ? $field            : set_value( 'field'            );
 $minSalary        = set_value( 'minSalary'        ) == '' ? $minSalary        : set_value( 'minSalary'        );
 $maxSalary        = set_value( 'maxSalary'        ) == '' ? $maxSalary        : set_value( 'maxSalary'        );
 $description      = set_value( 'description'      ) == '' ? $description      : set_value( 'description'      );
@@ -20,16 +20,15 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
     
 
     <!-- FORM SECTION HEADER -->
-    <div class="mb-4">
-        <h1 class="font-weight-normal">Edit job post</h1>
-        <p class="text-secondary">Modify the post you've created here and save the changes.</p>
-    </div>
-    
+    <h1 class="font-weight-light">Edit <span class="text-primary">job post</span></h1>
+    <p class="text-secondary">Modify the post you've created here and save the changes.</p>
+
+    <p class="text-danger"><small>* Required</small></p>
 
     <!-- COMPANY INFORMATION FORM -->
-    <div class="card my-4 border-0 shadow">
+    <div class="card my-4 border-0">
 
-        <div class="card-header h6 bg-light border-0">
+        <div class="card-header h6 bg-white border-primary">
             <i class="fas fa-exclamation-circle text-primary mr-2"></i>
             <span>Basic Information</span>
         </div>
@@ -39,6 +38,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
             <!-- COMPANY NAME -->
             <div class="form-group">
                 <label for="jobTitle">Job Title</label>
+                <span class="text-danger">*</span>
                 <input 
                     type        = "text" 
                     class       = "form-control <?php echo form_error('jobTitle') ? 'is-invalid' : '' ;?>" 
@@ -56,6 +56,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                 <!-- JOB TYPE -->
                 <div class="form-group col-md">
                     <label for="jobType">Job Type</label>
+                    <span class="text-danger">*</span>
                     <select 
                         class       = "selectpicker show-tick form-control border <?php echo form_error('industryType') ? 'is-invalid' : '' ;?>" 
                         title       = "Select job type ..." 
@@ -75,8 +76,8 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                         ></option>
                         <option 
                             value="Internship/OJT" 
-                            data-content="<i class='fas fa-user-tie mr-3 text-warning'></i>Internship/OJT"
-                            <?php echo $jobType == "Internship/OJT" ? 'selected' : ''?>
+                            data-content="<i class='fas fa-user-tie mr-3 text-warning'></i>Intern/OJT"
+                            <?php echo $jobType == "Intern/OJT" ? 'selected' : ''?>
                         ></option>
                         <option 
                             value="Temporary" 
@@ -89,16 +90,17 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 
                 <!-- INDUSTRY TYPE -->
                 <div class="form-group col-md">
-                    <label for="industryType">Industry Type</label>
+                    <label for="field">Field</label>
+                    <span class="text-danger">*</span>
                     <input 
                         type        = "text" 
-                        class       = "form-control <?php echo form_error('industryType') ? 'is-invalid' : '' ;?>" 
-                        id          = "industryType"
-                        name        = "industryType"
+                        class       = "form-control <?php echo form_error('field') ? 'is-invalid' : '' ;?>" 
+                        id          = "field"
+                        name        = "field"
                         placeholder = "Industry Type"
-                        value       = "<?php echo $industryType ?>"
+                        value       = "<?php echo $field ?>"
                     >
-                    <small class="invalid-feedback"><?php echo form_error('industryType') ?></small>
+                    <small class="invalid-feedback"><?php echo form_error('field') ?></small>
                 </div>
                 
             </div>
@@ -110,6 +112,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                 <!-- MINIMUM SALARY -->
                 <div class="form-group col-md">
                     <label for="minSalary">Minimum Offered Salary</label>
+                    <span class="text-danger">*</span>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">&#8369;</span>
@@ -130,6 +133,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                 <!-- MAXIMUM SALARY -->
                 <div class="form-group col-md">
                     <label for="maxSalary">Maximum Offered Salary</label>
+                    <span class="text-danger">*</span>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">&#8369;</span>
@@ -154,6 +158,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
             <!-- STATUS -->
             <div class="form-group">
                 <label>Status</label>
+                <span class="text-danger">*</span>
                 <div class="custom-control custom-switch">
                     <input 
                         type    = "checkbox" 
@@ -173,9 +178,9 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
     </div>
     
     <!-- JOB DESCRIPTION FORM -->
-    <div class="card my-4 border-0 shadow">
+    <div class="card my-4 border-0">
 
-        <div class="card-header h6 bg-light border-0">
+        <div class="card-header h6 bg-white border-primary">
             <i class="fas fa-exclamation-circle text-primary mr-2"></i>
             <span>Job Description</span>
         </div>
@@ -185,6 +190,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
             <!-- DESCRIPTION -->
             <div class="form-group">
                 <label for="description">Description</label>
+                <span class="text-danger">*</span>
                 <textarea 
                     class       = "form-control <?php echo form_error('description') ? 'is-invalid' : '' ;?>" 
                     id          = "description" 
@@ -198,6 +204,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
             <!-- RESPONSIBILITIES -->
             <div class="form-group">
                 <label for="responsibilities">Responsibilities</label>
+                <span class="text-danger">*</span>
                 <textarea 
                     class       = "form-control <?php echo form_error('responsibilities') ? 'is-invalid' : '' ;?>" 
                     id          = "responsibilities" 
@@ -211,6 +218,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
             <!-- SKILLS SET -->
             <div class="form-group">
                 <label for="skills">Skills Set</label>
+                <span class="text-danger">*</span>
                 <textarea 
                     class       = "form-control <?php echo form_error('skills') ? 'is-invalid' : '' ;?>" 
                     id          = "skills" 
@@ -224,6 +232,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
             <!-- EXPERIENCES -->
             <div class="form-group">
                 <label for="experiences">Experiences</label>
+                <span class="text-danger">*</span>
                 <textarea 
                     class       = "form-control <?php echo form_error('experiences') ? 'is-invalid' : '' ;?>" 
                     id          = "experiences" 
@@ -261,8 +270,8 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 </div>
 
 <!-- SAVE CHANGES MODAL -->
-<div class="modal fade user-select-none" id="saveChangesModal" tabindex="-1">
-<div class="modal-dialog">
+<div class="modal fade user-select-none" id="saveChangesModal" data-backdrop="static" data-keyboard="false" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
 <div class="modal-content">
 
     <div class="modal-header align-items-center">

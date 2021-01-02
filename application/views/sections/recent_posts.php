@@ -1,5 +1,5 @@
 <!-- RECENT JOB SECTION -->
-<div class="container-fluid bg-light">
+<div class="container-fluid">
 <div class="container-md py-5">
 
     <h1 class="display-4 text-center">Recent Available Jobs</h1>
@@ -13,7 +13,7 @@
     </div>
 
     <div class="d-flex justify-content-center">
-        <a href="<?php echo base_url() ?>jobs/recent" class="btn btn-primary btn-lg">View More Recent Jobs</a>
+        <a href="<?php echo base_url() ?>jobs/recent" class="btn btn-primary">View More Recent Jobs</a>
     </div>
 
 </div>

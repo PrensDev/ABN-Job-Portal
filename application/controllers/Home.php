@@ -83,7 +83,6 @@ class Home extends CI_Controller {
         }
     }
 
-
     // LOGIN VIEW
     public function login() {
         if ($this->session->has_userdata('userType')) {
@@ -92,12 +91,10 @@ class Home extends CI_Controller {
             $this->form_validation->set_rules([
                 [
                     'field' => 'email',
-                    'label' => 'email',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'password',
-                    'label' => 'password',
                     'rules' => 'required',
                 ],
             ]);
@@ -127,7 +124,6 @@ class Home extends CI_Controller {
         }
     }
 
-
     // JOBSEEKER REGISTRATION VIEW
     public function jobseeker_registration() {
         if ($this->session->has_userdata('userType')) {
@@ -136,82 +132,42 @@ class Home extends CI_Controller {
             $this->form_validation->set_rules([
                 [
                     'field' => 'firstName',
-                    'label' => 'first name',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'lastName',
-                    'label' => 'last name',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'birthDate',
-                    'label' => 'date of birth',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'gender',
-                    'label' => 'gender',
                     'rules' => 'required',
                 ],
                 [
-                    'field' => 'street',
-                    'label' => 'street',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'brgyDistrict',
-                    'label' => 'baranggay/district',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'cityMunicipality',
-                    'label' => 'city/municipality',
+                    'field' => 'cityProvince',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'contactNumber',
-                    'label' => 'phone/telephone Number',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'description',
-                    'label' => 'description',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'skills',
-                    'label' => 'skills',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'experiences',
-                    'label' => 'experiences',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'education',
-                    'label' => 'education',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'email',
-                    'label' => 'email',
                     'rules' => 'required|valid_email|is_unique[UserAccounts.email]',
                 ],
                 [
                     'field' => 'password',
-                    'label' => 'password',
                     'rules' => 'required|min_length[8]',
                 ],
                 [
                     'field' => 'retypePassword',
-                    'label' => 'password',
                     'rules' => 'required|matches[password]',
                 ],
                 [
                     'field' => 'agreement',
-                    'label' => 'checkbox',
                     'rules' => 'required',
                 ],
             ]);
@@ -225,13 +181,18 @@ class Home extends CI_Controller {
             ]);
 
             if ($this->form_validation->run() === FALSE) {
-                $this->load_main_view('Register as Job Seeker', 'jobseeker_regform');
+                $data = $this->set_data('Register as Job Seeker');
+
+                $this->load->view('templates/header', $data);
+                $this->load->view('sections/navbar', $data['userdata']);
+                $this->load->view('sections/jobseeker_regform', $data);
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');
             } else {
                 $this->Auth_model->register_jobseeker();
             }
         }
     }
-
 
     // EMPLOYER REGISTRATION VIEW
     public function employer_registration() {
@@ -241,57 +202,46 @@ class Home extends CI_Controller {
             $this->form_validation->set_rules([
                 [
                     'field' => 'companyName',
-                    'label' => 'company name',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'street',
-                    'label' => 'street name',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'brgyDistrict',
-                    'label' => 'baranggay/district',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'cityMunicipality',
-                    'label' => 'city/municipality',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'description',
-                    'label' => 'description',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'website',
-                    'label' => 'website',
                     'rules' => 'valid_url',
                 ],
                 [
                     'field' => 'contactNumber',
-                    'label' => 'phone/telephone Number',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'email',
-                    'label' => 'email',
                     'rules' => 'required|valid_email|is_unique[UserAccounts.email]',
                 ],
                 [
                     'field' => 'password',
-                    'label' => 'password',
                     'rules' => 'required|min_length[8]',
                 ],
                 [
                     'field' => 'retypePassword',
-                    'label' => 'password',
                     'rules' => 'required|matches[password]',
                 ],
                 [
                     'field' => 'agreement',
-                    'label' => 'checkbox',
                     'rules' => 'required',
                 ],
             ]);
@@ -305,7 +255,13 @@ class Home extends CI_Controller {
             ]);
 
             if ($this->form_validation->run() === FALSE) {
-                $this->load_main_view('Register as Employer', 'employer_regform');
+                $data = $this->set_data('Register as Employer');
+
+                $this->load->view('templates/header', $data);
+                $this->load->view('sections/navbar', $data['userdata']);
+                $this->load->view('sections/employer_regform', $data);
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');
             } else {
                 $this->Auth_model->register_employer();
             }

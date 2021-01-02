@@ -35,7 +35,7 @@
 ?>
 
 <div class="col-lg-6 my-2">
-<div class="bg-white p-3 shadow d-flex flex-column h-100 justify-content-between">
+<div class="bg-white p-3 border d-flex flex-column h-100 justify-content-between">
     
     <div class="d-flex mb-3 mr-1">
 
@@ -119,9 +119,9 @@
                 </div>
 
                 <!-- INDUSTRY TYPE -->
-                <div class="mr-3 text-capitalize" title="Industry Type: <?php echo $industryType ?>">
+                <div class="mr-3 text-capitalize" title="Industry Type: <?php echo $field ?>">
                     <i class="fas fa-cog mr-1"></i>
-                    <span><?php echo $industryType ?></span>
+                    <span><?php echo $field ?></span>
                 </div>
 
                 <!-- LOCATION -->
@@ -183,7 +183,7 @@
                 
             } else if ($this->session->userType == 'Employer' && $this->session->id == $employerID) {
                 echo '
-                    <a href="' . base_url() . 'auth/edit_post/' . $jobPostID . '" class="btn btn-info"  data-toggle="tooltip" data-placement="top" title="Edit Post">
+                    <a href="' . base_url() . 'auth/edit_post/' . $jobPostID . '" class="btn btn-light text-info border"  data-toggle="tooltip" data-placement="top" title="Edit Post">
                         <i class="fas fa-pen"></i>
                     </a>
                 ';

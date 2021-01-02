@@ -1,27 +1,27 @@
 <?php
 
-$sessionStatus = $this->session->has_userdata( 'userType' );
+    $sessionStatus = $this->session->has_userdata( 'userType' );
 
-if ( $sessionStatus ) {
+    if ( $sessionStatus ) {
 
-    $this->load->view('sections/components/modal', [
-        'id'            => 'logoutModal',
-        'theme'         => 'danger',
-        'title'         => 'Log out',
-        'modalIcon'     => 'WARNING',
-        'message'       => '<p>Are you sure you want to logout?</p>',
-        'actionPath'    => 'auth/logout',
-        'actionID'      => NULL,
-        'actionValue'   => NULL,
-        'actionIcon'    => 'sign-out-alt',
-        'actionLabel'   => 'Log out',
-    ]);
-}
+        $this->load->view('sections/components/modal', [
+            'id'            => 'logoutModal',
+            'theme'         => 'danger',
+            'title'         => 'Log out',
+            'modalIcon'     => 'WARNING',
+            'message'       => '<p>Are you sure you want to logout?</p>',
+            'actionPath'    => 'auth/logout',
+            'actionID'      => NULL,
+            'actionValue'   => NULL,
+            'actionIcon'    => 'sign-out-alt',
+            'actionLabel'   => 'Log out',
+        ]);
+    }
 
 ?>
 
 <!-- NAVIGATION BAR -->
-<nav class="navbar navbar-expand-md navbar-light bg-white fixed-top shadow" id="navbarTop">
+<nav class="navbar navbar-expand-md navbar-light bg-white fixed-top border-bottom" id="navbarTop">
 <div class="container-fluid">
 <div class="container-md">
 
@@ -31,7 +31,7 @@ if ( $sessionStatus ) {
     </a>
 
     <!-- NAVBAR TOGGLER -->
-    <button class="btn btn-light border-0 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false">
+    <button class="btn border-0 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false">
         <i class="fas fa-bars" id="navbarTogglerIcon"></i>
     </button>
 
@@ -63,27 +63,27 @@ if ( $sessionStatus ) {
 
             <?php 
             
-            if ( $sessionStatus ) {
-                if( $this->session->userType == 'Job Seeker' ) {
-                    $navbarData = [
-                        'username'       => $username,
-                        'appliedJobsNum' => $this->Jobseeker_model->applied_jobs_num(),
-                        'bookmarksNum'   => $this->Jobseeker_model->bookmarks_num(),
-                    ];
+                if ($sessionStatus) {
+                    if ($this->session->userType == 'Job Seeker') {
+                        $navbarData = [
+                            'username'       => $firstName,
+                            'appliedJobsNum' => $this->Jobseeker_model->applied_jobs_num(),
+                            'bookmarksNum'   => $this->Jobseeker_model->bookmarks_num(),
+                        ];
 
-                    $this->load->view('auth_sections/jobseeker/navbar_control', $navbarData);
-                } else if( $this->session->userType == 'Employer' ) {
-                    $navbarData = [
-                        'username' => $username,
-                        'postsNum' => $this->Employer_model->posts_num(),
-                    ];
+                        $this->load->view('auth_sections/jobseeker/navbar_control', $navbarData);
+                    } else if ($this->session->userType == 'Employer') {
+                        $navbarData = [
+                            'username' => $username,
+                            'postsNum' => $this->Employer_model->posts_num(),
+                        ];
 
-                    $this->load->view('auth_sections/employer/navbar_control', $navbarData);
+                        $this->load->view('auth_sections/employer/navbar_control', $navbarData);
+                    }
+                } else {
+                    $this->load->view('sections/navbar_components/login_link');
+                    $this->load->view('sections/navbar_components/register_link');
                 }
-            } else {
-                $this->load->view('sections/navbar_components/login_link');
-                $this->load->view('sections/navbar_components/register_link');
-            }
 
             ?>
             

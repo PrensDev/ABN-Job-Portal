@@ -1,30 +1,29 @@
 <?php
 
-$companyName      = set_value( 'companyName'      ) == '' ? $companyName      : set_value( 'companyName'      );
-$street           = set_value( 'street'           ) == '' ? $street           : set_value( 'street'           );
-$brgyDistrict     = set_value( 'brgyDistrict'     ) == '' ? $brgyDistrict     : set_value( 'brgyDistrict'     );
-$cityMunicipality = set_value( 'cityMunicipality' ) == '' ? $cityMunicipality : set_value( 'cityMunicipality' );
-$description      = set_value( 'description'      ) == '' ? $description      : set_value( 'description'      );
-$website          = set_value( 'website'          ) == '' ? $website          : set_value( 'website'          );
-$contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : set_value( 'contactNumber'    );
+$companyName    = set_value( 'companyName'   ) == '' ? $companyName   : set_value( 'companyName'   );
+$street         = set_value( 'street'        ) == '' ? $street        : set_value( 'street'        );
+$brgyDistrict   = set_value( 'brgyDistrict'  ) == '' ? $brgyDistrict  : set_value( 'brgyDistrict'  );
+$cityProvince   = set_value( 'cityProvince'  ) == '' ? $cityProvince  : set_value( 'cityProvince'  );
+$description    = set_value( 'description'   ) == '' ? $description   : set_value( 'description'   );
+$website        = set_value( 'website'       ) == '' ? $website       : set_value( 'website'       );
+$contactNumber  = set_value( 'contactNumber' ) == '' ? $contactNumber : set_value( 'contactNumber' );
 
 ?>
-
 
 <form method="POST">
 <div class="container-fluid py-3 user-select-none">
 <div class="container py-5">
 
     <!-- HEADER OF CONTENT -->
-    <div class="mb-4">
-        <h1 class="font-weight-normal">Edit Information</h1>
-        <p class="text-secondary">Modify your information here and save your changes.</p>
-    </div>
+    <h1 class="font-weight-light">Edit <span class="text-primary">information</span></h1>
+    <p class="text-secondary">Modify your information here and save your changes.</p>
+
+    <p class="text-danger"><small>* Required</small></p>
 
     <!-- COMPANY INFORMATION FORM -->
-    <div class="card my-4 border-0 shadow">
+    <div class="card border-0">
 
-        <div class="card-header h6 bg-light border-0">
+        <div class="card-header h6 bg-white border-primary">
             <i class="fas fa-briefcase text-primary mr-2"></i>
             <span>Basic information</span>
         </div>
@@ -34,6 +33,7 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
             <!-- COMPANY NAME -->
             <div class="form-group">
                 <label for="companyName">Company Name</label>
+                <span class="text-danger">*</span>
                 <input 
                     type        = "text" 
                     class       = "form-control <?php echo form_error('companyName') ? 'is-invalid' : '' ;?>" 
@@ -51,6 +51,7 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
                 <!-- STREET NAME -->
                 <div class="form-group col-md">
                     <label for="street">Street Name</label>
+                    <span class="text-danger">*</span>
                     <input 
                         type        = "text" 
                         class       = "form-control <?php echo form_error('street') ? 'is-invalid' : '' ;?>" 
@@ -64,7 +65,8 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
 
                 <!-- BARANGGAY/DISTRICT NAME -->
                 <div class="form-group col-md">
-                    <label for="brgyDistrict">Baranggay/District Name</label>
+                    <label for="brgyDistrict">Baranggay / District</label>
+                    <span class="text-danger">*</span>
                     <input 
                         type        = "text" 
                         class       = "form-control <?php echo form_error('brgyDistrict') ? 'is-invalid' : '' ;?>" 
@@ -76,18 +78,19 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
                     <small class="invalid-feedback" id="retypePasswordFeedback"><?php echo form_error('brgyDistrict')?></small>
                 </div>
 
-                <!-- CITY/MUNICIPALITY -->
+                <!-- CITY AND STATE / PROVINCE -->
                 <div class="form-group col-md">
-                    <label for="cityMunicipality">City/Municipality Name</label>
+                    <label for="cityProvince">City and state / Province</label>
+                    <span class="text-danger">*</span>
                     <input  
                         type        = "text" 
-                        class       = "form-control <?php echo form_error('cityMunicipality') ? 'is-invalid' : '' ;?>" 
-                        id          = "cityMunicipality" 
-                        name        = "cityMunicipality"
-                        value       = "<?php echo $cityMunicipality ?>"
-                        placeholder = "City/Municipality"
+                        class       = "form-control <?php echo form_error('cityProvince') ? 'is-invalid' : '' ;?>" 
+                        id          = "cityProvince" 
+                        name        = "cityProvince"
+                        value       = "<?php echo $cityProvince ?>"
+                        placeholder = "City and state / Province"
                     >
-                    <small class="invalid-feedback" id="retypePasswordFeedback"><?php echo form_error('cityMunicipality')?></small>
+                    <small class="invalid-feedback" id="retypePasswordFeedback"><?php echo form_error('cityProvince')?></small>
                 </div>
                 
             </div>
@@ -96,6 +99,7 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
             <!-- DESCRIPTION FIELD -->
             <div class="form-group">
                 <label for="description">Description</label>
+                <span class="text-danger">*</span>
                 <textarea 
                     type        = "text" 
                     class       = "form-control <?php echo form_error('description') ? 'is-invalid' : '' ;?>" 
@@ -135,12 +139,11 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
         </div>
 
     </div>
-    <!-- END OF COMPANY INFORMATION FORM -->
     
     <!-- CONTACT INFORMATION FORM -->
-    <div class="card my-4 border-0 shadow">
+    <div class="card border-0">
 
-        <div class="card-header h6 bg-light border-0">
+        <div class="card-header h6 bg-white border-primary">
             <i class="fas fa-phone-alt text-primary mr-2"></i>
             <span>Contact Information</span>
         </div>
@@ -150,9 +153,10 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
             <!-- CONTACT FIELD -->
             <div class="form-row">
 
-                <!-- PHONE/TELEPHONE NUMBER -->
+                <!-- CONTACT NUMBER -->
                 <div class="form-group col-md">
-                    <label for="contactNumber">Phone/Telephone Number</label>
+                    <label for="contactNumber">Contact Number</label>
+                    <span class="text-danger">*</span>
                     <input 
                         type        = "text" 
                         class       = "form-control <?php echo form_error('contactNumber') ? 'is-invalid' : '' ;?>" 
@@ -165,7 +169,6 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
                 </div>
 
             </div>
-            <!-- END OF CONTACT FIELD -->
 
         </div>
 
@@ -182,8 +185,8 @@ $contactNumber    = set_value( 'contactNumber'    ) == '' ? $contactNumber    : 
 
 
 <!-- SAVE CHANGES MODAL -->
-<div class="modal fade user-select-none" id="saveChangesModal" tabindex="-1">
-<div class="modal-dialog">
+<div class="modal user-select-none" id="saveChangesModal" data-backdrop="static" data-keyboard="false" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
 <div class="modal-content">
 
     <div class="modal-header align-items-center">

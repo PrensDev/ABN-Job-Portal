@@ -3,7 +3,7 @@
 <div class="container-md py-5">
     
     <div class="mb-4">
-        <h1 class="font-weight-normal mb-2">Job Posts</h1>
+        <h1 class="font-weight-light mb-2">Job Posts</h1>
     </div>    
 
     <div class="text-center my-5 py-5">

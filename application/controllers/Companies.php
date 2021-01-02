@@ -40,10 +40,10 @@ class Companies extends CI_Controller {
             $employerDetails = $this->View_model->company_details($employerID);
 
             $data = $this->set_data('Company Details');
+            $data['employerDetails'] = $employerDetails;
 
             $this->load->view('templates/header', $data);
             $this->load->view('sections/navbar', $data['userdata']);
-            $this->load->view('sections/company_header', $employerDetails);
             $this->load->view('sections/company_information', $employerDetails);
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
@@ -92,18 +92,18 @@ class Companies extends CI_Controller {
                     'last_tag_close'    => '<li>',
                 ];
 
-
                 $data = $this->set_data('Available Jobs');
-                $data['posts']          = $AvailableJobs;
-                $data['totalRows']      = $totalRows;
-                $data['totalPages']     = $totalPages;
-                $data['currentPage']    = $page;
+                $data['posts']           = $AvailableJobs;
+                $data['totalRows']       = $totalRows;
+                $data['totalPages']      = $totalPages;
+                $data['currentPage']     = $page;
+                $data['employerDetails'] = $employerDetails;
+                $data['employerID']      = $employerDetails->employerID;
 
                 $this->pagination->initialize($config);
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('sections/navbar', $data['userdata']);
-                $this->load->view('sections/company_header', $employerDetails);
                 $this->load->view('sections/available_jobs', $data);
                 $this->load->view('sections/footer');
                 $this->load->view('templates/footer');

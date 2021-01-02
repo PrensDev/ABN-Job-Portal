@@ -11,10 +11,10 @@ if ( $status == 1 ) {
 $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 
 if ( $dateModified == NULL) {
-    $dateStatus = 'Created ' . date_format(date_create($dateCreated),"F d, Y; h:i a");
+    $dateStatus = 'Created ' . date_format(date_create($dateCreated),"F d, Y") . ' at ' . date_format(date_create($dateCreated),"h:i a.");
     $dateModifiedLabel = 'This post doesn\'t modified yet.';
 } else {
-    $dateStatus = 'Modified ' . date_format(date_create($dateModified),"F d, Y; h:i a");
+    $dateStatus = 'Modified ' . date_format(date_create($dateCreated),"F d, Y") . ' at ' . date_format(date_create($dateCreated),"h:i a.");
     $dateModifiedLabel = date_format(date_create($dateModified),"F d, Y; h:i a");
 }
 
@@ -156,10 +156,8 @@ if ($maxSalary < 1000) {
                 </div>
                 
             </div>
-            <!-- END OF JOB DESCRIPTION SECTION -->
 
         </div>
-        <!-- END OF JOB DETAILS -->
         
         <!-- JOB SUMMARY -->
         <div class="col-lg-4"> 
@@ -176,7 +174,7 @@ if ($maxSalary < 1000) {
 
             <!-- JOB SUMMARY CARD -->
             <div class="card mb-3">
-                <div class="card-header">
+                <div class="card-header bg-white">
                     <strong>
                         <i class="fas fa-briefcase mr-2"></i>
                         <span>Job Summary</span>    
@@ -187,8 +185,8 @@ if ($maxSalary < 1000) {
                     <div class="list-group list-group-flush">
 
                         <!-- JOB TYPE -->
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-info">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-user-tie"></i>
                             </div>
                             <div>
@@ -203,19 +201,19 @@ if ($maxSalary < 1000) {
                         </div>
 
                         <!-- INDUSTRY TYPE -->
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-info">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-cogs"></i>
                             </div>
                             <div>
-                                <p class="m-0 font-weight-bold">Industry Type</p>
-                                <p class="m-0 text-secondary"><?php echo $industryType ?></p>
+                                <p class="m-0 font-weight-bold">Field</p>
+                                <p class="m-0 text-secondary"><?php echo $field ?></p>
                             </div>
                         </div>
 
                         <!-- OFFERED SALARY -->
-                        <div class="list-group-item d-flex" title="Offered Salary">
-                            <div class="list-group-item-icon h4 text-info">
+                        <div class="list-group-item d-flex border-0" title="Offered Salary">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-money-bill-wave"></i>
                             </div>
                             <div>
@@ -225,8 +223,8 @@ if ($maxSalary < 1000) {
                         </div>
 
                         <!-- DATE POSTED -->
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-info">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-calendar-alt"></i>
                             </div>
                             <div>
@@ -237,7 +235,7 @@ if ($maxSalary < 1000) {
                         
                         <!-- DATE MDIFIED -->
                         <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-info">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-pen"></i>
                             </div>
                             <div>
@@ -281,6 +279,9 @@ if ($maxSalary < 1000) {
 
 $this->load->view('sections/components/modal', [
     'id'            => 'deletePostModal',
+    'centered'      => TRUE,
+    'static'        => TRUE,
+    'nofade'        => TRUE,
     'theme'         => 'danger',
     'title'         => 'Delete this post',
     'modalIcon'     => 'WARNING',

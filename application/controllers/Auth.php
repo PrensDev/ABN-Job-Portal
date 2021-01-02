@@ -15,6 +15,15 @@ class Auth extends CI_Controller {
         }
     }
 
+    // lOAD SESSIONED VIEW
+    protected function load_sess_view($view, $data = []) {
+        if ($this->session->userType == 'Job Seeker') {
+            $this->load->view('auth_sections/jobseeker/' . $view, $data);
+        } else if ($this->session->userType == 'Employer') {
+            $this->load->view('auth_sections/employer/' . $view, $data);
+        }
+    }
+
     // PAGINATION CONFIGURATION
     protected function pagination_config($path, $numRows) {
         return [
@@ -133,20 +142,113 @@ class Auth extends CI_Controller {
             
             $this->load->view('templates/header', $pagedata);
             $this->load->view('sections/navbar', $userdata);
-
-            if ( $this->session->userType == 'Job Seeker' ) {
-                $this->load->view('auth_sections/jobseeker/header', $userdata);
-                $this->load->view('auth_sections/jobseeker/information', $userdata);
-            } else if ( $this->session->userType == 'Employer' ) {
-                $this->load->view('auth_sections/employer/header', $userdata);
-                $this->load->view('auth_sections/employer/information', $userdata);
-            }
-            
+            $this->load_sess_view('header', $userdata);
+            $this->load_sess_view('information', $userdata);
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
             $this->Auth_model->err_page();
         }
+    }
+
+    // EDIT INFORMATION VIEW
+    public function edit_information() {
+        if ( $this->session->has_userdata('userType')) {
+            $userdata = $this->get_userdata();
+            $pagedata = ['title' => $userdata['username'] . ' - Edit Information'];
+
+            $this->form_validation->set_message(['required' => 'This field cannot be blank']);
+            
+            if ( $this->session->userType == 'Job Seeker' ) {
+                $this->form_validation->set_rules([
+                    [
+                        'field' => 'firstName',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'lastName',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'birthDate',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'gender',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'street',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'brgyDistrict',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'cityMunicipality',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'contactNumber',
+                        'rules' => 'required',
+                    ],
+                ]);
+
+                if ($this->form_validation->run() === FALSE) {
+                    $this->load->view('templates/header', $pagedata);
+                    $this->load->view('sections/navbar', $userdata);
+                    $this->load_sess_view('edit_information_form', $userdata);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                } else {
+                    $this->Jobseeker_model->update_info();
+                }
+            } else if ( $this->session->userType == 'Employer' ) {
+                $this->form_validation->set_rules([
+                    [
+                        'field' => 'companyName',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'street',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'brgyDistrict',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'cityProvince',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'description',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'website',
+                        'rules' => 'valid_url',
+                    ],
+                    [
+                        'field' => 'contactNumber',
+                        'rules' => 'required',
+                    ],
+                ]);
+
+                if ($this->form_validation->run() === FALSE) {
+                    $this->load->view('templates/header', $pagedata);
+                    $this->load->view('sections/navbar', $userdata);
+                    $this->load_sess_view('edit_information_form', $userdata);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                } else {
+                    $this->Employer_model->update_info();
+                }
+            }
+        } else {
+            $this->Auth_model->err_page();
+        } 
     }
 
     // USER SETTINGS
@@ -157,13 +259,7 @@ class Auth extends CI_Controller {
 
             $this->load->view('templates/header', $pagedata);
             $this->load->view('sections/navbar', $userdata);
-            
-            if ( $this->session->userType == 'Job Seeker' ) {
-                $this->load->view('auth_sections/jobseeker/header', $userdata);
-            } else if ( $this->session->userType == 'Employer' ) {
-                $this->load->view('auth_sections/employer/header', $userdata);
-            }
-            
+            $this->load_sess_view('header', $userdata);            
             $this->load->view('auth_sections/settings', $userdata);
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
@@ -347,143 +443,6 @@ class Auth extends CI_Controller {
     // EMPLOYER VIEWS
     // ==================================================================================================== //
 
-    // EDIT INFORMATION VIEW
-    public function edit_information() {
-        if ( $this->session->has_userdata('userType')) {
-            $userdata = $this->get_userdata();
-            $pagedata = ['title' => $userdata['username'] . ' - Edit Information'];
-
-            $this->form_validation->set_message([
-                'required'      => 'This field cannot be blank',
-            ]);
-            
-            if ( $this->session->userType == 'Job Seeker' ) {
-                $this->form_validation->set_rules([
-                    [
-                        'field' => 'firstName',
-                        'label' => 'first name',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'lastName',
-                        'label' => 'last name',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'birthDate',
-                        'label' => 'date of birth',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'gender',
-                        'label' => 'gender',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'street',
-                        'label' => 'street',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'brgyDistrict',
-                        'label' => 'baranggay/district',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'cityMunicipality',
-                        'label' => 'city/municipality',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'contactNumber',
-                        'label' => 'phone/telephone Number',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'description',
-                        'label' => 'description',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'skills',
-                        'label' => 'skills',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'experiences',
-                        'label' => 'experiences',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'education',
-                        'label' => 'education',
-                        'rules' => 'required',
-                    ],
-                ]);
-
-                if ($this->form_validation->run() === FALSE) {
-                    $this->load->view('templates/header', $pagedata);
-                    $this->load->view('sections/navbar', $userdata);
-                    $this->load->view('auth_sections/jobseeker/edit_information_form', $userdata);
-                    $this->load->view('sections/footer');
-                    $this->load->view('templates/footer');
-                } else {
-                    $this->Jobseeker_model->update_info();
-                }
-            } else if ( $this->session->userType == 'Employer' ) {
-                $this->form_validation->set_rules([
-                    [
-                        'field' => 'companyName',
-                        'label' => 'company name',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'street',
-                        'label' => 'street name',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'brgyDistrict',
-                        'label' => 'baranggay/district',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'cityMunicipality',
-                        'label' => 'city/municipality',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'description',
-                        'label' => 'description',
-                        'rules' => 'required',
-                    ],
-                    [
-                        'field' => 'website',
-                        'label' => 'website',
-                        'rules' => 'valid_url',
-                    ],
-                    [
-                        'field' => 'contactNumber',
-                        'label' => 'phone/telephone Number',
-                        'rules' => 'required',
-                    ],
-                ]);
-
-                if ($this->form_validation->run() === FALSE) {
-                    $this->load->view('templates/header', $pagedata);
-                    $this->load->view('sections/navbar', $userdata);
-                    $this->load->view('auth_sections/employer/edit_information_form', $userdata);
-                    $this->load->view('sections/footer');
-                    $this->load->view('templates/footer');
-                } else {
-                    $this->Employer_model->update_info();
-                }
-            }
-        } else {
-            $this->Auth_model->err_page();
-        } 
-    }
-
     // JOB POSTS VIEW
     public function job_posts($page = 1) {
         if ( $this->session->userType == 'Employer' ) {
@@ -559,52 +518,42 @@ class Auth extends CI_Controller {
             $this->form_validation->set_rules([
                 [
                     'field' => 'jobTitle',
-                    'label' => 'job title',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'jobType',
-                    'label' => 'job type',
                     'rules' => 'required',
                 ],
                 [
-                    'field' => 'industryType',
-                    'label' => 'industryType',
+                    'field' => 'field',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'minSalary',
-                    'label' => 'minimum salary',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'maxSalary',
-                    'label' => 'maximum salary',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'description',
-                    'label' => 'description',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'responsibilities',
-                    'label' => 'responsibilities',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'skills',
-                    'label' => 'skills set',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'experiences',
-                    'label' => 'experiences',
                     'rules' => 'required',
                 ],
                 [
                     'field' => 'education',
-                    'label' => 'education',
                     'rules' => 'required',
                 ],
             ]);

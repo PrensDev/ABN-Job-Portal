@@ -16,34 +16,30 @@ class Jobseeker_model extends CI_Model {
 
     // GET INFORMATION METHOD
     public function get_info() {
-        $sql   = "EXEC [AUTH_FindJobseeker] @email = '" . $this->session->email . "'";
-        $query = $this->db->query($sql);
+        $query = $this->db->query("EXEC [AUTH_FindJobseeker] @email = '" . $this->session->email . "'");
         $row   = $query->row();
 
-        $location = $row->brgyDistrict . ', ' . $row->cityMunicipality;
-
         $userdata = [
-            'username'         => $row->firstName,
-            'firstName'        => $row->firstName,
-            'middleName'       => $row->middleName,
-            'lastName'         => $row->lastName,
-            'birthDate'        => $row->birthDate,
-            'age'              => $row->age,
-            'gender'           => $row->gender,
-            'street'           => $row->street,
-            'brgyDistrict'     => $row->brgyDistrict,
-            'cityMunicipality' => $row->cityMunicipality,
-            'location'         => $location,
-            'contactNumber'    => $row->contactNumber,
-            'email'            => $row->email,
-            'description'      => $row->description,
-            'skills'           => $row->skills,
-            'experiences'      => $row->experiences,
-            'education'        => $row->education,
-            'profilePic'       => $row->profilePic,
+            'username'      => $row->firstName,
+            'firstName'     => $row->firstName,
+            'middleName'    => $row->middleName,
+            'lastName'      => $row->lastName,
+            'birthDate'     => $row->birthDate,
+            'age'           => $row->age,
+            'gender'        => $row->gender,
+            'cityProvince'  => $row->cityProvince,
+            'contactNumber' => $row->contactNumber,
+            'email'         => $row->email,
+            'profilePic'    => $row->profilePic,
         ];
 
         return $userdata;
+    }
+
+    // VIEW RESUME METHOD
+    public function view_resume() {
+        $query = $this->db->query("EXEC [JBSK_ViewResume] @jobseekerID = " . $this->session->id . "");
+        return $query->row();
     }
 
     // UPDATE INFORMATION METHOD
@@ -51,20 +47,14 @@ class Jobseeker_model extends CI_Model {
         $input = $this->input->post();
         $this->run_query("
             EXEC [JBSK_UpdateInfo]
-                @jobseekerID	  = '" . $this->session->id . "',
-                @firstName		  = '" . $input[ 'firstName'        ] . "',
-                @middleName		  = '" . $input[ 'middleName'       ] . "',
-                @lastName		  = '" . $input[ 'lastName'         ] . "',
-                @birthDate		  = '" . $input[ 'birthDate'        ] . "',
-                @gender			  = '" . $input[ 'gender'           ] . "',
-                @street			  = '" . $input[ 'street'           ] . "',
-                @brgyDistrict	  = '" . $input[ 'brgyDistrict'     ] . "',
-                @cityMunicipality = '" . $input[ 'cityMunicipality' ] . "',
-                @contactNumber	  = '" . $input[ 'contactNumber'    ] . "',
-                @description	  = '" . $input[ 'description'      ] . "',
-                @skills			  = '" . $input[ 'skills'           ] . "',
-                @experiences	  = '" . $input[ 'experiences'      ] . "',
-                @education		  = '" . $input[ 'education'        ] . "'
+                @jobseekerID   = '" . $this->session->id . "',
+                @firstName	   = '" . $input[ 'firstName'     ] . "',
+                @middleName	   = '" . $input[ 'middleName'    ] . "',
+                @lastName	   = '" . $input[ 'lastName'      ] . "',
+                @birthDate	   = '" . $input[ 'birthDate'     ] . "',
+                @gender		   = '" . $input[ 'gender'        ] . "',
+                @cityProvince  = '" . $input[ 'cityProvince'  ] . "',
+                @contactNumber = '" . $input[ 'contactNumber' ] . "'
         ", 'auth/information');
     }
 

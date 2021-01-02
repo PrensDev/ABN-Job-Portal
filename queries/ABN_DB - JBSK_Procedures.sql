@@ -1,4 +1,22 @@
 
+-- View Resume Procedure
+CREATE PROCEDURE [JBSK_ViewResume]
+	@jobseekerID INT
+AS
+	SELECT
+		  [Resumes].[resumeID]
+		, [Resumes].[headline]
+		, [Resumes].[description]
+		, [Resumes].[education]
+		, [Resumes].[experiences]
+		, [Resumes].[skills]
+		, [Resumes].[lastUpdated]
+	FROM [Resumes]
+	INNER JOIN [JobSeekers]
+		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
+		AND [JobSeekers].[jobseekerID] = 1
+;
+
 -- View All Recent Posts
 CREATE PROCEDURE [JBSK_ViewAllRecentPosts]
 	@jobseekerID INT
@@ -14,7 +32,7 @@ AS
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
-		AND [Applications].[jobseekerID] = @jobseekerID
+		AND [Applications].[resumeID] = @jobseekerID
 ;
 
 
@@ -170,16 +188,16 @@ AS
 	FETCH NEXT @fetchedRows ROWS ONLY
 ;
 
-
 -- Number of Applied Jobs Procedure
 CREATE PROCEDURE [JBSK_NumOfAppliedJobs]
 	@jobseekerID INT
 AS
-	SELECT COUNT(JobPostID) AS [appliedJobsNum]
-	FROM Applications
-	WHERE jobseekerID = @jobseekerID
+	SELECT COUNT([Applications].[JobPostID]) AS [appliedJobsNum]
+	FROM [Applications]
+	INNER JOIN [Resumes]
+		ON [Resumes].[resumeID] = [Applications].[resumeID]
+		AND [Resumes].[jobseekerID] = @jobseekerID
 ;
-
 
 -- Add Bookmark Procedure
 CREATE PROCEDURE [JBSK_AddBookmark]

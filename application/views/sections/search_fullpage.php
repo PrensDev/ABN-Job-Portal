@@ -9,7 +9,7 @@
         <form method="POST">
             <div class="row">
 
-                <div class="col-lg">
+                <div class="col-md-6">
                     <div class="input-group">
                         <input type="text" class="form-control border-0 shadow-none" placeholder="Keyword..." name="jobKeyword">
                         <div class="input-group-append">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg">
+                <div class="col-md-3">
                     <div class="input-group">
                         <input type="text" class="form-control border-0 shadow-none" placeholder="Place..." name="jobKeyword">
                         <div class="input-group-append">
@@ -27,19 +27,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg">
-                    <select 
-                        class="selectpicker border-0 shadow-none form-control bg-white" 
-                        data-style="bg-white text-dark" 
-                        title="Job Type...">
-                        <option value="Full Time">Full Time</option>
-                        <option value="Part Time">Part Time</option>
-                        <option value="Internship/OJT">Internship/OJT</option>
-                        <option value="Temporary">Temporary</option>
-                    </select>
-                </div>
-
-                <div class="col-lg">
+                <div class="col-md-3">
                     <button type="submit" class="btn btn-primary btn-block">
                         <i class="fas fa-search"></i> Search Now
                     </button>
@@ -52,12 +40,8 @@
     </div>
     <!-- END OF SEARCH BAR -->
 
-    <p class="mt-1">
-        <span class="font-weight-bold">Suggestions: </span>
-        <a href="#" class="text-secondary">Software Developer</a>, 
-        <a href="#" class="text-secondary">Mobile Developer</a>, 
-        <a href="#" class="text-secondary">Programmer</a>, 
-        <a href="#" class="text-secondary">more...</a>
+    <p class="mt-1 text-secondary">
+        <p>Type the job keywords you are finding and the place where you want to.</p>
     </p>
 
     <div class="mt-5 text-center">

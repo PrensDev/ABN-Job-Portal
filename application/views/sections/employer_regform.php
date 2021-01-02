@@ -1,15 +1,20 @@
 
 <!-- FORM SECTION -->
-<div class="container-fluid py-3">
+<div class="container-fluid py-5">
 <div class="container">
+
+    <h1 class="display-4">Register as <span class="text-primary">Employer</span></h1>
+    <p class="text-secondary">Create your account and post an available job.</p>
+
+    <p class="text-danger"><small>* Required</small></p>
 
     <!-- EMPLOYER REGISTRATION FORM -->
     <form method="POST">
 
         <!-- COMPANY INFORMATION FORM -->
-        <div class="card my-4 border-0 shadow">
+        <div class="card border-0">
 
-            <div class="card-header h6 bg-light border-0">
+            <div class="card-header h6 bg-white border-primary">
                 <i class="fas fa-briefcase text-primary mr-2"></i>
                 <span>Company Information</span>
             </div>
@@ -19,6 +24,7 @@
                 <!-- COMPANY NAME -->
                 <div class="form-group">
                     <label for="companyName">Company Name</label>
+                    <span class="text-danger">*</span>
                     <input 
                         type        = "text" 
                         class       = "form-control <?php echo form_error('companyName') ? 'is-invalid' : '' ;?>" 
@@ -35,7 +41,8 @@
 
                     <!-- STREET NAME -->
                     <div class="form-group col-md">
-                        <label for="street">Street Name</label>
+                        <label for="street">Street</label>
+                        <span class="text-danger">*</span>
                         <input 
                             type        = "text" 
                             class       = "form-control <?php echo form_error('street') ? 'is-invalid' : '' ;?>" 
@@ -49,30 +56,32 @@
 
                     <!-- BARANGGAY/DISTRICT NAME -->
                     <div class="form-group col-md">
-                        <label for="brgyDistrict">Baranggay/District Name</label>
+                        <label for="brgyDistrict">Baranggay / District</label>
+                        <span class="text-danger">*</span>
                         <input 
                             type        = "text" 
                             class       = "form-control <?php echo form_error('brgyDistrict') ? 'is-invalid' : '' ;?>" 
                             id          = "brgyDistrict"
                             name        = "brgyDistrict" 
                             value       = "<?php echo set_value('brgyDistrict'); ?>"
-                            placeholder = "Baranggay/District Name" 
+                            placeholder = "Baranggay / District" 
                         >
                         <small class="invalid-feedback" id="retypePasswordFeedback"><?php echo form_error('brgyDistrict')?></small>
                     </div>
 
-                    <!-- CITY/MUNICIPALITY -->
+                    <!-- CITY AND STATE / PROVINCE -->
                     <div class="form-group col-md">
-                        <label for="cityMunicipality">City/Municipality Name</label>
+                        <label for="cityProvince">City and state / Province</label>
+                        <span class="text-danger">*</span>
                         <input  
                             type        = "text" 
-                            class       = "form-control <?php echo form_error('cityMunicipality') ? 'is-invalid' : '' ;?>" 
-                            id          = "cityMunicipality" 
-                            name        = "cityMunicipality"
-                            value       = "<?php echo set_value('cityMunicipality'); ?>"
-                            placeholder = "City/Municipality"
+                            class       = "form-control <?php echo form_error('cityProvince') ? 'is-invalid' : '' ;?>" 
+                            id          = "cityProvince" 
+                            name        = "cityProvince"
+                            value       = "<?php echo set_value('cityProvince'); ?>"
+                            placeholder = "City and state / Province"
                         >
-                        <small class="invalid-feedback" id="retypePasswordFeedback"><?php echo form_error('cityMunicipality')?></small>
+                        <small class="invalid-feedback" id="retypePasswordFeedback"><?php echo form_error('cityProvince')?></small>
                     </div>
                     
                 </div>
@@ -80,6 +89,7 @@
                 <!-- DESCRIPTION FIELD -->
                 <div class="form-group">
                     <label for="description">Description</label>
+                    <span class="text-danger">*</span>
                     <textarea 
                         type        = "text" 
                         class       = "form-control <?php echo form_error('description') ? 'is-invalid' : '' ;?>" 
@@ -119,9 +129,9 @@
         </div>
 
         <!-- CONTACT INFORMATION FORM -->
-        <div class="card my-4 border-0 shadow">
+        <div class="card border-0">
 
-            <div class="card-header h6 bg-light border-0">
+            <div class="card-header h6 bg-white border-primary">
                 <i class="fas fa-phone-alt text-primary mr-2"></i>
                 <span>Contact Information</span>
             </div>
@@ -131,9 +141,10 @@
                 <!-- CONTACT FIELD -->
                 <div class="form-row">
 
-                    <!-- PHONE/TELEPHONE NUMBER -->
+                    <!-- CONTACT NUMBER -->
                     <div class="form-group col-md">
-                        <label for="contactNumber">Phone/Telephone Number</label>
+                        <label for="contactNumber">Contact Number</label>
+                        <span class="text-danger">*</span>
                         <input 
                             type        = "text" 
                             class       = "form-control <?php echo form_error('contactNumber') ? 'is-invalid' : '' ;?>" 
@@ -148,6 +159,7 @@
                     <!-- COMPANY EMAIL -->
                     <div class="form-group col-md">
                         <label for="email">Email</label>
+                        <span class="text-danger">*</span>
                         <input 
                             type        = "email" 
                             class       = "form-control <?php echo form_error('email') ? 'is-invalid' : '' ;?>" 
@@ -166,9 +178,9 @@
         </div>
 
         <!-- ACCOUNT INFORMATION FORM -->
-        <div class="card my-4 border-0 shadow">
+        <div class="card border-0">
 
-            <div class="card-header h6 bg-light border-0">
+            <div class="card-header h6 bg-white border-primary">
                 <i class="fas fa-user-tie text-primary mr-2"></i>
                 <span>Account Information</span>
             </div>
@@ -181,6 +193,7 @@
                     <!-- PASSWORD -->
                     <div class="form-group col-md">
                         <label for="password">Password</label>
+                        <span class="text-danger">*</span>
                         <input 
                             type        = "password" 
                             class       = "form-control  <?php echo form_error('password') ? 'is-invalid' : '' ;?>" 
@@ -194,6 +207,7 @@
                     <!-- REPEAT PASSWORD -->
                     <div class="form-group col-md">
                         <label for="retypePassword">Retype Password to confirm</label>
+                        <span class="text-danger">*</span>
                         <input 
                             type        = "password" 
                             class       = "form-control <?php echo form_error('retypePassword') ? 'is-invalid' : '' ;?>" 
@@ -216,8 +230,9 @@
                             name    = "agreement"
                         >
                         <label class="custom-control-label" for="agreement">
-                            I agree to the <a href="<?php echo base_url() ?>home/terms_and_conditions" data-toggle="tooltip" data-placement="top" title="Read our Terms and Conditions">Terms and Conditions</a> of this website.
+                            I already read and agree to the <a href="<?php echo base_url() ?>home/terms_and_conditions" data-toggle="tooltip" data-placement="top" title="Read our Terms and Conditions">Terms and Conditions</a> of this website.
                         </label>
+                        <span class="text-danger">*</span>
                         <small class="invalid-feedback" id="retypePasswordFeedback"><?php echo form_error('agreement')?></small>
                     </div>
                 </div>
@@ -227,8 +242,8 @@
         </div>
 
         <!-- USER CONTROLS -->
-        <div class="d-flex justify-content-center my-4">
-            <button type="submit" class="btn btn-primary btn-lg">Register as an Employer</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Register as an Employer</button>
         </div>
 
     </form>

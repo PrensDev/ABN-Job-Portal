@@ -4,7 +4,7 @@ CREATE PROCEDURE [EMPL_PostNewJob]
 	@employerID			INT,
 	@jobTitle			VARCHAR(MAX),
 	@jobType			VARCHAR(MAX),
-	@industryType		VARCHAR(MAX),
+	@field				VARCHAR(MAX),
 	@description		VARCHAR(MAX),
 	@responsibilities	VARCHAR(MAX),
 	@skills				VARCHAR(MAX),
@@ -18,7 +18,7 @@ AS
 		( [employerID]
 		, [jobTitle]
 		, [jobType]
-		, [industryType]
+		, [field]
 		, [description]
 		, [responsibilities]
 		, [skills]
@@ -31,7 +31,7 @@ AS
 		( @employerID
 		, @jobTitle			
 		, @jobType			
-		, @industryType		
+		, @field		
 		, @description	
 		, @responsibilities
 		, @skills		
@@ -42,7 +42,6 @@ AS
 		, @jobPostFlag )
 ;
 
-
 -- Get All Posts Procedure
 CREATE PROCEDURE [EMPL_GetAllPosts] 
 	@employerID INT
@@ -51,7 +50,6 @@ AS
 	FROM [JobPosts]
 	WHERE [employerID] = @employerID
 ;
-
 
 -- Get Limited Posts Procedure
 CREATE PROCEDURE [EMPL_GetPosts] 
@@ -64,7 +62,7 @@ AS
 		, [JobPosts].[employerID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
-		, [JobPosts].[industryType]
+		, [JobPosts].[field]
 		, [JobPosts].[description]
 		, [JobPosts].[responsibilities]
 		, [JobPosts].[skills]
@@ -85,7 +83,7 @@ AS
 		, [JobPosts].[employerID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
-		, [JobPosts].[industryType]
+		, [JobPosts].[field]
 		, [JobPosts].[description]
 		, [JobPosts].[responsibilities]
 		, [JobPosts].[skills]
@@ -100,7 +98,6 @@ AS
 	FETCH NEXT @fetchedRows ROWS ONLY
 ;
 
-
 -- View Job Post
 CREATE PROCEDURE [EMPL_ViewPost]
 	@jobPostID	INT,
@@ -111,7 +108,7 @@ AS
 		, [JobPosts].[employerID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
-		, [JobPosts].[industryType]
+		, [JobPosts].[field]
 		, [JobPosts].[description]
 		, [JobPosts].[responsibilities]
 		, [JobPosts].[skills]
@@ -133,7 +130,7 @@ AS
 		, [JobPosts].[employerID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
-		, [JobPosts].[industryType]
+		, [JobPosts].[field]
 		, [JobPosts].[description]
 		, [JobPosts].[responsibilities]
 		, [JobPosts].[skills]
@@ -146,13 +143,12 @@ AS
 		, [JobPosts].[jobPostFlag]
 ;
 
-
--- UpdateJobPost Procedure
+-- Update Job Post Procedure
 CREATE PROCEDURE [EMPL_UpdatePost]
 	@jobPostID			INT,
 	@jobTitle			VARCHAR(MAX),
 	@jobType			VARCHAR(MAX),
-	@industryType		VARCHAR(MAX),
+	@field				VARCHAR(MAX),
 	@description		VARCHAR(MAX),
 	@responsibilities	VARCHAR(MAX),
 	@skills				VARCHAR(MAX),
@@ -166,7 +162,7 @@ AS
 	SET
 		  [jobTitle] 			= @jobTitle
 		, [jobType] 			= @jobType
-		, [industryType] 		= @industryType
+		, [field] 				= @field
 		, [description] 		= @description
 		, [responsibilities] 	= @responsibilities
 		, [skills] 				= @skills
@@ -179,7 +175,6 @@ AS
 	WHERE [jobPostID]			= @jobPostID
 ;
 
-
 -- Delete Job Post Procedure
 CREATE PROCEDURE [EMPL_DeletePost]
 	@jobPostID	INT,
@@ -189,30 +184,28 @@ AS
 	WHERE [jobPostID] = @jobPostID AND [employerID] = @employerID
 ;
 
-
 -- Update Employer Information Procedure
 CREATE PROCEDURE [EMPL_UpdateInfo]
-	@employerID			INT,
-	@companyName		VARCHAR(MAX),
-	@street				VARCHAR(MAX),
-	@brgyDistrict		VARCHAR(MAX),
-	@cityMunicipality	VARCHAR(MAX),
-	@contactNumber		VARCHAR(MAX),
-	@website			VARCHAR(MAX),
-	@description		VARCHAR(MAX)
+	@employerID		INT,
+	@companyName	VARCHAR(MAX),
+	@street			VARCHAR(MAX),
+	@brgyDistrict	VARCHAR(MAX),
+	@cityProvince	VARCHAR(MAX),
+	@contactNumber	VARCHAR(MAX),
+	@website		VARCHAR(MAX),
+	@description	VARCHAR(MAX)
 AS
 	UPDATE [Employers]
 	SET
-		  [companyName] 	 = @companyName
-		, [street] 			 = @street
-		, [brgyDistrict] 	 = @brgyDistrict
-		, [cityMunicipality] = @cityMunicipality
-		, [contactNumber] 	 = @contactNumber
-		, [website] 		 = @website
-		, [description] 	 = @description
+		  [companyName] 	= @companyName
+		, [street] 			= @street
+		, [brgyDistrict] 	= @brgyDistrict
+		, [cityProvince]	= @cityProvince
+		, [contactNumber] 	= @contactNumber
+		, [website] 		= @website
+		, [description] 	= @description
 	WHERE [employerID] = @employerID
 ;
-
 
 -- View All Applicants Procedure
 CREATE PROCEDURE [EMPL_ViewAllApplicants]
@@ -221,10 +214,9 @@ AS
 	SELECT [Applications].[applicationID]
 	FROM [Applications]
 	INNER JOIN [JobSeekers]
-		ON [JobSeekers].[jobseekerID] = [Applications].[jobseekerID]
+		ON [JobSeekers].[jobseekerID] = [Applications].[resumeID]
 		AND [Applications].[jobPostID] = @jobPostID
 ;
-
 
 -- View Applicants Procedure
 CREATE PROCEDURE [EMPL_ViewApplicants]
@@ -240,8 +232,7 @@ AS
 		, [JobSeekers].[lastName]
 		, [JobSeekers].[lastName]
 		, [JobSeekers].[gender]
-		, [JobSeekers].[brgyDistrict]
-		, [JobSeekers].[cityMunicipality]
+		, [JobSeekers].[cityProvince]
 		, [JobSeekers].[email]
 		, [Applications].[applicationID]
 		, [Applications].[jobPostID]
@@ -249,13 +240,12 @@ AS
 		, [Applications].[dateApplied]
 	FROM [Applications]
 	INNER JOIN [JobSeekers]
-		ON [JobSeekers].[jobseekerID] = [Applications].[jobseekerID]
+		ON [JobSeekers].[jobseekerID] = [Applications].[resumeID]
 		AND [Applications].[jobPostID] = @jobPostID
 	ORDER BY [Applications].[dateApplied] ASC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
 ;
-
 
 -- View Applicant Profile Procedure
 CREATE PROCEDURE [EMPL_ViewApplicantProfile]
@@ -271,28 +261,21 @@ AS
 		, [JobSeekers].[birthDate]
 		, DATEDIFF(year, [JobSeekers].[birthDate], getdate()) as [age]
 		, [JobSeekers].[gender]
-		, [JobSeekers].[street]
-		, [JobSeekers].[brgyDistrict]
-		, [JobSeekers].[cityMunicipality]
+		, [JobSeekers].[cityProvince]
 		, [JobSeekers].[contactNumber]
 		, [JobSeekers].[email]
-		, [JobSeekers].[description]
-		, [JobSeekers].[skills]
-		, [JobSeekers].[experiences]
-		, [JobSeekers].[education]
 		, [Applications].[applicationID]
 		, [Applications].[jobPostID]
 		, [Applications].[status]
 		, [JobPosts].[jobTitle]
 	FROM [Applications]
 	INNER JOIN [JobSeekers]
-		ON [Applications].[jobseekerID] = [JobSeekers].[jobseekerID]
+		ON [Applications].[resumeID] = [JobSeekers].[jobseekerID]
 	INNER JOIN [JobPosts]
 		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
 		AND [JobSeekers].[jobseekerID] = @jobseekerID
 		AND [Applications].[jobPostID] = @jobPostID
 ;
-
 
 -- Number of Job Posts Procedure
 CREATE PROCEDURE [EMPL_NumOfPosts]
@@ -302,7 +285,6 @@ AS
 	FROM JobPosts 
 	WHERE employerID = @employerID
 ;
-
 
 -- Set Applicant Status Procedure
 CREATE PROCEDURE [EMPL_SetApplicantStatus]
@@ -314,7 +296,6 @@ AS
 	WHERE [applicationID] = @applicationID
 ;
 
-
 -- Set Profile Pic
 CREATE PROCEDURE [EMPL_SetProfilePic]
 	@employerID INT,
@@ -324,3 +305,6 @@ AS
 	SET [profilePic] = @profilePic
 	WHERE [employerID] = @employerID
 ;
+
+SELECT * FROM UserAccounts
+SELECT * FROM Employers

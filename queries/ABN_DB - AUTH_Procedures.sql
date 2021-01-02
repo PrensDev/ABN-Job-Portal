@@ -24,23 +24,16 @@ AS
 		, @userType )
 ;
 
-
 -- Register Job Seeker Procedure
 CREATE PROCEDURE [AUTH_RegisterJobseeker]
-	@firstName			VARCHAR(MAX),
-	@middleName			VARCHAR(MAX),
-	@lastName			VARCHAR(MAX),
-	@birthDate			VARCHAR(MAX),
-	@gender				VARCHAR(MAX),
-	@street				VARCHAR(MAX),
-	@brgyDistrict		VARCHAR(MAX),
-	@cityMunicipality	VARCHAR(MAX),
-	@contactNumber		VARCHAR(MAX),
-	@email				VARCHAR(450),
-	@description		VARCHAR(MAX),
-	@skills				VARCHAR(MAX),
-	@experiences		VARCHAR(MAX),
-	@education			VARCHAR(MAX)
+	@firstName		VARCHAR(MAX),
+	@middleName		VARCHAR(MAX),
+	@lastName		VARCHAR(MAX),
+	@birthDate		VARCHAR(MAX),
+	@gender			VARCHAR(MAX),
+	@cityProvince	VARCHAR(MAX),
+	@contactNumber	VARCHAR(MAX),
+	@email			VARCHAR(450)
 AS
 	INSERT INTO [JobSeekers] 
 		( [firstName]
@@ -48,49 +41,36 @@ AS
 		, [lastName]
 		, [birthDate]
 		, [gender]
-		, [street]
-		, [brgyDistrict]
-		, [cityMunicipality]
+		, [cityProvince]
 		, [contactNumber]
-		, [email]
-		, [description]
-		, [skills]
-		, [experiences]
-		, [education] )
+		, [email] )
 	VALUES 
 		( @firstName
 		, @middleName
 		, @lastName
 		, @birthDate
 		, @gender
-		, @street
-		, @brgyDistrict
-		, @cityMunicipality
+		, @cityProvince
 		, @contactNumber
-		, @email
-		, @description
-		, @skills
-		, @experiences
-		, @education )
+		, @email )
 ;
-
 
 -- Register Employer Procedure
 CREATE PROCEDURE [AUTH_RegisterEmployer]
-	@companyName		VARCHAR(MAX),
-	@street				VARCHAR(MAX),
-	@brgyDistrict		VARCHAR(MAX),
-	@cityMunicipality	VARCHAR(MAX),
-	@contactNumber		VARCHAR(MAX),
-	@email				VARCHAR(450),
-	@website			VARCHAR(MAX),
-	@description		VARCHAR(MAX)
+	@companyName	VARCHAR(MAX),
+	@street			VARCHAR(MAX),
+	@brgyDistrict	VARCHAR(MAX),
+	@cityProvince	VARCHAR(MAX),
+	@contactNumber	VARCHAR(MAX),
+	@email			VARCHAR(450),
+	@website		VARCHAR(MAX),
+	@description	VARCHAR(MAX)
 AS
 	INSERT INTO [Employers]
 		( [companyName]
 		, [street]
 		, [brgyDistrict]
-		, [cityMunicipality]
+		, [cityProvince]
 		, [contactNumber]
 		, [email]
 		, [website]
@@ -99,13 +79,12 @@ AS
 		( @companyName
 		, @street
 		, @brgyDistrict
-		, @cityMunicipality
+		, @cityProvince
 		, @contactNumber
 		, @email
 		, @website
 		, @description )
 ;
-
 
 -- Find User Account Procedure for Login
 CREATE PROCEDURE [AUTH_FindUserAccount]
@@ -120,33 +99,14 @@ AS
 	WHERE [email] = @email
 ;
 
-
 -- Find Job Seeker Procedure
 CREATE PROCEDURE [AUTH_FindJobseeker]
 	@email	VARCHAR(450)
 AS
-	SELECT
-		  [jobseekerID]
-		, [firstName]
-		, [middleName]
-		, [lastName]
-		, [birthDate]
-		, DATEDIFF(year, [birthDate], getdate()) as [age]
-		, [gender]
-		, [street]
-		, [brgyDistrict]
-		, [cityMunicipality]
-		, [contactNumber]
-		, [email]
-		, [description]
-		, [skills]
-		, [experiences]
-		, [education]
-		, [profilePic]
+	SELECT *, DATEDIFF(year, [birthDate], getdate()) as [age]
 	FROM [JobSeekers]
 	WHERE [email] = @email
 ;
-
 
 -- Find Employer Procedure
 CREATE PROCEDURE [AUTH_FindEmployer]
@@ -155,7 +115,6 @@ AS
 	SELECT * FROM [Employers]
 	WHERE [email] = @email
 ;
-
 
 -- Set Account Procedure
 CREATE PROCEDURE [AUTH_SetAccountFlag]

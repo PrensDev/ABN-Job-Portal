@@ -3,7 +3,7 @@
     
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="font-weight-normal">Information</h1>
+            <h1 class="font-weight-light">Resume</h1>
         </div>
         <div>
             <a href="<?php echo base_url() ?>auth/edit_information" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
@@ -16,6 +16,11 @@
     <div class="row">
         
         <div class="col-lg-8">
+            <?php
+                if (isset($resumeID)) {
+                    echo 'SHOT';
+                }
+            ?>
             <div class="mb-3 mb-lg-0">
 
                 <div class="mb-5">
@@ -59,7 +64,7 @@
             
             <!-- GENERAL INFORMATION CARD -->
             <div class="card mb-3">
-                <div class="card-header">
+                <div class="card-header bg-white">
                     <strong>
                         <i class="fas fa-user-circle mr-2"></i>
                         <span>Personal Information</span>    
@@ -69,8 +74,8 @@
                     
                     <div class="list-group list-group-flush">
 
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-info">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-user-tie"></i>
                             </div>
                             <div>
@@ -79,8 +84,8 @@
                             </div>
                         </div>
 
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-info">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div>
@@ -89,13 +94,13 @@
                             </div>
                         </div>
 
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-info">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div>
                                 <p class="m-0 font-weight-bold">Location</p>
-                                <p class="m-0 text-secondary"><?php echo $location ?></p>
+                                <p class="m-0 text-secondary"><?php echo $cityProvince ?></p>
                             </div>
                         </div>
                         
@@ -103,11 +108,10 @@
                     
                 </div>
             </div>
-            <!-- END OF GENERAL INFORMATION CARD -->
 
             <!-- CONTACT INFORMATION CARD -->
             <div class="card mb-3">
-                <div class="card-header">
+                <div class="card-header bg-white">
                     <strong>
                         <i class="fas fa-phone-square-alt mr-2"></i>
                         <span>Contact Information</span>    
@@ -117,8 +121,8 @@
                     
                     <div class="list-group list-group-flush">
 
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-danger">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-danger">
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                             <div>
@@ -127,8 +131,8 @@
                             </div>
                         </div>
 
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-danger">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-danger">
                                 <i class="fas fa-envelope"></i>
                             </div>
                             <div>
@@ -141,7 +145,6 @@
                     
                 </div>
             </div>
-            <!-- END OF CONTACT INFORMATION CARD -->
 
             <!-- USER CONTROLS -->
             <div>
@@ -150,7 +153,6 @@
                     <span>View Resume/CV</span>
                 </button>
             </div>
-            <!-- END OF USER CONTROLS -->
 
             <!-- MESSAGE FORM MODAL -->
             <div class="modal fade" id="messageForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -190,7 +192,6 @@
                     </div>
                 </div>
             </div>
-            <!-- END OF MESSAGE FORM MODAL -->
 
         </div>
 

@@ -4,7 +4,7 @@ if ($jobType == 'Full Time') {
     $jobTypeClass = 'success';
 } else if ($jobType == 'Part Time') {
     $jobTypeClass = 'info';
-} else if ($jobType == 'Internship/OJT') {
+} else if ($jobType == 'Intern/OJT') {
     $jobTypeClass = 'warning';
 } else if ($jobType == 'Temporary') {
     $jobTypeClass = 'secondary';
@@ -50,7 +50,7 @@ $dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
 
 
 <div class="col-lg-6 my-2 user-select-none">
-<div class="bg-white p-3 shadow d-flex flex-column justify-content-between h-100">
+<div class="bg-white p-3 border border d-flex flex-column justify-content-between h-100">
     
     <div class="d-flex">
 
@@ -64,9 +64,9 @@ $dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
             </p>   
                 
             <!-- INDUSTRY TYPE -->
-            <div class="mr-3 text-secondary" title="Industry Type: <?php echo $industryType ?>">
+            <div class="mr-3 text-secondary" title="Industry Type: <?php echo $field ?>">
                 <i class="fas fa-cogs mr-1"></i>
-                <span><?php echo $industryType ?></span>
+                <span><?php echo $field ?></span>
             </div>
             
             <!-- OFFERED SALARY -->
@@ -124,16 +124,16 @@ $dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
                     ';
                 } else {
                     echo '
-                        <p class="m-0 font-italic text-secondary">No applicants yet.</p>
+                        <span class="font-italic text-secondary">No applicants yet.</span>
                     ';
                 }
             ?>
         </div>
         <div>
-            <a href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" class="btn btn-info"  data-toggle="tooltip" data-placement="top" title="Edit Post">
+            <a href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" class="btn border text-info"  data-toggle="tooltip" data-placement="top" title="Edit Post">
                 <i class="fas fa-pen"></i>
             </a>
-            <a href="<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>" class="btn btn-secondary"  data-toggle="tooltip" data-placement="top" title="View More">
+            <a href="<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>" class="btn border text-secondary"  data-toggle="tooltip" data-placement="top" title="View More">
                 <i class="fas fa-ellipsis-h"></i>
             </a>
         </div>

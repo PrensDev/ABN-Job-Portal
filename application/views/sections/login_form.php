@@ -28,50 +28,49 @@
     ?>
 
     <!-- FORM SECTION -->
-    <div class="bg-white p-3 rounded my-2 shadow">
-    <form method="POST">
+    <div class="bg-white p-3 rounded my-2 border">
+        <form method="POST">
+            
+            <!-- EMAIL FIELD -->
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input 
+                    type    = "text" 
+                    class   = "form-control <?php echo form_error('email') ? 'is-invalid' : '' ;?>" 
+                    id      = "email"
+                    name    = "email"
+                    value   = "<?php echo set_value('email') ; ?>"
+                >
+                <small class="invalid-feedback">This is a required field</small>
+            </div>
+
+            <!-- PASSWORD FIELD -->
+            <div class="form-group">
+                <label for="password">Password:</label>        
+                <input 
+                    type    =   "password" 
+                    class   =   "form-control <?php echo form_error('password') ? 'is-invalid' : '' ;?>" 
+                    id      =   "password"
+                    name    =   "password"
+                >
+                <small class="invalid-feedback">This is a required field.</small>
+            </div>
+
+            
+            <!-- LOGIN USER CONTROL -->
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-sign-in-alt mr-1"></i>
+                <span>Login</span>
+            </button>
+            
+        </form>
         
-        <!-- EMAIL FIELD -->
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input 
-                type    = "text" 
-                class   = "form-control <?php echo form_error('email') ? 'is-invalid' : '' ;?>" 
-                id      = "email"
-                name    = "email"
-                value   = "<?php echo set_value('email') ; ?>"
-            >
-            <small class="invalid-feedback">This is a required field</small>
-        </div>
+        <hr>
 
-        <!-- PASSWORD FIELD -->
-        <div class="form-group">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <label for="password">Password:</label>
-                </div>
-                <div>
-                    <label><a href="forgot_password.html" data-toggle="tooltip" data-placement="top" title="Did you forgot your password? Click Here.">Forgot Password?</a></label>
-                </div>
-            </div>            
-            <input 
-                type    =   "password" 
-                class   =   "form-control <?php echo form_error('password') ? 'is-invalid' : '' ;?>" 
-                id      =   "password"
-                name    =   "password"
-            >
-            <small class="invalid-feedback">This is a required field.</small>
-        </div>
-
-        <!-- LOGIN USER CO -->
-        <button type="submit" class="btn btn-primary btn-block">
-            <i class="fas fa-sign-in-alt mr-1"></i>
-            <span>Login</span>
-        </button>
-
-    </form>
+        <a href="forgot_password.html" type="submit" class="btn btn-link btn-block btn-sm">
+            <span>Forgot password?</span>
+        </a>
     </div>
-    <!-- END OF FORM SECTION -->
     
     <!-- FOOTER LINK SECTION -->
     <div class="d-flex justify-content-between">

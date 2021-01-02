@@ -1,6 +1,9 @@
 <!-- COMPANY PROFILE DETAILS SECTION -->
 <div class="container-fluid">
 <div class="container py-5">
+
+<?php $this->load->view('sections/company_header', $employerDetails) ?>
+
 <div class="row">
 
     <!-- COMPANY DESCRIPTION AND AVAILABLE JOBS -->

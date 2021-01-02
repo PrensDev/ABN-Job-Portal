@@ -35,20 +35,20 @@ class Employer_model extends CI_Model {
     // GET INFORMATION METHOD
     public function get_info() {
         $row = $this->get_row("EXEC [AUTH_FindEmployer] @email = '" . $this->session->email . "'");
-        $location = $row->brgyDistrict . ', ' . $row->cityMunicipality;
+        $location = $row->brgyDistrict . ', ' . $row->cityProvince;
 
         $userdata = [
-            'username'         => $row->companyName,
-            'companyName'      => $row->companyName,
-            'street'           => $row->street,
-            'brgyDistrict'     => $row->brgyDistrict,
-            'cityMunicipality' => $row->cityMunicipality,
-            'location'         => $location,
-            'contactNumber'    => $row->contactNumber,
-            'email'            => $row->email,
-            'website'          => $row->website,
-            'description'      => $row->description,
-            'profilePic'       => $row->profilePic,
+            'username'      => $row->companyName,
+            'companyName'   => $row->companyName,
+            'street'        => $row->street,
+            'brgyDistrict'  => $row->brgyDistrict,
+            'cityProvince'  => $row->cityProvince,
+            'location'      => $location,
+            'contactNumber' => $row->contactNumber,
+            'email'         => $row->email,
+            'website'       => $row->website,
+            'description'   => $row->description,
+            'profilePic'    => $row->profilePic,
         ];
 
         return $userdata;
@@ -63,7 +63,7 @@ class Employer_model extends CI_Model {
                 @employerID		  = '" . $this->session->id . "',
                 @jobTitle		  = '" . ucwords($this->input->post( 'jobTitle' )) . "',
                 @jobType		  = '" . $this->input->post( 'jobType' ) . "',
-                @industryType	  = '" . $this->input->post( 'industryType' ) . "',
+                @field	          = '" . $this->input->post( 'field' ) . "',
                 @description	  = '" . ucfirst($this->input->post( 'description' )) . "',
                 @responsibilities = '" . ucfirst($this->input->post( 'responsibilities' )) . "',
                 @skills			  = '" . ucfirst($this->input->post( 'skills' )) . "',
@@ -106,7 +106,7 @@ class Employer_model extends CI_Model {
                 'jobPostID'        => $row->jobPostID,
                 'jobTitle'         => $row->jobTitle,
                 'jobType'          => $row->jobType,
-                'industryType'     => $row->industryType,
+                'field'            => $row->field,
                 'description'      => $row->description,
                 'responsibilities' => $row->responsibilities,
                 'skills'           => $row->skills,
@@ -151,7 +151,7 @@ class Employer_model extends CI_Model {
                 @jobPostID		  = '" . $jobPostID . "',
                 @jobTitle		  = '" . ucwords($input[ 'jobTitle' ]) . "',
                 @jobType		  = '" . $input[ 'jobType' ] . "',
-                @industryType	  = '" . ucwords($input[ 'industryType' ]) . "',
+                @field	          = '" . ucwords($input[ 'field' ]) . "',
                 @description	  = '" . ucfirst($input[ 'description' ]) . "',
                 @responsibilities = '" . ucfirst($input[ 'responsibilities' ]) . "',
                 @skills			  = '" . ucfirst($input[ 'skills' ]) . "',
@@ -182,14 +182,14 @@ class Employer_model extends CI_Model {
         $input = $this->input->post();
         $this->run_query("
             EXEC [EMPL_UpdateInfo]
-                @employerID       = '" . $this->session->id           . "',
-                @companyName      = '" . $input[ 'companyName'      ] . "',
-                @street           = '" . ucfirst($input[ 'street' ]) . "',
-                @brgyDistrict     = '" . ucfirst($input[ 'brgyDistrict' ]) . "',
-                @cityMunicipality = '" . ucfirst($input[ 'cityMunicipality' ]) . "',
-                @contactNumber    = '" . $input[ 'contactNumber' ] . "',
-                @website          = '" . $input[ 'website' ] . "',
-                @description      = '" . ucfirst($input[ 'description' ]) . "'
+                @employerID    = '" . $this->session->id                . "',
+                @companyName   = '" . $input[ 'companyName' ]           . "',
+                @street        = '" . ucfirst($input[ 'street' ])       . "',
+                @brgyDistrict  = '" . ucfirst($input[ 'brgyDistrict' ]) . "',
+                @cityProvince  = '" . ucfirst($input[ 'cityProvince' ]) . "',
+                @contactNumber = '" . $input[ 'contactNumber' ]         . "',
+                @website       = '" . $input[ 'website' ]               . "',
+                @description   = '" . ucfirst($input[ 'description' ])  . "'
         ", 'information');
     }
 

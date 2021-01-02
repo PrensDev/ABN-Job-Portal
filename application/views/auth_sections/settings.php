@@ -2,61 +2,58 @@
 <div class="container-fluid pb-5">
 <div class="container-md py-5">
     
-    <!-- HEADER OF CONTENT -->
-    <div class="mb-4">
-        <div>
-            <h1 class="font-weight-normal">Settings</h1>
-        </div>
-    </div>
-    <!-- END OF HEADER OF CONTENT -->
-
-    <!-- SUCCESS ALERT BOX -->
+    <h1 class="font-weight-light mb-4">Settings</h1>
+    
+        <!-- SUCCESS ALERT BOX -->
     <div class="alert alert-success alert-dismissible fade show my-4" role="alert">
         <span>Your password is successfully <strong>changed</strong>.</span>
         <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <!-- END OF SUCCESS ALERT BOX -->
 
+    <!-- SETTINGS MENU -->
     <div class="card">
-        <div class="card-header h6 bg-secondary text-white">
-            <i class="fas fa-user-cog mr-2"></i>
-            <span>Account Settings</span>
-        </div>
         <div class="card-body p-0">
             <div class="list-group list-group-flush">
 
                 <a class="btn list-group-item list-group-item-action" data-toggle="modal" data-target="#editImageModal">
-                    <div class="user-nav-icon mr-1">
+                    <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-user-circle"></i>
                     </div>
                     <span>Edit profile picture</span>
                 </a>
 
                 <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/edit_information">
-                    <div class="user-nav-icon mr-1">
+                    <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-pen"></i>
                     </div>
                     <span>Edit information</span>
                 </a>
 
+                <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/edit_information">
+                    <div class="user-nav-icon mr-1 text-primary">
+                        <i class="fas fa-at"></i>
+                    </div>
+                    <span>Change email</span>
+                </a>
+
                 <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/change_password">
-                    <div class="user-nav-icon mr-1">
+                    <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-lock"></i>
                     </div>
                     <span>Change password</span>
                 </a>
 
                 <a class="btn list-group-item list-group-item-action" data-toggle="modal" data-target="#deactivateModal">
-                    <div class="user-nav-icon mr-1">
+                    <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-user-times"></i>
                     </div>
                     <span>Deactivate my account</span>
                 </a>
 
                 <a class="btn list-group-item list-group-item-action" data-toggle="modal" data-target="#logoutModal">
-                    <div class="user-nav-icon mr-1">
+                    <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-sign-out-alt"></i>
                     </div>
                     <span>Log out</span>
@@ -80,6 +77,8 @@
 <?php
     $this->load->view('sections/components/modal', [
         'id'            => 'deactivateModal',
+        'centered'      => TRUE,
+        'nofade'        => TRUE,
         'theme'         => 'warning',
         'title'         => 'Deactivate Account',
         'modalIcon'     => 'WARNING',
