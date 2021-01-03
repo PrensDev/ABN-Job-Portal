@@ -148,7 +148,7 @@ class Employer_model extends CI_Model {
         $status = $input['status'] == '1' ? 1 : 0;
         $this->run_query("
             EXEC [EMPL_UpdatePost]
-                @jobPostID		  = '" . $jobPostID . "',
+                @jobPostID		  =  " . $jobPostID . ",
                 @jobTitle		  = '" . ucwords($input[ 'jobTitle' ]) . "',
                 @jobType		  = '" . $input[ 'jobType' ] . "',
                 @field	          = '" . ucwords($input[ 'field' ]) . "',
@@ -157,8 +157,8 @@ class Employer_model extends CI_Model {
                 @skills			  = '" . ucfirst($input[ 'skills' ]) . "',
                 @experiences	  = '" . ucfirst($input[ 'experiences' ]) . "',
                 @education		  = '" . ucfirst($input[ 'education' ]) . "',
-                @minSalary		  = '" . $input[ 'minSalary' ] . "',
-                @maxSalary		  = '" . $input[ 'maxSalary' ] . "',
+                @minSalary		  =  " . $input[ 'minSalary' ] . ",
+                @maxSalary		  =  " . $input[ 'maxSalary' ] . ",
                 @jobPostFlag	  =  " . $status . "
         ", 'job_details/' . $jobPostID);
     }
@@ -180,7 +180,7 @@ class Employer_model extends CI_Model {
     // UPDATE INFORMATION METHOD
     public function update_info() {
         $input = $this->input->post();
-        $this->run_query("
+        $this->db->query("
             EXEC [EMPL_UpdateInfo]
                 @employerID    = '" . $this->session->id                . "',
                 @companyName   = '" . $input[ 'companyName' ]           . "',
@@ -190,7 +190,7 @@ class Employer_model extends CI_Model {
                 @contactNumber = '" . $input[ 'contactNumber' ]         . "',
                 @website       = '" . $input[ 'website' ]               . "',
                 @description   = '" . ucfirst($input[ 'description' ])  . "'
-        ", 'information');
+        ");
     }
 
     // VIEW APPLICANT PROFILE
@@ -200,7 +200,6 @@ class Employer_model extends CI_Model {
                 @jobseekerID = " . $jobseekerID . ",
                 @jobPostID   = " . $jobPostID . "
         ");
-
         return $query->row();
     }
 

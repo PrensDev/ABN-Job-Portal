@@ -4,7 +4,7 @@ if ($jobType == 'Full Time') {
     $jobTypeClass = 'success';
 } else if ($jobType == 'Part Time') {
     $jobTypeClass = 'info';
-} else if ($jobType == 'Internship/OJT') {
+} else if ($jobType == 'Intern/OJT') {
     $jobTypeClass = 'warning';
 } else if ($jobType == 'Temporary') {
     $jobTypeClass = 'secondary';
@@ -167,7 +167,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     <i class="fas fa-align-left mr-2"></i>  
                     <span>Description</span> 
                 </h5>
-                <p class="text-justify"><?php echo $description ?></p>
+                <p><?php echo $description ?></p>
             </div>
 
             <!-- RESPONSIBILITIES -->
@@ -176,7 +176,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     <i class="fas fa-bullseye mr-2"></i>  
                     <span>Responsibilities</span> 
                 </h5>
-                <p class="text-justify"><?php echo $responsibilities ?></p>
+                <p><?php echo $responsibilities ?></p>
             </div>
             
             <!-- SKILLS SET -->
@@ -185,7 +185,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     <i class="fas fa-cogs mr-2"></i>  
                     <span>Skills Set</span> 
                 </h5>
-                <p class="text-justify"><?php echo $skills ?></p>
+                <p><?php echo $skills ?></p>
             </div>
 
             <!-- EXPERIENCES -->
@@ -194,7 +194,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     <i class="fas fa-chart-line mr-2"></i>  
                     <span>Experiences</span> 
                 </h5>
-                <p class="text-justify"><?php echo $experiences ?></p>
+                <p><?php echo $experiences ?></p>
             </div>
             
             <!-- EDUCATION -->
@@ -203,7 +203,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                     <i class="fas fa-book mr-2"></i>  
                     <span>Education</span> 
                 </h5>
-                <p class="text-justify"><?php echo $education ?></p>
+                <p><?php echo $education ?></p>
             </div>
             
         </div>
@@ -237,10 +237,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
         <!-- JOB SUMMARY CARD -->
         <div class="card mb-3">
             <div class="card-header bg-white">
-                <strong>
-                    <i class="fas fa-briefcase mr-2"></i>
-                    <span>Job Summary</span>    
-                </strong>
+                <strong>Job Summary</strong>
             </div>
             <div class="card-body p-0">
                 
@@ -301,10 +298,7 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
         <!-- COMPANY DETAILS CARD -->
         <div class="card mb-3">
             <div class="card-header bg-white">
-                <strong>
-                    <i class="fas fa-briefcase mr-2"></i>
-                    <span>Company Details</span>    
-                </strong>
+                <strong>Company Details</strong>
             </div>
             <div class="card-body p-0">
                 
@@ -421,24 +415,13 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 
 if ($this->session->userType == 'Job Seeker') {
     if (! isset($status)) {
-        $modalConfig = [
-            'id'            => 'submitApplicationModal',
-            'theme'         => 'primary',
-            'title'         => 'Submit Application',
-            'modalIcon'     => 'INFO',
-            'message'       => '
-                <p class="m-1">Are you sure you want to apply for this job?</p>
-                <p class="m-1"><strong>Note: Your information will be submitted to the employer for review.</strong></p>
-            ',
-            'actionPath'    => NULL,
-            'actionID'      => 'submitApplicationBtn',
-            'actionValue'   => $jobPostID,
-            'actionIcon'    => 'file',
-            'actionLabel'   => 'Apply me!',
-        ];
+        $resumeData = $this->Jobseeker_model->view_resume();
+        $this->load->view('auth_sections/jobseeker/components/submit_application_modal', $resumeData);
     } else {
         if ($status = 'Pending') {
             $modalConfig = [
+                'centered'      => TRUE,
+                'nofade'        => TRUE,
                 'id'            => 'cancelApplicationModal',
                 'theme'         => 'warning',
                 'title'         => 'Cancel Application',
@@ -454,29 +437,13 @@ if ($this->session->userType == 'Job Seeker') {
                 'actionLabel'   => 'Cancel my application!',
             ];
         }
+        $this->load->view('sections/components/modal', $modalConfig);
     }
-    $this->load->view('sections/components/modal', $modalConfig);
 }
 
 ?>
 
 <script>
-    $(document).on('click','#submitApplicationBtn', function(e) {
-        e.preventDefault();
-        var jobPostID = $(this).attr('value');
-        $.ajax({
-            url:        "<?php echo base_url() ?>auth/submit_application",
-            type:       "post",
-            dataType:   "json",
-            data: {
-                jobPostID: jobPostID
-            },
-            success:    function(data) {
-                location.reload();
-            }
-        });
-    });
-
     $(document).on('click','#cancelApplicationBtn', function(e) {
         e.preventDefault();
         var jobPostID = $(this).attr('value');

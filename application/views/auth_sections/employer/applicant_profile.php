@@ -6,7 +6,7 @@ if ($middleName == NULL) {
     $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
 }
 
-$location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
+$lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"F d, Y") . '</strong>';
 
 ?>
 
@@ -49,7 +49,7 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                 <!-- LOCATION -->
                 <div class="mr-3">
                     <i class="fas fa-map-marker-alt mr-1 text-danger"></i>
-                    <span class=" text-secondary"><?php echo $location ?></span>
+                    <span class=" text-secondary"><?php echo $cityProvince ?></span>
                 </div>
 
                 <!-- PHONE NUMBER -->
@@ -127,43 +127,58 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
         
         <!-- APPLICANT INFORMATION -->
         <div class="col-lg-8">
-            <div class="mb-3 mb-lg-0">
+        <div class="mb-3 mb-lg-0 shadow p-md-5 p-3 border">
 
-                <div class="mb-5">
-                    <h5 class="text-primary mb-3">
-                        <i class="fas fa-book-reader mr-2"></i>  
-                        <span>About Me</span> 
-                    </h5>
-                    <p class="text-justify"><?php echo $description ?></p>
-                </div>
-                
-                <div class="mb-5">
-                    <h5 class="text-primary mb-3">
-                        <i class="fas fa-chart-line mr-2"></i>  
-                        <span>My Experiences</span> 
-                    </h5>
-                    <p class="text-justify"><?php echo $experiences ?></p>
-                </div>
+            <!-- NASIC INFORMATION -->
+            <div class="mb-5">
+                <h2 class="font-weight-normal"><?php echo $fullName ?></h2>
+                <small class="font-italic text-secondary"><?php echo $lastUpdated ?></small>
+                <hr class="border-primary">
+                <h5 class="mb-2"><?php echo $headline ?></h5>
 
-                <div class="mb-5">
-                    <h5 class="text-primary mb-3">
-                        <i class="fas fa-cogs mr-2"></i>  
-                        <span>My Skills</span> 
-                    </h5>
-                    <p class="text-justify"><?php echo $skills ?></p>
+                <div class="mb-3">
+                    <p class="mb-0"><?php echo $age . ' years old, ' . $gender ?></p>
+                    <p class="mb-0"><?php echo $cityProvince ?></p>
+                    <p class="mb-0"><?php echo $contactNumber ?></p>
+                    <p class="mb-0"><?php echo $email ?></p>
                 </div>
-                
-                <div class="mb-5">
-                    <h5 class="text-primary mb-3">
-                        <i class="fas fa-book-reader mr-2"></i>  
-                        <span>My Education</span> 
-                    </h5>
-                    <p class="text-justify"><?php echo $education ?></p>
-                </div>
+                <p><?php echo $description ?></p>
+            </div>
+
+            <!-- SKILLS -->
+            <div class="mb-5">
+                <h6 class="text-primary">
+                    <i class="fas fa-cogs mr-1"></i>  
+                    <span>Skills</span> 
+                </h6>
+                <hr class="my-2">
+                <p><?php echo $skills ?></p>
 
             </div>
+
+            <!-- EDUCATION -->
+            <div class="mb-5">
+                <h6 class="text-primary">
+                    <i class="fas fa-book mr-1"></i>  
+                    <span>Education</span> 
+                </h6>
+                <hr class="my-2">
+                <p><?php echo $education ?></p>
+
+            </div>
+
+            <!-- EXPERIENCES -->
+            <div class="mb-5">
+                <h6 class="text-primary">
+                    <i class="fas fa-chart-line mr-1"></i>  
+                    <span>My Experiences</span> 
+                </h6>
+                <hr class="my-2">
+                <p><?php echo $experiences ?></p>
+            </div>
+
         </div>
-        <!-- END OF APPLICANT INFORMATION -->
+        </div>
 
 
         <!-- APPLICANT INFORMATION SUMMARY -->
@@ -171,19 +186,16 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
             
             <!-- GENERAL INFORMATION CARD -->
             <div class="card mb-3">
-                <div class="card-header">
-                    <strong>
-                        <i class="fas fa-user-circle mr-2"></i>
-                        <span>Personal Information</span>    
-                    </strong>
+                <div class="card-header bg-white">
+                    <strong>Personal Information</strong>
                 </div>
                 <div class="card-body p-0">
                     
                     <div class="list-group list-group-flush">
 
                         <!-- GENDER -->
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-info">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-user-tie"></i>
                             </div>
                             <div>
@@ -193,8 +205,8 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                         </div>
 
                         <!-- AGE -->
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-info">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div>
@@ -204,13 +216,13 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                         </div>
 
                         <!-- LOCATION -->
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-info">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-info">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div>
                                 <p class="m-0 font-weight-bold">Location</p>
-                                <p class="m-0 text-secondary"><?php echo $location ?></p>
+                                <p class="m-0 text-secondary"><?php echo $cityProvince ?></p>
                             </div>
                         </div>
                         
@@ -221,19 +233,16 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
 
             <!-- CONTACT INFORMATION CARD -->
             <div class="card mb-3">
-                <div class="card-header">
-                    <strong>
-                        <i class="fas fa-phone-square-alt mr-2"></i>
-                        <span>Contact Information</span>    
-                    </strong>
+                <div class="card-header bg-white">
+                    <strong>Contact Information</strong>
                 </div>
                 <div class="card-body p-0">
                     
                     <div class="list-group list-group-flush">
 
                         <!-- CONTACT NUMBER -->
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-danger">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-danger">
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                             <div>
@@ -243,8 +252,8 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                         </div>
 
                         <!-- EMAIL -->
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h4 text-danger">
+                        <div class="list-group-item d-flex border-0">
+                            <div class="list-group-item-icon h5 text-danger">
                                 <i class="fas fa-envelope"></i>
                             </div>
                             <div>
@@ -256,13 +265,6 @@ $location = $street . ', ' . $brgyDistrict . ', ' . $cityMunicipality;
                     </div>
                     
                 </div>
-            </div>
-            
-            <div>
-                <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#messageForm">
-                    <i class="fas fa-file-contract mr-1"></i>
-                    <span>View Resume/CV</span>
-                </button>
             </div>
             
         </div>

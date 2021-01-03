@@ -11,10 +11,73 @@ AS
 		, [Resumes].[experiences]
 		, [Resumes].[skills]
 		, [Resumes].[lastUpdated]
+		, CAST([Resumes].[resumeFlag] AS INT) AS [status]
+		, [JobSeekers].[firstName] + ' ' + [JobSeekers].[lastName] AS [fullName]
+		, DATEDIFF(YEAR, [JobSeekers].[birthDate], GETDATE()) as [age]
+		, [JobSeekers].[gender]
+		, [JobSeekers].[cityProvince]
+		, [JobSeekers].[contactNumber]
+		, [JobSeekers].[email]
 	FROM [Resumes]
 	INNER JOIN [JobSeekers]
 		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
-		AND [JobSeekers].[jobseekerID] = 1
+		AND [JobSeekers].[jobseekerID] = @jobseekerID
+;
+
+-- Create Resume Procedure
+CREATE PROCEDURE [JBSK_CreateResume]
+	@jobseekerID	INT,
+	@headline		VARCHAR(MAX),
+	@description	VARCHAR(MAX),
+	@education		VARCHAR(MAX),
+	@skills			VARCHAR(MAX),
+	@experiences	VARCHAR(MAX),
+	@resumeFlag		BINARY
+AS
+	INSERT INTO [Resumes]
+		( [jobseekerID]
+		, [headline]
+		, [description]
+		, [education]
+		, [skills]
+		, [experiences]
+		, [resumeFlag] )
+	VALUES
+		( @jobseekerID
+		, @headline
+		, @description
+		, @education
+		, @skills
+		, @experiences
+		, @resumeFlag )
+;
+
+-- Remove Resume Procedure
+CREATE PROCEDURE [JBSK_RemoveResume]
+	@resumeID INT
+AS
+	DELETE FROM [Resumes] WHERE [resumeID] = @resumeID
+;
+
+-- Update Resume Procedure
+CREATE PROCEDURE [JBSK_UpdateResume]
+	@resumeID INT,
+	@headline		VARCHAR(MAX),
+	@description	VARCHAR(MAX),
+	@education		VARCHAR(MAX),
+	@skills			VARCHAR(MAX),
+	@experiences	VARCHAR(MAX),
+	@resumeFlag		BINARY
+AS
+	UPDATE [Resumes]
+	SET 
+		  [headline]	= @headline
+		, [description]	= @description
+		, [education]	= @education
+		, [skills]		= @skills
+		, [experiences] = @experiences
+		, [resumeFlag]	= @resumeFlag
+	WHERE [resumeID] = @resumeID
 ;
 
 -- View All Recent Posts
@@ -32,7 +95,9 @@ AS
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
-		AND [Applications].[resumeID] = @jobseekerID
+	LEFT OUTER JOIN [Resumes]
+		ON [Applications].[resumeID] = [Resumes].[resumeID]
+		AND [Resumes].[jobseekerID] = @jobseekerID
 ;
 
 
@@ -46,7 +111,7 @@ AS
 		  [JobPosts].[jobPostID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
-		, [JobPosts].[industryType]
+		, [JobPosts].[field]
 		, [JobPosts].[description]
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
@@ -55,7 +120,7 @@ AS
 		, [Employers].[employerID]
 		, [Employers].[profilePic]
 		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
 		, [Bookmarks].[bookmarkID]
 		, [Applications].[status]
 	FROM [JobPosts]
@@ -67,7 +132,9 @@ AS
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
-		AND [Applications].[jobseekerID] = @jobseekerID
+	LEFT OUTER JOIN [Resumes]
+		ON [Applications].[resumeID] = [Resumes].[resumeID]
+		AND [Resumes].[jobseekerID] = @jobseekerID
 	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
@@ -112,15 +179,15 @@ AS
 
 -- Submit Application Procedure
 CREATE PROCEDURE [JBSK_SubmitApplication]
-	@jobPostID	 INT,
-	@jobseekerID INT
+	@jobPostID INT,
+	@resumeID  INT
 AS
 	INSERT INTO [Applications]
 		( [jobPostID]
-		, [jobseekerID] )
+		, [resumeID] )
 	VALUES 
 		( @jobPostID
-		, @jobseekerID )
+		, @resumeID )
 ;
 
 
@@ -130,7 +197,8 @@ CREATE PROCEDURE [JBSK_CancelApplication]
 	@jobseekerID INT
 AS
 	DELETE FROM [Applications]
-	WHERE [jobPostID] = @jobPostID AND @jobseekerID = @jobseekerID
+	WHERE [jobPostID] = @jobPostID 
+	AND @jobseekerID = @jobseekerID
 ;
 
 
@@ -145,13 +213,14 @@ AS
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 	INNER JOIN [Employers]
 		ON [JobPosts].[employerID] = [Employers].[employerID]
-		AND [Applications].[jobseekerID] = @jobseekerID
+	LEFT OUTER JOIN [Resumes]
+		ON [Applications].[resumeID] = [Resumes].[resumeID]
+		AND [Resumes].[jobseekerID] = @jobseekerID
 	LEFT OUTER JOIN [Bookmarks]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[bookmarkID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
 	ORDER BY [Applications].[dateApplied] DESC
 ;
-
 
 -- Applied Jobs Procedure
 CREATE PROCEDURE [JBSK_AppliedJobs]
@@ -163,23 +232,25 @@ AS
 		  [JobPosts].[jobPostID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
-		, [JobPosts].[industryType]
+		, [JobPosts].[field]
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
 		, [Employers].[employerID]
 		, [Employers].[profilePic]
 		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
 		, [Applications].[applicationID]
 		, [Applications].[dateApplied]
 		, [Applications].[status]
 		, [Bookmarks].[bookmarkID]
-	FROM [JobPosts]
-	INNER JOIN [Applications]
+	FROM [Applications]
+	INNER JOIN [JobPosts]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 	INNER JOIN [Employers]
 		ON [JobPosts].[employerID] = [Employers].[employerID]
-		AND [Applications].[jobseekerID] = @jobseekerID
+	LEFT OUTER JOIN [Resumes]
+		ON [Applications].[resumeID] = [Resumes].[resumeID]
+		AND [Resumes].[jobseekerID] = @jobseekerID
 	LEFT OUTER JOIN [Bookmarks]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
@@ -212,14 +283,12 @@ AS
 		, @jobPostID )
 ;
 
-
 -- Remove Bookmark Procedure
 CREATE PROCEDURE [JBSK_RemoveBookmark]
 	@bookmarkID INT
 AS
 	DELETE FROM [Bookmarks] WHERE [bookmarkID] = @bookmarkID
 ;
-
 
 -- Get All Bookmarks
 CREATE PROCEDURE [JBSK_GetAllBookmarks]
@@ -234,9 +303,10 @@ AS
 		ON [JobPosts].[employerID] = [Employers].[employerID]
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
-		AND [Applications].[jobseekerID] = @jobseekerID
+	LEFT OUTER JOIN [Resumes]
+		ON [Applications].[resumeID] = [Resumes].[resumeID]
+		AND [Resumes].[jobseekerID] = @jobseekerID
 ;
-
 
 -- Get Bookmarks
 CREATE PROCEDURE [JBSK_GetBookmarks]
@@ -251,13 +321,13 @@ AS
 		, [JobPosts].[jobPostID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
-		, [JobPosts].[industryType]
+		, [JobPosts].[field]
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
 		, [Employers].[employerID]
 		, [Employers].[profilePic]
 		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
 		, [Applications].[status]
 	FROM [Bookmarks]
 	INNER JOIN [JobPosts]
@@ -267,12 +337,13 @@ AS
 		ON [JobPosts].[employerID] = [Employers].[employerID]
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
-		AND [Applications].[jobseekerID] = @jobseekerID
+	LEFT OUTER JOIN [Resumes]
+		ON [Applications].[resumeID] = [Resumes].[resumeID]
+		AND [Resumes].[jobseekerID] = @jobseekerID
 	ORDER BY [Bookmarks].[dateBookmarked] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROW ONLY
 ;
-
 
 -- Number of Bookmarks
 CREATE PROCEDURE [JBSK_NumOfBookmarks]
@@ -282,7 +353,6 @@ AS
 	FROM [Bookmarks]
 	WHERE [jobseekerID] = @jobseekerID
 ;
-
 
 -- View Job Details 
 CREATE PROCEDURE [JBSK_ViewJobDetails]
@@ -294,7 +364,7 @@ AS
 		, [JobPosts].[employerID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
-		, [JobPosts].[industryType]
+		, [JobPosts].[field]
 		, [JobPosts].[description]
 		, [JobPosts].[responsibilities]
 		, [JobPosts].[skills]
@@ -308,7 +378,7 @@ AS
 		, [Employers].[employerID]
 		, [Employers].[profilePic]
 		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
 		, [Employers].[contactNumber]
 		, [Employers].[email]
 		, [Employers].[website]
@@ -319,10 +389,12 @@ AS
 	INNER JOIN [Employers]
 		ON [JobPosts].[employerID] = [Employers].[employerID]
 		AND [JobPosts].[jobPostID] = @jobPostID AND [JobPosts].[jobPostFlag] = 1
-	LEFT JOIN [Applications]
+	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
-		AND [Applications].[jobseekerID] = @jobseekerID
-	LEFT JOIN [Bookmarks]
+	LEFT OUTER JOIN [Resumes]
+		ON [Applications].[resumeID] = [Applications].[resumeID]
+		AND [Resumes].[jobseekerID] = @jobseekerID
+	LEFT OUTER JOIN [Bookmarks]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
 ;
@@ -348,7 +420,7 @@ AS
 		  [JobPosts].[jobPostID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
-		, [JobPosts].[industryType]
+		, [JobPosts].[field]
 		, [JobPosts].[description]
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
@@ -356,7 +428,7 @@ AS
 		, [Employers].[employerID]
 		, [Employers].[profilePic]
 		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityMunicipality] AS [location]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
 		, [Bookmarks].[bookmarkID]
 		, [Applications].[dateApplied]
 		, [Applications].[status]
@@ -365,12 +437,14 @@ AS
 		ON [JobPosts].[employerID] = [Employers].[employerID]
 		AND [JobPosts].[employerID] = @employerID
 		AND [jobPostFlag] = 1
-	LEFT JOIN [Bookmarks]
+	LEFT OUTER JOIN [Bookmarks]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
-	LEFT JOIN [Applications]
+	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
-		AND [Applications].[jobseekerID] =  @jobseekerID
+	LEFT OUTER JOIN [Resumes]
+		ON [Resumes].[resumeID] = [Applications].[resumeID]
+		AND [Resumes].[resumeID] = @jobseekerID
 	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;

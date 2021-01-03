@@ -52,6 +52,7 @@ class Auth extends CI_Controller {
         ];
     }
 
+    // UPLOAD IMAGE
     public function upload_img() {
         if ($this->session->has_userdata('userType')) {
             $img = $this->input->post('img');
@@ -135,15 +136,19 @@ class Auth extends CI_Controller {
     }
 
     // USER INFORMATION VIEW
-    public function information() {
+    public function profile() {
         if( $this->session->has_userdata('userType') ) {
             $userdata = $this->get_userdata();
-            $pagedata = ['title' => $userdata['username'] . ' - Information',];
+            $pagedata = ['title' => $userdata['username'] . ' - Information'];
+
+            if ($this->session->userType == 'Job Seeker') {
+                $userdata['resumeData'] = $this->Jobseeker_model->view_resume();
+            }
             
             $this->load->view('templates/header', $pagedata);
             $this->load->view('sections/navbar', $userdata);
             $this->load_sess_view('header', $userdata);
-            $this->load_sess_view('information', $userdata);
+            $this->load_sess_view('profile', $userdata);
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
@@ -203,6 +208,7 @@ class Auth extends CI_Controller {
                     $this->load->view('templates/footer');
                 } else {
                     $this->Jobseeker_model->update_info();
+                    redirect('auth/settings');
                 }
             } else if ( $this->session->userType == 'Employer' ) {
                 $this->form_validation->set_rules([
@@ -244,6 +250,7 @@ class Auth extends CI_Controller {
                     $this->load->view('templates/footer');
                 } else {
                     $this->Employer_model->update_info();
+                    redirect('auth/settings');
                 }
             }
         } else {
@@ -271,6 +278,119 @@ class Auth extends CI_Controller {
     // ==================================================================================================== //
     // JOB SEEKER VIEWS
     // ==================================================================================================== //
+
+    // CREATE RESUME VIEW
+    public function create_resume() {
+        if ($this->session->userType == 'Job Seeker') {
+            $userdata = $this->get_userdata();
+            $pagedata = ['title' => $userdata['username'] . ' - Create Resume'];
+
+            $this->form_validation->set_message(['required' => 'This field cannot be blank']);
+
+            $this->form_validation->set_rules([
+                [
+                    'field' => 'headline',
+                    'rules' => 'required',
+                ],
+                [
+                    'field' => 'description',
+                    'rules' => 'required',
+                ],
+                [
+                    'field' => 'education',
+                    'rules' => 'required',
+                ],
+                [
+                    'field' => 'skills',
+                    'rules' => 'required',
+                ],
+                [
+                    'field' => 'experiences',
+                    'rules' => 'required',
+                ],
+            ]);
+
+            if ($this->form_validation->run() === FALSE) {
+                $this->load->view('templates/header', $pagedata);
+                $this->load->view('sections/navbar', $userdata);
+                $this->load_sess_view('create_resume_form', $userdata);
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');
+            } else {
+                $this->Jobseeker_model->create_resume();
+                redirect('auth/profile');
+            }
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+    // EDIT RESUME VIEW
+    public function edit_resume($resumeID = NULL) {
+        if ($this->session->userType == 'Job Seeker') {
+            $resumeData = $this->Jobseeker_model->view_resume();
+
+            if ($resumeData->resumeID == $resumeID) {
+                $userdata = $this->get_userdata();
+                $pagedata = ['title' => $userdata['username'] . ' - Edit Resume'];
+                
+
+                $this->form_validation->set_message(['required' => 'This field cannot be blank']);
+
+                $this->form_validation->set_rules([
+                    [
+                        'field' => 'headline',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'description',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'education',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'skills',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'experiences',
+                        'rules' => 'required',
+                    ],
+                ]);
+
+                if ($this->form_validation->run() === FALSE) {
+                    $this->load->view('templates/header', $pagedata);
+                    $this->load->view('sections/navbar', $userdata);
+                    $this->load_sess_view('edit_resume_form', $resumeData);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                } else {
+                    $this->Jobseeker_model->update_resume($resumeID);
+                    redirect('auth/profile');
+                }
+            } else {
+                $this->Auth_model->err_page();
+            }
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
+
+    // REMOVE RESUME
+    public function remove_resume($resumeID = NULL) {
+        if ($this->session->userType == 'Job Seeker') {
+            if ($resumeID == NULL) {
+                $this->Auth_model->err_page();
+            } else {
+                $this->Jobseeker_model->remove_resume($resumeID);
+                redirect('auth/profile');
+            }
+        } else {
+            $this->Auth_model->err_page();
+        }
+    }
 
     // APPLICATIONS VIEW
     public function applications($page = 1) {
@@ -321,8 +441,7 @@ class Auth extends CI_Controller {
     public function submit_application() {
         if ($this->session->userType == 'Job Seeker') {
             if ($this->input->is_ajax_request()) {
-                $jobPostID = $this->input->post('jobPostID');
-                $applicationStatus = $this->Jobseeker_model->submit_application($jobPostID);
+                $applicationStatus = $this->Jobseeker_model->submit_application();
                 $data['response'] = $applicationStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {
@@ -348,7 +467,6 @@ class Auth extends CI_Controller {
             $this->Auth_model->err_page();
         }
     }
-
 
     // CANCEL APPLICATION
     public function cancel_application() {
@@ -588,52 +706,42 @@ class Auth extends CI_Controller {
                 $this->form_validation->set_rules([
                     [
                         'field' => 'jobTitle',
-                        'label' => 'job title',
                         'rules' => 'required',
                     ],
                     [
                         'field' => 'jobType',
-                        'label' => 'job type',
                         'rules' => 'required',
                     ],
                     [
-                        'field' => 'industryType',
-                        'label' => 'industryType',
+                        'field' => 'field',
                         'rules' => 'required',
                     ],
                     [
                         'field' => 'minSalary',
-                        'label' => 'minimum salary',
                         'rules' => 'required',
                     ],
                     [
                         'field' => 'maxSalary',
-                        'label' => 'maximum salary',
                         'rules' => 'required',
                     ],
                     [
                         'field' => 'description',
-                        'label' => 'description',
                         'rules' => 'required',
                     ],
                     [
                         'field' => 'responsibilities',
-                        'label' => 'responsibilities',
                         'rules' => 'required',
                     ],
                     [
                         'field' => 'skills',
-                        'label' => 'skills set',
                         'rules' => 'required',
                     ],
                     [
                         'field' => 'experiences',
-                        'label' => 'experiences',
                         'rules' => 'required',
                     ],
                     [
                         'field' => 'education',
-                        'label' => 'education',
                         'rules' => 'required',
                     ],
                 ]);
@@ -684,7 +792,7 @@ class Auth extends CI_Controller {
             if ($jobPostID == NULL) {
                 $this->Auth_model->err_page();
             } else {
-                $AllApplicants = $this->Employer_model->view_all_applicants($jobPostID);
+                $AllApplicants = $this->Employer_model->view_all_applicants($jobPostID);                
                 $numRows = $AllApplicants->num_rows();
                 $fetchedRows = 10;
                 $totalPages = ceil($numRows / $fetchedRows);

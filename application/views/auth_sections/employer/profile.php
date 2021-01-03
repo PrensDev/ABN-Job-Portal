@@ -35,10 +35,7 @@
             <!-- COMPANY DETAILS CARD -->
             <div class="card mb-3">
                 <div class="card-header bg-white">
-                    <strong>
-                        <i class="fas fa-briefcase mr-2"></i>
-                        <span>Company Details</span>    
-                    </strong>
+                    <strong>Company Details</strong>
                 </div>
                 <div class="card-body p-0">
                     
@@ -50,7 +47,7 @@
                             </div>
                             <div>
                                 <p class="m-0 font-weight-bold">Location</p>
-                                <p class="m-0"><?php echo $location ?></p>
+                                <p class="m-0 text-secondary"><?php echo $location ?></p>
                             </div>
                         </div>
 
@@ -60,7 +57,7 @@
                             </div>
                             <div>
                                 <p class="m-0 font-weight-bold">Contact Number</p>
-                                <p class="m-0"><?php echo $contactNumber ?></p>
+                                <p class="m-0 text-secondary"><?php echo $contactNumber ?></p>
                             </div>
                         </div>
 
@@ -70,7 +67,7 @@
                             </div>
                             <div>
                                 <p class="m-0 font-weight-bold">Email</p>
-                                <p class="m-0"><?php echo $email ?></p>
+                                <p class="m-0 text-secondary"><?php echo $email ?></p>
                             </div>
                         </div>
                 
@@ -80,7 +77,7 @@
                             </div>
                             <div>
                                 <p class="m-0 font-weight-bold">Website</p>
-                                <p class="m-0">
+                                <p class="m-0 text-secondary">
                                     <?php 
 
                                     if ($website != '' ) {

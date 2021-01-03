@@ -1,5 +1,5 @@
 <!-- APPLICANT PROFILE DETAILS SECTION -->
-<div class="container-fluid bg-light">
+<div class="container-fluid">
 <div class="container-md py-5">
     
     <div class="mb-4">

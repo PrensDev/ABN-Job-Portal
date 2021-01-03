@@ -213,9 +213,11 @@ CREATE PROCEDURE [EMPL_ViewAllApplicants]
 AS
 	SELECT [Applications].[applicationID]
 	FROM [Applications]
-	INNER JOIN [JobSeekers]
-		ON [JobSeekers].[jobseekerID] = [Applications].[resumeID]
+	INNER JOIN [Resumes]
+		ON [Applications].[resumeID] = [Resumes].[resumeID]
 		AND [Applications].[jobPostID] = @jobPostID
+	INNER JOIN [JobSeekers]
+		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
 ;
 
 -- View Applicants Procedure
@@ -232,6 +234,7 @@ AS
 		, [JobSeekers].[lastName]
 		, [JobSeekers].[lastName]
 		, [JobSeekers].[gender]
+		, DATEDIFF(YEAR, [JobSeekers].[birthDate], GETDATE()) as [age]
 		, [JobSeekers].[cityProvince]
 		, [JobSeekers].[email]
 		, [Applications].[applicationID]
@@ -239,9 +242,11 @@ AS
 		, [Applications].[status]
 		, [Applications].[dateApplied]
 	FROM [Applications]
-	INNER JOIN [JobSeekers]
-		ON [JobSeekers].[jobseekerID] = [Applications].[resumeID]
+	INNER JOIN [Resumes]
+		ON [Applications].[resumeID] = [Resumes].[resumeID]
 		AND [Applications].[jobPostID] = @jobPostID
+	INNER JOIN [JobSeekers]
+		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
 	ORDER BY [Applications].[dateApplied] ASC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
@@ -267,14 +272,22 @@ AS
 		, [Applications].[applicationID]
 		, [Applications].[jobPostID]
 		, [Applications].[status]
+		, [Resumes].[headline]
+		, [Resumes].[description]
+		, [Resumes].[education]
+		, [Resumes].[skills]
+		, [Resumes].[experiences]
+		, [Resumes].[lastUpdated]
 		, [JobPosts].[jobTitle]
 	FROM [Applications]
+	INNER JOIN [Resumes]
+		ON [Applications].[resumeID] = [Resumes].[resumeID]
 	INNER JOIN [JobSeekers]
-		ON [Applications].[resumeID] = [JobSeekers].[jobseekerID]
-	INNER JOIN [JobPosts]
-		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
+		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
 		AND [JobSeekers].[jobseekerID] = @jobseekerID
 		AND [Applications].[jobPostID] = @jobPostID
+	LEFT OUTER JOIN [JobPosts]
+		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 ;
 
 -- Number of Job Posts Procedure

@@ -14,6 +14,8 @@ class Jobseeker_model extends CI_Model {
         }
     }
 
+    // ========================================================================================== //
+
     // GET INFORMATION METHOD
     public function get_info() {
         $query = $this->db->query("EXEC [AUTH_FindJobseeker] @email = '" . $this->session->email . "'");
@@ -38,16 +40,57 @@ class Jobseeker_model extends CI_Model {
 
     // VIEW RESUME METHOD
     public function view_resume() {
-        $query = $this->db->query("EXEC [JBSK_ViewResume] @jobseekerID = " . $this->session->id . "");
+        $query = $this->db->query("EXEC [JBSK_ViewResume] @jobseekerID = " . $this->session->id);
         return $query->row();
+    }
+
+    // CREATE RESUME METHOD
+    public function create_resume() {
+        $input = $this->input->post();
+
+        $status = $input['status'] == '' ? 0 : 1;
+        
+        $this->db->query("
+            EXEC [JBSK_CreateResume]
+                @jobseekerID    =  " . $this->session->id . ",
+                @headline       = '" . $input[ 'headline'    ] . "',
+                @description    = '" . $input[ 'description' ] . "',
+                @education      = '" . $input[ 'education'   ] . "',
+                @skills         = '" . $input[ 'skills'      ] . "',
+                @experiences    = '" . $input[ 'experiences' ] . "',
+                @resumeFlag     =  " . $status . "
+        ");
+    }
+
+    // REMOVE RESUME METHOD
+    public function remove_resume($resumeID) {
+        $this->db->query("EXEC [JBSK_RemoveResume] @resumeID = " . $resumeID);
+    }
+
+    // UPDATE RESUME METHOD
+    public function update_resume($resumeID) {
+        $input = $this->input->post();
+
+        $status = $input['status'] == '' ? 0 : 1;
+
+        $this->db->query("
+            EXEC [JBSK_UpdateResume]
+                @resumeID    =  " . $resumeID . ",
+                @headline    = '" . $input[ 'headline'    ] . "',
+                @description = '" . $input[ 'description' ] . "',
+                @education   = '" . $input[ 'education'   ] . "',
+                @skills      = '" . $input[ 'skills'      ] . "',
+                @experiences = '" . $input[ 'experiences' ] . "',
+                @resumeFlag  =  " . $status . "
+        ");
     }
 
     // UPDATE INFORMATION METHOD
     public function update_info() {
         $input = $this->input->post();
-        $this->run_query("
+        $this->db->query("
             EXEC [JBSK_UpdateInfo]
-                @jobseekerID   = '" . $this->session->id . "',
+                @jobseekerID   =  " . $this->session->id . ",
                 @firstName	   = '" . $input[ 'firstName'     ] . "',
                 @middleName	   = '" . $input[ 'middleName'    ] . "',
                 @lastName	   = '" . $input[ 'lastName'      ] . "',
@@ -55,7 +98,7 @@ class Jobseeker_model extends CI_Model {
                 @gender		   = '" . $input[ 'gender'        ] . "',
                 @cityProvince  = '" . $input[ 'cityProvince'  ] . "',
                 @contactNumber = '" . $input[ 'contactNumber' ] . "'
-        ", 'auth/information');
+        ");
     }
 
     // VIEW RECENT POSTS
@@ -75,11 +118,12 @@ class Jobseeker_model extends CI_Model {
     }
 
     // SUBMIT APPLICATION
-    public function submit_application($jobPostID) {
+    public function submit_application() {
+        $input = $this->input->post();
         return $this->db->query("
             EXEC [JBSK_SubmitApplication]
-                @jobPostID   = " . $jobPostID . ",
-                @jobseekerID = " . $this->session->id ."
+                @jobPostID = " . $input['jobPostID'] . ",
+                @resumeID  = " . $input['resumeID'] ."
         ");
     }
 
@@ -159,39 +203,7 @@ class Jobseeker_model extends CI_Model {
                 @jobPostID   = " . $jobPostID . ",
                 @jobseekerID = " . $this->session->id . "
         ");
-
-        if ($query->num_rows() == 1) {
-            $row = $query->row();
-            
-            $jobDetails = [
-                'jobPostID'        => $row->jobPostID,
-                'jobTitle'         => $row->jobTitle,
-                'jobType'          => $row->jobType,
-                'industryType'     => $row->industryType,
-                'description'      => $row->description,
-                'responsibilities' => $row->responsibilities,
-                'skills'           => $row->skills,
-                'experiences'      => $row->experiences,
-                'education'        => $row->education,
-                'minSalary'        => $row->minSalary,
-                'maxSalary'        => $row->maxSalary,
-                'dateCreated'      => $row->dateCreated,
-                'dateModified'     => $row->dateModified,
-                'employerID'       => $row->employerID,
-                'profilePic'       => $row->profilePic,
-                'companyName'      => $row->companyName,
-                'location'         => $row->location,
-                'contactNumber'    => $row->contactNumber,
-                'email'            => $row->email,
-                'website'          => $row->website,
-                'dateApplied'      => $row->dateApplied,
-                'status'           => $row->status,
-                'bookmarkID'       => $row->bookmarkID,
-            ];
-            return $jobDetails;
-        } else {
-            return FALSE;
-        }
+        return $query->row();
     }
 
     // SET PROFILE PICTURE

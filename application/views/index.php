@@ -35,7 +35,7 @@
             <select class="selectpicker show-tick border-0 shadow-none form-control bg-white" data-style="btn bg-white text-dark" title="Job Type...">
                 <option value="Full Time">Full Time</option>
                 <option value="Part Time">Part Time</option>
-                <option value="Internship/OJT">Internship/OJT</option>
+                <option value="Intern/OJT">Intern/OJT</option>
                 <option value="Temporary">Temporary</option>
             </select>
             </div>

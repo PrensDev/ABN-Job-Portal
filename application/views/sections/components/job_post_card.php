@@ -3,7 +3,7 @@
         $jobTypeClass = 'success';
     } else if ($jobType == 'Part Time') {
         $jobTypeClass = 'info';
-    } else if ($jobType == 'Internship/OJT') {
+    } else if ($jobType == 'Intern/OJT') {
         $jobTypeClass = 'warning';
     } else if ($jobType == 'Temporary') {
         $jobTypeClass = 'secondary';

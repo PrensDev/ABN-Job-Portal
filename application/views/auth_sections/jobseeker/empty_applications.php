@@ -1,9 +1,9 @@
 <!-- APPLICANT PROFILE DETAILS SECTION -->
-<div class="container-fluid bg-light">
+<div class="container-fluid">
 <div class="container-md py-5">
     
     <div class="mb-4">
-        <h1 class="font-weight-normal mb-2">Applications</h1>
+        <h1 class="font-weight-light mb-2">Applications</h1>
     </div>    
 
     <div class="text-center my-5 py-5">

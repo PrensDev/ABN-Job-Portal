@@ -1,4 +1,4 @@
-<div class="container-fluid bg-light">
+<div class="container-fluid">
 <div class="container py-5">
 
     <!-- HEADER OF CONTENT -->

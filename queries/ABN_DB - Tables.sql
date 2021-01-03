@@ -107,6 +107,9 @@ CREATE TABLE [Resumes] (
 	,
 	[lastUpdated]
 		DATETIME NOT NULL DEFAULT GETDATE()
+	,
+	[resumeFlag]
+		BINARY NOT NULL DEFAULT 1
 );
 
 -- Employers Table
@@ -222,8 +225,8 @@ CREATE TABLE [Applications] (
 	,
 	[resumeID]
 		INT NOT NULL
-		CONSTRAINT FK_jobseekerID@Applications FOREIGN KEY
-			REFERENCES [JobSeekers] ([jobseekerID])
+		CONSTRAINT FK_resumeID@Applications FOREIGN KEY
+			REFERENCES [Resumes] ([resumeID])
 	,
 	[dateApplied]
 		DATETIME NOT NULL DEFAULT GETDATE()

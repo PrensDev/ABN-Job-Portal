@@ -213,7 +213,7 @@ class Home extends CI_Controller {
                     'rules' => 'required',
                 ],
                 [
-                    'field' => 'cityMunicipality',
+                    'field' => 'cityProvince',
                     'rules' => 'required',
                 ],
                 [

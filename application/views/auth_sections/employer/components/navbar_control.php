@@ -34,12 +34,12 @@
     
     <div class="dropdown-menu dropdown-menu-right mt-3 mt-lg-0">
 
-        <a class="dropdown-item" href="<?php echo base_url() ?>auth/information">
+        <a class="dropdown-item" href="<?php echo base_url() ?>auth/profile">
             <div class="pr-4">
                 <div class="user-nav-icon text-secondary">
-                    <i class="fas fa-list"></i>
+                    <i class="fas fa-briefcase"></i>
                 </div>
-                <span class="pl-1">Information</span>
+                <span class="pl-1">My Profile</span>
             </div>
         </a>
 

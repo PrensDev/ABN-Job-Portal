@@ -58,7 +58,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                     <label for="jobType">Job Type</label>
                     <span class="text-danger">*</span>
                     <select 
-                        class       = "selectpicker show-tick form-control border <?php echo form_error('industryType') ? 'is-invalid' : '' ;?>" 
+                        class       = "selectpicker show-tick form-control border <?php echo form_error('jobType') ? 'is-invalid' : '' ;?>" 
                         title       = "Select job type ..." 
                         data-style  = "btn-white text-dark" 
                         id          = "jobType"
@@ -75,7 +75,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                             <?php echo $jobType == "Part Time" ? 'selected' : ''?>
                         ></option>
                         <option 
-                            value="Internship/OJT" 
+                            value="Intern/OJT" 
                             data-content="<i class='fas fa-user-tie mr-3 text-warning'></i>Intern/OJT"
                             <?php echo $jobType == "Intern/OJT" ? 'selected' : ''?>
                         ></option>
@@ -85,10 +85,10 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                             <?php echo $jobType == "Temporary" ? 'selected' : ''?>
                         ></option>
                     </select>
-                    <small class="invalid-feedback"><?php echo $jobType ?></small>
+                    <small class="invalid-feedback"><?php form_error('jobType') ?></small>
                 </div>
 
-                <!-- INDUSTRY TYPE -->
+                <!-- FIELD -->
                 <div class="form-group col-md">
                     <label for="field">Field</label>
                     <span class="text-danger">*</span>
@@ -97,7 +97,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                         class       = "form-control <?php echo form_error('field') ? 'is-invalid' : '' ;?>" 
                         id          = "field"
                         name        = "field"
-                        placeholder = "Industry Type"
+                        placeholder = "Field"
                         value       = "<?php echo $field ?>"
                     >
                     <small class="invalid-feedback"><?php echo form_error('field') ?></small>

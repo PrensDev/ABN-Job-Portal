@@ -71,14 +71,14 @@
                             'bookmarksNum'   => $this->Jobseeker_model->bookmarks_num(),
                         ];
 
-                        $this->load->view('auth_sections/jobseeker/navbar_control', $navbarData);
+                        $this->load->view('auth_sections/jobseeker/components/navbar_control', $navbarData);
                     } else if ($this->session->userType == 'Employer') {
                         $navbarData = [
                             'username' => $username,
                             'postsNum' => $this->Employer_model->posts_num(),
                         ];
 
-                        $this->load->view('auth_sections/employer/navbar_control', $navbarData);
+                        $this->load->view('auth_sections/employer/components/navbar_control', $navbarData);
                     }
                 } else {
                     $this->load->view('sections/navbar_components/login_link');

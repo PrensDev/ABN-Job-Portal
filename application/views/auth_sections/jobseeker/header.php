@@ -53,19 +53,19 @@
             
             <!-- CITY -->
             <div class="mr-3">
-                <i class="fas fa-map-marker-alt mr-1 text-info"></i>
+                <i class="fas fa-map-marker-alt mr-1 text-danger"></i>
                 <span class="text-secondary"><?php echo $cityProvince ?></span>
             </div>
 
             <!-- PHONE NUMBER -->
             <div class="mr-3">
-                <i class="fas fa-phone-alt mr-1 text-info"></i>
+                <i class="fas fa-phone-alt mr-1 text-danger"></i>
                 <span class="text-secondary"><?php echo $contactNumber ?></span>
             </div>
 
             <!-- EMAIL ADDRESS -->
             <div class="mr-3">
-                <i class="fas fa-envelope mr-1 text-info"></i>
+                <i class="fas fa-envelope mr-1 text-danger"></i>
                 <span class="text-secondary"><?php echo $email ?></span>
             </div>
 

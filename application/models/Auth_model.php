@@ -23,34 +23,33 @@ class Auth_model extends CI_Model {
             echo $this->db->error();
         } else {
             if ( $query->num_rows() == 1 ) {
-                $row = $query->row(0);
+                $row = $query->row();
 
                 if ( password_verify( $this->input->post( 'password' ), $row->password ) ) {
                     if ( $row->userType == 'Job Seeker' ) {
-                        $FindJobseeker_sql = "EXEC [AUTH_FindJobseeker] @email = '" . $this->input->post( 'email' ) . "'";
-                        $Jobseeker_query = $this->db->query($FindJobseeker_sql);
-                        $Jobseeker_row  = $Jobseeker_query->row();
-
-                        $this->session->set_userdata([
-                            'userType' => $row->userType,
-                            'id'       => $Jobseeker_row->jobseekerID,
-                            'email'    => $Jobseeker_row->email,
-                        ]);
-                    } else if ( $row->userType == 'Employer' ) {
-                        $FindEmployer_sql = "EXEC [AUTH_FindEmployer] @email = '" . $this->input->post( 'email' ) . "'";
-                        $Employer_query = $this->db->query($FindEmployer_sql);
-                        $Employer_row  = $Employer_query->row(0);
-
+                        $query = $this->db->query("EXEC [AUTH_FindJobseeker] @email = '" . $this->input->post('email') . "'");
+                        $user_row  = $query->row();
+                    
                         $this->session->set_userdata( [
                             'userType'    => $row->userType,
-                            'id'          => $Employer_row->employerID,
-                            'email'       => $Employer_row->email,
+                            'id'          => $user_row->jobseekerID,
+                            'email'       => $user_row->email,
+                        ]);
+                    } else if ( $row->userType == 'Employer' ) {
+                        $query = $this->db->query("EXEC [AUTH_FindEmployer] @email = '" . $this->input->post('email') . "'");
+                        $user_row  = $query->row();
+                        
+                        $this->session->set_userdata( [
+                            'userType'    => $row->userType,
+                            'id'          => $user_row->employerID,
+                            'email'       => $user_row->email,
                         ]);
                     }
 
+                    // SET UNACTIVE ACCOUNT TO ACTIVE AGAIN AFTER LOG IN
                     if ( $row->status == 0 ) { $this->setAccountFlag(1); }
                     
-                    redirect('auth/information');
+                    redirect('auth/profile');
                 } else {
                     return 'Incorrect Password';
                 }
@@ -89,10 +88,11 @@ class Auth_model extends CI_Model {
 
     // REGISTER EMPLOYER
     public function register_employer() {
+        $input = $this->input->post();
         $AddEmployerAccount_sql = "
             EXEC [AUTH_AddUserAccount]
-                @email			= '" . $this->input->post( 'email' ) . "',
-                @password		= '" . password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I) . "',
+                @email			= '" . $input['email'] . "',
+                @password		= '" . password_hash($input[ 'password' ], PASSWORD_ARGON2I) . "',
                 @userType       = 'Employer'
         ";
         if (! $this->db->query($AddEmployerAccount_sql)) {
@@ -100,14 +100,14 @@ class Auth_model extends CI_Model {
         } else {
             $this->db->query("
                 EXEC [AUTH_RegisterEmployer]
-                    @companyName	= '" . $this->input->post( 'companyName'   ) . "',
-                    @street			= '" . $this->input->post( 'street'        ) . "',
-                    @brgyDistrict	= '" . $this->input->post( 'brgyDistrict'  ) . "',
-                    @cityProvince	= '" . $this->input->post( 'cityProvince'  ) . "',
-                    @contactNumber	= '" . $this->input->post( 'contactNumber' ) . "',
-                    @email			= '" . $this->input->post( 'email'         ) . "',
-                    @website		= '" . $this->input->post( 'website'       ) . "',
-                    @description	= '" . $this->input->post( 'description'   ) . "'
+                    @companyName	= '" . $input[ 'companyName'   ] . "',
+                    @street			= '" . $input[ 'street'        ] . "',
+                    @brgyDistrict	= '" . $input[ 'brgyDistrict'  ] . "',
+                    @cityProvince	= '" . $input[ 'cityProvince'  ] . "',
+                    @contactNumber	= '" . $input[ 'contactNumber' ] . "',
+                    @email			= '" . $input[ 'email'         ] . "',
+                    @website		= '" . $input[ 'website'       ] . "',
+                    @description	= '" . $input[ 'description'   ] . "'
             ");
             $this->login();
         }

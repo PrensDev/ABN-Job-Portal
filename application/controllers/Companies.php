@@ -99,6 +99,7 @@ class Companies extends CI_Controller {
                 $data['currentPage']     = $page;
                 $data['employerDetails'] = $employerDetails;
                 $data['employerID']      = $employerDetails->employerID;
+                $data['companyName']     = $employerDetails->companyName;
 
                 $this->pagination->initialize($config);
 

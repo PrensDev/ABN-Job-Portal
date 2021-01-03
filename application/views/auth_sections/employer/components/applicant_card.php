@@ -6,7 +6,7 @@ if ($middleName == NULL) {
     $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
 }
 
-$location = $brgyDistrict . ', ' . $cityMunicipality;
+$location = $brgyDistrict . ', ' . $cityProvince;
 
 if ($status == 'Pending') {
     $statusTheme = 'success';
@@ -21,7 +21,7 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y \a\\t h:i a");
 ?>
 
 <div class="col-md-6 col-xl-4 my-3">
-<div class="bg-white shadow p-3 d-flex flex-column justify-content-between h-100">
+<div class="bg-white border p-3 d-flex flex-column justify-content-between h-100">
 
     <div class="flex-grow-1">
         <div class="d-flex justify-content-center mb-3">
@@ -59,38 +59,12 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y \a\\t h:i a");
             </small>
             <span class="badge badge-<?php echo $statusTheme ?> py-1 px-2"><?php echo $status ?></span>
         </div>
-
-        <div class="list-group list-group-flush">
-
-            <div class="list-group-item d-flex">
-                <div class="list-group-item-icon h5 text-danger">
-                    <i class="fas fa-user-tie"></i>
-                </div>
-                <div>
-                    <p class="m-0 font-weight-bold">Gender</p>
-                    <p class="m-0 text-secondary"><?php echo $gender ?></p>
-                </div>
-            </div>
-
-            <div class="list-group-item d-flex">
-                <div class="list-group-item-icon h5 text-danger">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div>
-                    <p class="m-0 font-weight-bold">Location</p>
-                    <p class="m-0 text-secondary"><?php echo $location ?></p>
-                </div>
-            </div>
-
-            <div class="list-group-item d-flex">
-                <div class="list-group-item-icon h5 text-danger">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div>
-                    <p class="m-0 font-weight-bold">Email</p>
-                    <p class="m-0 text-secondary"><?php echo $email ?></p>
-                </div>
-            </div>
+        
+        <div class="my-3">
+            <p class="mb-0"><?php echo $age . ' years old, ' . $gender ?></p>
+            <p class="mb-0"><?php echo $cityProvince ?></p>
+            <p class="mb-0"><?php echo $contactNumber ?></p>
+            <p class="mb-0"><?php echo $email ?></p>
         </div>
     </div>
 

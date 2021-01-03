@@ -51,19 +51,16 @@
         
         <!-- COMPANY DETAILS CARD -->
         <div class="card">
-            <div class="card-header">
-                <strong>
-                    <i class="fas fa-briefcase mr-2"></i>
-                    <span>Company Details</span>    
-                </strong>
+            <div class="card-header bg-white">
+                <strong>Company Details</strong>
             </div>
             <div class="card-body p-0">
                 
                 <div class="list-group list-group-flush">
 
                     <!-- LOCATION -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-danger">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-danger">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div>
@@ -73,8 +70,8 @@
                     </div>
 
                     <!-- CONTACT NUMBER -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-danger">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-danger">
                             <i class="fas fa-phone-alt"></i>
                         </div>
                         <div>
@@ -84,8 +81,8 @@
                     </div>
 
                     <!-- EMAIL -->
-                    <div class="list-group-item d-flex">
-                        <div class="list-group-item-icon h4 text-danger">
+                    <div class="list-group-item d-flex border-0">
+                        <div class="list-group-item-icon h5 text-danger">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div>

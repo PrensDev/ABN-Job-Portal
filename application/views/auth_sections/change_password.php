@@ -10,7 +10,7 @@
     </div>
 
     <!-- FORM SECTION -->
-    <div class="bg-white border p-3 my-2 border-0 shadow">
+    <div class="bg-white border p-3 my-2 border">
         <form method="POST">
 
             <div class="form-group">

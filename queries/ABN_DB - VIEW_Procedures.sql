@@ -20,7 +20,6 @@ AS
 		AND [jobPostFlag] = 1
 ;
 
-
 -- View Active Posts
 CREATE PROCEDURE [VIEW_RecentPosts]
 	@offsetRows		INT,
@@ -47,7 +46,6 @@ AS
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;
 ;
-
 
 -- View Job Details Procedure
 CREATE PROCEDURE [VIEW_JobDetails]
@@ -82,7 +80,6 @@ AS
 	AND [JobPosts].[jobPostID] = @jobPostID AND [JobPosts].[jobPostFlag] = 1
 ;
 
-
 -- View Employer Details Procedure
 CREATE PROCEDURE [VIEW_CompanyDetails]
 	@employerID INT
@@ -99,7 +96,6 @@ AS
 	FROM [Employers]
 	WHERE [employerID] = @employerID
 ;
-
 
 -- View All Available Jobs
 CREATE PROCEDURE [VIEW_AllAvailableJobs]
@@ -123,7 +119,6 @@ AS
 	AND [JobPosts].[employerID] = @employerID
 	AND [jobPostFlag] = 1
 ;
-
 
 -- View Available Jobs
 CREATE PROCEDURE [VIEW_AvailableJobs]

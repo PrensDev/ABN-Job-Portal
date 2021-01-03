@@ -1,8 +1,8 @@
 <!-- JOB LIST SECTION -->
-<div class="container-fluid py-5 bg-light">
+<div class="container-fluid py-5">
 <div class="container-md">
 
-    <h1 class="font-weight-normal"><?php echo $bodyTitle ?></h1>
+    <h1 class="font-weight-light"><?php echo $bodyTitle ?></h1>
     <p class="text-secondary"><?php echo $bodySubtitle ?></p>
 
     <div class="d-flex justify-content-between">

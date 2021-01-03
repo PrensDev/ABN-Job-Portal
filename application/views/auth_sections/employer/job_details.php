@@ -22,7 +22,7 @@ if ($jobType == 'Full Time') {
     $jobTypeClass = 'success';
 } else if ($jobType == 'Part Time') {
     $jobTypeClass = 'info';
-} else if ($jobType == 'Internship/OJT') {
+} else if ($jobType == 'Intern/OJT') {
     $jobTypeClass = 'warning';
 } else if ($jobType == 'Temporary') {
     $jobTypeClass = 'secondary';
@@ -116,7 +116,7 @@ if ($maxSalary < 1000) {
                         <i class="fas fa-align-left mr-2"></i>  
                         <span>Description</span> 
                     </h5>
-                    <p class="text-justify"><?php echo $description ?></p>
+                    <p><?php echo $description ?></p>
                 </div>
 
                 <!-- RESPONSIBILITIES -->
@@ -125,7 +125,7 @@ if ($maxSalary < 1000) {
                         <i class="fas fa-bullseye mr-2"></i>  
                         <span>Responsibilities</span> 
                     </h5>
-                    <p class="text-justify"><?php echo $responsibilities ?></p>
+                    <p><?php echo $responsibilities ?></p>
                 </div>
                 
                 <!-- SKILLS SET -->
@@ -134,7 +134,7 @@ if ($maxSalary < 1000) {
                         <i class="fas fa-cogs mr-2"></i>  
                         <span>Skills Set</span> 
                     </h5>
-                    <p class="text-justify"><?php echo $skills ?></p>
+                    <p><?php echo $skills ?></p>
                 </div>
 
                 <!-- EXPERIENCES -->
@@ -143,7 +143,7 @@ if ($maxSalary < 1000) {
                         <i class="fas fa-chart-line mr-2"></i>  
                         <span>Experiences</span> 
                     </h5>
-                    <p class="text-justify"><?php echo $experiences ?></p>
+                    <p><?php echo $experiences ?></p>
                 </div>
                 
                 <!-- EDUCATION -->
@@ -152,7 +152,7 @@ if ($maxSalary < 1000) {
                         <i class="fas fa-book mr-2"></i>  
                         <span>Education</span> 
                     </h5>
-                    <p class="text-justify"><?php echo $education ?></p>
+                    <p><?php echo $education ?></p>
                 </div>
                 
             </div>
@@ -175,10 +175,7 @@ if ($maxSalary < 1000) {
             <!-- JOB SUMMARY CARD -->
             <div class="card mb-3">
                 <div class="card-header bg-white">
-                    <strong>
-                        <i class="fas fa-briefcase mr-2"></i>
-                        <span>Job Summary</span>    
-                    </strong>
+                    <strong>Job Summary</strong>
                 </div>
                 <div class="card-body p-0">
                     
@@ -248,7 +245,6 @@ if ($maxSalary < 1000) {
                     
                 </div>
             </div>
-            <!-- END OF JOB SUMMARY CARD -->
             
             <!-- USER CONTROLS -->
             <div>
@@ -265,7 +261,6 @@ if ($maxSalary < 1000) {
                     <span>Delete This Post</span>
                 </button>
             </div>
-            <!-- END OF USER CONTROLS -->
 
         </div>
         <!-- END OF JOB SUMMARY -->

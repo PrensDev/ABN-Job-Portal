@@ -3,7 +3,7 @@
         $jobTypeClass = 'success';
     } else if ($jobType == 'Part Time') {
         $jobTypeClass = 'info';
-    } else if ($jobType == 'Internship/OJT') {
+    } else if ($jobType == 'Intern/OJT') {
         $jobTypeClass = 'warning';
     } else if ($jobType == 'Temporary') {
         $jobTypeClass = 'secondary';
@@ -39,7 +39,7 @@
 ?>
 
 <div class="col-lg-6 my-2">
-<div class="bg-white p-3 shadow d-flex flex-column h-100 justify-content-between">
+<div class="bg-white p-3 border d-flex flex-column h-100 justify-content-between">
     
     <div class="d-flex mb-3 mr-1">
 
@@ -121,9 +121,9 @@
                 </div>
 
                 <!-- INDUSTRY TYPE -->
-                <div class="mr-3 text-capitalize" title="Industry Type: <?php echo $industryType ?>">
+                <div class="mr-3 text-capitalize" title="Industry Type: <?php echo $field ?>">
                     <i class="fas fa-cog mr-1"></i>
-                    <span><?php echo $industryType ?></span>
+                    <span><?php echo $field ?></span>
                 </div>
 
                 <!-- LOCATION -->
@@ -142,7 +142,16 @@
                 <i class="fas fa-user-tie mr-1"></i>
                 <span><?php echo $jobType ?></span>
             </span>
-            <span class="badge text-wrap text-secondary text-right mt-1" title="<?php echo $userDate ?>"><?php echo $userDate ?></span>
+            <?php
+                if (isset($userDate)) {
+                    echo '
+                        <span 
+                            class="badge text-wrap text-secondary text-right mt-1" 
+                            title="' . $userDate . '"
+                        >' . $userDate . '</span>
+                    ';
+                }
+            ?>
         </div>
 
     </div>
