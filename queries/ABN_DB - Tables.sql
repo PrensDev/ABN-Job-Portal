@@ -91,19 +91,22 @@ CREATE TABLE [Resumes] (
 		CONSTRAINT UK_jobseekerID@Resumes UNIQUE
 	,
 	[headline]
-		VARCHAR(MAX) NOT NULL
+		VARCHAR(MAX)
 	,
 	[description]
-		VARCHAR(MAX) NOT NULL
+		VARCHAR(MAX)
 	,
 	[skills]
-		VARCHAR(MAX) NOT NULL
+		VARCHAR(MAX)
 	,
 	[experiences]
-		VARCHAR(MAX) NOT NULL
+		VARCHAR(MAX)
 	,
 	[education]
-		VARCHAR(MAX) NOT NULL
+		VARCHAR(MAX)
+	,
+	[resumeFile]
+		VARCHAR(MAX)
 	,
 	[lastUpdated]
 		DATETIME NOT NULL DEFAULT GETDATE()
@@ -223,13 +226,31 @@ CREATE TABLE [Applications] (
 		CONSTRAINT FK_jobPostID@Applications FOREIGN KEY
 			REFERENCES [JobPosts] ([jobPostID])
 	,
-	[resumeID]
+	[jobseekerID]
 		INT NOT NULL
-		CONSTRAINT FK_resumeID@Applications FOREIGN KEY
-			REFERENCES [Resumes] ([resumeID])
+		CONSTRAINT FK_jobseekerID@Applications FOREIGN KEY
+			REFERENCES [JobSeekers] ([jobseekerID])
 	,
-	[dateApplied]
-		DATETIME NOT NULL DEFAULT GETDATE()
+	[headline]
+		VARCHAR(MAX)
+	,
+	[description]
+		VARCHAR(MAX)
+	,
+	[education]
+		VARCHAR(MAX)
+	,
+	[skills]
+		VARCHAR(MAX)
+	,
+	[experiences]
+		VARCHAR(MAX)
+	,
+	[resumeFile]
+		VARCHAR(MAX)
+	,
+	[lastUpdated]
+		VARCHAR(MAX)
 	,
 	[status]
 		VARCHAR(MAX) NOT NULL DEFAULT 'Pending'
@@ -238,12 +259,15 @@ CREATE TABLE [Applications] (
 				[status] IN (
 					'Pending',
 					'Hired',
-					'Call Back',
+					'Call for interview',
 					'Rejected'
 				)
 			)
 	,
-	[statusDate]
+	[dateApplied]
+		DATETIME NOT NULL DEFAULT GETDATE()
+	,
+	[dateStatus]
 		DATETIME
 );
 

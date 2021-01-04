@@ -29,13 +29,17 @@
             <p class="text-nowrap text-truncate"><?php echo $description ?></p>
         </div>
         
-        <a href="<?php echo base_url() . 'auth/edit_resume/' . $resumeID ?>" target="_blank" class="btn btn-light btn-block">
+        <a href="<?php echo base_url() . 'auth/edit_resume/' . $resumeID ?>" target="_blank" class="btn btn-light btn-block border">
             <i class="fas fa-pen mr-1"></i>
             <span>Edit</span>
         </a>
     </div>
 
     <div class="modal-footer">
+        <button type="button" class="btn text-secondary" data-dismiss="modal">
+            <i class="fas fa-times mr-1"></i>
+            <span>Cancel</span>
+        </button>
         <button 
             type  ="button" 
             class ="btn btn-primary" 
@@ -43,11 +47,6 @@
             <?php echo $status == 0 ? 'disabled' : ''?>
         >
             <span>Submit</span>
-        </button>
-
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            <i class="fas fa-times mr-1"></i>
-            <span>Cancel</span>
         </button>
     </div>
 

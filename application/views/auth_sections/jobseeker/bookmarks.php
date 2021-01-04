@@ -29,7 +29,6 @@
 </div>
 </div>
 
-
 <script>
     $(document).on('click','#addBookmarkBtn', function(e) {
         e.preventDefault();

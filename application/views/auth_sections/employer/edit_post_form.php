@@ -280,7 +280,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
             <span>Save changes</span>
         </h5>
         <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
-            <i class="fas fa-times"></i>
+            <i class="fas fa-times text-secondary"></i>
         </button>
     </div>
 
@@ -296,13 +296,13 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
     </div>
 
     <div class="modal-footer">
+        <button type="button" class="btn text-secondary" data-dismiss="modal">
+            <i class="fas fa-times"></i>
+            <span>Cancel</span>
+        </button>
         <button type="sumbit" class="btn btn-primary">
             <i class="fas fa-check"></i>
             <span>Submit</span>
-        </button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            <i class="fas fa-times"></i>
-            <span>Cancel</span>
         </button>
     </div>
 

@@ -1,5 +1,7 @@
 <?php
 
+$resumeData = $this->Jobseeker_model->view_resume();
+
 if ($jobType == 'Full Time') {
     $jobTypeClass = 'success';
 } else if ($jobType == 'Part Time') {
@@ -130,14 +132,18 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                 if ($status == 'Pending') {
                     echo '
                         <div class="container-fluid alert alert-success mb-5">
-                            <div class="row align-items-center">
-                                <div class="col-md-8 text-md-left text-center">
+                            <div class="row align-items-center text-center">
+                                <div class="col-md-8 text-md-left">
                                     <div class="m-1">
                                         You submitted your application for this job at <strong>' . $dateApplied . '</strong></a>. 
                                     </div>
                                 </div>
                                 <div class="col-md-4 text-md-right mt-2 mt-md-0">
-                                    <span class="badge badge-success py-2 px-3">' . $status . '</span>
+                                    <button 
+                                        class       = "btn btn-warning"
+                                        data-toggle = "modal"
+                                        data-target = "#viewApplicationModal"
+                                    >View my application</button>
                                 </div> 
                             </div> 
                         </div>
@@ -152,7 +158,6 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
             }
         }
     ?>
-
 <div class="row">
 
     <!-- JOB DETAILS -->
@@ -413,31 +418,35 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 
 <?php
 
+if (isset($status)) {
+    $this->load->view('auth_sections/jobseeker/components/view_application_modal');
+}
+
 if ($this->session->userType == 'Job Seeker') {
-    if (! isset($status)) {
-        $resumeData = $this->Jobseeker_model->view_resume();
-        $this->load->view('auth_sections/jobseeker/components/submit_application_modal', $resumeData);
-    } else {
-        if ($status = 'Pending') {
-            $modalConfig = [
-                'centered'      => TRUE,
-                'nofade'        => TRUE,
-                'id'            => 'cancelApplicationModal',
-                'theme'         => 'warning',
-                'title'         => 'Cancel Application',
-                'modalIcon'     => 'WARNING',
-                'message'       => '
-                    <p class="m-1">Are you sure you want to cancel you application for this job?</p>
-                    <p class="m-1"><strong>Note: You may apply again if this job is still available.</strong></p>
-                ',
-                'actionPath'    => NULL,
-                'actionID'      => 'cancelApplicationBtn',
-                'actionValue'   => $jobPostID,
-                'actionIcon'    => 'file',
-                'actionLabel'   => 'Cancel my application!',
-            ];
+    if (isset($resumeData)) {
+        if (! isset($status)) {
+            $this->load->view('auth_sections/jobseeker/components/submit_application_modal', $resumeData);
+        } else {
+            if ($status = 'Pending') {
+                $modalConfig = [
+                    'centered'      => TRUE,
+                    'nofade'        => TRUE,
+                    'id'            => 'cancelApplicationModal',
+                    'theme'         => 'warning',
+                    'title'         => 'Cancel Application',
+                    'modalIcon'     => 'WARNING',
+                    'message'       => '
+                        <p class="m-1">Are you sure you want to cancel you application for this job?</p>
+                        <p class="m-1"><strong>Note: You may apply again if this job is still available.</strong></p>
+                    ',
+                    'actionPath'    => NULL,
+                    'actionID'      => 'cancelApplicationBtn',
+                    'actionIcon'    => 'file',
+                    'actionLabel'   => 'Cancel my application!',
+                ];
+            }
+            $this->load->view('sections/components/modal', $modalConfig);
         }
-        $this->load->view('sections/components/modal', $modalConfig);
     }
 }
 
@@ -446,13 +455,12 @@ if ($this->session->userType == 'Job Seeker') {
 <script>
     $(document).on('click','#cancelApplicationBtn', function(e) {
         e.preventDefault();
-        var jobPostID = $(this).attr('value');
         $.ajax({
             url:        "<?php echo base_url() ?>auth/cancel_application",
             type:       "post",
             dataType:   "json",
             data: {
-                jobPostID: jobPostID
+                applicationID: <?php echo isset($applicationID) ? $applicationID : NULL ?>,
             },
             success:    function(data) {
                 location.reload();

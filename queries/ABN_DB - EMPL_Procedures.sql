@@ -75,8 +75,7 @@ AS
 		, COUNT([Applications].[applicationID]) AS [numOfApplicants]
 	FROM [JobPosts]
 	FULL OUTER JOIN [Applications]
-	ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
-	-- AND [Applications].[status]  != 'Rejected'
+		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
 	WHERE [employerID] = @employerID
 	GROUP BY
 		  [JobPosts].[jobPostID]
@@ -212,10 +211,12 @@ CREATE PROCEDURE [EMPL_ViewAllApplicants]
 	@jobPostID   INT
 AS
 	SELECT [Applications].[applicationID]
-	FROM [Applications]
-	INNER JOIN [Resumes]
-		ON [Applications].[resumeID] = [Resumes].[resumeID]
-		AND [Applications].[jobPostID] = @jobPostID
+	FROM [JobPosts]
+	INNER JOIN [Applications]
+		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
+		AND [JobPosts].[jobPostID] = @jobPostID
+	LEFT OUTER JOIN [Resumes]
+		ON [Resumes].[jobseekerID] = [Applications].[jobseekerID]
 	INNER JOIN [JobSeekers]
 		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
 ;
@@ -241,10 +242,12 @@ AS
 		, [Applications].[jobPostID]
 		, [Applications].[status]
 		, [Applications].[dateApplied]
-	FROM [Applications]
-	INNER JOIN [Resumes]
-		ON [Applications].[resumeID] = [Resumes].[resumeID]
-		AND [Applications].[jobPostID] = @jobPostID
+	FROM [JobPosts]
+	INNER JOIN [Applications]
+		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
+		AND [JobPosts].[jobPostID] = @jobPostID
+	LEFT OUTER JOIN [Resumes]
+		ON [Resumes].[jobseekerID] = [Applications].[jobseekerID]
 	INNER JOIN [JobSeekers]
 		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
 	ORDER BY [Applications].[dateApplied] ASC
@@ -272,22 +275,21 @@ AS
 		, [Applications].[applicationID]
 		, [Applications].[jobPostID]
 		, [Applications].[status]
-		, [Resumes].[headline]
-		, [Resumes].[description]
-		, [Resumes].[education]
-		, [Resumes].[skills]
-		, [Resumes].[experiences]
-		, [Resumes].[lastUpdated]
+		, [Applications].[headline]
+		, [Applications].[description]
+		, [Applications].[education]
+		, [Applications].[skills]
+		, [Applications].[experiences]
+		, [Applications].[lastUpdated]
+		, [Applications].[resumeFile]
 		, [JobPosts].[jobTitle]
 	FROM [Applications]
-	INNER JOIN [Resumes]
-		ON [Applications].[resumeID] = [Resumes].[resumeID]
 	INNER JOIN [JobSeekers]
-		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
+		ON [Applications].[jobseekerID] = [JobSeekers].[jobseekerID]
 		AND [JobSeekers].[jobseekerID] = @jobseekerID
-		AND [Applications].[jobPostID] = @jobPostID
 	LEFT OUTER JOIN [JobPosts]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
+	WHERE [Applications].[jobPostID] = @jobPostID
 ;
 
 -- Number of Job Posts Procedure

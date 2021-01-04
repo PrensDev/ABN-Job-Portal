@@ -96,7 +96,7 @@ if ($maxSalary < 1000) {
 
     <div class="alert alert-success alert-dismissible fade show my-4 mb-4" role="alert">
         <span>The changes you made has been <strong>saved</strong>.</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>

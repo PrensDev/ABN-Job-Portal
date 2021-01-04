@@ -16,7 +16,7 @@
             <span><?php echo $title ?></span>
         </h5>
         <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
-            <i class="fas fa-times text-dark"></i>
+            <i class="fas fa-times text-secondary"></i>
         </button>
     </div>
 
@@ -36,7 +36,11 @@
         </div>
     </div>
 
-    <div class="modal-footer">
+    <div class="modal-footer border-0">
+        <button type="button" class="btn text-secondary" data-dismiss="modal">
+            <i class="fas fa-times mr-1"></i>
+            <span>Cancel</span>
+        </button>
         <?php 
             echo '
                 <' . $element . $actionPath . $actionID . $actionValue . ' class="btn btn-' . $theme . '" draggable="false">
@@ -45,11 +49,6 @@
                 </' . $element .'>
             ';
         ?>
-        
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            <i class="fas fa-times mr-1"></i>
-            <span>Cancel</span>
-        </button>
     </div>
 
 </div>

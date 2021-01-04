@@ -472,8 +472,7 @@ class Auth extends CI_Controller {
     public function cancel_application() {
         if ($this->session->userType == 'Job Seeker') {
             if ($this->input->is_ajax_request()) {
-                $jobPostID = $this->input->post('jobPostID');
-                $applicationStatus = $this->Jobseeker_model->cancel_application($jobPostID);
+                $applicationStatus = $this->Jobseeker_model->cancel_application();
                 $data['response'] = $applicationStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {

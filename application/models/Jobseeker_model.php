@@ -128,12 +128,8 @@ class Jobseeker_model extends CI_Model {
     }
 
     // CANCEL APPLICATION
-    public function cancel_application($jobPostID) {
-        return $this->db->query("
-            EXEC [JBSK_CancelApplication]
-                @jobPostID   = " . $jobPostID . ",
-                @jobseekerID = " . $this->session->id ."
-        ");
+    public function cancel_application() {
+        return $this->db->query("EXEC [JBSK_CancelApplication] @applicationID = " . $this->input->post('applicationID'));
     }
 
     // ALL APPLIED JOBS
