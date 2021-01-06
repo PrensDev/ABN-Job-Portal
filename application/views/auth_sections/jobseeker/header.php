@@ -157,8 +157,9 @@
 
 <script>
     $(document).ready(function () {
-        bsCustomFileInput.init();
 
+        // INITIALIZE CROPPIE
+        bsCustomFileInput.init();
         var imageCrop = $('#imageCrop').croppie({
             enableExif  : true,
             viewport    : {
@@ -173,6 +174,7 @@
             showZoomer: false,
         });
 
+        // ON IMAGE FILE SELECT
         $('#selectImgBtn').on('change', function() {
             var reader = new FileReader();
             reader.onload = function(e) {
@@ -187,7 +189,8 @@
             };
             reader.readAsDataURL(this.files[0]);
         });
-
+        
+        // ON SAVE IMAGE
         $('#saveCroppedImgBtn').click(function() {
             imageCrop.croppie('result', {
                 type: 'canvas',
@@ -207,6 +210,7 @@
 
     });
 
+    // ON CLOSE BUTTON CLICK
     $('#cropImgModalCloseBtn').click(function() {
         location.reload();
     });

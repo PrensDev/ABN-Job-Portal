@@ -148,3 +148,55 @@ AS
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;
 ;
+
+
+-- Get All Search Result
+CREATE PROCEDURE [VIEW_AllSearchResult]
+	@jobTitle VARCHAR(MAX),
+	@location VARCHAR(MAX)
+AS
+	SELECT [JobPosts].[jobPostID]
+	FROM [JobPosts]
+	INNER JOIN [Employers] 
+		ON [JobPosts].[employerID] = [Employers].[employerID]
+		AND [jobPostFlag] = 1
+	WHERE
+		[JobPosts].[jobTitle] LIKE '%' + @jobTitle + '%'
+		AND ([Employers].[brgyDistrict] LIKE '%' + @location + '%'
+		OR [Employers].[cityProvince] LIKE '%' + @location + '%')
+	ORDER BY [JobPosts].[dateCreated]
+;
+
+
+--  Get Search Result
+CREATE PROCEDURE [VIEW_SearchResult]
+	@jobTitle	 VARCHAR(MAX),
+	@location	 VARCHAR(MAX),
+	@offsetRows  INT,
+	@fetchedRows INT
+AS
+	SELECT
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[field]
+		, [JobPosts].[description]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, [Employers].[employerID]
+		, [Employers].[profilePic]
+		, [Employers].[companyName]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
+	FROM [JobPosts]
+	INNER JOIN [Employers] 
+		ON [JobPosts].[employerID] = [Employers].[employerID]
+		AND [jobPostFlag] = 1
+	WHERE
+		[JobPosts].[jobTitle] LIKE '%' + @jobTitle + '%'
+		AND ([Employers].[brgyDistrict] LIKE '%' + @location + '%'
+		OR [Employers].[cityProvince] LIKE '%' + @location + '%')
+	ORDER BY [JobPosts].[dateCreated]
+	OFFSET @offsetRows ROWS
+	FETCH NEXT @fetchedRows ROWS ONLY;
+;

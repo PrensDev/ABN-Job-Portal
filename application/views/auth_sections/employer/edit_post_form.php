@@ -104,7 +104,6 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                 </div>
                 
             </div>
-            <!-- END OF JOB AND INDUSTRY TYPE FIELD -->
 
             <!-- OFFERED SALARY FIELD -->
             <div class="form-row">
@@ -152,8 +151,6 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                 </div>
 
             </div>
-            <!-- END OF JOB AND INDUSTRY TYPE FIELD -->
-
 
             <!-- STATUS -->
             <div class="form-group">
@@ -169,6 +166,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                         <?php echo $status == 1 ? 'checked' : ''?>
                     >
                     <label class="custom-control-label text-success font-weight-bold" for="status">ACTIVE</label>
+                    <p class="text-secondary">Note: If set to not active, this post will never be searched and viewed by anyone. But you can still manage applicants that submitted their appplication for this job.</p>
                 </div>
             </div>
 

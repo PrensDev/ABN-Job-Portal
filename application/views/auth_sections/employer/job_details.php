@@ -94,13 +94,21 @@ if ($maxSalary < 1000) {
 
     <div class="mb-4"><hr></div>
 
-    <div class="alert alert-success alert-dismissible fade show my-4 mb-4" role="alert">
-        <span>The changes you made has been <strong>saved</strong>.</span>
-        <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
+    <?php if ($this->session->flashdata('updated') == 'success') { ?>
+        <div class="alert alert-success alert-dismissible fade show my-4 mb-4" role="alert">
+            <span>The changes you made has been <strong>saved</strong>.</span>
+            <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php } else if ($this->session->flashdata('updated') == 'failed') { ?>
+        <div class="alert alert-danger alert-dismissible fade show my-4 mb-4" role="alert">
+            <span>Something <strong>wrong</strong> is happened.</span>
+            <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php } ?>
 
     <div class="row mt-1">
 
@@ -168,7 +176,7 @@ if ($maxSalary < 1000) {
                     <span>You've already hired <strong>0</strong> people.</span>
                 </div>
                 <div>
-                    <a class="text-nowrap text-primary" href="hired_applicants.html">View All</a>
+                    <a class="text-nowrap text-primary" href="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/hired' ?>">View All</a>
                 </div>
             </div>
 
@@ -263,7 +271,6 @@ if ($maxSalary < 1000) {
             </div>
 
         </div>
-        <!-- END OF JOB SUMMARY -->
 
     </div>
 

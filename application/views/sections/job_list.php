@@ -14,7 +14,7 @@
         ?>
     </div>
 
-    <div class="row mb-5">
+    <div class="row mb-5 animate__animated animate__fadeIn animate__faster">
         <?php foreach ($posts as $post) { $this->load->view('sections/components/job_post_card', $post); } ?>
     </div>
 
@@ -24,6 +24,7 @@
 </div>
 
 <script>
+
     $(document).on('click','#addBookmarkBtn', function(e) {
         e.preventDefault();
         var jobPostID = $(this).attr('value');
@@ -42,13 +43,13 @@
 
     $(document).on('click','#removeBookmarkBtn', function(e) {
         e.preventDefault();
-        var jobPostID = $(this).attr('value');
+        var bookmarkID = $(this).attr('value');
         $.ajax({
             url:        "<?php echo base_url() ?>auth/remove_bookmark",
             type:       "post",
             dataType:   "json",
             data: {
-                jobPostID: jobPostID
+                bookmarkID: bookmarkID
             },
             success:    function(data) {
                 location.reload();

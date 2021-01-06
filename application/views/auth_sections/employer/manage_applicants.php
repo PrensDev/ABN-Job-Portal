@@ -2,11 +2,10 @@
 <div class="container py-5">
 
     <!-- HEADER OF CONTENT -->
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="mr-3">
             <h1 class="font-weight-normal text-uppercase"><?php echo $jobTitle ?></h1>
             <p class="text-secondary m-0">
-                <i class="fas fa-users"></i>
                 <span><strong><?php echo $totalRows ?></strong> applicant<?php echo $totalRows > 1 ? 's' : '' ?> applied for this job.</span>
             </p>
         </div>
@@ -19,22 +18,38 @@
             </a>
         </div>
     </div>
-    <!-- END OF HEADER OF CONTENT -->
 
-    <div class="mb-4">
-        <hr>
-    </div>
-
-    <h5 class="text-primary mb-3">
-        <i class="fas fa-users mr-2"></i>  
-        <span>Applicants</span> 
-    </h5>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a 
+                class ="nav-link<?php echo $statusPage == 'Pending' ? ' active' : '' ?>" 
+                href  ="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/pending' ?>"
+            >Pending</a>
+        </li>
+        <li class="nav-item">
+            <a 
+                class ="nav-link<?php echo $statusPage == 'Interviewing' ? ' active' : '' ?>" 
+                href  ="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/interviewing' ?>"
+            >Interviewing</a>
+        </li>
+        <li class="nav-item">
+            <a 
+                class ="nav-link<?php echo $statusPage == 'Hired' ? ' active' : '' ?>" 
+                href  ="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/hired' ?>"
+            >Hired</a>
+        </li>
+        <li class="nav-item">
+            <a 
+                class="nav-link<?php echo $statusPage == 'Rejected' ? ' active' : '' ?>" 
+                href  ="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/rejected' ?>"
+            >Rejected</a>
+        </li>
+    </ul>
 
     <!-- APPLICANT LIST -->
-    <div class="row">
+    <div class="row animate__animated animate__fadeIn animate__faster">
         <?php foreach ( $posts as $post ) { $this->load->view('auth_sections/employer/components/applicant_card', $post); } ?>
     </div>
-    <!-- END OF APPLICANT LIST -->
 
     <?php echo $this->pagination->create_links(); ?>
 
@@ -44,16 +59,16 @@
 
 
 <!-- HIRE APPLICANT MODAL -->
-<div class="modal fade user-select-none" id="hireApplicantModal" tabindex="-1">
-<div class="modal-dialog">
+<div class="modal user-select-none" id="hireApplicantModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
 <div class="modal-content">
 
     <div class="modal-header align-items-center">
         <h5 class="modal-title text-success">
             <span>Hire an applicant</span>
         </h5>
-        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
-            <i class="fas fa-times text-dark"></i>
+        <button type="button" class="btn text-secondary" data-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
         </button>
     </div>
 
@@ -67,12 +82,11 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-success" id="hireApplicantBtn">Hire now!</button>
-
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        <button type="button" class="btn text-secondary" data-dismiss="modal">
             <i class="fas fa-times mr-1"></i>
             <span>Cancel</span>
         </button>
+        <button class="btn btn-success" id="hireApplicantBtn">Hire now!</button>
     </div>
 
 </div>
@@ -81,16 +95,16 @@
 
 
 <!-- REJECT APPLICANT MODAL -->
-<div class="modal fade user-select-none" id="rejectApplicantModal" tabindex="-1">
-<div class="modal-dialog">
+<div class="modal user-select-none" id="rejectApplicantModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
 <div class="modal-content">
 
     <div class="modal-header align-items-center">
         <h5 class="modal-title text-danger">
             <span>Reject an applicant</span>
         </h5>
-        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
-            <i class="fas fa-times text-dark"></i>
+        <button type="button" class="btn text-secondary" data-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
         </button>
     </div>
 
@@ -104,12 +118,11 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-danger" id="rejectApplicantBtn">Reject</button>
-
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        <button type="button" class="btn text-secondary" data-dismiss="modal">
             <i class="fas fa-times mr-1"></i>
             <span>Cancel</span>
         </button>
+        <button class="btn btn-danger" id="rejectApplicantBtn">Reject</button>
     </div>
 
 </div>
@@ -118,16 +131,16 @@
 
 
 <!-- CANCEL HIRING MODAL -->
-<div class="modal fade user-select-none" id="cancelHiringModal" tabindex="-1">
-<div class="modal-dialog">
+<div class="modal user-select-none" id="cancelHiringModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
 <div class="modal-content">
 
     <div class="modal-header align-items-center">
         <h5 class="modal-title text-warning">
             <span>Cancel hiring</span>
         </h5>
-        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
-            <i class="fas fa-times text-dark"></i>
+        <button type="button" class="btn text-secondary" data-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
         </button>
     </div>
 
@@ -141,12 +154,11 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-warning" id="cancelHiringBtn">Continue</button>
-
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        <button type="button" class="btn text-secondary" data-dismiss="modal">
             <i class="fas fa-times mr-1"></i>
             <span>Cancel</span>
         </button>
+        <button class="btn btn-warning" id="cancelHiringBtn">Continue</button>
     </div>
 
 </div>
@@ -155,16 +167,16 @@
 
 
 <!-- CANCEL HIRING MODAL -->
-<div class="modal fade user-select-none" id="cancelRejectModal" tabindex="-1">
-<div class="modal-dialog">
+<div class="modal user-select-none" id="cancelRejectModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
 <div class="modal-content">
 
     <div class="modal-header align-items-center">
         <h5 class="modal-title text-warning">
             <span>Cancel rejecting</span>
         </h5>
-        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
-            <i class="fas fa-times text-dark"></i>
+        <button type="button" class="btn text-secondary" data-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
         </button>
     </div>
 
@@ -178,12 +190,11 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-warning" id="cancelHiringBtn">Continue</button>
-
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        <button type="button" class="btn text-secondary" data-dismiss="modal">
             <i class="fas fa-times mr-1"></i>
             <span>Cancel</span>
         </button>
+        <button class="btn btn-warning" id="cancelHiringBtn">Continue</button>
     </div>
 
 </div>

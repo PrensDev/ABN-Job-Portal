@@ -1,10 +1,6 @@
 <?php
 
-if ($middleName == NULL) {
-    $fullName = $firstName . ' ' . $lastName;
-} else {
-    $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
-}
+$fullName = $firstName . ' ' . $lastName;
 
 $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"F d, Y") . '</strong>';
 
@@ -38,9 +34,8 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
                     ';
                 }
             ?>
-            
         </div>
-        
+
         <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
             <h1 class="font-weight-normal"><?php echo $fullName ?></h1>
             
@@ -82,8 +77,18 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
                                 </div>
                             </div>
                             <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
-                                <button type="submit" class="btn btn-success m-1 text-nowrap" data-toggle="modal" data-target="#hireModal">Hire Now!</button>
-                                <button type="submit" class="btn btn-danger m-1 text-nowrap" data-toggle="modal" data-target="#rejectModal">Reject</button>
+                                <button 
+                                    type        = "submit" 
+                                    class       = "btn btn-success m-1 text-nowrap" 
+                                    data-toggle = "modal" 
+                                    data-target = "#hireModal"
+                                >Hire</button>
+                                <button 
+                                    type        = "submit" 
+                                    class       = "btn btn-danger m-1 text-nowrap" 
+                                    data-toggle = "modal" 
+                                    data-target = "#rejectModal"
+                                >Reject</button>
                             </div> 
                         </div> 
                     </div>
@@ -130,7 +135,7 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
         <div class="mb-3 mb-lg-0 shadow p-md-5 p-3 border">
 
             <!-- NASIC INFORMATION -->
-            <div class="mb-5">
+            <div class="mb-5r">
                 <h2 class="font-weight-normal"><?php echo $fullName ?></h2>
                 <small class="font-italic text-secondary"><?php echo $lastUpdated ?></small>
                 <hr class="border-primary">
@@ -277,11 +282,12 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
 
 
 <?php
-
 if ($status == 'Pending') {
     $this->load->view('sections/components/modal', [
         'id'            => 'hireModal',
         'theme'         => 'success',
+        'nofade'        => TRUE,
+        'centered'      => TRUE,
         'title'         => 'Hire an applicant',
         'modalIcon'     => 'INFO',
         'message'       => '<p class="m-1">Are you sure you want to hire <strong>' . $fullName . '</strong> for <strong>' . $jobTitle . '</strong>?</p>',
@@ -294,10 +300,12 @@ if ($status == 'Pending') {
 
     $this->load->view('sections/components/modal', [
         'id'            => 'rejectModal',
+        'nofade'        => TRUE,
+        'centered'      => TRUE,
         'theme'         => 'danger',
         'title'         => 'Reject an applicant',
         'modalIcon'     => 'WARNING',
-        'message'       => '<p class="m-1">Are you sure you want to reject this applicant?</p>',
+        'message'       => '<p class="m-1">You are about to reject <strong> ' . $fullName . '</strong> for <strong>' . $jobTitle . '</strong>. Do you want to continue?</p>',
         'actionPath'    => NULL,
         'actionID'      => 'rejectApplicantBtn',
         'actionValue'   => $applicationID,
@@ -320,6 +328,8 @@ if ($status == 'Pending') {
 } else if ($status == 'Rejected') {
     $this->load->view('sections/components/modal', [
         'id'            => 'cancelRejectingModal',
+        'nofade'        => TRUE,
+        'centered'      => TRUE,
         'theme'         => 'warning',
         'title'         => 'Cancel rejecting',
         'modalIcon'     => 'WARNING',
@@ -331,12 +341,11 @@ if ($status == 'Pending') {
         'actionLabel'   => 'Continue',
     ]);
 }
-
-
 ?>
 
+<script>
 
-<script>     
+    // HIRE BUTTON
     $(document).on('click','#hireApplicantBtn', function(e) {
         e.preventDefault();
         var applicationID = $(this).attr('value');
@@ -353,6 +362,7 @@ if ($status == 'Pending') {
         });
     });
 
+    // REJECT BUTTON
     $(document).on('click','#rejectApplicantBtn', function(e) {
         e.preventDefault();
         var applicationID = $(this).attr('value');
@@ -369,6 +379,7 @@ if ($status == 'Pending') {
         });
     });
 
+    // CANCEL HIRING BUTTON
     $(document).on('click','#cancelHiringBtn', function(e) {
         e.preventDefault();
         var applicationID = $(this).attr('value');
@@ -385,6 +396,7 @@ if ($status == 'Pending') {
         });
     });
 
+    // CANCEL REJECTING BUTTON
     $(document).on('click','#cancelRejectingBtn', function(e) {
         e.preventDefault();
         var applicationID = $(this).attr('value');

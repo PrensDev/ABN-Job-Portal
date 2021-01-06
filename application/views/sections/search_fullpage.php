@@ -6,12 +6,16 @@
     
     <!-- SEARCH BAR -->
     <div class="search-bar border border-secondary p-1">
-        <form method="POST">
+        <form action="<?php echo base_url() . 'jobs/' ?>" method="GET">
             <div class="row">
 
                 <div class="col-md-6">
                     <div class="input-group">
-                        <input type="text" class="form-control border-0 shadow-none" placeholder="Keyword..." name="jobKeyword">
+                        <input 
+                            class       = "form-control border-0 shadow-none" 
+                            type        = "text" 
+                            placeholder = "Keyword..." 
+                            name        = "keyword">
                         <div class="input-group-append">
                             <span class="input-group-text bg-white border-0"><i class="fas fa-search"></i></span>
                         </div>
@@ -20,7 +24,12 @@
 
                 <div class="col-md-3">
                     <div class="input-group">
-                        <input type="text" class="form-control border-0 shadow-none" placeholder="Place..." name="jobKeyword">
+                        <input 
+                            type        = "text" 
+                            class       = "form-control border-0 shadow-none" 
+                            placeholder = "Place..." 
+                            name        = "place"
+                        >
                         <div class="input-group-append">
                             <span class="input-group-text bg-white border-0"><i class="fas fa-map-marker-alt"></i></span>
                         </div>

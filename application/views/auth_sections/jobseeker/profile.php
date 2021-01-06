@@ -5,8 +5,11 @@
         <h1 class="font-weight-light">Resume</h1>
     </div>
 
+    <?php $this->load->view('auth_sections/components/alert') ?>
+
     <div class="row">
-        
+
+        <!-- RESUME -->
         <div class="col-lg-8">
             <?php
                 if (isset($resumeData)) {
@@ -17,6 +20,7 @@
             ?>
         </div>
         
+        <!-- BASIC INFORMATION -->
         <div class="col-lg-4">
 
             <?php

@@ -53,13 +53,6 @@
             <?php echo $postsNumContent ?>
         </a>
 
-        <a class="dropdown-item" href="employer_notifications.html">
-            <div class="user-nav-icon text-secondary">
-                <i class="fas fa-bell"></i>
-            </div>
-            <span class="pl-1">Notifications</span>
-        </a>
-
         <a class="dropdown-item" href="<?php echo base_url() ?>auth/settings">
             <div class="user-nav-icon text-secondary">
                 <i class="fas fa-cogs"></i>

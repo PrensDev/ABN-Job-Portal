@@ -6,14 +6,6 @@ class Jobseeker_model extends CI_Model {
         $this->load->database();
     }
 
-    protected function run_query($sql, $successPath) {
-        if (! $this->db->query($sql) ) {
-            echo $this->db->error();
-        } else {
-            redirect($successPath);
-        }
-    }
-
     // ========================================================================================== //
 
     // GET INFORMATION METHOD
@@ -37,6 +29,22 @@ class Jobseeker_model extends CI_Model {
 
         return $userdata;
     }
+    
+    // UPDATE INFORMATION METHOD
+    public function update_info() {
+        $input = $this->input->post();
+        return $this->db->query("
+            EXEC [JBSK_UpdateInfo]
+                @jobseekerID   =  " . $this->session->id . ",
+                @firstName	   = '" . $input[ 'firstName'     ] . "',
+                @middleName	   = '" . $input[ 'middleName'    ] . "',
+                @lastName	   = '" . $input[ 'lastName'      ] . "',
+                @birthDate	   = '" . $input[ 'birthDate'     ] . "',
+                @gender		   = '" . $input[ 'gender'        ] . "',
+                @cityProvince  = '" . $input[ 'cityProvince'  ] . "',
+                @contactNumber = '" . $input[ 'contactNumber' ] . "'
+        ");
+    }
 
     // VIEW RESUME METHOD
     public function view_resume() {
@@ -47,10 +55,8 @@ class Jobseeker_model extends CI_Model {
     // CREATE RESUME METHOD
     public function create_resume() {
         $input = $this->input->post();
-
         $status = $input['status'] == '' ? 0 : 1;
-        
-        $this->db->query("
+        return $this->db->query("
             EXEC [JBSK_CreateResume]
                 @jobseekerID    =  " . $this->session->id . ",
                 @headline       = '" . $input[ 'headline'    ] . "',
@@ -64,7 +70,7 @@ class Jobseeker_model extends CI_Model {
 
     // REMOVE RESUME METHOD
     public function remove_resume($resumeID) {
-        $this->db->query("EXEC [JBSK_RemoveResume] @resumeID = " . $resumeID);
+        return $this->db->query("EXEC [JBSK_RemoveResume] @resumeID = " . $resumeID);
     }
 
     // UPDATE RESUME METHOD
@@ -73,7 +79,7 @@ class Jobseeker_model extends CI_Model {
 
         $status = $input['status'] == '' ? 0 : 1;
 
-        $this->db->query("
+        return $this->db->query("
             EXEC [JBSK_UpdateResume]
                 @resumeID    =  " . $resumeID . ",
                 @headline    = '" . $input[ 'headline'    ] . "',
@@ -82,22 +88,6 @@ class Jobseeker_model extends CI_Model {
                 @skills      = '" . $input[ 'skills'      ] . "',
                 @experiences = '" . $input[ 'experiences' ] . "',
                 @resumeFlag  =  " . $status . "
-        ");
-    }
-
-    // UPDATE INFORMATION METHOD
-    public function update_info() {
-        $input = $this->input->post();
-        $this->db->query("
-            EXEC [JBSK_UpdateInfo]
-                @jobseekerID   =  " . $this->session->id . ",
-                @firstName	   = '" . $input[ 'firstName'     ] . "',
-                @middleName	   = '" . $input[ 'middleName'    ] . "',
-                @lastName	   = '" . $input[ 'lastName'      ] . "',
-                @birthDate	   = '" . $input[ 'birthDate'     ] . "',
-                @gender		   = '" . $input[ 'gender'        ] . "',
-                @cityProvince  = '" . $input[ 'cityProvince'  ] . "',
-                @contactNumber = '" . $input[ 'contactNumber' ] . "'
         ");
     }
 
@@ -133,17 +123,22 @@ class Jobseeker_model extends CI_Model {
     }
 
     // ALL APPLIED JOBS
-    public function all_applied_jobs() {
-        return $this->db->query("EXEC [JBSK_AllAppliedJobs] @jobseekerID = " . $this->session->id);
+    public function all_applied_jobs($status) {
+        return $this->db->query("
+            EXEC [JBSK_AllAppliedJobs] 
+                @jobseekerID =  " . $this->session->id . ",
+                @status      = '" . $status . "'
+        ");
     }
 
     // APPLIED JOBS
-    public function applied_jobs($offsetRows, $fetchedRows) {
+    public function applied_jobs($status, $offsetRows, $fetchedRows) {
         $query = $this->db->query("
             EXEC [JBSK_AppliedJobs]
-                @offsetRows     = " . $offsetRows . ",
-                @fetchedRows    = " . $fetchedRows . ",
-                @jobseekerID    = " . $this->session->id . "
+                @offsetRows  = " . $offsetRows . ",
+                @fetchedRows = " . $fetchedRows . ",
+                @jobseekerID = " . $this->session->id . ",
+                @status      = '" . $status . "'
         ");
         return $query->result();
     }
@@ -219,6 +214,29 @@ class Jobseeker_model extends CI_Model {
                 @employerID  = " . $employerID  . ",
                 @offsetRows  = " . $offsetRows  . ",
                 @fetchedRows = " . $fetchedRows . "
+        ");
+        return $query->result();
+    }
+
+    // VIEW ALL SEARCH RESULT
+    public function view_all_search_result() {
+        return $this->db->query("
+            EXEC [JBSK_ViewAllSearchResult]
+                @jobTitle    = '" . $this->input->get('keyword') . "',
+                @location    = '" . $this->input->get('place')   . "',
+                @jobseekerID =  " . $this->session->id . "
+        ");
+    }
+
+    // VIEW SEARCH RESULT
+    public function view_search_result($offsetRows, $fetchedRows) {
+        $query = $this->db->query("
+            EXEC [JBSK_ViewSearchResult]
+                @jobTitle    = '" . $this->input->get('keyword') . "',
+                @location    = '" . $this->input->get('place')   . "',
+                @jobseekerID =  " . $this->session->id . ",
+                @offsetRows  =  " . $offsetRows  . ",
+                @fetchedRows =  " . $fetchedRows . "
         ");
         return $query->result();
     }

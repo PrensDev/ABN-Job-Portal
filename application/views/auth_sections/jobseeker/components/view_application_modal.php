@@ -1,10 +1,18 @@
+<?php
+    $dateApplied = date_format(date_create($dateApplied),"F d, Y") . ' at ' . date_format(date_create($dateApplied),"h:i a.");
+?>
 <div class="modal fade" id="viewApplicationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
 <div class="modal-content">
+
+    <div class="modal-header">
+        <div>
+            <h3 class="font-weight-normal text-uppercase"><?php echo $jobTitle ?></h3>
+            <p class="text-secondary m-0 font-italic">You submitted this resume <?php echo $dateApplied ?></p>
+        </div>
+    </div>
     
     <div class="modal-body">
-    <h3 class="font-weight-normal text-uppercase"><?php echo $jobTitle ?></h3>
-    <p class="text-secondary">You submitted this resume at <?php echo $dateApplied ?></p>
         <div class="mb-3 mb-lg-0 shadow p-md-5 p-3 border">
 
         <!-- NASIC INFORMATION -->
@@ -58,7 +66,10 @@
     </div>
     
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            <i class="fas fa-times mr-1"></i>
+            <span>Close</span>
+        </button>
     </div>
 </div>
 </div>

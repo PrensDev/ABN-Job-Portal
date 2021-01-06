@@ -191,7 +191,7 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
             <i class="fas fa-pen mr-2"></i>
             <span>Save changes</span>
         </h5>
-        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="btn text-secondary" data-dismiss="modal" aria-label="Close">
             <i class="fas fa-times"></i>
         </button>
     </div>
@@ -208,13 +208,13 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
     </div>
 
     <div class="modal-footer">
+        <button type="button" class="btn text-secondary" data-dismiss="modal">
+            <i class="fas fa-times"></i>
+            <span>Cancel</span>
+        </button>
         <button type="sumbit" class="btn btn-primary">
             <i class="fas fa-check"></i>
             <span>Submit</span>
-        </button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            <i class="fas fa-times"></i>
-            <span>Cancel</span>
         </button>
     </div>
 

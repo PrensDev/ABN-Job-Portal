@@ -1,10 +1,6 @@
 <?php
 
-if ($middleName == NULL) {
-    $fullName = $firstName . ' ' . $lastName;
-} else {
-    $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
-}
+$fullName = $firstName . ' ' . $lastName;
 
 $location = $brgyDistrict . ', ' . $cityProvince;
 
@@ -16,7 +12,7 @@ if ($status == 'Pending') {
     $statusTheme = 'danger';
 }
 
-$dateApplied = date_format(date_create($dateApplied),"M. d, Y \a\\t h:i a");
+$dateApplied = date_format(date_create($dateApplied),"M. d, Y");
 
 ?>
 
@@ -55,7 +51,7 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y \a\\t h:i a");
 
         <div class="text-center">
             <small>
-                <p class="font-italic text-secondary">Applied <?php echo $dateApplied ?></p>
+                <p class="font-italic text-secondary">Applied <strong><?php echo $dateApplied ?></strong></p>
             </small>
             <span class="badge badge-<?php echo $statusTheme ?> py-1 px-2"><?php echo $status ?></span>
         </div>

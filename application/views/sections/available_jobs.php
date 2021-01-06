@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <div class="row mb-5">
+    <div class="row mb-5 animate__animated animate__fadeIn animate__faster">
         <?php
             if ($this->session->userType == 'Job Seeker') {
                 foreach ($posts as $post) { $this->load->view('auth_sections/jobseeker/components/job_post_card', $post); } 
@@ -66,13 +66,13 @@
 
     $(document).on('click','#removeBookmarkBtn', function(e) {
         e.preventDefault();
-        var jobPostID = $(this).attr('value');
+        var bookmarkID = $(this).attr('value');
         $.ajax({
             url:        "<?php echo base_url() ?>auth/remove_bookmark",
             type:       "post",
             dataType:   "json",
             data: {
-                jobPostID: jobPostID
+                bookmarkID: bookmarkID
             },
             success:    function(data) {
                 location.reload();

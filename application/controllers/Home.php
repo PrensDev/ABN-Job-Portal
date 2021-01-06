@@ -67,22 +67,6 @@ class Home extends CI_Controller {
     // TERMS AND CONDITIONS VIEW
     public function terms_and_conditions()  {$this->load_main_view('Terms and Conditions', 'terms_and_conditions');}
 
-    // JOBS VIEW
-    public function jobs($jobPostsID = NULL) {
-        if( $jobPostsID == NULL ) {
-            $data = $this->set_data('Jobs');
-    
-            $this->load->view('templates/header', $data);
-            $this->load->view('sections/navbar', $data['userdata']);
-            $this->load->view('sections/search_header');
-            $this->load->view('sections/job_list');
-            $this->load->view('sections/footer');
-            $this->load->view('templates/footer');
-        } else {
-            echo $jobPostsID;
-        }
-    }
-
     // LOGIN VIEW
     public function login() {
         if ($this->session->has_userdata('userType')) {

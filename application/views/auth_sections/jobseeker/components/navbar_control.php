@@ -63,7 +63,7 @@
             <?php echo $bookmarksNumContent ?>
         </a>
 
-        <a class="dropdown-item" href="jobseeker_notifications.html">
+        <a class="dropdown-item" href="auth/notifications">
             <div class="user-nav-icon text-secondary">
                 <i class="fas fa-bell"></i>
             </div>

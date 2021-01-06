@@ -15,7 +15,6 @@
                     data-toggle = "tooltip" 
                     title       = "Click to remove bookmark"
                     id          = "removeBookmarkBtn"
-                    value       = "' . $bookmarkID . '"
                 >
                     <i class="fas fa-bookmark mr-2"></i>
                     <span>Bookmark added</span>
@@ -28,7 +27,6 @@
                     data-toggle = "tooltip" 
                     title       = "Click to add bookmark"
                     id          = "addBookmarkBtn"
-                    value       = "' . $jobPostID . '"
                 >
                     <i class="far fa-bookmark mr-2"></i>
                     <span>Add to bookmark</span>

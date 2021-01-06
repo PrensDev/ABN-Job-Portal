@@ -208,24 +208,27 @@ AS
 
 -- View All Applicants Procedure
 CREATE PROCEDURE [EMPL_ViewAllApplicants]
-	@jobPostID   INT
+	@jobPostID INT,
+	@status	   VARCHAR(MAX)
 AS
 	SELECT [Applications].[applicationID]
 	FROM [JobPosts]
 	INNER JOIN [Applications]
 		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
-		AND [JobPosts].[jobPostID] = @jobPostID
+		AND [Applications].[status] = @status
 	LEFT OUTER JOIN [Resumes]
 		ON [Resumes].[jobseekerID] = [Applications].[jobseekerID]
 	INNER JOIN [JobSeekers]
 		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
+	WHERE [JobPosts].[jobPostID] = @jobPostID
 ;
 
 -- View Applicants Procedure
 CREATE PROCEDURE [EMPL_ViewApplicants]
 	@offsetRows  INT,
 	@fetchedRows INT,
-	@jobPostID   INT
+	@jobPostID   INT,
+	@status		 VARCHAR(MAX)
 AS
 	SELECT
 		  [JobSeekers].[jobseekerID]
@@ -245,11 +248,12 @@ AS
 	FROM [JobPosts]
 	INNER JOIN [Applications]
 		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
-		AND [JobPosts].[jobPostID] = @jobPostID
+		AND [Applications].[status] = @status
 	LEFT OUTER JOIN [Resumes]
 		ON [Resumes].[jobseekerID] = [Applications].[jobseekerID]
 	INNER JOIN [JobSeekers]
 		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
+	WHERE [JobPosts].[jobPostID] = @jobPostID
 	ORDER BY [Applications].[dateApplied] ASC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY

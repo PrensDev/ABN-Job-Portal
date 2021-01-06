@@ -4,13 +4,7 @@
     
     <h1 class="font-weight-light mb-4">Settings</h1>
     
-        <!-- SUCCESS ALERT BOX -->
-    <div class="alert alert-success alert-dismissible fade show my-4" role="alert">
-        <span>Your password is successfully <strong>changed</strong>.</span>
-        <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+    <?php $this->load->view('auth_sections/components/alert') ?>
 
     <!-- SETTINGS MENU -->
     <div class="card">

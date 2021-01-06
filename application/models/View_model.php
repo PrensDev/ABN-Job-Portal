@@ -38,12 +38,33 @@ class View_model extends CI_Model {
     }
 
     // VIEW AVAILABLE JOBS
-    public function available_jobs($employerID, $offsetRows, $fetchedRows   ) {
+    public function available_jobs($employerID, $offsetRows, $fetchedRows) {
         $query = $this->db->query("
             EXEC [VIEW_AvailableJobs]
                 @employerID  = " . $employerID  . ",
                 @offsetRows  = " . $offsetRows  . ",
                 @fetchedRows = " . $fetchedRows . "
+        ");
+        return $query->result();
+    }
+
+    // VIEW ALL RESEARCH RESULT
+    public function all_search_result() {
+        return $this->db->query("
+            EXEC [VIEW_AllSearchResult] 
+                @jobTitle = '" . $this->input->get('keyword') . "',
+                @location = '" . $this->input->get('place')   . "'
+            ");
+    }
+
+    // VIEW SEARCH RESULT
+    public function search_result($offsetRows, $fetchedRows) {
+        $query = $this->db->query("
+            EXEC [VIEW_SearchResult] 
+                @jobTitle    = '" . $this->input->get('keyword') . "',
+                @location    = '" . $this->input->get('place')   . "',
+                @offsetRows  =  " . $offsetRows  . ",
+                @fetchedRows =  " . $fetchedRows . "
         ");
         return $query->result();
     }

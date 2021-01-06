@@ -61,7 +61,7 @@ $autoload['packages'] = array();
 $autoload['libraries'] = [
     'form_validation',
     'pagination',
-    'session'
+    'session',
 ];
 
 /*
@@ -97,6 +97,7 @@ $autoload['helper'] = [
     'url', 
     'url_helper',
     'form',
+    'date'
 ];
 
 /*

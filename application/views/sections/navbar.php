@@ -49,11 +49,6 @@
                 <a class="nav-link" href="<?php echo base_url() ?>jobs">Jobs</a>
             </li>
 
-            <!-- COMPANIES LINK -->
-            <li class="nav-item mx-md-2">
-                <a class="nav-link" href="<?php echo base_url() ?>home/companies">Companies</a>
-            </li>
-
             <!-- ABOUT US LINK -->
             <li class="nav-item mx-md-2">
                 <a class="nav-link" href="<?php echo base_url() ?>home/about_us">About Us</a>

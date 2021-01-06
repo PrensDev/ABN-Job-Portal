@@ -137,20 +137,14 @@ AS
 
 -- Update Job Seeker Information Procedure
 CREATE PROCEDURE [JBSK_UpdateInfo]
-	@jobseekerID		INT,
-	@firstName			VARCHAR(MAX),
-	@middleName			VARCHAR(MAX),
-	@lastName			VARCHAR(MAX),
-	@birthDate			VARCHAR(MAX),
-	@gender				VARCHAR(MAX),
-	@street				VARCHAR(MAX),
-	@brgyDistrict		VARCHAR(MAX),
-	@cityMunicipality	VARCHAR(MAX),
-	@contactNumber		VARCHAR(MAX),
-	@description		VARCHAR(MAX),
-	@skills				VARCHAR(MAX),
-	@experiences		VARCHAR(MAX),
-	@education			VARCHAR(MAX)
+	@jobseekerID	INT,
+	@firstName		VARCHAR(MAX),
+	@middleName		VARCHAR(MAX),
+	@lastName		VARCHAR(MAX),
+	@birthDate		VARCHAR(MAX),
+	@gender			VARCHAR(MAX),
+	@cityProvince	VARCHAR(MAX),
+	@contactNumber	VARCHAR(MAX)
 AS
 	UPDATE [JobSeekers]
 	SET
@@ -159,14 +153,8 @@ AS
 		, [lastName] 		 = @lastName
 		, [birthDate] 		 = @birthDate
 		, [gender] 			 = @gender
-		, [street] 			 = @street
-		, [brgyDistrict] 	 = @brgyDistrict
-		, [cityMunicipality] = @cityMunicipality
+		, [cityProvince] = @cityProvince
 		, [contactNumber] 	 = @contactNumber
-		, [description]		 = @description
-		, [skills] 			 = @skills
-		, [experiences] 	 = @experiences
-		, [education] 		 = @education
 	WHERE [jobseekerID] = @jobseekerID
 ;
 
@@ -185,17 +173,21 @@ AS
 		, [experiences] 
 		, [resumeFile]
 		, [lastUpdated] )
-	VALUES 
-		( @jobPostID
-		, ( SELECT [jobseekerID]	FROM [Resumes] WHERE [resumeID] = @resumeID )
-		, ( SELECT [headline]		FROM [Resumes] WHERE [resumeID] = @resumeID )
-		, ( SELECT [description]	FROM [Resumes] WHERE [resumeID] = @resumeID )
-		, ( SELECT [education]		FROM [Resumes] WHERE [resumeID] = @resumeID )
-		, ( SELECT [skills]			FROM [Resumes] WHERE [resumeID] = @resumeID )
-		, ( SELECT [experiences]	FROM [Resumes] WHERE [resumeID] = @resumeID )
-		, ( SELECT [resumeFile]		FROM [Resumes] WHERE [resumeID] = @resumeID )
-		, ( SELECT [lastUpdated]	FROM [Resumes] WHERE [resumeID] = @resumeID )
-		)
+	SELECT
+		  [JobPosts].[jobPostID]
+		, [Resumes].[jobseekerID]
+		, [Resumes].[headline]
+		, [Resumes].[description]
+		, [Resumes].[education]
+		, [Resumes].[skills]
+		, [Resumes].[experiences]
+		, [Resumes].[resumeFile]
+		, [Resumes].[lastUpdated]
+	FROM [Resumes]
+	LEFT OUTER JOIN [JobPosts]
+		ON [JobPosts].[jobPostID] = @jobPostID
+	WHERE
+		[Resumes].[resumeID] = @resumeID
 ;
 
 -- Cancel Application Procedure
@@ -207,10 +199,10 @@ AS
 ;
 
 
-
 -- All Applied Jobs Procedure
 CREATE PROCEDURE [JBSK_AllAppliedJobs]
-	@jobseekerID INT
+	@jobseekerID INT,
+	@status		 VARCHAR(MAX)
 AS
 	SELECT [JobPosts].[jobPostID]
 	FROM [Applications]
@@ -220,17 +212,20 @@ AS
 		ON [JobPosts].[employerID] = [Employers].[employerID]
 	INNER JOIN [Resumes]
 		ON [Applications].[jobseekerID] = [Resumes].[jobseekerID]
-		AND [Resumes].[jobseekerID] = @jobseekerID
 	LEFT OUTER JOIN [Bookmarks]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
+	WHERE 
+		[Applications].[jobseekerID] = @jobseekerID
+		AND [Applications].[status] = @status
 ;
 
 -- Applied Jobs Procedure
 CREATE PROCEDURE [JBSK_AppliedJobs]
 	@offsetRows	 INT,
 	@fetchedRows INT,
-	@jobseekerID INT
+	@jobseekerID INT,
+	@status		 VARCHAR(MAX)
 AS
 	SELECT
 		  [JobPosts].[jobPostID]
@@ -254,10 +249,12 @@ AS
 		ON [JobPosts].[employerID] = [Employers].[employerID]
 	INNER JOIN [Resumes]
 		ON [Applications].[jobseekerID] = [Resumes].[jobseekerID]
-		AND [Resumes].[jobseekerID] = @jobseekerID
 	LEFT OUTER JOIN [Bookmarks]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
+	WHERE 
+		[Applications].[jobseekerID] = @jobseekerID
+		AND [Applications].[status] = @status
 	ORDER BY [Applications].[dateApplied] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
@@ -271,7 +268,7 @@ AS
 	FROM [Applications]
 	INNER JOIN [Resumes]
 		ON [Resumes].[jobseekerID] = [Applications].[jobseekerID]
-		AND [Resumes].[jobseekerID] = @jobseekerID
+	WHERE [Applications].[jobseekerID] = @jobseekerID
 ;
 
 -- Add Bookmark Procedure
@@ -302,12 +299,12 @@ AS
 	FROM [Bookmarks]
 	INNER JOIN [JobPosts]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
-		AND [Bookmarks].[jobseekerID] = @jobseekerID
-	LEFT OUTER JOIN [Employers]
+	INNER JOIN [Employers]
 		ON [JobPosts].[employerID] = [Employers].[employerID]
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 		AND [Applications].[jobseekerID] = @jobseekerID
+	WHERE [Bookmarks].[jobseekerID] = @jobseekerID
 ;
 
 -- Get Bookmarks
@@ -334,12 +331,12 @@ AS
 	FROM [Bookmarks]
 	INNER JOIN [JobPosts]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
-		AND [Bookmarks].[jobseekerID] = @jobseekerID
-	LEFT OUTER JOIN [Employers]
+	INNER JOIN [Employers]
 		ON [JobPosts].[employerID] = [Employers].[employerID]
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 		AND [Applications].[jobseekerID] = @jobseekerID
+	WHERE [Bookmarks].[jobseekerID] = @jobseekerID
 	ORDER BY [Bookmarks].[dateBookmarked] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROW ONLY
@@ -401,8 +398,6 @@ AS
 	FROM [JobPosts]
 	INNER JOIN [Employers]
 		ON [JobPosts].[employerID] = [Employers].[employerID]
-		AND [JobPosts].[jobPostID] = @jobPostID 
-		AND [JobPosts].[jobPostFlag] = 1
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 		AND [Applications].[jobseekerID] = @jobseekerID
@@ -412,6 +407,8 @@ AS
 	LEFT OUTER JOIN [Bookmarks]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
+	WHERE [JobPosts].[jobPostID] = @jobPostID 
+		AND [JobPosts].[jobPostFlag] = 1
 ;
 
 -- Set Profile Pic
@@ -450,17 +447,84 @@ AS
 	FROM [JobPosts]
 	INNER JOIN [Employers] 
 		ON [JobPosts].[employerID] = [Employers].[employerID]
-		AND [JobPosts].[employerID] = @employerID
+	LEFT OUTER JOIN [Applications]
+		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
+		AND [Applications].[jobseekerID] = @jobseekerID
+	LEFT OUTER JOIN [JobSeekers]
+		ON [Applications].[jobseekerID] = [JobSeekers].[jobseekerID]
+	LEFT OUTER JOIN [Bookmarks]
+		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
+		AND [Bookmarks].[jobseekerID] = @jobseekerID
+	WHERE [JobPosts].[employerID] = @employerID
+		AND [jobPostFlag] = 1
+	ORDER BY [dateCreated] DESC
+	OFFSET @offsetRows ROWS
+	FETCH NEXT @fetchedRows ROWS ONLY;
+;
+
+-- View All Search Result
+CREATE PROCEDURE [JBSK_ViewAllSearchResult]
+	@jobTitle	 VARCHAR(MAX),
+	@location	 VARCHAR(MAX),
+	@jobseekerID INT
+AS
+	SELECT [JobPosts].[jobPostID]
+	FROM [JobPosts]
+	INNER JOIN [Employers] 
+		ON [JobPosts].[employerID] = [Employers].[employerID]
 		AND [jobPostFlag] = 1
 	LEFT OUTER JOIN [Bookmarks]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
-	LEFT OUTER JOIN [Resumes]
-		ON [Resumes].[resumeID] = [Applications].[resumeID]
-		AND [Resumes].[resumeID] = @jobseekerID
-	ORDER BY [dateCreated] DESC
-	OFFSET @offsetRows ROWS
-	FETCH NEXT @fetchedRows ROWS ONLY;
+		AND [Applications].[jobseekerID] = @jobseekerID
+	WHERE
+		[JobPosts].[jobTitle] LIKE '%' + @jobTitle + '%'
+		AND ([Employers].[brgyDistrict] LIKE '%' + @location + '%'
+		OR [Employers].[cityProvince] LIKE '%' + @location + '%')
 ;
+
+-- View Search Result
+CREATE PROCEDURE [JBSK_ViewSearchResult]
+	@jobTitle	 VARCHAR(MAX),
+	@location	 VARCHAR(MAX),
+	@jobseekerID INT,
+	@offsetRows  INT,
+	@fetchedRows INT
+AS
+	SELECT
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[field]
+		, [JobPosts].[description]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, [JobPosts].[jobPostFlag]
+		, [Employers].[employerID]
+		, [Employers].[profilePic]
+		, [Employers].[companyName]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
+		, [Bookmarks].[bookmarkID]
+		, [Applications].[status]
+	FROM [JobPosts]
+	INNER JOIN [Employers] 
+		ON [JobPosts].[employerID] = [Employers].[employerID]
+		AND [jobPostFlag] = 1
+	LEFT OUTER JOIN [Bookmarks]
+		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
+		AND [Bookmarks].[jobseekerID] = @jobseekerID
+	LEFT OUTER JOIN [Applications]
+		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
+		AND [Applications].[jobseekerID] = @jobseekerID
+	WHERE
+		[JobPosts].[jobTitle] LIKE '%' + @jobTitle + '%'
+		AND ([Employers].[brgyDistrict] LIKE '%' + @location + '%'
+		OR [Employers].[cityProvince] LIKE '%' + @location + '%')
+	ORDER BY [JobPosts].[dateCreated]
+	OFFSET @offsetRows ROWS
+	FETCH NEXT @fetchedRows ROWS ONLY
+;
+

@@ -5,8 +5,21 @@
     <div class="mb-4">
         <h1 class="font-weight-light mb-2">Applications</h1>
 
-        <div class="text-secondary d-flex justify-content-between">
-            <p class="m-0">You already applied to <strong><?php echo $totalRows ?></strong> available job<?php echo $totalRows > 1 ? 's' : '' ?>.</p>
+        <div class="text-secondary d-sm-flex justify-content-between">
+            <p class="m-0">
+                <?php
+                    $s = $totalRows > 1 ? 's' : '';
+                    if ($statusPage == 'Pending') {
+                        echo '<strong>' . $totalRows . '</strong> application' . $s . ' are on pending.';
+                    } else if ($statusPage == 'Hired') {
+                        echo 'You are hired for <strong>' . $totalRows . '</strong> job' . $s . '.';
+                    } else if ($statusPage == 'Interviewing') {
+                        echo 'You have <strong>' . $totalRows . '</strong> job' . $s . ' for interview.';
+                    } else if ($statusPage == 'Rejected') {
+                        echo '<strong>' . $totalRows . '</strong> application' . $s . ' have been rejected.';
+                    }
+                ?>
+            </p>
             <?php
                 if ($totalPages > 1) {
                     echo '
@@ -17,8 +30,35 @@
         </div>
     </div>    
 
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a 
+                class ="nav-link<?php echo $statusPage == 'Pending' ? ' active' : '' ?>" 
+                href  ="<?php echo base_url() ?>auth/applications/pending"
+            >Pending</a>
+        </li>
+        <li class="nav-item">
+            <a 
+                class ="nav-link<?php echo $statusPage == 'Interviewing' ? ' active' : '' ?>" 
+                href  ="<?php echo base_url() ?>auth/applications/interviewing"
+            >Interviewing</a>
+        </li>
+        <li class="nav-item">
+            <a 
+                class ="nav-link<?php echo $statusPage == 'Hired' ? ' active' : '' ?>" 
+                href  ="<?php echo base_url() ?>auth/applications/hired"
+            >Hired</a>
+        </li>
+        <li class="nav-item">
+            <a 
+                class="nav-link<?php echo $statusPage == 'Rejected' ? ' active' : '' ?>" 
+                href="<?php echo base_url() ?>auth/applications/rejected"
+            >Rejected</a>
+        </li>
+    </ul>
+
     <!-- JOB LIST -->
-    <div class="row mt-2 mb-5">
+    <div class="row mt-2 mb-5 animate__animated animate__fadeIn animate__faster">
         <?php foreach ( $posts as $post ) { $this->load->view('auth_sections/jobseeker/components/job_post_card', $post); } ?>
     </div>
 
@@ -46,13 +86,13 @@
 
     $(document).on('click','#removeBookmarkBtn', function(e) {
         e.preventDefault();
-        var jobPostID = $(this).attr('value');
+        var bookmarkID = $(this).attr('value');
         $.ajax({
             url:        "<?php echo base_url() ?>auth/remove_bookmark",
             type:       "post",
             dataType:   "json",
             data: {
-                jobPostID: jobPostID
+                bookmarkID: bookmarkID
             },
             success:    function(data) {
                 location.reload();

@@ -259,7 +259,7 @@ CREATE TABLE [Applications] (
 				[status] IN (
 					'Pending',
 					'Hired',
-					'Call for interview',
+					'Interviewing',
 					'Rejected'
 				)
 			)
@@ -293,7 +293,7 @@ CREATE TABLE [Bookmarks] (
 
 
 -- Notifications Table
-CREATE TABLE [Notifications] (
+CREATE TABLE [JBSK_Notifications] (
 	[notificationID]
 		INT NOT NULL IDENTITY(1,1)
 		CONSTRAINT PK_notificationID@Notifications PRIMARY KEY
@@ -304,15 +304,8 @@ CREATE TABLE [Notifications] (
 	[message]
 		VARCHAR(MAX) NOT NULL
 	,
-	[senderID]
-		INT NOT NULL
-		CONSTRAINT FK_senderID@Notifications FOREIGN KEY
-			REFERENCES [UserAccounts] ([userID])
-	,
-	[receiverID]
-		INT NOT NULL
-		CONSTRAINT FK_receiverID@Notifications FOREIGN KEY
-			REFERENCES [UserAccounts] ([userID])
+	[notificationType]
+		VARCHAR(MAX) NOT NULL
 	,
 	[readFlag]
 		BINARY NOT NULL DEFAULT 0

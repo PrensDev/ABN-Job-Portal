@@ -5,7 +5,7 @@
     
     <div class="mb-4">
         <h1 class="font-weight-light mb-2">Bookmarks</h1>
-    </div>    
+    </div>
 
     <div class="text-center my-5 py-5">
         <h2 class="font-weight-normal">You don't added a bookmark yet.</h2>

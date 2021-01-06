@@ -53,12 +53,27 @@ class Employer_model extends CI_Model {
 
         return $userdata;
     }
+    
+    // UPDATE INFORMATION METHOD
+    public function update_info() {
+        $input = $this->input->post();
+        return $this->db->query("
+            EXEC [EMPL_UpdateInfo]
+                @employerID    = '" . $this->session->id                . "',
+                @companyName   = '" . $input[ 'companyName' ]           . "',
+                @street        = '" . ucfirst($input[ 'street' ])       . "',
+                @brgyDistrict  = '" . ucfirst($input[ 'brgyDistrict' ]) . "',
+                @cityProvince  = '" . ucfirst($input[ 'cityProvince' ]) . "',
+                @contactNumber = '" . $input[ 'contactNumber' ]         . "',
+                @website       = '" . $input[ 'website' ]               . "',
+                @description   = '" . ucfirst($input[ 'description' ])  . "'
+        ");
+    }
 
     // POST NEW JOB METHOD
     public function post_new_job() {
         $status = $this->input->post('status') == '' ? 0 : 1;
-
-        $this->run_query("
+        return $this->db->query ("
             EXEC [EMPL_PostNewJob]
                 @employerID		  = '" . $this->session->id . "',
                 @jobTitle		  = '" . ucwords($this->input->post( 'jobTitle' )) . "',
@@ -72,7 +87,7 @@ class Employer_model extends CI_Model {
                 @minSalary		  = '" . $this->input->post( 'minSalary'        ) . "',
                 @maxSalary		  = '" . $this->input->post( 'maxSalary'        ) . "',
                 @jobPostFlag	  =  " . $status                                  . "
-        ", 'job_posts');
+        ");
     }
 
     // GET ALL POSTS METHOD
@@ -126,17 +141,22 @@ class Employer_model extends CI_Model {
     }
 
     // VIEW ALL APPLICANTS METHOD
-    public function view_all_applicants($jobPostID) {
-        return $this->db->query("EXEC [EMPL_ViewAllApplicants] @jobPostID = " . $jobPostID);
+    public function view_all_applicants($jobPostID, $status) {
+        return $this->db->query("
+            EXEC [EMPL_ViewAllApplicants] 
+                @jobPostID =  " . $jobPostID .",
+                @status    = '" . $status . "'
+        ");
     }
 
     // VIEW APPLICANTS METHOD
-    public function view_applicants($offsetRows, $fetchedRows, $jobPostID) {
+    public function view_applicants($offsetRows, $fetchedRows, $jobPostID, $status) {
         $query = $this->db->query("
             EXEC [EMPL_ViewApplicants]
-                @offsetRows  = " . $offsetRows .",
-                @fetchedRows = " . $fetchedRows . ",
-                @jobPostID   = " . $jobPostID . "
+                @offsetRows  =  " . $offsetRows .",
+                @fetchedRows =  " . $fetchedRows . ",
+                @jobPostID   =  " . $jobPostID . ",
+                @status      = '" . $status . "'
         ");
 
         return $query->result();
@@ -146,7 +166,7 @@ class Employer_model extends CI_Model {
     public function update_post($jobPostID) {
         $input  = $this->input->post();
         $status = $input['status'] == '1' ? 1 : 0;
-        $this->run_query("
+        return $this->db->query("
             EXEC [EMPL_UpdatePost]
                 @jobPostID		  =  " . $jobPostID . ",
                 @jobTitle		  = '" . ucwords($input[ 'jobTitle' ]) . "',
@@ -160,37 +180,16 @@ class Employer_model extends CI_Model {
                 @minSalary		  =  " . $input[ 'minSalary' ] . ",
                 @maxSalary		  =  " . $input[ 'maxSalary' ] . ",
                 @jobPostFlag	  =  " . $status . "
-        ", 'job_details/' . $jobPostID);
+        ");
     }
 
     // DELETE POST METHOD
     public function delete_post($jobPostID) {
-        $exist = $this->get_job_details($jobPostID, $this->session->id);
-        if(! $exist) {
-            $this->Auth_model->err_page();
-        } else {
-            $this->run_query("
-                EXEC [EMPL_DeletePost] 
-                    @jobPostID  = " . $jobPostID . ",
-                    @employerID = " . $this->session->id
-            , 'job_posts');
-        }
-    }
-
-    // UPDATE INFORMATION METHOD
-    public function update_info() {
-        $input = $this->input->post();
-        $this->db->query("
-            EXEC [EMPL_UpdateInfo]
-                @employerID    = '" . $this->session->id                . "',
-                @companyName   = '" . $input[ 'companyName' ]           . "',
-                @street        = '" . ucfirst($input[ 'street' ])       . "',
-                @brgyDistrict  = '" . ucfirst($input[ 'brgyDistrict' ]) . "',
-                @cityProvince  = '" . ucfirst($input[ 'cityProvince' ]) . "',
-                @contactNumber = '" . $input[ 'contactNumber' ]         . "',
-                @website       = '" . $input[ 'website' ]               . "',
-                @description   = '" . ucfirst($input[ 'description' ])  . "'
-        ");
+        return $this->db->query("
+            EXEC [EMPL_DeletePost] 
+                @jobPostID  = " . $jobPostID . ",
+                @employerID = " . $this->session->id
+        );
     }
 
     // VIEW APPLICANT PROFILE

@@ -1,6 +1,8 @@
 <?php
 
-$resumeData = $this->Jobseeker_model->view_resume();
+if ($this->session->userType == 'Job Seeker') {
+    $resumeData = $this->Jobseeker_model->view_resume();
+}
 
 if ($jobType == 'Full Time') {
     $jobTypeClass = 'success';
@@ -387,27 +389,36 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
         <?php
             if ($this->session->userType == 'Job Seeker') {
                 if (! isset($status)) {
-                    $userControlConfig = [
-                        'theme'         => 'primary',
-                        'modalID'       => 'submitApplicationModal',
-                        'statusLabel'   => 'Apply now!',
-                    ];
-                } else {
-                    if ($status == 'Pending') {
+                    if (isset($resumeData)) {
                         $userControlConfig = [
-                            'theme'         => 'secondary',
-                            'modalID'       => 'cancelApplicationModal',
-                            'statusLabel'   => 'Cancel my application',
+                            'theme'         => 'primary',
+                            'modalID'       => 'submitApplicationModal',
+                            'statusLabel'   => 'Apply now!',
                         ];
-                    } else if ($status == 'Hired') {
+                    } else {
                         $userControlConfig = [
-                            'theme'         => NULL,
-                            'modalID'       => NULL,
-                            'statusLabel'   => NULL,
+                            'theme'         => 'primary',
+                            'modalID'       => 'emptyResumeModal',
+                            'statusLabel'   => 'Apply now!',
                         ];
                     }
-                }
+                } else {
+                        if ($status == 'Pending') {
+                            $userControlConfig = [
+                                'theme'         => 'secondary',
+                                'modalID'       => 'cancelApplicationModal',
+                                'statusLabel'   => 'Cancel my application',
+                            ];
+                        } else if ($status == 'Hired') {
+                            $userControlConfig = [
+                                'theme'         => NULL,
+                                'modalID'       => NULL,
+                                'statusLabel'   => NULL,
+                            ];
+                        }
+                    }
                 $this->load->view('auth_sections/jobseeker/user_controls', $userControlConfig);
+                
             }
         ?>
     </div>
@@ -418,34 +429,32 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 
 <?php
 
-if (isset($status)) {
-    $this->load->view('auth_sections/jobseeker/components/view_application_modal');
-}
-
 if ($this->session->userType == 'Job Seeker') {
-    if (isset($resumeData)) {
-        if (! isset($status)) {
+    if (! isset($status)) {
+        if (isset($resumeData)) {
             $this->load->view('auth_sections/jobseeker/components/submit_application_modal', $resumeData);
         } else {
-            if ($status = 'Pending') {
-                $modalConfig = [
-                    'centered'      => TRUE,
-                    'nofade'        => TRUE,
-                    'id'            => 'cancelApplicationModal',
-                    'theme'         => 'warning',
-                    'title'         => 'Cancel Application',
-                    'modalIcon'     => 'WARNING',
-                    'message'       => '
-                        <p class="m-1">Are you sure you want to cancel you application for this job?</p>
-                        <p class="m-1"><strong>Note: You may apply again if this job is still available.</strong></p>
-                    ',
-                    'actionPath'    => NULL,
-                    'actionID'      => 'cancelApplicationBtn',
-                    'actionIcon'    => 'file',
-                    'actionLabel'   => 'Cancel my application!',
-                ];
-            }
-            $this->load->view('sections/components/modal', $modalConfig);
+            $this->load->view('auth_sections/jobseeker/components/empty_resume_modal');
+        }
+    } else {
+        if ($status = 'Pending') {
+            $this->load->view('auth_sections/jobseeker/components/view_application_modal');
+            $this->load->view('sections/components/modal', [
+                'centered'      => TRUE,
+                'nofade'        => TRUE,
+                'id'            => 'cancelApplicationModal',
+                'theme'         => 'warning',
+                'title'         => 'Cancel Application',
+                'modalIcon'     => 'WARNING',
+                'message'       => '
+                    <p class="m-1">Are you sure you want to cancel you application for this job?</p>
+                    <p class="m-1"><strong>Note: You may apply again if this job is still available.</strong></p>
+                ',
+                'actionPath'    => NULL,
+                'actionID'      => 'cancelApplicationBtn',
+                'actionIcon'    => 'file',
+                'actionLabel'   => 'Cancel my application!',
+            ]);
         }
     }
 }
@@ -460,7 +469,7 @@ if ($this->session->userType == 'Job Seeker') {
             type:       "post",
             dataType:   "json",
             data: {
-                applicationID: <?php echo isset($applicationID) ? $applicationID : NULL ?>,
+                applicationID: <?php echo isset($applicationID) ? $applicationID : 0 ?>,
             },
             success:    function(data) {
                 location.reload();
@@ -470,29 +479,27 @@ if ($this->session->userType == 'Job Seeker') {
 
     $(document).on('click','#addBookmarkBtn', function(e) {
         e.preventDefault();
-        var jobPostID = $(this).attr('value');
         $.ajax({
             url:        "<?php echo base_url() ?>auth/add_bookmark",
             type:       "post",
             dataType:   "json",
             data: {
-                jobPostID: jobPostID
+                jobPostID: <?php echo $jobPostID ?>
             },
             success:    function(data) {
                 location.reload();
-            } 
+            }
         });
     });
 
     $(document).on('click','#removeBookmarkBtn', function(e) {
         e.preventDefault();
-        var jobPostID = $(this).attr('value');
         $.ajax({
             url:        "<?php echo base_url() ?>auth/remove_bookmark",
             type:       "post",
             dataType:   "json",
             data: {
-                jobPostID: jobPostID
+                bookmarkID: <?php echo isset($bookmarkID) ? $bookmarkID : 0 ?>
             },
             success:    function(data) {
                 location.reload();
