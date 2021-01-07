@@ -10807,7 +10807,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .image-overlay {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .company-logo img {

@@ -10,9 +10,9 @@ class Jobs extends CI_Controller {
             $userType = $this->session->userType;
 
             if ( $userType == 'Job Seeker' ) {
-                $userdata = $this->Jobseeker_model->get_info();
+                $userdata = $this->JBSK_model->get_info();
             } else if ( $userType == 'Employer' ) {
-                $userdata = $this->Employer_model->get_info();
+                $userdata = $this->EMPL_model->get_info();
             }
 
             $pageTitle = $userdata['username'] . ' - ' . $title;
@@ -46,45 +46,45 @@ class Jobs extends CI_Controller {
     // GET ALL RECENT POSTS
     private function get_all_recent_posts() {
         if ($this->session->userType == 'Job Seeker') {
-            return $this->Jobseeker_model->view_all_recent_posts();
+            return $this->JBSK_model->view_all_recent_posts();
         } else {
-            return $this->View_model->all_recent_posts();
+            return $this->VIEW_model->all_recent_posts();
         }
     }
 
     // GET RECENT POSTS
     private function get_recent_posts($offsetRows, $fetchedRows) {
         if ($this->session->userType == 'Job Seeker') {
-            return $this->Jobseeker_model->view_recent_posts($offsetRows, $fetchedRows);
+            return $this->JBSK_model->view_recent_posts($offsetRows, $fetchedRows);
         } else {
-            return $this->View_model->recent_posts($offsetRows, $fetchedRows); 
+            return $this->VIEW_model->recent_posts($offsetRows, $fetchedRows); 
         }
     }
 
     // GET ALL SEARCH RESULT
     private function get_all_search_result() {
         if ($this->session->userType == 'Job Seeker') {
-            return $this->Jobseeker_model->view_all_search_result();
+            return $this->JBSK_model->view_all_search_result();
         } else {
-            return $this->View_model->all_search_result();
+            return $this->VIEW_model->all_search_result();
         }
     }
 
     // GET SEARCH RESULT
     private function get_search_result($offsetRows, $fetchedRows) {
         if ($this->session->userType == 'Job Seeker') {
-            return $this->Jobseeker_model->view_search_result($offsetRows, $fetchedRows);
+            return $this->JBSK_model->view_search_result($offsetRows, $fetchedRows);
         } else {
-            return $this->View_model->search_result($offsetRows, $fetchedRows); 
+            return $this->VIEW_model->search_result($offsetRows, $fetchedRows); 
         }
     }
 
     // GET JOB DETAILS
     private function get_job_details($jobPostID) {
         if ($this->session->userType == 'Job Seeker') {
-            return $this->Jobseeker_model->job_details($jobPostID);
+            return $this->JBSK_model->job_details($jobPostID);
         } else {
-            return $this->View_model->job_details($jobPostID);
+            return $this->VIEW_model->job_details($jobPostID);
         }
     }
 
@@ -159,7 +159,7 @@ class Jobs extends CI_Controller {
                     $this->load->view('sections/footer');
                     $this->load->view('templates/footer');
                 } else {
-                    $this->Auth_model->err_page();
+                    $this->AUTH_model->err_page();
                 }
             }
         }
@@ -168,11 +168,11 @@ class Jobs extends CI_Controller {
     // JOB DETAILS VIEW
     public function details($jobPostID = NULL) {
         if ($jobPostID == NULL) {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         } else {
             $jobDetails = $this->get_job_details($jobPostID);
             if (! $jobDetails) {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             } else {
                 $data = $this->set_data('Job Details');    
                 $this->load->view('templates/header', $data);
@@ -239,7 +239,7 @@ class Jobs extends CI_Controller {
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 }

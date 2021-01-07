@@ -6,6 +6,7 @@ class Home extends CI_Controller {
         parent::__construct();
     }
 
+    // SET DATA
     protected function set_data($title) {
         $userdata = NULL;
 
@@ -13,9 +14,9 @@ class Home extends CI_Controller {
             $userType = $this->session->userType;
 
             if ( $userType == 'Job Seeker' ) {
-                $userdata = $this->Jobseeker_model->get_info();
+                $userdata = $this->JBSK_model->get_info();
             } else if ( $userType == 'Employer' ) {
-                $userdata = $this->Employer_model->get_info();
+                $userdata = $this->EMPL_model->get_info();
             }
 
             $pageTitle = $userdata['username'] . ' - ' . $title;
@@ -32,7 +33,8 @@ class Home extends CI_Controller {
 
         return $data;
     }
-    
+
+    // LOAD MAIN VIEW
     protected function load_main_view($title, $bodyView) {
         $data = $this->set_data($title);
 
@@ -41,9 +43,9 @@ class Home extends CI_Controller {
 
         if ( $bodyView == 'index' ) {
             if ($this->session->userType == 'Job Seeker') {
-                $posts = $this->Jobseeker_model->view_recent_posts(0, 10);
+                $posts = $this->JBSK_model->view_recent_posts(0, 10);
             } else {
-                $posts = $this->View_model->recent_posts(0, 10);
+                $posts = $this->VIEW_model->recent_posts(0, 10);
             }
             $data['posts'] = $posts;
             $this->load->view('index', $data);
@@ -60,195 +62,10 @@ class Home extends CI_Controller {
 
     // INDEX VIEW
     public function index()                 {$this->load_main_view('Home', 'index');}
-    
+
     // ABOUT US VIEW
     public function about_us()              {$this->load_main_view('About Us', 'about_us');}
 
     // TERMS AND CONDITIONS VIEW
     public function terms_and_conditions()  {$this->load_main_view('Terms and Conditions', 'terms_and_conditions');}
-
-    // LOGIN VIEW
-    public function login() {
-        if ($this->session->has_userdata('userType')) {
-            redirect();
-        } else {
-            $this->form_validation->set_rules([
-                [
-                    'field' => 'email',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'password',
-                    'rules' => 'required',
-                ],
-            ]);
-
-            $this->form_validation->set_message([
-                'required' => 'This is a required field',
-            ]);
-
-            if ($this->form_validation->run() === FALSE) {
-                $data = [
-                    'title' => 'Login',
-                    'error' => '',
-                ];
-            } else {
-                $error = $this->Auth_model->login();
-                if (isset($error)) {
-                    $data = [
-                        'title' => 'Login',
-                        'error' => $error,
-                    ];
-                }
-            }
-            
-            $this->load->view('templates/fullpage_header', $data);
-            $this->load->view('sections/login_form');
-            $this->load->view('templates/footer');
-        }
-    }
-
-    // JOBSEEKER REGISTRATION VIEW
-    public function jobseeker_registration() {
-        if ($this->session->has_userdata('userType')) {
-            redirect();
-        } else {
-            $this->form_validation->set_rules([
-                [
-                    'field' => 'firstName',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'lastName',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'birthDate',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'gender',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'cityProvince',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'contactNumber',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'email',
-                    'rules' => 'required|valid_email|is_unique[UserAccounts.email]',
-                ],
-                [
-                    'field' => 'password',
-                    'rules' => 'required|min_length[8]',
-                ],
-                [
-                    'field' => 'retypePassword',
-                    'rules' => 'required|matches[password]',
-                ],
-                [
-                    'field' => 'agreement',
-                    'rules' => 'required',
-                ],
-            ]);
-
-            $this->form_validation->set_message([
-                'required'      => 'This is a required field',
-                'is_unique'     => 'This email is already used.',
-                'valid_email'   => 'This email contains invalid characters',
-                'min_length'    => 'Your password must be 8 characters and above',
-                'matches'       => 'It doesn\'t match to your password',
-            ]);
-
-            if ($this->form_validation->run() === FALSE) {
-                $data = $this->set_data('Register as Job Seeker');
-
-                $this->load->view('templates/header', $data);
-                $this->load->view('sections/navbar', $data['userdata']);
-                $this->load->view('sections/jobseeker_regform', $data);
-                $this->load->view('sections/footer');
-                $this->load->view('templates/footer');
-            } else {
-                $this->Auth_model->register_jobseeker();
-            }
-        }
-    }
-
-    // EMPLOYER REGISTRATION VIEW
-    public function employer_registration() {
-        if ($this->session->has_userdata('userType')) {
-            redirect();
-        } else {
-            $this->form_validation->set_rules([
-                [
-                    'field' => 'companyName',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'street',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'brgyDistrict',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'cityProvince',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'description',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'website',
-                    'rules' => 'valid_url',
-                ],
-                [
-                    'field' => 'contactNumber',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'email',
-                    'rules' => 'required|valid_email|is_unique[UserAccounts.email]',
-                ],
-                [
-                    'field' => 'password',
-                    'rules' => 'required|min_length[8]',
-                ],
-                [
-                    'field' => 'retypePassword',
-                    'rules' => 'required|matches[password]',
-                ],
-                [
-                    'field' => 'agreement',
-                    'rules' => 'required',
-                ],
-            ]);
-
-            $this->form_validation->set_message([
-                'required'      => 'This is a required field',
-                'is_unique'     => 'This email is already used.',
-                'valid_email'   => 'This email contains invalid characters',
-                'min_length'    => 'Your password must be 8 characters and above',
-                'matches'       => 'It doesn\'t match to your password',
-            ]);
-
-            if ($this->form_validation->run() === FALSE) {
-                $data = $this->set_data('Register as Employer');
-
-                $this->load->view('templates/header', $data);
-                $this->load->view('sections/navbar', $data['userdata']);
-                $this->load->view('sections/employer_regform', $data);
-                $this->load->view('sections/footer');
-                $this->load->view('templates/footer');
-            } else {
-                $this->Auth_model->register_employer();
-            }
-        }
-    }
 }

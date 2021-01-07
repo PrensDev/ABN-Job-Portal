@@ -1,5 +1,6 @@
+
 <!-- JOB SEEKER AND EMPLOYER REGISTRATION -->
-<div class="container-fluid">
+<div class="container-fluid bg-light">
 <div class="container-md py-5">
 
     <h1 class="display-4 text-center">Create your account here!</h1>

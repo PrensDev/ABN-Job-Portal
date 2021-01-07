@@ -125,3 +125,13 @@ AS
 	SET [accountFlag] = @flag
 	WHERE [email] = @email
 ;
+
+-- Update Password
+CREATE PROCEDURE [AUTH_UpdatePassword]
+	@email		VARCHAR(450),
+	@password	VARCHAR(MAX)
+AS
+	UPDATE [UserAccounts]
+	SET [password] = @password
+	WHERE [email] = @email
+;

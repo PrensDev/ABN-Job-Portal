@@ -1,11 +1,9 @@
 <!-- HEADER SECTION -->
-<div class="container-fluid parallax-window image-overlay py-5 text-white" data-parallax="scroll" data-image-src="<?php echo base_url() ?>public/img/header.jpg">
+<div class="container-fluid py-3 bg-light">
 <div class="container-md py-lg-3">
 
-    <h1 class="display-4 text-white mb-3">Search the job you want here!</h1>
-    
     <!-- SEARCH BAR -->
-    <div class="search-bar bg-white p-1">
+    <div class="search-bar bg-white border border-secondary p-1">
         <form action="<?php echo base_url() ?>jobs/" method="GET">
             <div class="row">
 
@@ -16,6 +14,7 @@
                             class       = "form-control border-0 shadow-none" 
                             placeholder = "Keyword..." 
                             name        = "keyword"
+                            value       = "<?php echo $this->input->get('keyword') != NULL ? $this->input->get('keyword') : ''; ?>"
                         >
                         <div class="input-group-append">
                             <span class="input-group-text bg-white border-0"><i class="fas fa-search"></i></span>
@@ -28,8 +27,9 @@
                         <input 
                             type        = "text" 
                             class       = "form-control border-0 shadow-none" 
-                            placeholder = "Keyword..." 
+                            placeholder = "Location..." 
                             name        = "place"
+                            value       = "<?php echo $this->input->get('place') != NULL ? $this->input->get('place') : ''; ?>"
                         >
                         <div class="input-group-append">
                             <span class="input-group-text bg-white border-0"><i class="fas fa-map-marker-alt"></i></span>
@@ -48,12 +48,6 @@
             
         </form>
     </div>
-    <!-- END OF SEARCH BAR -->
-
-    <p class="mt-1">
-        <p>Type the job keywords you are finding and the place where you want to.</p>
-    </p>
 
 </div>
 </div>
-<!-- END OF HEADER SECTION -->

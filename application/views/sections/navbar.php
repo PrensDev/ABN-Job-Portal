@@ -62,15 +62,15 @@
                     if ($this->session->userType == 'Job Seeker') {
                         $navbarData = [
                             'username'       => $firstName,
-                            'appliedJobsNum' => $this->Jobseeker_model->applied_jobs_num(),
-                            'bookmarksNum'   => $this->Jobseeker_model->bookmarks_num(),
+                            'appliedJobsNum' => $this->JBSK_model->applied_jobs_num(),
+                            'bookmarksNum'   => $this->JBSK_model->bookmarks_num(),
                         ];
 
                         $this->load->view('auth_sections/jobseeker/components/navbar_control', $navbarData);
                     } else if ($this->session->userType == 'Employer') {
                         $navbarData = [
                             'username' => $username,
-                            'postsNum' => $this->Employer_model->posts_num(),
+                            'postsNum' => $this->EMPL_model->posts_num(),
                         ];
 
                         $this->load->view('auth_sections/employer/components/navbar_control', $navbarData);

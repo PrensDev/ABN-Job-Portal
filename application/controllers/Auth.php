@@ -9,9 +9,9 @@ class Auth extends CI_Controller {
     // GET USER DATA
     protected function get_userdata() {
         if ( $this->session->userType == 'Job Seeker' ) {
-            return $this->Jobseeker_model->get_info();
+            return $this->JBSK_model->get_info();
         } else if ( $this->session->userType == 'Employer' ) {
-            return $this->Employer_model->get_info();
+            return $this->EMPL_model->get_info();
         }
     }
 
@@ -63,11 +63,11 @@ class Auth extends CI_Controller {
             if ($this->session->userType == "Job Seeker") {
                 $imgName = 'JBSK_' . time() . '.png';
                 file_put_contents('public/img/jobseekers/' . $imgName, $base64_decode);
-                $this->Jobseeker_model->set_profile_pic($imgName);
+                $this->JBSK_model->set_profile_pic($imgName);
             } else if ($this->session->userType == "Employer") {
                 $imgName = 'EMPL_' . time() . '.png';
                 file_put_contents('public/img/employers/' . $imgName, $base64_decode);
-                $this->Employer_model->set_profile_pic($imgName);
+                $this->EMPL_model->set_profile_pic($imgName);
             }
         }
     }
@@ -81,7 +81,7 @@ class Auth extends CI_Controller {
         if ($this->session->has_userdata('userType')) {
             redirect();
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -93,7 +93,7 @@ class Auth extends CI_Controller {
 
     // DEACTIVATE VIEW
     public function deactivate() {
-        $this->Auth_model->deactivate();
+        $this->AUTH_model->deactivate();
         session_destroy();
         redirect();
     }
@@ -101,12 +101,12 @@ class Auth extends CI_Controller {
     // USER CHANGE PASSWORD VIEW
     public function change_password() {
         if (! $this->session->has_userdata('userType')) {
-            redirect();
+            $this->AUTH_model->err_page();
         } else {
             if ($this->session->userType == 'Job Seeker') {
-                $userdata = $this->Jobseeker_model->get_info();
+                $userdata = $this->JBSK_model->get_info();
             } else if ($this->session->userType == 'Employer') {
-                $userdata = $this->Employer_model->get_info();
+                $userdata = $this->EMPL_model->get_info();
             } 
             $pagedata = ['title' => $userdata['username'] . ' - Change Password'];
 
@@ -130,7 +130,12 @@ class Auth extends CI_Controller {
                 $this->load->view('auth_sections/change_password', $userdata);
                 $this->load->view('templates/footer');
             } else {
-                $this->Auth_model->change_password($this->input->post());
+                if ($this->AUTH_model->update_password($this->input->post())) {
+                    $this->session->set_flashdata('updated', 'success');
+                } else {
+                    $this->session->set_flashdata('updated', 'failed');
+                };
+                redirect('auth/settings');
             }
         }
     }
@@ -142,7 +147,7 @@ class Auth extends CI_Controller {
             $pagedata = ['title' => $userdata['username'] . ' - Information'];
 
             if ($this->session->userType == 'Job Seeker') {
-                $userdata['resumeData'] = $this->Jobseeker_model->view_resume();
+                $userdata['resumeData'] = $this->JBSK_model->view_resume();
             }
             
             $this->load->view('templates/header', $pagedata);
@@ -152,7 +157,7 @@ class Auth extends CI_Controller {
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -199,7 +204,7 @@ class Auth extends CI_Controller {
                     $this->load->view('sections/footer');
                     $this->load->view('templates/footer');
                 } else {
-                    if ($this->Jobseeker_model->update_info()) {
+                    if ($this->JBSK_model->update_info()) {
                         $this->session->set_flashdata('updated', 'success');
                     } else {
                         $this->session->set_flashdata('updated', 'failed');
@@ -245,7 +250,7 @@ class Auth extends CI_Controller {
                     $this->load->view('sections/footer');
                     $this->load->view('templates/footer');
                 } else {
-                    if ($this->Employer_model->update_info()) {
+                    if ($this->EMPL_model->update_info()) {
                         $this->session->set_flashdata('updated', 'success');
                     } else {
                         $this->session->set_flashdata('updated', 'failed');
@@ -254,7 +259,7 @@ class Auth extends CI_Controller {
                 }
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         } 
     }
 
@@ -271,7 +276,7 @@ class Auth extends CI_Controller {
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -317,7 +322,7 @@ class Auth extends CI_Controller {
                 $this->load->view('sections/footer');
                 $this->load->view('templates/footer');
             } else {
-                if ($this->Jobseeker_model->create_resume()) {
+                if ($this->JBSK_model->create_resume()) {
                     $this->session->set_flashdata('added', 'success');
                     $this->session->set_flashdata('component', 'resume');
                 } else {
@@ -326,14 +331,14 @@ class Auth extends CI_Controller {
                 redirect('auth/profile');
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
     // EDIT RESUME VIEW
     public function edit_resume($resumeID = NULL) {
         if ($this->session->userType == 'Job Seeker') {
-            $resumeData = $this->Jobseeker_model->view_resume();
+            $resumeData = $this->JBSK_model->view_resume();
 
             if ($resumeData->resumeID == $resumeID) {
                 $userdata = $this->get_userdata();
@@ -372,7 +377,7 @@ class Auth extends CI_Controller {
                     $this->load->view('sections/footer');
                     $this->load->view('templates/footer');
                 } else {
-                    if ($this->Jobseeker_model->update_resume($resumeID)) {
+                    if ($this->JBSK_model->update_resume($resumeID)) {
                         $this->session->set_flashdata('updated', 'success');
                     } else {
                         $this->session->set_flashdata('updated', 'failed');
@@ -380,10 +385,10 @@ class Auth extends CI_Controller {
                     redirect('auth/profile');
                 }
             } else {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -391,9 +396,9 @@ class Auth extends CI_Controller {
     public function remove_resume($resumeID = NULL) {
         if ($this->session->userType == 'Job Seeker') {
             if ($resumeID == NULL) {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             } else {
-                if ($this->Jobseeker_model->remove_resume($resumeID)) {
+                if ($this->JBSK_model->remove_resume($resumeID)) {
                     $this->session->set_flashdata('removed', 'success');
                     $this->session->set_flashdata('component', 'resume');
                 } else {
@@ -402,7 +407,7 @@ class Auth extends CI_Controller {
                 redirect('auth/profile');
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -421,7 +426,7 @@ class Auth extends CI_Controller {
                 
                 if (array_key_exists($statusPage, $status)) {
                     $userdata = $this->get_userdata();
-                    $AllJobApplications = $this->Jobseeker_model->all_applied_jobs($statusPage);
+                    $AllJobApplications = $this->JBSK_model->all_applied_jobs($statusPage);
 
                     $pagedata = [
                         'title'      => $userdata['username'] . ' - ' . $status[$statusPage] . ' applications',
@@ -441,7 +446,7 @@ class Auth extends CI_Controller {
 
                         if ($page > 0 && $page <= $totalPages) {
                             $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                            $posts      = $this->Jobseeker_model->applied_jobs($statusPage, $offsetRows, $fetchedRows); 
+                            $posts      = $this->JBSK_model->applied_jobs($statusPage, $offsetRows, $fetchedRows); 
                             
                             $pagedata = [
                                 'title'         => $userdata['username'] . ' - ' . $status[$statusPage] . ' applications',
@@ -460,15 +465,15 @@ class Auth extends CI_Controller {
                             $this->load->view('sections/footer');
                             $this->load->view('templates/footer');
                         } else {
-                            $this->Auth_model->err_page();
+                            $this->AUTH_model->err_page();
                         }
                     }         
                 } else {
-                    $this->Auth_model->err_page();
+                    $this->AUTH_model->err_page();
                 }
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -476,14 +481,14 @@ class Auth extends CI_Controller {
     public function submit_application() {
         if ($this->session->userType == 'Job Seeker') {
             if ($this->input->is_ajax_request()) {
-                $applicationStatus = $this->Jobseeker_model->submit_application();
+                $applicationStatus = $this->JBSK_model->submit_application();
                 $data['response'] = $applicationStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -492,14 +497,14 @@ class Auth extends CI_Controller {
         if ($this->session->userType == 'Job Seeker') {
             if ($this->input->is_ajax_request()) {
                 $jobPostID = $this->input->post('jobPostID');
-                $applicationStatus = $this->Jobseeker_model->reject_application($jobPostID);
+                $applicationStatus = $this->JBSK_model->reject_application($jobPostID);
                 $data['response'] = $applicationStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -507,14 +512,14 @@ class Auth extends CI_Controller {
     public function cancel_application() {
         if ($this->session->userType == 'Job Seeker') {
             if ($this->input->is_ajax_request()) {
-                $applicationStatus = $this->Jobseeker_model->cancel_application();
+                $applicationStatus = $this->JBSK_model->cancel_application();
                 $data['response'] = $applicationStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -524,7 +529,7 @@ class Auth extends CI_Controller {
             $userdata = $this->get_userdata();
             $pagedata = ['title' => $userdata['username'] . ' - Bookmarks'];
 
-            $AllAppliedJobs = $this->Jobseeker_model->get_all_bookmarks();
+            $AllAppliedJobs = $this->JBSK_model->get_all_bookmarks();
 
             if ($AllAppliedJobs->result() == NULL) {
                 $this->load->view('templates/header', $pagedata);
@@ -539,7 +544,7 @@ class Auth extends CI_Controller {
 
                 if ($page > 0 && $page <= $totalPages) {
                     $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                    $posts      = $this->Jobseeker_model->get_bookmarks($offsetRows, $fetchedRows); 
+                    $posts      = $this->JBSK_model->get_bookmarks($offsetRows, $fetchedRows); 
                     
                     $pagedata = [
                         'title'         => $userdata['username'] . ' - Bookmarks',
@@ -559,7 +564,7 @@ class Auth extends CI_Controller {
                 }
             }         
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -568,11 +573,11 @@ class Auth extends CI_Controller {
         if ($this->session->userType == 'Job Seeker') {
             if ($this->input->is_ajax_request()) {
                 $jobPostID = $this->input->post('jobPostID');
-                $bookmarkStatus = $this->Jobseeker_model->add_bookmark($jobPostID);
+                $bookmarkStatus = $this->JBSK_model->add_bookmark($jobPostID);
                 $data['response'] = $bookmarkStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             }
         }
     }
@@ -582,11 +587,11 @@ class Auth extends CI_Controller {
         if ($this->session->userType == 'Job Seeker') {
             if ($this->input->is_ajax_request()) {
                 $bookmarkID = $this->input->post('bookmarkID');
-                $bookmarkStatus = $this->Jobseeker_model->remove_bookmark($bookmarkID);
+                $bookmarkStatus = $this->JBSK_model->remove_bookmark($bookmarkID);
                 $data['response'] = $bookmarkStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             }
         }
     }
@@ -601,7 +606,7 @@ class Auth extends CI_Controller {
             $userdata = $this->get_userdata();
             $pagedata['title'] = $userdata['username'] . ' - Job Posts';
             
-            $AllPosts = $this->Employer_model->get_all_posts();
+            $AllPosts = $this->EMPL_model->get_all_posts();
 
             if ($AllPosts->result() == NULL) {    
                 $this->load->view('templates/header', $pagedata);
@@ -616,7 +621,7 @@ class Auth extends CI_Controller {
 
                 if ($page > 0 && $page <= $totalPages) {
                     $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                    $posts      = $this->Employer_model->get_posts($offsetRows, $fetchedRows); 
+                    $posts      = $this->EMPL_model->get_posts($offsetRows, $fetchedRows); 
                     
                     $pagedata = [
                         'title'         => $userdata['username'] . ' - Job Posts',
@@ -634,24 +639,24 @@ class Auth extends CI_Controller {
                     $this->load->view('sections/footer');
                     $this->load->view('templates/footer');
                 } else {
-                    $this->Auth_model->err_page();
+                    $this->AUTH_model->err_page();
                 }
             } 
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
     // JOB DETAILS VIEW
     public function job_details($jobPostID = NULL) {
         if ($jobPostID == NULL) {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         } else {
             $userdata   = $this->get_userdata();
-            $jobDetails = $this->Employer_model->get_job_details($jobPostID);
+            $jobDetails = $this->EMPL_model->get_job_details($jobPostID);
 
             if (! $jobDetails) {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             } else {
                 $pagedata = ['title' => $jobDetails['jobTitle'] . ' - Job Details'];
 
@@ -715,7 +720,7 @@ class Auth extends CI_Controller {
             ]);
 
             if ($this->form_validation->run() === FALSE) {
-                $userdata = $this->Employer_model->get_info();
+                $userdata = $this->EMPL_model->get_info();
                 $pagedata = ['title' => $userdata['username'] . ' - Job Posts'];
 
                 $this->load->view('templates/header', $pagedata);
@@ -724,7 +729,7 @@ class Auth extends CI_Controller {
                 $this->load->view('sections/footer');
                 $this->load->view('templates/footer');
             } else {
-                if ($this->Employer_model->post_new_job()) {
+                if ($this->EMPL_model->post_new_job()) {
                     $this->session->set_flashdata('added', 'success');
                     $this->session->set_flashdata('component', 'job post');
                 } else {
@@ -733,7 +738,7 @@ class Auth extends CI_Controller {
                 redirect('auth/job_posts');
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -741,7 +746,7 @@ class Auth extends CI_Controller {
     public function edit_post($jobPostID = NULL) {
         if ( $this->session->userType == 'Employer' ) {
             if ($jobPostID == NULL) {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             } else {
                 $this->form_validation->set_rules([
                     [
@@ -791,9 +796,9 @@ class Auth extends CI_Controller {
                 ]);
         
                 if ($this->form_validation->run() === FALSE) { 
-                    $jobDetails = $this->Employer_model->get_job_details($jobPostID);
+                    $jobDetails = $this->EMPL_model->get_job_details($jobPostID);
                     if(! $jobDetails) {
-                        $this->Auth_model->err_page();
+                        $this->AUTH_model->err_page();
                     } else {
                         $userdata = $this->get_userdata();
                         $pagedata = ['title' => $userdata['username'] . ' - Edit Job Post'];
@@ -805,7 +810,7 @@ class Auth extends CI_Controller {
                         $this->load->view('templates/footer');
                     }
                 } else {
-                    if ($this->Employer_model->update_post($jobPostID)) {
+                    if ($this->EMPL_model->update_post($jobPostID)) {
                         $this->session->set_flashdata('updated', 'success');
                     } else {
                         $this->session->set_flashdata('updated', 'failed');    
@@ -814,7 +819,7 @@ class Auth extends CI_Controller {
                 }
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }        
     }
 
@@ -822,9 +827,9 @@ class Auth extends CI_Controller {
     public function delete_post($jobPostID = NULL) {
         if ($this->session->userType == 'Employer') {
             if ($jobPostID == NULL) {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             } else {
-                if ($this->Employer_model->delete_post($jobPostID)) {
+                if ($this->EMPL_model->delete_post($jobPostID)) {
                     $this->session->set_flashdata('removed', 'success');
                     $this->session->set_flashdata('component', 'job post');
                 } else {
@@ -833,7 +838,7 @@ class Auth extends CI_Controller {
                 redirect('auth/job_posts');
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }      
     }
 
@@ -841,7 +846,7 @@ class Auth extends CI_Controller {
     public function manage_applicants($jobPostID = NULL, $statusPage = NULL, $page = 1) {
         if ($this->session->userType == 'Employer') {
             if ($jobPostID == NULL) {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             } else {
                 if ($statusPage == NULL) {
                     redirect('auth/manage_applicants/' . $jobPostID . '/pending');
@@ -855,9 +860,9 @@ class Auth extends CI_Controller {
                     ];
     
                     if (array_key_exists($statusPage, $status)) {
-                        $AllApplicants = $this->Employer_model->view_all_applicants($jobPostID, $status[$statusPage]);
-                        $userdata = $this->Employer_model->get_info();
-                        $jobDetails = $this->Employer_model->get_job_details($jobPostID);
+                        $AllApplicants = $this->EMPL_model->view_all_applicants($jobPostID, $status[$statusPage]);
+                        $userdata = $this->EMPL_model->get_info();
+                        $jobDetails = $this->EMPL_model->get_job_details($jobPostID);
 
                         $pagedata = [
                             'title'      => $userdata['username'] . ' - Manage Applicants (' . $status[$statusPage] . ')',
@@ -879,7 +884,7 @@ class Auth extends CI_Controller {
                             
                             if ($page > 0 && $page <= $totalPages) {
                                 $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                                $posts      = $this->Employer_model->view_applicants($offsetRows, $fetchedRows, $jobPostID, $status[$statusPage]); 
+                                $posts      = $this->EMPL_model->view_applicants($offsetRows, $fetchedRows, $jobPostID, $status[$statusPage]); 
                                 
                                 $pagedata = [
                                     'title'       => $userdata['username'] . ' - Manage Applicants (' . $status[$statusPage] . ')',
@@ -900,18 +905,18 @@ class Auth extends CI_Controller {
                                 $this->load->view('sections/footer');
                                 $this->load->view('templates/footer');
                             } else {
-                                $this->Auth_model->err_page();
+                                $this->AUTH_model->err_page();
                             }
                         }
                         
 
                     } else {
-                        $this->Auth_model->err_page();
+                        $this->AUTH_model->err_page();
                     }
                 }
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -919,11 +924,11 @@ class Auth extends CI_Controller {
     public function applicant_profile($jobPostID = NULL, $jobseekerID = NULL) {
         if ($this->session->userType == 'Employer') {
             if ($jobseekerID == NULL || $jobPostID == NULL) {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             } else {
-                $ApplicantDetails = $this->Employer_model->view_applicant_profile($jobseekerID, $jobPostID);
+                $ApplicantDetails = $this->EMPL_model->view_applicant_profile($jobseekerID, $jobPostID);
 
-                $userdata = $this->Employer_model->get_info();
+                $userdata = $this->EMPL_model->get_info();
                 $pagedata = ['title' => $userdata['username'] . ' - Applicant Profile'];
 
                 $this->load->view('templates/header', $pagedata);
@@ -933,7 +938,7 @@ class Auth extends CI_Controller {
                 $this->load->view('templates/footer');
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -942,14 +947,14 @@ class Auth extends CI_Controller {
         if ($this->session->userType == 'Employer') {
             if ($this->input->is_ajax_request()) {
                 $applicationID = $this->input->post('applicationID');
-                $hireStatus = $this->Employer_model->hire_applicant($applicationID);
+                $hireStatus = $this->EMPL_model->hire_applicant($applicationID);
                 $data['response'] = $hireStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -958,14 +963,14 @@ class Auth extends CI_Controller {
         if ($this->session->userType == 'Employer') {
             if ($this->input->is_ajax_request()) {
                 $applicationID = $this->input->post('applicationID');
-                $hireStatus = $this->Employer_model->reject_applicant($applicationID);
+                $hireStatus = $this->EMPL_model->reject_applicant($applicationID);
                 $data['response'] = $hireStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -974,14 +979,14 @@ class Auth extends CI_Controller {
         if ($this->session->userType == 'Employer') {
             if ($this->input->is_ajax_request()) {
                 $applicationID = $this->input->post('applicationID');
-                $hireStatus = $this->Employer_model->cancel_hiring_rejecting($applicationID);
+                $hireStatus = $this->EMPL_model->cancel_hiring_rejecting($applicationID);
                 $data['response'] = $hireStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             }
         } else {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         }
     }
 }

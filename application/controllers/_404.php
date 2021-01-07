@@ -2,8 +2,9 @@
 
 class _404 extends CI_Controller {
 
+    // FOR ERROR PAGE
     public function index() {
-        $this->Auth_model->err_page();
+        $this->AUTH_model->err_page();
     }
 
 }

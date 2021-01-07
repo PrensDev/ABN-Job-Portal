@@ -1,7 +1,7 @@
 <?php
 
 if ($this->session->userType == 'Job Seeker') {
-    $resumeData = $this->Jobseeker_model->view_resume();
+    $resumeData = $this->JBSK_model->view_resume();
 }
 
 if ($jobType == 'Full Time') {

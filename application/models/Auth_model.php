@@ -1,6 +1,6 @@
 <?php
 
-class Auth_model extends CI_Model {
+class AUTH_model extends CI_Model {
 
     public function __construct() {
         $this->load->database();
@@ -16,39 +16,42 @@ class Auth_model extends CI_Model {
 
     // LOGIN
     public function login() {
-        $sql = "EXEC [AUTH_FindUserAccount] @email = '" . $this->input->post( 'email' ) . "'";
-        $query = $this->db->query($sql);
+        $FindUserAccount_sql = "EXEC [AUTH_FindUserAccount] @email = ?";
+        $FindUserAccount_val = [$this->input->post('email')];
+        $query = $this->db->query($FindUserAccount_sql, $FindUserAccount_val);
 
         if (! $query) {
             echo $this->db->error();
         } else {
             if ( $query->num_rows() == 1 ) {
-                $row = $query->row();
+                $USER_row = $query->row();
 
-                if ( password_verify( $this->input->post( 'password' ), $row->password ) ) {
-                    if ( $row->userType == 'Job Seeker' ) {
-                        $query = $this->db->query("EXEC [AUTH_FindJobseeker] @email = '" . $this->input->post('email') . "'");
-                        $user_row  = $query->row();
-                    
-                        $this->session->set_userdata( [
-                            'userType'    => $row->userType,
-                            'id'          => $user_row->jobseekerID,
-                            'email'       => $user_row->email,
-                        ]);
-                    } else if ( $row->userType == 'Employer' ) {
-                        $query = $this->db->query("EXEC [AUTH_FindEmployer] @email = '" . $this->input->post('email') . "'");
-                        $user_row  = $query->row();
+                if (password_verify($this->input->post('password'), $USER_row->password)) {
+                    if ($USER_row->userType == 'Job Seeker') {
+                        $FindJBSK_sql = "EXEC [AUTH_FindJobseeker] @email = ?";
+                        $FindJBSK_query = $this->db->query($FindJBSK_sql, [$this->input->post('email')]);
+                        $JBSK_row  = $FindJBSK_query->row();
                         
-                        $this->session->set_userdata( [
-                            'userType'    => $row->userType,
-                            'id'          => $user_row->employerID,
-                            'email'       => $user_row->email,
+                        $this->session->set_userdata([
+                            'userType'    => $USER_row->userType,
+                            'id'          => $JBSK_row->jobseekerID,
+                            'email'       => $JBSK_row->email,
+                        ]);
+                    } else if ($USER_row->userType == 'Employer') {
+                        $FindEMPL_sql = "EXEC [AUTH_FindEmployer] @email = ?";
+                        $FindEMPL_query = $this->db->query($FindEMPL_sql, [$this->input->post('email')]);
+                        $EMPL_row  = $FindEMPL_query->row();
+                        
+                        $this->session->set_userdata([
+                            'userType'    => $USER_row->userType,
+                            'id'          => $EMPL_row->employerID,
+                            'email'       => $EMPL_row->email,
                         ]);
                     }
 
                     // SET UNACTIVE ACCOUNT TO ACTIVE AGAIN AFTER LOG IN
-                    if ( $row->status == 0 ) { $this->setAccountFlag(1); }
-                    
+                    if ( $USER_row->status == 0 ) { $this->setAccountFlag(1); }
+
                     redirect('auth/profile');
                 } else {
                     return 'Incorrect Password';
@@ -61,27 +64,40 @@ class Auth_model extends CI_Model {
 
     // REGISTER JOB SEEKER
     public function register_jobseeker() {
-        $AddJobseekerAccount_sql = "
+        $AddUserAccount_sql = "
             EXEC [AUTH_AddUserAccount]
-                @email	  = '" . $this->input->post( 'email' ) . "',
-                @password = '" . password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I) . "',
-                @userType = 'Job Seeker'
+                @email	  = ?,
+                @password = ?,
+                @userType = ?
         ";
-        
-        if (! $this->db->query($AddJobseekerAccount_sql)) {
+        $AddUserAccount_val = [
+            $this->input->post( 'email' ),
+            password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I),
+            'Job Seeker'
+        ];
+        if (! $this->db->query($AddUserAccount_sql, $AddUserAccount_val)) {
             echo $this->db->error();
         } else {
             $this->db->query("
                 EXEC [AUTH_RegisterJobseeker]
-                    @firstName	   = '" . $this->input->post( 'firstName'     ) . "',
-                    @middleName	   = '" . $this->input->post( 'middleName'    ) . "',
-                    @lastName	   = '" . $this->input->post( 'lastName'      ) . "',
-                    @birthDate	   = '" . $this->input->post( 'birthDate'     ) . "',
-                    @gender		   = '" . $this->input->post( 'gender'        ) . "',
-                    @cityProvince  = '" . $this->input->post( 'cityProvince'  ) . "',
-                    @contactNumber = '" . $this->input->post( 'contactNumber' ) . "',
-                    @email         = '" . $this->input->post( 'email'         ) . "'
-            ");
+                    @firstName	   = ?,
+                    @middleName	   = ?,
+                    @lastName	   = ?,
+                    @birthDate	   = ?,
+                    @gender		   = ?,
+                    @cityProvince  = ?,
+                    @contactNumber = ?,
+                    @email         = ?
+            ", [
+                $this->input->post( 'firstName'     ),
+                $this->input->post( 'middleName'    ),
+                $this->input->post( 'lastName'      ),
+                $this->input->post( 'birthDate'     ),
+                $this->input->post( 'gender'        ),
+                $this->input->post( 'cityProvince'  ),
+                $this->input->post( 'contactNumber' ),
+                $this->input->post( 'email'         ),
+            ]);
             $this->login();
         }         
     }
@@ -100,34 +116,49 @@ class Auth_model extends CI_Model {
         } else {
             $this->db->query("
                 EXEC [AUTH_RegisterEmployer]
-                    @companyName	= '" . $input[ 'companyName'   ] . "',
-                    @street			= '" . $input[ 'street'        ] . "',
-                    @brgyDistrict	= '" . $input[ 'brgyDistrict'  ] . "',
-                    @cityProvince	= '" . $input[ 'cityProvince'  ] . "',
-                    @contactNumber	= '" . $input[ 'contactNumber' ] . "',
-                    @email			= '" . $input[ 'email'         ] . "',
-                    @website		= '" . $input[ 'website'       ] . "',
-                    @description	= '" . $input[ 'description'   ] . "'
-            ");
+                    @companyName	= ?,
+                    @street			= ?,
+                    @brgyDistrict	= ?,
+                    @cityProvince	= ?,
+                    @contactNumber	= ?,
+                    @email			= ?,
+                    @website		= ?,
+                    @description	= ?
+            ", [
+                $input[ 'companyName'   ],
+                $input[ 'street'        ],
+                $input[ 'brgyDistrict'  ],
+                $input[ 'cityProvince'  ],
+                $input[ 'contactNumber' ],
+                $input[ 'email'         ],
+                $input[ 'website'       ],
+                $input[ 'description'   ],
+            ]);
             $this->login();
         }
     }
 
     // CHANGE PASSWORD
-    public function change_password() {
-        $sql = "
-            EXEC [AUTH_ChangeUserPassword]
-                @email    = '" . $this->session->email . "',
-                @password = '" . password_hash($this->input->post( 'retypepassword' ), PASSWORD_ARGON2I) . "',
-        ";
+    public function update_password() {
+        return $this->db->query("
+            EXEC [AUTH_UpdatePassword]
+                @email    = ?,
+                @password = ?
+        ", [
+            $this->session->email,
+            password_hash($this->input->post( 'retypepassword' ), PASSWORD_ARGON2I),
+        ]);
     }
 
     // SET ACCOUNT FLAG 
     public function setAccountFlag($flag) {
         $this->db->query("
             EXEC [AUTH_SetAccountFlag] 
-                @email = '" . $this->session->email . "',
-                @flag  =  " . $flag . "
-        ");
+                @email = ?,
+                @flag  = ?
+        ", [
+            $this->session->email,
+            $flag,
+        ]);
     }
 }

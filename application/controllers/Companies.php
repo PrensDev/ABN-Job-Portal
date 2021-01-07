@@ -9,9 +9,9 @@ class Companies extends CI_Controller {
             $userType = $this->session->userType;
 
             if ( $userType == 'Job Seeker' ) {
-                $userdata = $this->Jobseeker_model->get_info();
+                $userdata = $this->JBSK_model->get_info();
             } else if ( $userType == 'Employer' ) {
-                $userdata = $this->Employer_model->get_info();
+                $userdata = $this->EMPL_model->get_info();
             }
 
             $pageTitle = $userdata['username'] . ' - ' . $title;
@@ -28,9 +28,7 @@ class Companies extends CI_Controller {
         return $data;
     }
 
-
     // ==================================================================================================== //
-
 
     // COMPANY DETAILS VIEW
     public function details($employerID = NULL) {
@@ -50,7 +48,6 @@ class Companies extends CI_Controller {
         }
     }
 
-
     // AVAILABLE JOBS VIEW
     public function available_jobs($employerID = NULL, $page = 1) {
         if ($employerID == NULL) {
@@ -63,7 +60,7 @@ class Companies extends CI_Controller {
 
             if ($page > 0 && $page <= $totalPages) {
                 $offsetRows    = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                $AvailableJobs = $this->session->userType == 'Job Seeker' ? $this->Jobseeker_model->view_available_jobs($employerID, $offsetRows, $fetchedRows) : $this->View_model->available_jobs($employerID, $offsetRows, $fetchedRows);
+                $AvailableJobs = $this->session->userType == 'Job Seeker' ? $this->JBSK_model->view_available_jobs($employerID, $offsetRows, $fetchedRows) : $this->View_model->available_jobs($employerID, $offsetRows, $fetchedRows);
     
                 $employerDetails = $this->View_model->company_details($employerID);
 

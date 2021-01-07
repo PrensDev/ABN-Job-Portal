@@ -142,8 +142,8 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 $autoload['model'] = [
-    'View_model',
-    'Auth_model',
-    'Employer_model',
-    'Jobseeker_model',
+    'VIEW_model',
+    'AUTH_model',
+    'EMPL_model',
+    'JBSK_model',
 ];

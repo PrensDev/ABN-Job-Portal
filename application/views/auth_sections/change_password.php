@@ -4,7 +4,29 @@
     
     <!-- HEADER -->
     <div class="text-center mb-4">
-        <img class="rounded-pill mb-2" src="assets\97.jpg" alt="" height="100">
+        <?php 
+            if ($profilePic != NULL) {
+                echo '
+                    <img 
+                        class       = "rounded-circle mb-3"
+                        src         = "' . base_url() . 'public/img/jobseekers/' . $profilePic . '" 
+                        alt         = "' . $username . '" 
+                        height      = "150" 
+                        draggable   = "false"
+                    >
+                ';
+            } else {
+                echo '
+                    <img 
+                        class       = "rounded-circle mb-3"
+                        src         = "' . base_url() . 'public/img/jobseekers/blank_dp.png" 
+                        alt         = "' . $username . '" 
+                        height      = "150" 
+                        draggable   = "false"
+                    >
+                ';
+            }
+        ?>
         <p>You sign in as <strong><?php echo $username ?></strong>.</p>
         <h5 class="font-weight-light">Change your password here.</h5>
     </div>
@@ -13,27 +35,20 @@
     <div class="bg-white border p-3 my-2 border">
         <form method="POST">
 
+            <!-- OLD PASSWORD -->
             <div class="form-group">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <label for="password">Type Old Password:</label>
-                    </div>
-                    <div>
-                        <label><a href="forgot_password.html" data-toggle="tooltip" data-placement="top" title="Did you forget your password? Click Here">Forgot Password?</a></label>
-                    </div>
-                </div>
+                <label for="password">Type Old Password:</label>
                 <input 
                     type        = "password" 
-                    class       = "form-control <?php echo form_error('oldPassword') ? 'is-invalid' : '' ?>" 
+                    class       = "form-control <?php echo form_error('newPassword') ? 'is-invalid' : '' ?>" 
                     id          = "oldPassword" 
                     name        = "oldPassword"
                     placeholder = "Type your old password"
-                    value       = "<?php set_value('oldPassword') ?>"
                 >
-                <small class="invalid-feedback">This is a required field.</small>
-                
+                <small class="invalid-feedback">This is a required field.</small>                
             </div>
 
+            <!-- NEW PASSWORD -->
             <div class="form-group">
                 <label for="password">Type New Password:</label>
                 <input 
@@ -46,6 +61,7 @@
                 <small class="invalid-feedback">This is a required field.</small>                
             </div>
 
+            <!-- RETYPE PASSWORD -->
             <div class="form-group">
                 <label for="password">Retype New Password to Confirm:</label>
                 <input
@@ -59,6 +75,8 @@
             </div>
             
             <button type="submit" class="btn btn-warning btn-block">Change Password</button>
+
+            <a href="<?php echo base_url() ?>auth/forgot_password" class="btn btn-link btn-block">Forgot Password?</a>
 
         </form>
     </div>
