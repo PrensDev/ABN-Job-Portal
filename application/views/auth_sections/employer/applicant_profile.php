@@ -135,7 +135,7 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
         <div class="mb-3 mb-lg-0 shadow p-md-5 p-3 border">
 
             <!-- NASIC INFORMATION -->
-            <div class="mb-5r">
+            <div class="mb-5">
                 <h2 class="font-weight-normal"><?php echo $fullName ?></h2>
                 <small class="font-italic text-secondary"><?php echo $lastUpdated ?></small>
                 <hr class="border-primary">
@@ -354,7 +354,8 @@ if ($status == 'Pending') {
             type:       "post",
             dataType:   "json",
             data: {
-                applicationID: applicationID
+                applicationID: applicationID,
+                jobseekerID:   <?php echo $jobseekerID ?>
             },
             success:    function(data) {
                 location.reload();

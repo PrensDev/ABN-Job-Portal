@@ -27,43 +27,43 @@
                 ';
             }
         ?>
-        <h5 class="font-weight-light">Change your password here. <?php echo $username ?></h5>
+        <h5 class="font-weight-light">Type your new email. <strong><?php echo $username ?></strong></h5>
     </div>
+
+    <?php $this->load->view('auth_sections/components/alert') ?>
 
     <!-- FORM SECTION -->
     <div class="bg-white border p-3 my-2 border">
         <form method="POST">
 
-            <!-- NEW PASSWORD -->
+            <!-- EMAIL -->
             <div class="form-group">
-                <label for="password">Type New Password:</label>
+                <label for="password">Email:</label>
                 <input 
-                    type        = "password" 
-                    class       = "form-control <?php echo form_error('newPassword') ? 'is-invalid' : '' ?>" 
-                    id          = "newPassword" 
-                    name        = "newPassword"
-                    placeholder = "Type your new password"
+                    type        = "email" 
+                    class       = "form-control<?php echo form_error('email') ? ' is-invalid' : '' ?>" 
+                    id          = "email" 
+                    name        = "email"
+                    placeholder = "Type your new email"
                 >
-                <small class="invalid-feedback">This is a required field.</small>                
-            </div>
-
-            <!-- RETYPE PASSWORD -->
-            <div class="form-group">
-                <label for="password">Retype New Password to Confirm:</label>
-                <input
-                    type        = "password" 
-                    class       = "form-control <?php echo form_error('retypeNewPassword') ? 'is-invalid' : '' ?>" 
-                    id          = "retypeNewPassword" 
-                    name        = "retypeNewPassword"
-                    placeholder = "Retype your new password"
-                >
-                <small class="invalid-feedback">This is a required field.</small>                
+                <small class="invalid-feedback"><?php echo form_error('email') ?></small>                
             </div>
             
-            <button type="submit" class="btn btn-primary btn-block">Update my password</button>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
 
         </form>
     </div>
+    
+    <!-- FOOTER LINK SECTION -->
+    <div class="d-flex justify-content-between">
+        <div>
+            <small><a href="<?php echo base_url() ?>" title="Back to Home page.">Home</a></small>
+        </div>
+        <div>
+            <small><a href="<?php echo base_url() ?>home/terms_and_conditions" title="Read the terms and conditions.">Terms and Conditions</a></small>
+        </div>
+    </div>
+
 </div>
 </div>
 </div>

@@ -1,3 +1,4 @@
+
 <!-- FOOTER SECTION -->
 <footer class="bg-dark text-white">
 
@@ -44,7 +45,6 @@
                 </a>
 
             </div>
-            <!-- END OF NEWSLETTER AND SOCIAL MEDIA LINKS -->
 
             <!-- "WHO ARE WE?" -->
             <div class="col-md py-3">
@@ -62,8 +62,6 @@
                 </a>
 
             </div>
-            <!-- END OF "WHO ARE WE?" -->
-
             <!-- CONTACT INFORMATION -->
             <div class="col-md py-3">
                 <h3 class="font-weight-normal">Contact Information</h3>
@@ -108,12 +106,10 @@
 
                 </ul>
             </div>
-            <!-- END OF CONTACT INFORMATION -->
 
         </div>
     </div>
 </div>
-<!-- END OF MAIN FOOTER CONTENT -->
 
 <!-- BOTTOM FOOTER CONTENT -->
 <div class="text-center image-overlay py-3">
@@ -129,7 +125,5 @@
         </div>
     </div>
 </div>
-<!-- END OF BOTTOM FOOTER CONTENT -->
 
 </footer>
-<!-- END OF FOOTER SECTION -->

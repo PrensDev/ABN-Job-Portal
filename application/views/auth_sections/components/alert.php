@@ -1,4 +1,22 @@
 
+<!-- ALERT FOR ACCOUNT AUTHENTICATION -->
+<?php if ($this->session->flashdata('account_authentication') == 'no existing account') { ?>
+    <div class="alert alert-danger alert-dismissible fade show my-4 mb-4" role="alert">
+        <span>This account does <strong>not exist</strong>.</span>
+        <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php } else if ($this->session->flashdata('account_authentication') == 'incorrect password') { ?>
+    <div class="alert alert-danger alert-dismissible fade show my-4 mb-4" role="alert">
+        <span>Incorrect password.</span>
+        <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php } ?>
+
+
 <!-- ALERT FOR UPDATE -->
 <?php if ($this->session->flashdata('updated') == 'success') { ?>
     <div class="alert alert-success alert-dismissible fade show my-4 mb-4" role="alert">
@@ -15,6 +33,7 @@
         </button>
     </div>
 <?php } ?>
+
 
 <!-- ALERT FOR A ADDED COMPONENT -->
 <?php 
@@ -45,6 +64,7 @@
         </button>
     </div>
 <?php } ?>
+
 
 <!-- ALERT FOR A REMOVED COMPONENT -->
 <?php 

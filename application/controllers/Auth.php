@@ -93,50 +93,149 @@ class Auth extends CI_Controller {
 
     // DEACTIVATE VIEW
     public function deactivate() {
-        $this->AUTH_model->deactivate();
+        $this->AUTH_model->set_account_flag(0);
         session_destroy();
         redirect();
     }
-
-    // USER CHANGE PASSWORD VIEW
-    public function change_password() {
+    
+    // PERMISSION VIEW
+    public function permission() {
         if (! $this->session->has_userdata('userType')) {
             $this->AUTH_model->err_page();
         } else {
-            if ($this->session->userType == 'Job Seeker') {
-                $userdata = $this->JBSK_model->get_info();
-            } else if ($this->session->userType == 'Employer') {
-                $userdata = $this->EMPL_model->get_info();
-            } 
-            $pagedata = ['title' => $userdata['username'] . ' - Change Password'];
+            if ($this->session->has_userdata('request_permission')) {
+                if ($this->session->userType == 'Job Seeker') {
+                    $userdata = $this->JBSK_model->get_info();
+                } else if ($this->session->userType == 'Employer') {
+                    $userdata = $this->EMPL_model->get_info();
+                } 
+                $pagedata = ['title' => $userdata['username'] . ' - Permission'];
 
-            $this->form_validation->set_rules([
-                [
-                    'field' => 'oldPassword',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'newPassword',
-                    'rules' => 'required|min_length[8]',
-                ],
-                [
-                    'field' => 'retypeNewPassword',
-                    'rules' => 'required|matches[newPassword]',
-                ],
-            ]);
+                $this->form_validation->set_rules([
+                    [
+                        'field' => 'password',
+                        'rules' => 'required',
+                    ],
+                ]);
 
-            if ($this->form_validation->run() === FALSE) {    
-                $this->load->view('templates/fullpage_header', $pagedata);
-                $this->load->view('auth_sections/change_password', $userdata);
-                $this->load->view('templates/footer');
-            } else {
-                if ($this->AUTH_model->update_password($this->input->post())) {
-                    $this->session->set_flashdata('updated', 'success');
+                if ($this->form_validation->run() === FALSE) {    
+                    $this->session->keep_flashdata('request_permission');
+                    $this->load->view('templates/fullpage_header', $pagedata);
+                    $this->load->view('auth_sections/permission', $userdata);
+                    $this->load->view('templates/footer');
                 } else {
-                    $this->session->set_flashdata('updated', 'failed');
-                };
-                redirect('auth/settings');
+                    if (password_verify($this->input->post('password'), $this->AUTH_model->get_user_password())) {
+                        if ($this->session->request_permission == 'change password') {
+                            $this->session->unset_userdata('request_permission');
+                            $this->session->set_flashdata(['permission' => 'change password']);
+                            redirect('auth/change_password');
+                        } else if ($this->session->request_permission == 'change email') {
+                            $this->session->unset_userdata('request_permission');
+                            $this->session->set_flashdata(['permission' => 'change email']);
+                            redirect('auth/change_email');
+                        }
+                    } else {
+                        $this->session->keep_flashdata('request_permission');
+                        $this->session->set_flashdata('account_authentication', 'incorrect password');
+                        redirect('auth/permission');
+                    }
+                }
+            } else {
+                $this->AUTH_model->err_page();
             }
+        }
+    }
+
+    // CHANGE PASSWORD VIEW
+    public function change_password() {
+        if ($this->session->has_userdata('userType')) {
+            if ($this->session->permission == 'change password') {
+                if ($this->session->userType == 'Job Seeker') {
+                    $userdata = $this->JBSK_model->get_info();
+                } else if ($this->session->userType == 'Employer') {
+                    $userdata = $this->EMPL_model->get_info();
+                } 
+                $pagedata = ['title' => $userdata['username'] . ' - Change Password'];
+
+                $this->form_validation->set_rules([
+                    [
+                        'field' => 'newPassword',
+                        'rules' => 'required|min_length[8]',
+                    ],
+                    [
+                        'field' => 'retypeNewPassword',
+                        'rules' => 'required|matches[newPassword]',
+                    ],
+                ]);
+
+                if ($this->form_validation->run() === FALSE) {    
+                    $this->session->keep_flashdata('permission');
+                    $this->load->view('templates/fullpage_header', $pagedata);
+                    $this->load->view('auth_sections/change_password', $userdata);
+                    $this->load->view('templates/footer');
+                } else {
+                    if ($this->AUTH_model->update_password()) {
+                        $this->session->set_flashdata('updated', 'success');
+                    } else {
+                        $this->session->set_flashdata('updated', 'failed');
+                    };
+                    redirect('auth/settings');
+                }
+            } else {
+                $this->session->set_flashdata([
+                    'request_permission' => 'change password'
+                ]);
+                redirect('auth/permission');
+            }
+        } else {
+            $this->AUTH_model->err_page();
+        }
+    }
+
+    // CHANGE EMAIL VIEW
+    public function change_email() {
+        if ($this->session->has_userdata('userType')) {
+            if ($this->session->permission == 'change email') {
+                if ($this->session->userType == 'Job Seeker') {
+                    $userdata = $this->JBSK_model->get_info();
+                } else if ($this->session->userType == 'Employer') {
+                    $userdata = $this->EMPL_model->get_info();
+                } 
+                $pagedata = ['title' => $userdata['username'] . ' - Change Email'];
+
+                $this->form_validation->set_rules([
+                    [
+                        'field' => 'email',
+                        'rules' => 'required|valid_email|is_unique[UserAccounts.email]',
+                    ],
+                ]);
+
+                $this->form_validation->set_message([
+                    'required'      => 'This is a required field',
+                    'is_unique'     => 'This email is already used.',
+                    'valid_email'   => 'This email contains invalid characters',
+                ]);
+
+                if ($this->form_validation->run() === FALSE) {    
+                    $this->session->keep_flashdata('permission');
+                    $this->load->view('templates/fullpage_header', $pagedata);
+                    $this->load->view('auth_sections/change_email', $userdata);
+                    $this->load->view('templates/footer');
+                } else {
+                    if ($this->AUTH_model->update_email()) {
+                        $this->session->set_userdata(['email' => $this->input->post('email')]);
+                        $this->session->set_flashdata('updated', 'success');
+                    } else {
+                        $this->session->set_flashdata('updated', 'failed');
+                    }
+                    redirect('auth/settings');
+                }
+            } else {
+                $this->session->set_flashdata(['request_permission' => 'change email']);
+                redirect('auth/permission');
+            }
+        } else {
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -946,8 +1045,7 @@ class Auth extends CI_Controller {
     public function hire_applicant() {
         if ($this->session->userType == 'Employer') {
             if ($this->input->is_ajax_request()) {
-                $applicationID = $this->input->post('applicationID');
-                $hireStatus = $this->EMPL_model->hire_applicant($applicationID);
+                $hireStatus = $this->EMPL_model->hire_applicant();
                 $data['response'] = $hireStatus ? 'success' : 'failed';    
                 echo json_encode($data);
             } else {

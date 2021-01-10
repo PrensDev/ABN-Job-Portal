@@ -22,6 +22,24 @@ class EMPL_model extends CI_Model {
             redirect('auth/' . $successPath);
         }
     }
+
+    // CREATE NOTIFICATION METHOD
+    private function create_notification($data) {
+        $this->db->query("
+            EXEC [AUTH_CreateJBSKNotification]
+                @jobseekerID        = ?,
+                @title              = ?,
+                @message            = ?,
+                @notificationType   = ?,
+                @link               = ?
+        ", [
+            $data[ 'jobseekerID     ' ],
+            $data[ 'title           ' ],
+            $data[ 'message         ' ],
+            $data[ 'notificationType' ],
+            $data[ 'link            ' ],
+        ]);
+    }
     
     // ==================================================================================================== //
 
@@ -228,15 +246,22 @@ class EMPL_model extends CI_Model {
     }
 
     // HIRE APPLICANT
-    public function hire_applicant($applicationID) {
-        return $this->db->query("
+    public function hire_applicant() {
+        $hired = $this->db->query("
             EXEC [EMPL_SetApplicantStatus] 
                 @applicationID = ?,
                 @status        = ?
         ", [
-            $applicationID,
+            $this->input->post('applicationID'),
             'Hired',
         ]);
+
+        if ($hired) {
+            $created = $this->create_notification([
+                'jobseekerID' => $this->input->post('jobseekerID'),
+                'title'       => $this->input->post('title'),
+            ]);
+        }
     }
 
     // REJECT APPLICANT

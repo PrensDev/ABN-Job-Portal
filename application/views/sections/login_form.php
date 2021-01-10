@@ -14,18 +14,7 @@
         <h5 class="font-weight-light">Sign in using your account.</h5>
     </div>
 
-    <?php
-        if ($error != '') {
-            echo '
-            <div class="alert alert-danger my-2 alert-dismissible fade show" role="alert">
-                ' . $error . '
-                <button type="button" class="btn close" data-dismiss="alert">
-                    <span>&times;</span>
-                </button>
-            </div>
-            ';
-        }
-    ?>
+    <?php $this->load->view('auth_sections/components/alert') ?>
 
     <!-- FORM SECTION -->
     <div class="bg-white p-3 rounded my-2 border">

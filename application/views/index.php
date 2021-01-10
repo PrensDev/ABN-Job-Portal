@@ -71,12 +71,12 @@
         $this->load->view('sections/recent_posts');
     }
 
-    if ( $this->session->userType != 'Job Seeker' ) {
+    if ($this->session->userType != 'Job Seeker') {
         $this->load->view('sections/post_a_job');
     }
 
+    if ($this->session->userType == 'Job Seeker') {
 ?>
-
 <script>
     $(document).on('click','#addBookmarkBtn', function(e) {
         e.preventDefault();
@@ -110,3 +110,4 @@
         });
     });
 </script>
+<?php } ?>

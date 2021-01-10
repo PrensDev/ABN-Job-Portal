@@ -25,7 +25,7 @@
                     <span>Edit information</span>
                 </a>
 
-                <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/edit_information">
+                <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/change_email">
                     <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-at"></i>
                     </div>

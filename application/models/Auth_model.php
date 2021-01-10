@@ -50,14 +50,16 @@ class AUTH_model extends CI_Model {
                     }
 
                     // SET UNACTIVE ACCOUNT TO ACTIVE AGAIN AFTER LOG IN
-                    if ( $USER_row->status == 0 ) { $this->setAccountFlag(1); }
+                    if ( $USER_row->status == 0 ) { $this->set_account_flag(1); }
 
                     redirect('auth/profile');
                 } else {
-                    return 'Incorrect Password';
+                    $this->session->set_flashdata('account_authentication', 'incorrect password');
+                    redirect('user/login');
                 }
             } else {
-                return "That account doesn't not exist";
+                $this->session->set_flashdata('account_authentication', 'no existing account');
+                redirect('user/login');
             }
         }
     }
@@ -138,7 +140,14 @@ class AUTH_model extends CI_Model {
         }
     }
 
-    // CHANGE PASSWORD
+    // GET USER PASSWORD
+    public function get_user_password() {
+        $query = $this->db->query("EXEC [AUTH_GetUserPassword] @email = ?", [$this->session->email]);
+        $row = $query->row();
+        return $row->password;
+    }
+
+    // UPDATE PASSWORD
     public function update_password() {
         return $this->db->query("
             EXEC [AUTH_UpdatePassword]
@@ -146,12 +155,24 @@ class AUTH_model extends CI_Model {
                 @password = ?
         ", [
             $this->session->email,
-            password_hash($this->input->post( 'retypepassword' ), PASSWORD_ARGON2I),
+            password_hash($this->input->post('retypeNewPassword'), PASSWORD_ARGON2I),
+        ]);
+    }
+
+    // UPDATE EMAIL
+    public function update_email() {
+        return $this->db->query("
+            EXEC [AUTH_UpdateEmail]
+                @email    = ?,
+                @newEmail = ?
+        ", [
+            $this->session->email,
+            $this->input->post('email'),
         ]);
     }
 
     // SET ACCOUNT FLAG 
-    public function setAccountFlag($flag) {
+    public function set_account_flag($flag) {
         $this->db->query("
             EXEC [AUTH_SetAccountFlag] 
                 @email = ?,

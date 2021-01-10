@@ -1,4 +1,4 @@
-
+0
 -- Display all procedure //testing purposes
 
 SELECT 
@@ -133,5 +133,45 @@ CREATE PROCEDURE [AUTH_UpdatePassword]
 AS
 	UPDATE [UserAccounts]
 	SET [password] = @password
+	WHERE [email] = @email
+;
+
+-- Create JBSK Notifications
+CREATE PROCEDURE [AUTH_CreateJBSKNotification]
+	@jobseekerID		INT,
+	@title				VARCHAR(MAX),
+	@message			VARCHAR(MAX),
+	@notificationType	VARCHAR(MAX),
+	@link				VARCHAR(MAX)
+AS
+	INSERT INTO [JBSK_Notifications] 
+		( [jobseekerID]
+		, [title]
+		, [message]
+		, [notificationType]
+		, [link] )
+	VALUES
+		( @jobseekerID
+		, @title
+		, @message
+		, @notificationType
+		, @link )
+;
+
+-- Get User Password
+CREATE PROCEDURE [AUTH_GetUserPassword]
+	@email VARCHAR(450)
+AS
+	SELECT [password] FROM [UserAccounts]
+	WHERE [email] = @email
+;
+
+-- Change User Email
+CREATE PROCEDURE [AUTH_UpdateEmail]
+	@email		VARCHAR(450),
+	@newEmail	VARCHAR(450)
+AS
+	UPDATE [UserAccounts]
+	SET [email] = @newEmail
 	WHERE [email] = @email
 ;

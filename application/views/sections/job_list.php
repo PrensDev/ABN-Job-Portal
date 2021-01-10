@@ -23,8 +23,8 @@
 </div>
 </div>
 
+<?php if ($this->session->userType == 'Job Seeker') { ?>
 <script>
-
     $(document).on('click','#addBookmarkBtn', function(e) {
         e.preventDefault();
         var jobPostID = $(this).attr('value');
@@ -57,3 +57,4 @@
         });
     });
 </script>
+<?php } ?>

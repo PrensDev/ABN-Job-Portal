@@ -16,7 +16,7 @@
             <div>
                 <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>" class="btn btn-primary">
                     <i class="fas fa-arrow-left mr-1"></i>
-                    <span>Back to details<span>
+                    <span class="d-none d-sm-inline">Back to details<span>
                 </a>
             </div>
         </div>
@@ -46,7 +46,7 @@
 </div>
 </div>
 
-
+<?php if ($this->session->userTye == 'Job Seeker') { ?>
 <script>
     $(document).on('click','#addBookmarkBtn', function(e) {
         e.preventDefault();
@@ -80,3 +80,4 @@
         });
     });
 </script>
+<?php } ?>

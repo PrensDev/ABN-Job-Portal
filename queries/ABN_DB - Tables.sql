@@ -298,6 +298,11 @@ CREATE TABLE [JBSK_Notifications] (
 		INT NOT NULL IDENTITY(1,1)
 		CONSTRAINT PK_notificationID@Notifications PRIMARY KEY
 	,
+	[jobseekerID]
+		INT NOT NULL
+		CONSTRAINT FK_jobseekerID@Notifications FOREIGN KEY
+			REFERENCES [JobSeekers] ([jobseekerID])
+	,
 	[title]
 		VARCHAR(MAX) NOT NULL
 	,
@@ -305,6 +310,9 @@ CREATE TABLE [JBSK_Notifications] (
 		VARCHAR(MAX) NOT NULL
 	,
 	[notificationType]
+		VARCHAR(MAX) NOT NULL
+	,
+	[link]
 		VARCHAR(MAX) NOT NULL
 	,
 	[readFlag]

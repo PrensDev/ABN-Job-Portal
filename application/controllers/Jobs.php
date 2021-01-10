@@ -48,7 +48,7 @@ class Jobs extends CI_Controller {
         if ($this->session->userType == 'Job Seeker') {
             return $this->JBSK_model->view_all_recent_posts();
         } else {
-            return $this->VIEW_model->all_recent_posts();
+            return $this->MAIN_model->all_recent_posts();
         }
     }
 
@@ -57,7 +57,7 @@ class Jobs extends CI_Controller {
         if ($this->session->userType == 'Job Seeker') {
             return $this->JBSK_model->view_recent_posts($offsetRows, $fetchedRows);
         } else {
-            return $this->VIEW_model->recent_posts($offsetRows, $fetchedRows); 
+            return $this->MAIN_model->recent_posts($offsetRows, $fetchedRows); 
         }
     }
 
@@ -66,7 +66,7 @@ class Jobs extends CI_Controller {
         if ($this->session->userType == 'Job Seeker') {
             return $this->JBSK_model->view_all_search_result();
         } else {
-            return $this->VIEW_model->all_search_result();
+            return $this->MAIN_model->all_search_result();
         }
     }
 
@@ -75,7 +75,7 @@ class Jobs extends CI_Controller {
         if ($this->session->userType == 'Job Seeker') {
             return $this->JBSK_model->view_search_result($offsetRows, $fetchedRows);
         } else {
-            return $this->VIEW_model->search_result($offsetRows, $fetchedRows); 
+            return $this->MAIN_model->search_result($offsetRows, $fetchedRows); 
         }
     }
 
@@ -84,7 +84,7 @@ class Jobs extends CI_Controller {
         if ($this->session->userType == 'Job Seeker') {
             return $this->JBSK_model->job_details($jobPostID);
         } else {
-            return $this->VIEW_model->job_details($jobPostID);
+            return $this->MAIN_model->job_details($jobPostID);
         }
     }
 
@@ -101,24 +101,39 @@ class Jobs extends CI_Controller {
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
-            if ($this->input->get('keyword') == NULL && $this->input->get('place') == NULL) {
+            $keyword = $this->input->get('keyword');
+            $place   = $this->input->get('place');
+
+            if ($keyword == NULL && $place == NULL) {
                 redirect('jobs');
             } else {
                 $AllSearchResult = $this->get_all_search_result();
                 $totalRows = $AllSearchResult->num_rows();
                 $fetchedRows = 10;
                 $totalPages = ceil($totalRows / $fetchedRows);
-                
-                $page = 1;
+
+                if ($this->input->get('page') == NULL) {
+                    $page = 1;
+                } else {
+                    $page = $this->input->get('page');
+                }
 
                 if ($page > 0 && $page <= $totalPages) {
                     $offsetRows         = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
                     $RecentPosts = $this->get_search_result($offsetRows, $fetchedRows);
                     
+                    if ($keyword != NULL && $place != NULL) {
+                        $bodySubtitle = 'You searched for "' . $keyword . '" in "' . $place . '".';
+                    } else if ($keyword != NULL && $place == NULL) {
+                        $bodySubtitle = 'You searched for "' . $keyword . '".';
+                    } else if ($keyword == NULL && $place != NULL) {
+                        $bodySubtitle = 'You searched available jobs in "' . $place . '".';
+                    }
+
                     $data = $this->set_jobpage_data(
                         'Search Result',
                         'Search Result',
-                        'Here are the result of your search',
+                        $bodySubtitle,
                         $RecentPosts,
                         $totalRows,
                         $page,
@@ -126,28 +141,30 @@ class Jobs extends CI_Controller {
                     );
 
                     $config = [
-                        'base_url'          => base_url() . 'jobs/recent/',
-                        'total_rows'        => $AllSearchResult->num_rows(),
-                        'use_page_numbers'  => TRUE,
-                        'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
-                        'full_tag_close'    => '</ul></nav>',
-                        'attributes'        => [ 'class' => 'page-link' ],
-                        'first_link'        => 'First',
-                        'first_tag_open'    => '<li class="page-item">',
-                        'first_tag_close'   => '</li>',
-                        'prev_link'         => '<i class="fas fa-caret-left"></i>',
-                        'prev_tag_open'     => '<li class="page-item">',
-                        'prev_tag_close'    => '</li>',
-                        'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
-                        'cur_tag_close'     => '</span></li>',
-                        'num_tag_open'      => '<li class="page-item">',
-                        'num_tag_close'     => '</li>',
-                        'next_link'         => '<i class="fas fa-caret-right"></i>',
-                        'next_tag_open'     => '<li class="page-item">',
-                        'next_tag_close'    => '</li>',
-                        'last_link'         => 'Last',
-                        'last_tag_open'     => '<li class="page-item">',
-                        'last_tag_close'    => '<li>',
+                        'reuse_query_string'    => TRUE,
+                        'use_page_numbers'      => TRUE,
+                        'page_query_string'     => TRUE,
+                        'total_rows'            => $AllSearchResult->num_rows(),
+                        'query_string_segment'  => 'page',
+                        'full_tag_open'         => '<nav><ul class="pagination justify-content-end">',
+                        'full_tag_close'        => '</ul></nav>',
+                        'attributes'            => [ 'class' => 'page-link' ],
+                        'first_link'            => 'First',
+                        'first_tag_open'        => '<li class="page-item">',
+                        'first_tag_close'       => '</li>',
+                        'prev_link'             => '<i class="fas fa-caret-left"></i>',
+                        'prev_tag_open'         => '<li class="page-item">',
+                        'prev_tag_close'        => '</li>',
+                        'cur_tag_open'          => '<li class="page-item active"><span class="page-link">',
+                        'cur_tag_close'         => '</span></li>',
+                        'num_tag_open'          => '<li class="page-item">',
+                        'num_tag_close'         => '</li>',
+                        'next_link'             => '<i class="fas fa-caret-right"></i>',
+                        'next_tag_open'         => '<li class="page-item">',
+                        'next_tag_close'        => '</li>',
+                        'last_link'             => 'Last',
+                        'last_tag_open'         => '<li class="page-item">',
+                        'last_tag_close'        => '<li>',
                     ];
 
                     $this->pagination->initialize($config);
@@ -159,7 +176,16 @@ class Jobs extends CI_Controller {
                     $this->load->view('sections/footer');
                     $this->load->view('templates/footer');
                 } else {
-                    $this->AUTH_model->err_page();
+                    $data = $this->set_data('Search Result');
+                    $data['bodyTitle'] = 'Search Result';
+                    $data['bodySubtitle'] = 'No result are found.';
+
+                    $this->load->view('templates/header', $data);
+                    $this->load->view('sections/navbar', $data['userdata']);
+                    $this->load->view('sections/search_header');
+                    $this->load->view('sections/empty_job_list', $data);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
                 }
             }
         }

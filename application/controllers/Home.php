@@ -7,7 +7,7 @@ class Home extends CI_Controller {
     }
 
     // SET DATA
-    protected function set_data($title) {
+    private function set_data($title) {
         $userdata = NULL;
 
         if ( $this->session->has_userdata('userType') ) {
@@ -35,7 +35,7 @@ class Home extends CI_Controller {
     }
 
     // LOAD MAIN VIEW
-    protected function load_main_view($title, $bodyView) {
+    private function load_main_view($title, $bodyView) {
         $data = $this->set_data($title);
 
         $this->load->view('templates/header', $data);
@@ -45,7 +45,7 @@ class Home extends CI_Controller {
             if ($this->session->userType == 'Job Seeker') {
                 $posts = $this->JBSK_model->view_recent_posts(0, 10);
             } else {
-                $posts = $this->VIEW_model->recent_posts(0, 10);
+                $posts = $this->MAIN_model->recent_posts(0, 10);
             }
             $data['posts'] = $posts;
             $this->load->view('index', $data);

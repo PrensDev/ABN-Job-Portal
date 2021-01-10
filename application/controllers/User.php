@@ -31,26 +31,15 @@ class User extends CI_Controller {
             ]);
 
             if ($this->form_validation->run() === FALSE) {
-                $data = [
-                    'title' => 'Login',
-                    'error' => '',
-                ];
+                $data = ['title' => 'Login'];
+                $this->load->view('templates/fullpage_header', $data);
+                $this->load->view('sections/login_form');
+                $this->load->view('templates/footer');
             } else {
-                $error = $this->AUTH_model->login();
-                if (isset($error)) {
-                    $data = [
-                        'title' => 'Login',
-                        'error' => $error,
-                    ];
-                }
+                $this->AUTH_model->login();
             }
-            
-            $this->load->view('templates/fullpage_header', $data);
-            $this->load->view('sections/login_form');
-            $this->load->view('templates/footer');
         }
     }
-
     
     // JOBSEEKER REGISTRATION VIEW
     public function jobseeker_registration() {

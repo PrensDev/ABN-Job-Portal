@@ -1,4 +1,6 @@
 
+<!-------------------------- SCRIPTS ------------------------->
+
 <!-- jQuery JS -->
 <script src="<?php echo base_url() ?>node_modules/jquery/dist/jquery.js"></script>
 

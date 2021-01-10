@@ -35,7 +35,7 @@ class Companies extends CI_Controller {
         if ($employerID == NULL) {
             $this->Auth_model->err_page();
         } else {
-            $employerDetails = $this->View_model->company_details($employerID);
+            $employerDetails = $this->VIEW_model->company_details($employerID);
 
             $data = $this->set_data('Company Details');
             $data['employerDetails'] = $employerDetails;
@@ -53,16 +53,16 @@ class Companies extends CI_Controller {
         if ($employerID == NULL) {
             $this->Auth_model->err_page();
         } else {
-            $AllAvailableJobs = $this->View_model->all_available_jobs($employerID);
+            $AllAvailableJobs = $this->VIEW_model->all_available_jobs($employerID);
             $totalRows = $AllAvailableJobs->num_rows();
             $fetchedRows = 10;
             $totalPages = ceil($totalRows / $fetchedRows);
 
             if ($page > 0 && $page <= $totalPages) {
                 $offsetRows    = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                $AvailableJobs = $this->session->userType == 'Job Seeker' ? $this->JBSK_model->view_available_jobs($employerID, $offsetRows, $fetchedRows) : $this->View_model->available_jobs($employerID, $offsetRows, $fetchedRows);
+                $AvailableJobs = $this->session->userType == 'Job Seeker' ? $this->JBSK_model->view_available_jobs($employerID, $offsetRows, $fetchedRows) : $this->VIEW_model->available_jobs($employerID, $offsetRows, $fetchedRows);
     
-                $employerDetails = $this->View_model->company_details($employerID);
+                $employerDetails = $this->VIEW_model->company_details($employerID);
 
                 $config = [
                     'base_url'          => base_url() . 'companies/available_jobs/' . $employerID . '/',
