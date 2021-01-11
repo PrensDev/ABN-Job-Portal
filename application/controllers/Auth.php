@@ -87,8 +87,11 @@ class Auth extends CI_Controller {
 
     // LOGOUT VIEW
     public function logout() {
-        session_destroy();
-        redirect();
+        if ($this->session->has_userdata('userType')) {
+            session_destroy();
+        } else {
+            $this->AUTH_model->err_page();
+        }
     }
 
     // DEACTIVATE VIEW

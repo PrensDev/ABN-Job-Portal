@@ -64,10 +64,10 @@
     <!-- FOOTER LINK SECTION -->
     <div class="d-flex justify-content-between">
         <div>
-            <small><a href="<?php echo base_url()?>" title="Back to Home page.">Home</a></small>
+            <small><a href="<?php echo base_url()?>" title="Back to Home page." target="_blank">Home</a></small>
         </div>
         <div>
-            <small><a href="<?php echo base_url()?>home/terms_and_conditions" title="Read the terms and conditions.">Terms and Conditions</a></small>
+            <small><a href="<?php echo base_url()?>home/terms_and_conditions" title="Read the terms and conditions." target="_blank">Terms and Conditions</a></small>
         </div>
     </div>
     <!-- END PF FOOTER LINK SECTION -->

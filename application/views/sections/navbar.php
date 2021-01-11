@@ -1,24 +1,34 @@
 <?php
 
-    $sessionStatus = $this->session->has_userdata( 'userType' );
+$sessionStatus = $this->session->has_userdata('userType');
 
-    if ( $sessionStatus ) {
+if ($sessionStatus) {
 
-        $this->load->view('sections/components/modal', [
-            'id'            => 'logoutModal',
-            'theme'         => 'danger',
-            'title'         => 'Log out',
-            'modalIcon'     => 'WARNING',
-            'message'       => '<p>Are you sure you want to logout?</p>',
-            'actionPath'    => 'auth/logout',
-            'actionID'      => NULL,
-            'actionValue'   => NULL,
-            'actionIcon'    => 'sign-out-alt',
-            'actionLabel'   => 'Log out',
-        ]);
-    }
-
+    $this->load->view('sections/components/modal', [
+        'id'            => 'logoutModal',
+        'theme'         => 'danger',
+        'title'         => 'Log out',
+        'modalIcon'     => 'WARNING',
+        'message'       => '<p>Are you sure you want to logout?</p>',
+        'actionPath'    => NULL,
+        'actionID'      => 'logoutBtn',
+        'actionValue'   => NULL,
+        'actionIcon'    => 'sign-out-alt',
+        'actionLabel'   => 'Log out',
+    ]);
 ?>
+<script>
+    $(document).on('click','#logoutBtn', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/logout",
+            success: function() {
+                location.assign('<?php echo base_url() ?>');
+            } 
+        });
+    });
+</script>
+<?php } ?>
 
 <!-- NAVIGATION BAR -->
 <nav class="navbar navbar-expand-md navbar-light bg-white fixed-top border-bottom" id="navbarTop">

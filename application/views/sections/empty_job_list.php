@@ -9,7 +9,7 @@
         <p>0 match found.</p>
     </div>
 
-    <div class="text-center my-5 py-5">
+    <div class="text-center my-5 py-5 animate__animated animate__fadeIn animate__faster">
         <h2 class="font-weight-normal">No match found.</h2>
         <p class="text-secondary">Try other combination of keyword and place.</p>
     </div>

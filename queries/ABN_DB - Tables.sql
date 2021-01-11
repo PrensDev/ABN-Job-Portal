@@ -73,6 +73,7 @@ CREATE TABLE [JobSeekers] (
 		VARCHAR(450) NOT NULL
 		CONSTRAINT FK_email@JobSeekers FOREIGN KEY
 			REFERENCES [UserAccounts] ([email])
+			ON UPDATE CASCADE
 	,
 	[profilePic]
 		VARCHAR(MAX)
@@ -140,6 +141,7 @@ CREATE TABLE [Employers] (
 		VARCHAR(450) NOT NULL
 		CONSTRAINT FK_email@Employers FOREIGN KEY
 			REFERENCES [UserAccounts] ([email])
+			ON UPDATE CASCADE
 	,
 	[website]
 		VARCHAR(MAX)
