@@ -21,7 +21,11 @@ if ($sessionStatus) {
     $(document).on('click','#logoutBtn', function(e) {
         e.preventDefault();
         $.ajax({
-            url:        "<?php echo base_url() ?>auth/logout",
+            url:  '<?php echo base_url() ?>auth/logout',
+            type: 'post',
+            data: {
+                request: 'logout'
+            },
             success: function() {
                 location.assign('<?php echo base_url() ?>');
             } 
@@ -29,7 +33,6 @@ if ($sessionStatus) {
     });
 </script>
 <?php } ?>
-
 <!-- NAVIGATION BAR -->
 <nav class="navbar navbar-expand-md navbar-light bg-white fixed-top border-bottom" id="navbarTop">
 <div class="container-fluid">
@@ -67,7 +70,6 @@ if ($sessionStatus) {
             <div class="dropdown-divider"></div>
 
             <?php 
-            
                 if ($sessionStatus) {
                     if ($this->session->userType == 'Job Seeker') {
                         $navbarData = [
@@ -75,21 +77,18 @@ if ($sessionStatus) {
                             'appliedJobsNum' => $this->JBSK_model->applied_jobs_num(),
                             'bookmarksNum'   => $this->JBSK_model->bookmarks_num(),
                         ];
-
                         $this->load->view('auth_sections/jobseeker/components/navbar_control', $navbarData);
                     } else if ($this->session->userType == 'Employer') {
                         $navbarData = [
                             'username' => $username,
                             'postsNum' => $this->EMPL_model->posts_num(),
                         ];
-
                         $this->load->view('auth_sections/employer/components/navbar_control', $navbarData);
                     }
                 } else {
                     $this->load->view('sections/navbar_components/login_link');
                     $this->load->view('sections/navbar_components/register_link');
                 }
-
             ?>
             
         </ul>

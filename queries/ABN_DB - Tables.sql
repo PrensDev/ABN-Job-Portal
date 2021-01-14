@@ -73,7 +73,7 @@ CREATE TABLE [JobSeekers] (
 		VARCHAR(450) NOT NULL
 		CONSTRAINT FK_email@JobSeekers FOREIGN KEY
 			REFERENCES [UserAccounts] ([email])
-			ON UPDATE CASCADE
+		ON UPDATE CASCADE
 	,
 	[profilePic]
 		VARCHAR(MAX)
@@ -141,7 +141,7 @@ CREATE TABLE [Employers] (
 		VARCHAR(450) NOT NULL
 		CONSTRAINT FK_email@Employers FOREIGN KEY
 			REFERENCES [UserAccounts] ([email])
-			ON UPDATE CASCADE
+		ON UPDATE CASCADE
 	,
 	[website]
 		VARCHAR(MAX)
@@ -217,6 +217,7 @@ CREATE TABLE [JobPosts] (
 		BINARY NOT NULL
 );
 
+
 -- Applications Table
 CREATE TABLE [Applications] (
 	[applicationID]
@@ -227,6 +228,7 @@ CREATE TABLE [Applications] (
 		INT NOT NULL
 		CONSTRAINT FK_jobPostID@Applications FOREIGN KEY
 			REFERENCES [JobPosts] ([jobPostID])
+		ON DELETE CASCADE
 	,
 	[jobseekerID]
 		INT NOT NULL
@@ -283,6 +285,7 @@ CREATE TABLE [Bookmarks] (
 		INT NOT NULL
 		CONSTRAINT FK_jobseekerID@Bookmarks FOREIGN KEY
 			REFERENCES [JobSeekers] ([jobseekerID])
+		ON DELETE CASCADE
 	,
 	[jobPostID]
 		INT NOT NULL
@@ -319,4 +322,20 @@ CREATE TABLE [JBSK_Notifications] (
 	,
 	[readFlag]
 		BINARY NOT NULL DEFAULT 0
+);
+
+-- Login Sessions
+CREATE TABLE [LoginSessions] (
+	[sessionID]
+		INT NOT NULL IDENTITY(1,1)
+		CONSTRAINT PK_sessionID@LoginSessions PRIMARY KEY
+	,
+	[userID]
+		INT NOT NULL
+		CONSTRAINT FK_userID@LoginSessions FOREIGN KEY
+			REFERENCES [UserAccounts] ([userID])
+		ON DELETE CASCADE
+	,
+	[dateLoggedIn]
+		DATETIME NOT NULL DEFAULT GETDATE()
 );

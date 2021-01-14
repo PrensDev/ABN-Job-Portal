@@ -6,6 +6,11 @@ class AUTH_model extends CI_Model {
         $this->load->database();
     }
 
+    // CREATE LOGIN SESSION
+    private function create_login_session($userID) {
+        $this->db->query("EXEC [AUTH_CreateLoginSession] @userID = ?", [$userID]);
+    }
+
     // ERROR PAGE
     public function err_page() {
         $this->load->view('templates/fullpage_header', ['title' => '404: Page Not Found']);
@@ -16,9 +21,7 @@ class AUTH_model extends CI_Model {
 
     // LOGIN
     public function login() {
-        $FindUserAccount_sql = "EXEC [AUTH_FindUserAccount] @email = ?";
-        $FindUserAccount_val = [$this->input->post('email')];
-        $query = $this->db->query($FindUserAccount_sql, $FindUserAccount_val);
+        $query = $this->db->query("EXEC [AUTH_FindUserAccount] @email = ?", [$this->input->post('email')]);
 
         if (! $query) {
             echo $this->db->error();
@@ -51,6 +54,9 @@ class AUTH_model extends CI_Model {
 
                     // SET UNACTIVE ACCOUNT TO ACTIVE AGAIN AFTER LOG IN
                     if ( $USER_row->status == 0 ) { $this->set_account_flag(1); }
+
+                    // RECORD THE LOGIN SESSION
+                    $this->create_login_session($USER_row->userID);
 
                     redirect('auth/profile');
                 } else {

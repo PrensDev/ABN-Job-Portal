@@ -10845,4 +10845,12 @@ label {
 .custom-ul {
   padding-left: 20px;
 }
+
+.nav-tabs .nav-item a {
+  color: #546E7A;
+}
+
+.nav-tabs .nav-item a.active {
+  color: black;
+}
 /*# sourceMappingURL=styles.css.map */

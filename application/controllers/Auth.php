@@ -88,7 +88,11 @@ class Auth extends CI_Controller {
     // LOGOUT VIEW
     public function logout() {
         if ($this->session->has_userdata('userType')) {
-            session_destroy();
+            if($this->input->is_ajax_request() && $this->input->post('request') == 'logout') {
+                session_destroy();
+            } else {
+                $this->AUTH_model->err_page();
+            }
         } else {
             $this->AUTH_model->err_page();
         }

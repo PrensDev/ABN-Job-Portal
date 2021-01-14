@@ -52,7 +52,7 @@
             
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
 
-            <a href="<?php echo base_url() ?>auth/forgot_password" class="btn btn-link btn-block">Forgot Password?</a>
+            <a href="<?php echo base_url() ?>auth/forgot_password" class="btn btn-link btn-block">Forgotten your password?</a>
 
         </form>
     </div>

@@ -91,3 +91,11 @@ label {
 .custom-ul {
     padding-left: 20px;
 }
+
+.nav-tabs .nav-item a {
+    color: $custom-color-secondary;
+}
+
+.nav-tabs .nav-item a.active {
+    color: black;
+}

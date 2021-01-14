@@ -7,7 +7,10 @@
     <?php $this->load->view('auth_sections/components/alert') ?>
 
     <!-- SETTINGS MENU -->
-    <div class="card">
+    <div class="card mb-4">
+        <div class="card-header">
+            <span>Profile Settings</span>
+        </div>
         <div class="card-body p-0">
             <div class="list-group list-group-flush">
 
@@ -25,6 +28,25 @@
                     <span>Edit information</span>
                 </a>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS MENU -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <span>Account Settings</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="list-group list-group-flush">
+
+            <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/login_sessions">
+                    <div class="user-nav-icon mr-1 text-primary">
+                        <i class="fas fa-dot-circle"></i>
+                    </div>
+                    <span>View login sessions</span>
+                </a>
+                
                 <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/change_email">
                     <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-at"></i>

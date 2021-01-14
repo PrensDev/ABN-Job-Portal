@@ -90,8 +90,9 @@ AS
 CREATE PROCEDURE [AUTH_FindUserAccount]
 	@email		VARCHAR(450)
 AS
-	SELECT 
-		  [email]
+	SELECT
+		  [userID]
+		, [email]
 		, [password]
 		, [userType]
 		, CAST([accountFlag] AS INT) AS [status]
@@ -174,4 +175,13 @@ AS
 	UPDATE [UserAccounts]
 	SET [email] = @newEmail
 	WHERE [email] = @email
+;
+
+-- Create Login Session
+CREATE PROCEDURE [AUTH_CreateLoginSession]
+	@userID INT
+AS
+	INSERT INTO [LoginSessions]
+		([userID])
+	VALUES (@userID)
 ;

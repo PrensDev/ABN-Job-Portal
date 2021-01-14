@@ -33,5 +33,8 @@
     <!-- JQuery -->
     <script src="<?php echo base_url() ?>node_modules/jquery/dist/jquery.js"></script>
 
+    <!-- bootstrapValidate JS -->
+    <script src="<?php echo base_url() ?>node_modules/bootstrap-validate/dist/bootstrap-validate.js"></script>
+
 </head>
 <body class="user-select-none">

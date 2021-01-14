@@ -24,23 +24,23 @@
 
                 <h3 class="font-weight-normal my-3">Social Links</h3>
 
-                <a href="https://www.facebook.com/abn" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Like us on Facebook">
+                <a href="https://www.facebook.com/abn-job-portal" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Like us on Facebook">
                     <i class="fab fa-facebook-f"></i>
                 </a>
 
-                <a href="https://www.twitter.com/abn" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Follow us on Twitter">
+                <a href="https://www.twitter.com/abn-job-portal" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Follow us on Twitter">
                     <i class="fab fa-twitter"></i>
                 </a>
 
-                <a href="https://www.pinterest.com/abn" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="See us at Pinterest">
+                <a href="https://www.pinterest.com/abn-job-portal" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="See us at Pinterest">
                     <i class="fab fa-pinterest-p"></i>
                 </a>
 
-                <a href="https://www.linkedin.com/abn" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Search us on LinkedIn">
+                <a href="https://www.linkedin.com/abn-job-portal" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Search us on LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
 
-                <a href="https://www.gmail.com/abn" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Email us on Google">
+                <a href="https://www.gmail.com/abn-job-portal" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Email us on Google">
                     <i class="fab fa-google-plus-g"></i>
                 </a>
 

@@ -21,27 +21,27 @@
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a 
-                class ="nav-link<?php echo $statusPage == 'Pending' ? ' active' : '' ?>" 
-                href  ="<?php echo base_url() ?>auth/applications/pending"
+            <a
+                class = "btn nav-link<?php echo $statusPage == 'Pending' ? ' active' : '' ?>" 
+                id    = "pendingTab"
             >Pending</a>
         </li>
         <li class="nav-item">
             <a 
-                class ="nav-link<?php echo $statusPage == 'Interviewing' ? ' active' : '' ?>" 
-                href  ="<?php echo base_url() ?>auth/applications/interviewing"
+                class = "btn nav-link<?php echo $statusPage == 'Interviewing' ? ' active' : '' ?>"
+                id    = "interviewingTab"
             >Interviewing</a>
         </li>
         <li class="nav-item">
             <a 
-                class ="nav-link<?php echo $statusPage == 'Hired' ? ' active' : '' ?>" 
-                href  ="<?php echo base_url() ?>auth/applications/hired"
+                class = "btn nav-link<?php echo $statusPage == 'Hired' ? ' active' : '' ?>" 
+                id    = "hiredTab"
             >Hired</a>
         </li>
         <li class="nav-item">
             <a 
-                class="nav-link<?php echo $statusPage == 'Rejected' ? ' active' : '' ?>" 
-                href="<?php echo base_url() ?>auth/applications/rejected"
+                class = "btn nav-link<?php echo $statusPage == 'Rejected' ? ' active' : '' ?>"
+                id    = "rejectedTab"
             >Rejected</a>
         </li>
     </ul>
@@ -65,3 +65,21 @@
 
 </div>
 </div>
+
+<script>
+    $('#pendingTab').on('click', function() {
+        location.replace('<?php echo base_url() ?>auth/applications/pending');
+    });
+
+    $('#interviewingTab').on('click', function() {
+        location.replace('<?php echo base_url() ?>auth/applications/interviewing');
+    });
+
+    $('#hiredTab').on('click', function() {
+        location.replace('<?php echo base_url() ?>auth/applications/hired');
+    });
+
+    $('#rejectedTab').on('click', function() {
+        location.replace('<?php echo base_url() ?>auth/applications/rejected');
+    });
+</script>

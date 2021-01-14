@@ -22,26 +22,26 @@
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a 
-                class ="nav-link<?php echo $statusPage == 'Pending' ? ' active' : '' ?>" 
-                href  ="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/pending' ?>"
+                class = "btn nav-link<?php echo $statusPage == 'Pending' ? ' active' : '' ?>" 
+                id    = "pendingTab"
             >Pending</a>
         </li>
         <li class="nav-item">
             <a 
-                class ="nav-link<?php echo $statusPage == 'Interviewing' ? ' active' : '' ?>" 
-                href  ="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/interviewing' ?>"
+                class = "btn nav-link<?php echo $statusPage == 'Interviewing' ? ' active' : '' ?>" 
+                id    = "interviewingTab"
             >Interviewing</a>
         </li>
         <li class="nav-item">
             <a 
-                class ="nav-link<?php echo $statusPage == 'Hired' ? ' active' : '' ?>" 
-                href  ="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/hired' ?>"
+                class = "btn nav-link<?php echo $statusPage == 'Hired' ? ' active' : '' ?>" 
+                id    = "hiredTab"
             >Hired</a>
         </li>
         <li class="nav-item">
             <a 
-                class="nav-link<?php echo $statusPage == 'Rejected' ? ' active' : '' ?>" 
-                href  ="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/rejected' ?>"
+                class = "btn nav-link<?php echo $statusPage == 'Rejected' ? ' active' : '' ?>" 
+                id    = "rejectedTab"
             >Rejected</a>
         </li>
     </ul>
@@ -203,6 +203,22 @@
 
 
 <script>
+    $('#pendingTab').on('click', function() {
+        location.replace('<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/pending' ?>');
+    });
+
+    $('#interviewingTab').on('click', function() {
+        location.replace('<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/interviewing' ?>');
+    });
+
+    $('#hiredTab').on('click', function() {
+        location.replace('<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/hired' ?>');
+    });
+
+    $('#rejectedTab').on('click', function() {
+        location.replace('<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/rejected' ?>');
+    });
+
     $(document).ready(function() {
         $('#hireApplicantModal').on('show.bs.modal', function (e) {
             var btn = $(e.relatedTarget);
