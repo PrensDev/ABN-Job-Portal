@@ -6,7 +6,7 @@ class EMPL_model extends CI_Model {
         $this->load->database();
     }
 
-    protected function get_row($sql) {
+    private function get_row($sql) {
         $query = $this->db->query($sql);
         if (! $query) {
             die($this->db->error());
@@ -15,12 +15,11 @@ class EMPL_model extends CI_Model {
         }
     }
 
-    protected function run_query($sql, $successPath) {
-        if (! $this->db->query($sql) ) {
-            echo $this->db->error();
-        } else {
-            redirect('auth/' . $successPath);
-        }
+    // RETURNS THE COUNT OF THE QUERY
+    private function query_count($query, $values = []) {
+        $qry = $this->db->query($query, $values);
+        $row = $qry->row();
+        return $row->count;
     }
 
     // CREATE NOTIFICATION METHOD
@@ -42,12 +41,6 @@ class EMPL_model extends CI_Model {
     }
     
     // ==================================================================================================== //
-
-    // NUMBER OF POSTED JOBS METHOD
-    public function posts_num() {
-        $query = $this->get_row("EXEC [EMPL_NumOfPosts] @employerID = " . $this->session->id);
-        return $query->postsNum;
-    }
 
     // GET INFORMATION METHOD
     public function get_info() {
@@ -117,8 +110,8 @@ class EMPL_model extends CI_Model {
     }
 
     // GET ALL POSTS METHOD
-    public function get_all_posts() {
-        return $this->db->query("EXEC [EMPL_GetAllPosts] @employerID = ?", [$this->session->id]);
+    public function posts_num() {
+        return $this->query_count("EXEC [EMPL_PostsNum] @employerID = ?", [$this->session->id]);
     }
 
     // GET POSTS METHOD
@@ -172,10 +165,10 @@ class EMPL_model extends CI_Model {
         }
     }
 
-    // VIEW ALL APPLICANTS METHOD
-    public function view_all_applicants($jobPostID, $status) {
-        return $this->db->query("
-            EXEC [EMPL_ViewAllApplicants] 
+    // GET NUMBER OF APPLICANTS METHOD
+    public function applicants_num($jobPostID, $status) {
+        return $this->query_count("
+            EXEC [EMPL_ApplicantsNum] 
                 @jobPostID =  " . $jobPostID .",
                 @status    = '" . $status . "'
         ");

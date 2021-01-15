@@ -1,6 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!-- ABOUT US SECTION -->
 <div class="container-fluid py-md-5">

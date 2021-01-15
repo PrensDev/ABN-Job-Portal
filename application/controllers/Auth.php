@@ -88,7 +88,7 @@ class Auth extends CI_Controller {
     // LOGOUT VIEW
     public function logout() {
         if ($this->session->has_userdata('userType')) {
-            if($this->input->is_ajax_request() && $this->input->post('request') == 'logout') {
+            if ($this->input->is_ajax_request() && $this->input->post('request') == 'logout') {
                 session_destroy();
             } else {
                 $this->AUTH_model->err_page();
@@ -100,9 +100,16 @@ class Auth extends CI_Controller {
 
     // DEACTIVATE VIEW
     public function deactivate() {
-        $this->AUTH_model->set_account_flag(0);
-        session_destroy();
-        redirect();
+        if ($this->session->has_userdata('userType')) {
+            if ($this->input->is_ajax_request() && $this->input->post('request') == 'deactivate') {
+                $this->AUTH_model->set_account_flag(0);
+                session_destroy();
+            } else {
+                $this->AUTH_model->err_page();
+            }
+        } else {
+            $this->AUTH_model->err_page();
+        }
     }
     
     // PERMISSION VIEW
@@ -532,38 +539,37 @@ class Auth extends CI_Controller {
                 
                 if (array_key_exists($statusPage, $status)) {
                     $userdata = $this->get_userdata();
-                    $AllJobApplications = $this->JBSK_model->all_applied_jobs($statusPage);
+                    $AppliedJobsNum = $this->JBSK_model->applied_jobs_to_status_num($statusPage);
 
                     $pagedata = [
                         'title'      => $userdata['username'] . ' - ' . $status[$statusPage] . ' applications',
                         'statusPage' => $status[$statusPage]
                     ];
 
-                    if ($AllJobApplications->result() == NULL) {
+                    if ($AppliedJobsNum == 0) {
                         $this->load->view('templates/header', $pagedata);
                         $this->load->view('sections/navbar', $userdata);
                         $this->load->view('auth_sections/jobseeker/empty_applications', $pagedata);
                         $this->load->view('sections/footer');
-                        $this->load->view('templates/footer');   
+                        $this->load->view('templates/footer');
                     } else {
-                        $numRows = $AllJobApplications->num_rows();
                         $fetchedRows = 10;
-                        $totalPages = ceil($numRows / $fetchedRows);
+                        $totalPages = ceil($AppliedJobsNum / $fetchedRows);
 
                         if ($page > 0 && $page <= $totalPages) {
                             $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                            $posts      = $this->JBSK_model->applied_jobs($statusPage, $offsetRows, $fetchedRows); 
+                            $posts      = $this->JBSK_model->applied_jobs_to_status($statusPage, $offsetRows, $fetchedRows); 
                             
                             $pagedata = [
                                 'title'         => $userdata['username'] . ' - ' . $status[$statusPage] . ' applications',
                                 'posts'         => $posts,
-                                'totalRows'     => $numRows,
+                                'totalRows'     => $AppliedJobsNum,
                                 'totalPages'    => $totalPages,
                                 'currentPage'   => $page,
                                 'statusPage'    => $status[$statusPage],
                             ];
                             
-                            $this->pagination->initialize($this->pagination_config('auth/applications/' . $statusPage, $numRows));
+                            $this->pagination->initialize($this->pagination_config('auth/applications/' . $statusPage, $AppliedJobsNum));
                             
                             $this->load->view('templates/header', $pagedata);
                             $this->load->view('sections/navbar', $userdata);                    
@@ -635,18 +641,17 @@ class Auth extends CI_Controller {
             $userdata = $this->get_userdata();
             $pagedata = ['title' => $userdata['username'] . ' - Bookmarks'];
 
-            $AllAppliedJobs = $this->JBSK_model->get_all_bookmarks();
+            $AllAppliedJobs = $this->JBSK_model->bookmarks_num();
 
-            if ($AllAppliedJobs->result() == NULL) {
+            if ($AllAppliedJobs == 0) {
                 $this->load->view('templates/header', $pagedata);
                 $this->load->view('sections/navbar', $userdata);
                 $this->load->view('auth_sections/jobseeker/empty_bookmarks');
                 $this->load->view('sections/footer');
                 $this->load->view('templates/footer');   
             } else {
-                $numRows = $AllAppliedJobs->num_rows();
                 $fetchedRows = 10;
-                $totalPages = ceil($numRows / $fetchedRows);
+                $totalPages = ceil($AllAppliedJobs / $fetchedRows);
 
                 if ($page > 0 && $page <= $totalPages) {
                     $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
@@ -655,12 +660,12 @@ class Auth extends CI_Controller {
                     $pagedata = [
                         'title'         => $userdata['username'] . ' - Bookmarks',
                         'posts'         => $posts,
-                        'totalRows'     => $numRows,
+                        'totalRows'     => $AllAppliedJobs,
                         'totalPages'    => $totalPages,
                         'currentPage'   => $page,
                     ];
                     
-                    $this->pagination->initialize($this->pagination_config('auth/bookmarks', $numRows));
+                    $this->pagination->initialize($this->pagination_config('auth/bookmarks', $AllAppliedJobs));
                     
                     $this->load->view('templates/header', $pagedata);
                     $this->load->view('sections/navbar', $userdata);                    
@@ -712,18 +717,17 @@ class Auth extends CI_Controller {
             $userdata = $this->get_userdata();
             $pagedata['title'] = $userdata['username'] . ' - Job Posts';
             
-            $AllPosts = $this->EMPL_model->get_all_posts();
+            $PostsNum = $this->EMPL_model->posts_num();
 
-            if ($AllPosts->result() == NULL) {    
+            if ($PostsNum == 0) {    
                 $this->load->view('templates/header', $pagedata);
                 $this->load->view('sections/navbar', $userdata);
                 $this->load->view('auth_sections/employer/empty_job_posts');
                 $this->load->view('sections/footer');
                 $this->load->view('templates/footer');
             } else {
-                $numRows = $AllPosts->num_rows();
                 $fetchedRows = 10;
-                $totalPages = ceil($numRows / $fetchedRows);
+                $totalPages = ceil($PostsNum / $fetchedRows);
 
                 if ($page > 0 && $page <= $totalPages) {
                     $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
@@ -732,12 +736,12 @@ class Auth extends CI_Controller {
                     $pagedata = [
                         'title'         => $userdata['username'] . ' - Job Posts',
                         'posts'         => $posts,
-                        'totalRows'     => $numRows,
+                        'totalRows'     => $PostsNum,
                         'totalPages'    => $totalPages,
                         'currentPage'   => $page,
                     ];
                     
-                    $this->pagination->initialize($this->pagination_config('auth/job_posts', $numRows));
+                    $this->pagination->initialize($this->pagination_config('auth/job_posts', $PostsNum));
                     
                     $this->load->view('templates/header', $pagedata);
                     $this->load->view('sections/navbar', $userdata);                    
@@ -966,7 +970,7 @@ class Auth extends CI_Controller {
                     ];
     
                     if (array_key_exists($statusPage, $status)) {
-                        $AllApplicants = $this->EMPL_model->view_all_applicants($jobPostID, $status[$statusPage]);
+                        $ApplicantsNum = $this->EMPL_model->applicants_num($jobPostID, $status[$statusPage]);
                         $userdata = $this->EMPL_model->get_info();
                         $jobDetails = $this->EMPL_model->get_job_details($jobPostID);
 
@@ -977,16 +981,15 @@ class Auth extends CI_Controller {
                             'statusPage' => $status[$statusPage],
                         ];
                         
-                        if ($AllApplicants->result() == NULL) {
+                        if ($ApplicantsNum == 0) {
                             $this->load->view('templates/header', $pagedata);
                             $this->load->view('sections/navbar', $userdata);
                             $this->load->view('auth_sections/employer/empty_applicants', $pagedata);
                             $this->load->view('sections/footer');
                             $this->load->view('templates/footer');
                         } else {
-                            $numRows = $AllApplicants->num_rows();
                             $fetchedRows = 10;
-                            $totalPages = ceil($numRows / $fetchedRows);
+                            $totalPages = ceil($ApplicantsNum / $fetchedRows);
                             
                             if ($page > 0 && $page <= $totalPages) {
                                 $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
@@ -995,7 +998,7 @@ class Auth extends CI_Controller {
                                 $pagedata = [
                                     'title'       => $userdata['username'] . ' - Manage Applicants (' . $status[$statusPage] . ')',
                                     'posts'       => $posts,
-                                    'totalRows'   => $numRows,
+                                    'totalRows'   => $ApplicantsNum,
                                     'totalPages'  => $totalPages,
                                     'currentPage' => $page,
                                     'jobTitle'    => $jobDetails['jobTitle'],
@@ -1003,7 +1006,7 @@ class Auth extends CI_Controller {
                                     'statusPage'  => $status[$statusPage],
                                 ];
                                 
-                                $this->pagination->initialize($this->pagination_config('auth/manage_applicants/' . $jobPostID, $numRows));
+                                $this->pagination->initialize($this->pagination_config('auth/manage_applicants/' . $jobPostID, $ApplicantsNum));
                                 
                                 $this->load->view('templates/header', $pagedata);
                                 $this->load->view('sections/navbar', $userdata);

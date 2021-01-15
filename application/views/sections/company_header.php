@@ -1,30 +1,24 @@
 <div class="row">
     <div class="col-md-auto d-flex justify-content-center">
-        <?php
-            if (isset($profilePic)) {
-                echo '
-                    <img 
-                        src         = "'. base_url() . 'public/img/employers/' . $profilePic . '" 
-                        alt         = "' . $companyName . '" 
-                        height      = "125"
-                        width       = "125" 
-                        class       = "border" 
-                        draggable   = "false"
-                    >
-                ';
-            } else {
-                echo '
-                    <img 
-                        src         = "'. base_url() . 'public/img/employers/blank_dp.png" 
-                        alt         = "' . $companyName . '" 
-                        height      = "125"
-                        width       = "125" 
-                        class       = "border" 
-                        draggable   = "false"
-                    >
-                ';
-            }
-        ?>
+        <?php if (isset($profilePic)) { ?>
+            <img 
+                src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
+                alt         = "<?php echo $companyName ?>" 
+                height      = "125"
+                width       = "125" 
+                class       = "border" 
+                draggable   = "false"
+            >
+        <?php } else { ?>
+            <img 
+                src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
+                alt         = "<?php echo $companyName ?>" 
+                height      = "125"
+                width       = "125" 
+                class       = "border" 
+                draggable   = "false"
+            >
+        <?php } ?>
     </div>
 
     <!-- COMPANY INFORMATION -->

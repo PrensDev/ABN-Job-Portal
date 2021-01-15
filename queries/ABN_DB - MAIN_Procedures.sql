@@ -9,10 +9,11 @@ ORDER BY ROUTINE_NAME
 
 ----------------------------------------------------------------
 
--- View All Active Posts Procedure
-CREATE PROCEDURE [VIEW_AllRecentPosts]
+-- Get Number of Active Posts
+CREATE PROCEDURE [MAIN_RecentPostsNum]
 AS 
-	SELECT [jobPostID] FROM [RecentPosts]
+	SELECT COUNT([jobPostID]) AS [count]
+	FROM [Posts]
 ;
 
 -- View Active Posts
@@ -20,14 +21,14 @@ CREATE PROCEDURE [VIEW_RecentPosts]
 	@offsetRows		INT,
 	@fetchedRows	INT
 AS
-	SELECT * FROM [RecentPosts]
+	SELECT * FROM [Posts]
 	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;
 ;
 
 -- View Job Details Procedure
-CREATE PROCEDURE [VIEW_JobDetails]
+CREATE PROCEDURE [MAIN_JobDetails]
 	@jobPostID	INT
 AS
 	SELECT
@@ -60,7 +61,7 @@ AS
 ;
 
 -- View Employer Details Procedure
-CREATE PROCEDURE [VIEW_CompanyDetails]
+CREATE PROCEDURE [MAIN_CompanyDetails]
 	@employerID INT
 AS
 	SELECT
@@ -68,7 +69,12 @@ AS
 		, [profilePic]
 		, [companyName]
 		, [description]
-		, [street] + ', ' + [brgyDistrict] + ', ' + [cityProvince] AS [location]
+		, [street] 
+			+ ', ' 
+			+ [brgyDistrict] 
+			+ ', ' 
+			+ [cityProvince] 
+			AS [location]
 		, [contactNumber]
 		, [email]
 		, [website]
@@ -76,106 +82,55 @@ AS
 	WHERE [employerID] = @employerID
 ;
 
--- View All Available Jobs
-CREATE PROCEDURE [VIEW_AllAvailableJobs]
+-- Get Number of Available Jobs
+CREATE PROCEDURE [MAIN_AvailableJobsNum]
 	@employerID  INT
 AS
-	SELECT
-		  [JobPosts].[jobPostID]
-		, [JobPosts].[jobTitle]
-		, [JobPosts].[jobType]
-		, [JobPosts].[field]
-		, [JobPosts].[description]
-		, [JobPosts].[minSalary]
-		, [JobPosts].[maxSalary]
-		, [JobPosts].[dateCreated]
-		, [Employers].[employerID]
-		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
-	FROM [JobPosts]
-	INNER JOIN [Employers] 
-	ON [JobPosts].[employerID] = [Employers].[employerID]
-	AND [JobPosts].[employerID] = @employerID
-	AND [jobPostFlag] = 1
+	SELECT COUNT([jobPostID]) AS [count]
+	FROM [Posts]
+	WHERE [employerID] = @employerID
 ;
 
 -- View Available Jobs
-CREATE PROCEDURE [VIEW_AvailableJobs]
+CREATE PROCEDURE [MAIN_AvailableJobs]
 	@employerID  INT,
 	@offsetRows  INT,
 	@fetchedRows INT
 AS
-	SELECT
-		  [JobPosts].[jobPostID]
-		, [JobPosts].[jobTitle]
-		, [JobPosts].[jobType]
-		, [JobPosts].[field]
-		, [JobPosts].[description]
-		, [JobPosts].[minSalary]
-		, [JobPosts].[maxSalary]
-		, [JobPosts].[dateCreated]
-		, [Employers].[employerID]
-		, [Employers].[profilePic]
-		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
-	FROM [JobPosts]
-	INNER JOIN [Employers] 
-		ON [JobPosts].[employerID] = [Employers].[employerID]
-		AND [JobPosts].[employerID] = @employerID
-		AND [jobPostFlag] = 1
+	SELECT * FROM [Posts]
+	WHERE [employerID] = @employerID
 	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;
 ;
 
 
--- Get All Search Result
-CREATE PROCEDURE [VIEW_AllSearchResult]
+-- Get Number of Search Result
+CREATE PROCEDURE [MAIN_SearchResultNum]
 	@jobTitle VARCHAR(MAX),
 	@location VARCHAR(MAX)
 AS
-	SELECT [JobPosts].[jobPostID]
-	FROM [JobPosts]
-	INNER JOIN [Employers] 
-		ON [JobPosts].[employerID] = [Employers].[employerID]
-		AND [jobPostFlag] = 1
+	SELECT COUNT([jobPostID]) AS [count]
+	FROM [Posts]
 	WHERE
-		[JobPosts].[jobTitle] LIKE '%' + @jobTitle + '%'
-		AND ([Employers].[brgyDistrict] LIKE '%' + @location + '%'
-		OR [Employers].[cityProvince] LIKE '%' + @location + '%')
-	ORDER BY [JobPosts].[dateCreated]
+		[jobTitle] LIKE '%' + @jobTitle + '%'
+		AND ([brgyDistrict] LIKE '%' + @location + '%'
+		OR [cityProvince] LIKE '%' + @location + '%')
 ;
 
-
 --  Get Search Result
-CREATE PROCEDURE [VIEW_SearchResult]
+CREATE PROCEDURE [MAIN_SearchResult]
 	@jobTitle	 VARCHAR(MAX),
 	@location	 VARCHAR(MAX),
 	@offsetRows  INT,
 	@fetchedRows INT
 AS
-	SELECT
-		  [JobPosts].[jobPostID]
-		, [JobPosts].[jobTitle]
-		, [JobPosts].[jobType]
-		, [JobPosts].[field]
-		, [JobPosts].[description]
-		, [JobPosts].[minSalary]
-		, [JobPosts].[maxSalary]
-		, [JobPosts].[dateCreated]
-		, [Employers].[employerID]
-		, [Employers].[profilePic]
-		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
-	FROM [JobPosts]
-	INNER JOIN [Employers] 
-		ON [JobPosts].[employerID] = [Employers].[employerID]
-		AND [jobPostFlag] = 1
+	SELECT * FROM [Posts]
 	WHERE
-		[JobPosts].[jobTitle] LIKE '%' + @jobTitle + '%'
-		AND ([Employers].[brgyDistrict] LIKE '%' + @location + '%'
-		OR [Employers].[cityProvince] LIKE '%' + @location + '%')
-	ORDER BY [JobPosts].[dateCreated] DESC
+		[jobTitle] LIKE '%' + @jobTitle + '%'
+		AND ([brgyDistrict] LIKE '%' + @location + '%'
+		OR [cityProvince] LIKE '%' + @location + '%')
+	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;
 ;

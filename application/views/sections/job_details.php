@@ -50,37 +50,28 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
     
     <div class="row">
 
-        <!-- COMPANY IMAGE/LOGO -->
         <div class="col-auto d-none d-sm-inline">
-            <?php
-                if (isset($profilePic)) {
-                    echo '
-                        <a href="' . base_url() . 'companies/details/' . $employerID . '">
-                            <img 
-                                src         = "' . base_url() . 'public/img/employers/' . $profilePic . '" 
-                                alt         = "' . $jobTitle . '" 
-                                height      = "125" 
-                                width       = "125" 
-                                draggable   = "false"
-                                class       = "border"
-                            >
-                        </a>
-                    ';
-                } else {
-                    echo '
-                        <a href="' . base_url() . 'companies/details/' . $employerID . '">
-                            <img 
-                                src         = "' . base_url() . 'public/img/employers/blank_dp.png" 
-                                alt         = "' . $jobTitle . '" 
-                                height      = "125" 
-                                width       = "125" 
-                                draggable   = "false"
-                                class       = "border"
-                            >
-                        </a>
-                    ';
-                }
-            ?>
+            <a href="<?php base_url() . 'companies/details/' . $employerID ?>">
+                <?php if (isset($profilePic)) { ?>
+                    <img 
+                        src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
+                        alt         = "<?php echo $jobTitle ?>" 
+                        height      = "125" 
+                        width       = "125" 
+                        draggable   = "false"
+                        class       = "border"
+                    >
+                <?php } else { ?>
+                    <img 
+                        src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
+                        alt         = "<?php echo $jobTitle ?>" 
+                        height      = "125" 
+                        width       = "125" 
+                        draggable   = "false"
+                        class       = "border"
+                    >
+                <?php } ?>
+            </a>
         </div>
         
         <!-- JOB DETAILS -->
@@ -130,32 +121,29 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
         if ($this->session->userType == 'Job Seeker') {
             if(isset($status) && isset($dateApplied)) {
                 $dateApplied = date_format(date_create($dateApplied),"F d, Y, h:i a");
-
-                if ($status == 'Pending') {
-                    echo '
-                        <div class="container-fluid alert alert-success mb-5">
-                            <div class="row align-items-center text-center">
-                                <div class="col-md-8 text-md-left">
-                                    <div class="m-1">
-                                        You submitted your application for this job at <strong>' . $dateApplied . '</strong></a>. 
-                                    </div>
+                if ($status == 'Pending') { 
+    ?>
+                    <div class="container-fluid alert alert-success mb-5">
+                        <div class="row align-items-center text-center">
+                            <div class="col-md-8 text-md-left">
+                                <div class="m-1">
+                                    You submitted your application for this job at <strong><?php $dateApplied ?></strong></a>. 
                                 </div>
-                                <div class="col-md-4 text-md-right mt-2 mt-md-0">
-                                    <button 
-                                        class       = "btn btn-warning"
-                                        data-toggle = "modal"
-                                        data-target = "#viewApplicationModal"
-                                    >View my application</button>
-                                </div> 
+                            </div>
+                            <div class="col-md-4 text-md-right mt-2 mt-md-0">
+                                <button 
+                                    class       = "btn btn-warning"
+                                    data-toggle = "modal"
+                                    data-target = "#viewApplicationModal"
+                                >View my application</button>
                             </div> 
-                        </div>
-                    ';
-                } else if ($status == 'Hired') {
-                    echo '
-                        <div class="alert alert-primary mb-5 text-md-left text-center">
-                            You are <strong>hired</strong> for this job.</a>
-                        </div>
-                    ';
+                        </div> 
+                    </div>
+    <?php       } else if ($status == 'Hired') { ?>
+                    <div class="alert alert-primary mb-5 text-md-left text-center">
+                        You are <strong>hired</strong> for this job.</a>
+                    </div>
+    <?php
                 }
             }
         }
@@ -216,7 +204,6 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
         </div>
 
     </div>
-    <!-- END OF JOB DETAILS -->
     
     <!-- JOB SUMMARY -->
     <div class="col-lg-4">
@@ -224,19 +211,19 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
         <?php
             if ($this->session->userType == 'Employer') {
                 if ($this->session->id == $employerID) {
-                    echo '
-                        <div class="d-flex justify-content-between alert alert-info p-3 mb-3">
-                            <div class="mr-3">
-                                <span>Do you want to edit your post?</span>
-                            </div>
-                            <div class="text-nowrap">
-                                <i class="fas fa-pen text-info"></i>
-                                <a class="text-info" href="' . base_url() . 'auth/edit_post/' . $jobPostID . '">
-                                    <span>Edit</span>
-                                </a>
-                            </div>
-                        </div>
-                    ';
+        ?>
+            <div class="d-flex justify-content-between alert alert-info p-3 mb-3">
+                <div class="mr-3">
+                    <span>Do you want to edit your post?</span>
+                </div>
+                <div class="text-nowrap">
+                    <i class="fas fa-pen text-info"></i>
+                    <a class="text-info" href="<?php echo base_url() . 'auth/edit_post/' . $jobPostID ?>">
+                        <span>Edit</span>
+                    </a>
+                </div>
+            </div>
+        <?php
                 }
             }
         ?>
@@ -361,26 +348,23 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
                         </div>
                     </div>
 
-                    <?php
-                        if ($website != '') {
-                            echo '
-                                <div class="list-group-item d-flex">
-                                    <div class="list-group-item-icon h4 text-danger">
-                                        <i class="fas fa-globe-asia"></i>
-                                    </div>
-                                    <div>
-                                        <p class="m-0 font-weight-bold">Website</p>
-                                        <p class="m-0">
-                                            <a href="' . $website  . '" class="btn btn-primary btn-sm mt-1" target="_blank" data-toggle="tooltip" data-placement="left" title="' . $website . '">
-                                                <i class="fas fa-external-link-alt"></i>
-                                                <span>Go to their website</span>
-                                            </a> 
-                                        </p>
-                                    </div>
-                                </div>
-                            ';
-                        }
-                    ?>
+                    <?php if ($website != '') { ?>
+                        <div class="list-group-item d-flex">
+                            <div class="list-group-item-icon h4 text-danger">
+                                <i class="fas fa-globe-asia"></i>
+                            </div>
+                            <div>
+                                <p class="m-0 font-weight-bold">Website</p>
+                                <p class="m-0">
+                                    <a href="<?php echo $website ?>" class="btn btn-primary btn-sm mt-1" target="_blank" data-toggle="tooltip" data-placement="left" title="<?php echo $website ?>">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        <span>Go to their website</span>
+                                    </a> 
+                                </p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
                 </div>
             
             </div>
@@ -428,39 +412,35 @@ $datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
 </div>
 
 <?php
-
-if ($this->session->userType == 'Job Seeker') {
-    if (! isset($status)) {
-        if (isset($resumeData)) {
-            $this->load->view('auth_sections/jobseeker/components/submit_application_modal', $resumeData);
+    if ($this->session->userType == 'Job Seeker') {
+        if (! isset($status)) {
+            if (isset($resumeData)) {
+                $this->load->view('auth_sections/jobseeker/components/submit_application_modal', $resumeData);
+            } else {
+                $this->load->view('auth_sections/jobseeker/components/empty_resume_modal');
+            }
         } else {
-            $this->load->view('auth_sections/jobseeker/components/empty_resume_modal');
+            if ($status = 'Pending') {
+                $this->load->view('auth_sections/jobseeker/components/view_application_modal');
+                $this->load->view('sections/components/modal', [
+                    'centered'      => TRUE,
+                    'nofade'        => TRUE,
+                    'id'            => 'cancelApplicationModal',
+                    'theme'         => 'warning',
+                    'title'         => 'Cancel Application',
+                    'modalIcon'     => 'WARNING',
+                    'message'       => '
+                        <p class="m-1">Are you sure you want to cancel you application for this job?</p>
+                        <p class="m-1"><strong>Note: You may apply again if this job is still available.</strong></p>
+                    ',
+                    'actionPath'    => NULL,
+                    'actionID'      => 'cancelApplicationBtn',
+                    'actionIcon'    => 'file',
+                    'actionLabel'   => 'Cancel my application!',
+                ]);
+            }
         }
-    } else {
-        if ($status = 'Pending') {
-            $this->load->view('auth_sections/jobseeker/components/view_application_modal');
-            $this->load->view('sections/components/modal', [
-                'centered'      => TRUE,
-                'nofade'        => TRUE,
-                'id'            => 'cancelApplicationModal',
-                'theme'         => 'warning',
-                'title'         => 'Cancel Application',
-                'modalIcon'     => 'WARNING',
-                'message'       => '
-                    <p class="m-1">Are you sure you want to cancel you application for this job?</p>
-                    <p class="m-1"><strong>Note: You may apply again if this job is still available.</strong></p>
-                ',
-                'actionPath'    => NULL,
-                'actionID'      => 'cancelApplicationBtn',
-                'actionIcon'    => 'file',
-                'actionLabel'   => 'Cancel my application!',
-            ]);
-        }
-    }
-}
-
 ?>
-
 <script>
     $(document).on('click','#cancelApplicationBtn', function(e) {
         e.preventDefault();
@@ -507,3 +487,4 @@ if ($this->session->userType == 'Job Seeker') {
         });
     });
 </script>
+<?php } ?>

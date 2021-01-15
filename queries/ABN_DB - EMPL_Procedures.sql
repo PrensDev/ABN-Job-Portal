@@ -42,11 +42,11 @@ AS
 		, @jobPostFlag )
 ;
 
--- Get All Posts Procedure
-CREATE PROCEDURE [EMPL_GetAllPosts] 
+-- Number of Posts
+CREATE PROCEDURE [EMPL_PostsNum] 
 	@employerID INT
 AS
-	SELECT [jobPostID]
+	SELECT COUNT([jobPostID]) AS [count]
 	FROM [JobPosts]
 	WHERE [employerID] = @employerID
 ;
@@ -207,11 +207,11 @@ AS
 ;
 
 -- View All Applicants Procedure
-CREATE PROCEDURE [EMPL_ViewAllApplicants]
+CREATE PROCEDURE [EMPL_ApplicantsNum]
 	@jobPostID INT,
 	@status	   VARCHAR(MAX)
 AS
-	SELECT [Applications].[applicationID]
+	SELECT COUNT([Applications].[applicationID]) AS [count]
 	FROM [JobPosts]
 	INNER JOIN [Applications]
 		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
@@ -294,15 +294,6 @@ AS
 	LEFT OUTER JOIN [JobPosts]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 	WHERE [Applications].[jobPostID] = @jobPostID
-;
-
--- Number of Job Posts Procedure
-CREATE PROCEDURE [EMPL_NumOfPosts]
-	@employerID INT
-AS
-	SELECT COUNT([jobPostID]) AS [postsNum]
-	FROM JobPosts 
-	WHERE employerID = @employerID
 ;
 
 -- Set Applicant Status Procedure

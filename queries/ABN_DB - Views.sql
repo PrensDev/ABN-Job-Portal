@@ -16,7 +16,10 @@ AS
 		, [Employers].[companyName]
 		, [Employers].[brgyDistrict]
 		, [Employers].[cityProvince]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
+		, [Employers].[brgyDistrict] 
+			+ ', ' 
+			+ [Employers].[cityProvince] 
+			AS [location]
 	FROM [JobPosts]
 	INNER JOIN [Employers] 
 		ON [JobPosts].[employerID] = [Employers].[employerID]

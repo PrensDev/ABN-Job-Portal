@@ -47,7 +47,6 @@
             
         </form>
     </div>
-    <!-- END OF SEARCH BAR -->
 
     <p class="mt-1 text-secondary">
         <p>Type the job keywords you are finding and the place where you want to.</p>
@@ -59,4 +58,3 @@
 
 </div>
 </div>
-<!-- END OF HEADER SECTION -->

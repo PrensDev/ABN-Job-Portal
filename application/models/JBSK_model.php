@@ -6,6 +6,13 @@ class JBSK_model extends CI_Model {
         $this->load->database();
     }
 
+    // RETURNS THE COUNT OF THE QUERY
+    private function query_count($query, $values = []) {
+        $qry = $this->db->query($query, $values);
+        $row = $qry->row();
+        return $row->count;
+    }
+
     // ========================================================================================== //
 
     // GET INFORMATION METHOD
@@ -131,9 +138,9 @@ class JBSK_model extends CI_Model {
         return $query->result();
     }
 
-    // VIEW ALL RECENT POSTS
-    public function view_all_recent_posts() {
-        return $this->db->query("EXEC [JBSK_ViewAllRecentPosts] @jobseekerID = ?", [$this->session->id]);
+    // GET NUMBER OF RECENT POSTS
+    public function recent_posts_num() {
+        return $this->query_count("EXEC [JBSK_RecentPostsNum] @jobseekerID = ?", [$this->session->id]);
     }
 
     // SUBMIT APPLICATION
@@ -155,9 +162,9 @@ class JBSK_model extends CI_Model {
     }
 
     // ALL APPLIED JOBS
-    public function all_applied_jobs($status) {
-        return $this->db->query("
-            EXEC [JBSK_AllAppliedJobs] 
+    public function applied_jobs_to_status_num($status) {
+        return $this->query_count("
+            EXEC [JBSK_AppliedJobsToStatusNum] 
                 @jobseekerID = ?,
                 @status      = ?
         ", [
@@ -167,9 +174,9 @@ class JBSK_model extends CI_Model {
     }
 
     // APPLIED JOBS
-    public function applied_jobs($status, $offsetRows, $fetchedRows) {
+    public function applied_jobs_to_status($status, $offsetRows, $fetchedRows) {
         $query = $this->db->query("
-            EXEC [JBSK_AppliedJobs]
+            EXEC [JBSK_AppliedJobsToStatus]
                 @offsetRows  = ?,
                 @fetchedRows = ?,
                 @jobseekerID = ?,
@@ -185,9 +192,7 @@ class JBSK_model extends CI_Model {
 
     // NUMBER OF APPLIED JOBS
     public function applied_jobs_num() {
-        $query = $this->db->query("EXEC [JBSK_NumOfAppliedJobs] @jobseekerID = ?", [$this->session->id]);
-        $row = $query->row();
-        return $row->appliedJobsNum;
+        return $this->query_count("EXEC [JBSK_AppliedJobsNum] @jobseekerID = ?", [$this->session->id]);
     }
 
     // ADD BOOKMARK
@@ -208,8 +213,8 @@ class JBSK_model extends CI_Model {
     }
 
     // GET ALL BOOKMARKS
-    public function get_all_bookmarks() {
-        return $this->db->query("EXEC [JBSK_GetAllBookmarks] @jobseekerID = ?", [$this->session->id]);
+    public function bookmarks_num() {
+        return $this->query_count("EXEC [JBSK_BookmarksNum] @jobseekerID = ?", [$this->session->id]);
     }
 
     // GET BOOKMARKS
@@ -225,13 +230,6 @@ class JBSK_model extends CI_Model {
             $fetchedRows,
         ]);
         return $query->result();
-    }
-
-    // NUMBER OF BOOKMARKS
-    public function bookmarks_num() {
-        $query = $this->db->query("EXEC [JBSK_NumOfBookmarks] @jobseekerID = ?", [$this->session->id]);
-        $row   = $query->row();
-        return $row->bookmarksNum;
     }
 
     // VIEW JOB DETAILS
@@ -277,9 +275,9 @@ class JBSK_model extends CI_Model {
     }
 
     // VIEW ALL SEARCH RESULT
-    public function view_all_search_result() {
-        return $this->db->query("
-            EXEC [JBSK_ViewAllSearchResult]
+    public function search_result_num() {
+        return $this->query_count("
+            EXEC [JBSK_SearchResultNum]
                 @jobTitle    = ?,
                 @location    = ?,
                 @jobseekerID = ?

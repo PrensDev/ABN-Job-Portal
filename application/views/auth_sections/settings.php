@@ -102,10 +102,26 @@
             <p class="m-1">Are you sure you want to deactivate your account?</p>
             <p class="m-1"><strong>Note: You can reactivate your account by just logging in again.</strong></p>
         ',
-        'actionPath'    => 'auth/deactivate',
-        'actionID'      => NULL,
+        'actionPath'    => NULL,
+        'actionID'      => 'deactivateBtn',
         'actionValue'   => NULL,
         'actionIcon'    => 'user-times',
         'actionLabel'   => 'Deactivate',
     ]);
 ?>
+
+<script>
+    $(document).on('click','#deactivateBtn', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url:  '<?php echo base_url() ?>auth/deactivate',
+            type: 'post',
+            data: {
+                request: 'deactivate'
+            },
+            success: function() {
+                location.assign('<?php echo base_url() ?>');
+            } 
+        });
+    });
+</script>

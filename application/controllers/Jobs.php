@@ -44,11 +44,11 @@ class Jobs extends CI_Controller {
     }
 
     // GET ALL RECENT POSTS
-    private function get_all_recent_posts() {
+    private function recent_posts_num() {
         if ($this->session->userType == 'Job Seeker') {
-            return $this->JBSK_model->view_all_recent_posts();
+            return $this->JBSK_model->recent_posts_num();
         } else {
-            return $this->MAIN_model->all_recent_posts();
+            return $this->MAIN_model->recent_posts_num();
         }
     }
 
@@ -62,11 +62,11 @@ class Jobs extends CI_Controller {
     }
 
     // GET ALL SEARCH RESULT
-    private function get_all_search_result() {
+    private function search_result_num() {
         if ($this->session->userType == 'Job Seeker') {
-            return $this->JBSK_model->view_all_search_result();
+            return $this->JBSK_model->search_result_num();
         } else {
-            return $this->MAIN_model->all_search_result();
+            return $this->MAIN_model->search_result_num();
         }
     }
 
@@ -107,8 +107,7 @@ class Jobs extends CI_Controller {
             if ($keyword == NULL && $place == NULL) {
                 redirect('jobs');
             } else {
-                $AllSearchResult = $this->get_all_search_result();
-                $totalRows = $AllSearchResult->num_rows();
+                $totalRows = $this->search_result_num();
                 $fetchedRows = 10;
                 $totalPages = ceil($totalRows / $fetchedRows);
 
@@ -144,7 +143,7 @@ class Jobs extends CI_Controller {
                         'reuse_query_string'    => TRUE,
                         'use_page_numbers'      => TRUE,
                         'page_query_string'     => TRUE,
-                        'total_rows'            => $AllSearchResult->num_rows(),
+                        'total_rows'            => $totalRows,
                         'query_string_segment'  => 'page',
                         'full_tag_open'         => '<nav><ul class="pagination justify-content-end">',
                         'full_tag_close'        => '</ul></nav>',
@@ -212,10 +211,9 @@ class Jobs extends CI_Controller {
     
     // RECENT JOB LIST 
     public function recent($page = 1) {
-        $AllRecentPosts = $this->get_all_recent_posts();
-        $totalRows = $AllRecentPosts->num_rows();
+        $totalRows   = $this->recent_posts_num();
         $fetchedRows = 10;
-        $totalPages = ceil($totalRows / $fetchedRows);
+        $totalPages  = ceil($totalRows / $fetchedRows);
         
         if ($page > 0 && $page <= $totalPages) {
             $offsetRows  = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
@@ -233,7 +231,7 @@ class Jobs extends CI_Controller {
 
             $config = [
                 'base_url'          => base_url() . 'jobs/recent/',
-                'total_rows'        => $AllRecentPosts->num_rows(),
+                'total_rows'        => $totalRows,
                 'use_page_numbers'  => TRUE,
                 'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
                 'full_tag_close'    => '</ul></nav>',

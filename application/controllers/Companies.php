@@ -2,7 +2,7 @@
 
 class Companies extends CI_Controller {
     
-    protected function set_data($title) {
+    private function set_data($title) {
         $userdata = NULL;
 
         if ( $this->session->has_userdata('userType') ) {
@@ -53,14 +53,13 @@ class Companies extends CI_Controller {
         if ($employerID == NULL) {
             $this->Auth_model->err_page();
         } else {
-            $AllAvailableJobs = $this->MAIN_model->all_available_jobs($employerID);
-            $totalRows = $AllAvailableJobs->num_rows();
+            $totalRows = $this->MAIN_model->available_jobs_num($employerID);
             $fetchedRows = 10;
             $totalPages = ceil($totalRows / $fetchedRows);
 
             if ($page > 0 && $page <= $totalPages) {
                 $offsetRows    = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                $AvailableJobs = $this->session->userType == 'Job Seeker' ? $this->JBSK_model->view_available_jobs($employerID, $offsetRows, $fetchedRows) : $this->VIEW_model->available_jobs($employerID, $offsetRows, $fetchedRows);
+                $AvailableJobs = $this->session->userType == 'Job Seeker' ? $this->JBSK_model->view_available_jobs($employerID, $offsetRows, $fetchedRows) : $this->MAIN_model->available_jobs($employerID, $offsetRows, $fetchedRows);
     
                 $employerDetails = $this->MAIN_model->company_details($employerID);
 

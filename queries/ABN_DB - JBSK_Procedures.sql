@@ -81,11 +81,10 @@ AS
 ;
 
 -- View All Recent Posts
-CREATE PROCEDURE [JBSK_ViewAllRecentPosts]
+CREATE PROCEDURE [JBSK_RecentPostsNum]
 	@jobseekerID INT
 AS
-	SELECT
-		  [JobPosts].[jobPostID]
+	SELECT COUNT([JobPosts].[jobPostID]) AS [count]
 	FROM [JobPosts]
 	INNER JOIN [Employers] 
 		ON [JobPosts].[employerID] = [Employers].[employerID]
@@ -199,12 +198,12 @@ AS
 ;
 
 
--- All Applied Jobs Procedure
-CREATE PROCEDURE [JBSK_AllAppliedJobs]
+-- Number of Applied Jobs Procedure
+CREATE PROCEDURE [JBSK_AppliedJobsToStatusNum]
 	@jobseekerID INT,
 	@status		 VARCHAR(MAX)
 AS
-	SELECT [JobPosts].[jobPostID]
+	SELECT COUNT([JobPosts].[jobPostID]) AS [count]
 	FROM [Applications]
 	INNER JOIN [JobPosts]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
@@ -221,7 +220,7 @@ AS
 ;
 
 -- Applied Jobs Procedure
-CREATE PROCEDURE [JBSK_AppliedJobs]
+CREATE PROCEDURE [JBSK_AppliedJobsToStatus]
 	@offsetRows	 INT,
 	@fetchedRows INT,
 	@jobseekerID INT,
@@ -261,10 +260,10 @@ AS
 ;
 
 -- Number of Applied Jobs Procedure
-CREATE PROCEDURE [JBSK_NumOfAppliedJobs]
+CREATE PROCEDURE [JBSK_AppliedJobsNum]
 	@jobseekerID INT
 AS
-	SELECT COUNT([Applications].[JobPostID]) AS [appliedJobsNum]
+	SELECT COUNT([Applications].[JobPostID]) AS [count]
 	FROM [Applications]
 	INNER JOIN [Resumes]
 		ON [Resumes].[jobseekerID] = [Applications].[jobseekerID]
@@ -291,11 +290,11 @@ AS
 	DELETE FROM [Bookmarks] WHERE [bookmarkID] = @bookmarkID
 ;
 
--- Get All Bookmarks
-CREATE PROCEDURE [JBSK_GetAllBookmarks]
+-- Get Number of Bookmarks
+CREATE PROCEDURE [JBSK_BookmarksNum]
 	@jobseekerID INT
 AS
-	SELECT [Bookmarks].[bookmarkID]
+	SELECT COUNT([Bookmarks].[bookmarkID]) AS [count]
 	FROM [Bookmarks]
 	INNER JOIN [JobPosts]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
@@ -340,15 +339,6 @@ AS
 	ORDER BY [Bookmarks].[dateBookmarked] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROW ONLY
-;
-
--- Number of Bookmarks
-CREATE PROCEDURE [JBSK_NumOfBookmarks]
-	@jobseekerID INT
-AS
-	SELECT COUNT([bookmarkID]) AS [bookmarksNum]
-	FROM [Bookmarks]
-	WHERE [jobseekerID] = @jobseekerID
 ;
 
 -- View Job Details 
@@ -462,13 +452,13 @@ AS
 	FETCH NEXT @fetchedRows ROWS ONLY;
 ;
 
--- View All Search Result
-CREATE PROCEDURE [JBSK_ViewAllSearchResult]
+-- Number of Search Result
+CREATE PROCEDURE [JBSK_SearchResultNum]
 	@jobTitle	 VARCHAR(MAX),
 	@location	 VARCHAR(MAX),
 	@jobseekerID INT
 AS
-	SELECT [JobPosts].[jobPostID]
+	SELECT COUNT([JobPosts].[jobPostID]) AS [count]
 	FROM [JobPosts]
 	INNER JOIN [Employers] 
 		ON [JobPosts].[employerID] = [Employers].[employerID]

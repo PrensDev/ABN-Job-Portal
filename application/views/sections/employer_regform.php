@@ -250,7 +250,3 @@
 
 </div>
 </div>
-
-<script>
-    
-</script>

@@ -7,18 +7,14 @@
 
     <div class="mb-4">
         <div class="d-flex justify-content-between mb-2">
-            <div>
-                <h5 class="text-primary">
-                    <i class="fas fa-list mr-2"></i>  
-                    <span>Available Jobs</span> 
-                </h5>
-            </div>
-            <div>
-                <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>" class="btn btn-primary">
-                    <i class="fas fa-arrow-left mr-1"></i>
-                    <span class="d-none d-sm-inline">Back to details<span>
-                </a>
-            </div>
+            <h5 class="text-primary">
+                <i class="fas fa-list mr-2"></i>  
+                <span>Available Jobs</span> 
+            </h5>
+            <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>" class="btn btn-primary">
+                <i class="fas fa-arrow-left mr-1"></i>
+                <span class="d-none d-sm-inline">Back to details<span>
+            </a>
         </div>
         
         <div class="text-secondary d-flex justify-content-between">

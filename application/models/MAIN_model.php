@@ -6,9 +6,16 @@ class MAIN_model extends CI_Model {
         $this->load->database();
     }
 
-    // ALL RECENT POSTS
-    public function all_recent_posts() {
-        return $this->db->query("EXEC [MAIN_AllRecentPosts]");
+    // RETURNS THE COUNT OF THE QUERY
+    private function query_count($query, $values = []) {
+        $qry = $this->db->query($query, $values);
+        $row = $qry->row();
+        return $row->count;
+    }
+
+    // GET NUMBER OF RECENT POSTS
+    public function recent_posts_num() {
+        return $this->query_count("EXEC [MAIN_RecentPostsNum]");
     }
 
     // VIEW RECENT POSTS
@@ -35,9 +42,9 @@ class MAIN_model extends CI_Model {
         return $query->row();
     }
 
-    // VIEW ALL AVAILABLE JOBS
-    public function all_available_jobs($employerID) {
-        return $this->db->query("EXEC [MAIN_AllAvailableJobs] @employerID = ?", [$employerID]);
+    // GET NUMBER OF AVAILABLE JOBS
+    public function available_jobs_num($employerID) {
+        return $this->query_count("EXEC [MAIN_AvailableJobsNum] @employerID = ?", [$employerID]);
     }
 
     // VIEW AVAILABLE JOBS
@@ -55,10 +62,10 @@ class MAIN_model extends CI_Model {
         return $query->result();
     }
 
-    // VIEW ALL RESEARCH RESULT
-    public function all_search_result() {
-        return $this->db->query("
-            EXEC [MAIN_AllSearchResult] 
+    // GET NUMBER OF RESEARCH RESULT
+    public function search_result_num() {
+        return $this->query_count("
+            EXEC [MAIN_SearchResultNum] 
                 @jobTitle = ?,
                 @location = ?
         ", [
