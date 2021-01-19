@@ -20,13 +20,10 @@
                     }
                 ?>
             </p>
-            <?php
-                if ($totalPages > 1) {
-                    echo '
-                        <p class="m-0">Showing page ' . $currentPage . ' of ' . $totalPages . '.</p>
-                    ';
-                }
-            ?>
+            
+            <?php if ($totalPages > 1) { ?>
+                <p class="m-0">Showing page <?php echo $currentPage . ' of ' . $totalPages ?>.</p>
+            <?php } ?>
         </div>
     </div>    
 

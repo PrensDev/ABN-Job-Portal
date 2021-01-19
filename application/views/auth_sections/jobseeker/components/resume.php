@@ -26,36 +26,34 @@
         <p><?php echo $description ?></p>
     </div>
 
-    <!-- SKILLS -->
-    <div class="mb-5">
-        <h6 class="text-primary">
-            <i class="fas fa-cogs mr-1"></i>  
-            <span>Skills</span> 
-        </h6>
-        <hr class="my-2">
-        <p><?php echo $skills ?></p>
-
-    </div>
-
-    <!-- EDUCATION -->
-    <div class="mb-5">
-        <h6 class="text-primary">
-            <i class="fas fa-book mr-1"></i>  
-            <span>Education</span> 
-        </h6>
-        <hr class="my-2">
-        <p><?php echo $education ?></p>
-
-    </div>
+    <?php
+        $resumeElements = [
+            [
+                'icon'      => 'cogs',
+                'element'   => 'Skills',
+                'content'   => $skills,
+            ],
+            [
+                'icon'      => 'book',
+                'element'   => 'Education',
+                'content'   => $education,
+            ],
+            [
+                'icon'      => 'chart-line',
+                'element'   => 'Experiences',
+                'content'   => $experiences,
+            ],
+        ];
     
-    <!-- EXPERIENCES -->
-    <div class="mb-5">
-        <h6 class="text-primary">
-            <i class="fas fa-chart-line mr-1"></i>  
-            <span>My Experiences</span> 
-        </h6>
-        <hr class="my-2">
-        <p><?php echo $experiences ?></p>
-    </div>
-
+        foreach ($resumeElements as $resumeElement) {
+    ?>
+        <div class="mb-5">
+            <h6 class="text-primary">
+                <i class="fas fa-<?php echo $resumeElement['icon'] ?> mr-1"></i>  
+                <span><?php echo $resumeElement['element'] ?></span> 
+            </h6>
+            <hr class="my-2">
+            <p><?php echo $resumeElement['content'] ?></p>
+        </div>
+    <?php } ?>
 </div>

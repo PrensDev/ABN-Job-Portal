@@ -49,18 +49,14 @@
     <div class="text-center my-5 py-5 animate__animated animate__fadeIn animate__faster">
         <h2 class="font-weight-normal"><?php echo $heading ?></h2>
         
-        <?php
-            if ($statusPage == 'Pending') {
-                echo '
-                    <p class="text-secondary">Search our recent posts to get started.</p>
-                    <div class="mt-5">
-                        <a href="' . base_url() . 'jobs" class="btn btn-primary">
-                            <span>Browse for Available Jobs</span>
-                        </a>
-                    </div>
-                ';
-            }
-        ?>
+        <?php if ($statusPage == 'Pending') { ?>
+            <p class="text-secondary">Search our recent posts to get started.</p>
+            <div class="mt-5">
+                <a href="<?php echo base_url() ?>jobs" class="btn btn-primary">
+                    <span>Browse for Available Jobs</span>
+                </a>
+            </div>
+        <?php } ?>
     </div>
 
 </div>

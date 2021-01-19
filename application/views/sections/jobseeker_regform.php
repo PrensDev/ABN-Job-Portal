@@ -180,7 +180,6 @@
                         <small class="invalid-feedback"><?php echo form_error('email')?></small>
                     </div>
                 </div>
-                <!-- CONTACT FIELD -->
 
             </div>
 
@@ -235,7 +234,6 @@
                     </div>
 
                 </div>
-                <!-- END OF PASSWORD FIELD -->
 
                 <!-- CHECKBOX FOR USER AGREEMENT IN TERMS AND CONDITIONS -->
                 <div class="form-group">
@@ -253,7 +251,6 @@
                         <small class="invalid-feedback"><?php echo form_error('agreement')?></small>
                     </div>
                 </div>
-                <!-- END OF CHECKBOX FOR USER AGREEMENT IN TERMS AND CONDITIONS -->
 
             </div>
 

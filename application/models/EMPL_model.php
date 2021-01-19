@@ -5,16 +5,7 @@ class EMPL_model extends CI_Model {
     public function __construct() {
         $this->load->database();
     }
-
-    private function get_row($sql) {
-        $query = $this->db->query($sql);
-        if (! $query) {
-            die($this->db->error());
-        } else {
-            return $query->row();
-        }
-    }
-
+    
     // RETURNS THE COUNT OF THE QUERY
     private function query_count($query, $values = []) {
         $qry = $this->db->query($query, $values);
@@ -44,7 +35,8 @@ class EMPL_model extends CI_Model {
 
     // GET INFORMATION METHOD
     public function get_info() {
-        $row = $this->get_row("EXEC [AUTH_FindEmployer] @email = '" . $this->session->email . "'");
+        $query = $this->db->query("EXEC [AUTH_FindEmployer] @email = ?", [$this->session->email]);
+        $row = $query->row();
         $location = $row->brgyDistrict . ', ' . $row->cityProvince;
 
         $userdata = [

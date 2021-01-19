@@ -77,7 +77,7 @@ class MAIN_model extends CI_Model {
     // VIEW SEARCH RESULT
     public function search_result($offsetRows, $fetchedRows) {
         $query = $this->db->query("
-            EXEC [MAIN_SearchResult] 
+            EXEC [MAIN_GetSearchResult] 
                 @jobTitle    = ?,
                 @location    = ?,
                 @offsetRows  = ?,

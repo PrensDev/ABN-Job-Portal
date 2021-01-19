@@ -21,19 +21,16 @@
     </div>
 
     <div class="modal-body">
-        <div class="d-flex">
-            <div class="display-4 mr-2">
-                <?php
-                    if ($modalIcon == 'INFO') {
-                        echo '<i class="fas fa-exclamation-circle text-primary mr-2"></i>';
-                    } else if ($modalIcon == 'WARNING') {
-                        echo '<i class="fas fa-exclamation-triangle text-warning mr-2"></i>';
-                    }
-                ?>
-                
-            </div>
-            <div><?php echo $message ?></div>
+    <div class="d-flex">
+        <div class="display-4 mr-2">
+            <?php if ($modalIcon == 'INFO') { ?>
+                <i class="fas fa-exclamation-circle text-primary mr-2"></i>
+            <?php } else if ($modalIcon == 'WARNING') { ?>
+                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+            <?php } ?>
         </div>
+        <div><?php echo $message ?></div>
+    </div>
     </div>
 
     <div class="modal-footer border-0">
@@ -41,14 +38,12 @@
             <i class="fas fa-times mr-1"></i>
             <span>Cancel</span>
         </button>
-        <?php 
-            echo '
-                <' . $element . $actionPath . $actionID . $actionValue . ' class="btn btn-' . $theme . '" draggable="false">
-                    ' . $actionIcon. '
-                    <span>' . $actionLabel . '</span>
-                </' . $element .'>
-            ';
-        ?>
+        <?php echo '
+            <' . $element . $actionPath . $actionID . $actionValue . ' class="btn btn-' . $theme . '" draggable="false">
+                ' . $actionIcon. '
+                <span>' . $actionLabel . '</span>
+            </' . $element .'>
+        '; ?>
     </div>
 
 </div>

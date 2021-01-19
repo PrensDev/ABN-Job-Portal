@@ -42,79 +42,57 @@
         <?php
                 }
             }
-        ?>
         
-        <!-- COMPANY DETAILS CARD -->
-        <div class="card">
-            <div class="card-header bg-white">
-                <strong>Company Details</strong>
-            </div>
-            <div class="card-body p-0">
-                
-                <div class="list-group list-group-flush">
-
-                    <!-- LOCATION -->
-                    <div class="list-group-item d-flex border-0">
-                        <div class="list-group-item-icon h5 text-danger">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div>
-                            <p class="m-0 font-weight-bold">Location</p>
-                            <p class="m-0"><?php echo $location ?></p>
-                        </div>
-                    </div>
-
-                    <!-- CONTACT NUMBER -->
-                    <div class="list-group-item d-flex border-0">
-                        <div class="list-group-item-icon h5 text-danger">
-                            <i class="fas fa-phone-alt"></i>
-                        </div>
-                        <div>
-                            <p class="m-0 font-weight-bold">Contact Number</p>
-                            <p class="m-0"><?php echo $contactNumber ?></p>
-                        </div>
-                    </div>
-
-                    <!-- EMAIL -->
-                    <div class="list-group-item d-flex border-0">
-                        <div class="list-group-item-icon h5 text-danger">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div>
-                            <p class="m-0 font-weight-bold">Email</p>
-                            <p class="m-0"><?php echo $email ?></p>
-                        </div>
-                    </div>
-
-                    <?php if ($website != '') { ?>
-                        <!-- COMPANY WEBSITE -->
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h3 text-danger">
-                                <i class="fas fa-globe-asia"></i>
-                            </div>
-                            <div>
-                                <p class="m-0 font-weight-bold">Website</p>
-                                <p class="m-0">
-                                    <a 
-                                        href            = "<?php echo $website ?>" 
-                                        class           = "btn btn-primary btn-sm mt-1" 
-                                        target          = "_blank" 
-                                        data-toggle     = "tooltip" 
-                                        data-placement  = "left" 
-                                        title           = "<?php echo $website ?>"
-                                    >
-                                        <i class="fas fa-external-link-alt"></i>
-                                        <span>Go to this website</span>
-                                    </a> 
-                                </p>
-                            </div>
-                        </div>
-                    <?php } ?>
-
-                </div>
+            // COMPANY DETAILS CARD
+            if ($website == '') {
+                $websiteContent = '<p class="m-0 text-secondary">This company doesn\'t have website yet.</p>';
+            } else {
+                $websiteContent = '
+                    <p class="m-0">
+                        <a 
+                            href            = "' . $website . '" 
+                            class           = "btn btn-primary btn-sm mt-1" 
+                            target          = "_blank" 
+                            data-toggle     = "tooltip" 
+                            data-placement  = "left" 
+                            title           = "' . $website . '"
+                        >
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>Go to their website</span>
+                        </a> 
+                    </p>
+                ';
+            }
             
-            </div>
-        </div>
+            $this->load->view('sections/components/info_card', [
+                'title'        => 'Company Details',
+                'theme'        => 'danger',
+                'infoElements' => [
+                    [
+                        'icon'          => 'map-marker-alt',
+                        'element'       => 'Location',
+                        'content'       => $location,
+                    ],
+                    [
+                        'icon'          => 'phone-alt',
+                        'element'       => 'Contact Number',
+                        'content'       => $contactNumber,
+                    ],
+                    [
+                        'icon'          => 'envelope',
+                        'element'       => 'Email',
+                        'content'       => $email,
+                    ],
+                    [
+                        'icon'          => 'globe-asia',
+                        'element'       => 'Website',
+                        'customContent' => true,
+                        'content'       => $websiteContent,
+                    ],
+                ],
+            ]); 
+            
+        ?>
 
     </div>
     

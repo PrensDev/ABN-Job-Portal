@@ -6,29 +6,24 @@
 <li class="nav-link mx-md-2 nav-item dropdown">
                                 
     <span class="d-flex align-items-center" role="button" data-toggle="dropdown">
-        <?php
-            if (isset($profilePic)) {
-                echo '
-                    <img 
-                        class     = "rounded-pill border mr-1" 
-                        src       = "' . base_url() . 'public/img/employers/' . $profilePic . '" 
-                        height    = "30" 
-                        width     = "30"
-                        draggable = "false"
-                    >
-                ';
-            } else {
-                echo '
-                    <img 
-                        class     = "rounded-pill border mr-1" 
-                        src       = "' . base_url() . 'public/img/employers/blank_dp.png" 
-                        height    = "30" 
-                        width     = "30"
-                        draggable = "false"
-                    >
-                ';
-            }
-        ?>
+        <?php if (isset($profilePic)) { ?>
+            <img 
+                class     = "rounded-pill border mr-1" 
+                src       = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
+                height    = "30" 
+                width     = "30"
+                draggable = "false"
+            >
+        <?php } else { ?>
+            <img 
+                class     = "rounded-pill border mr-1" 
+                src       = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
+                height    = "30" 
+                width     = "30"
+                draggable = "false"
+            >
+        <?php } ?>
+        
         <span class="ml-1"><?php echo $username ?></span>
     </span>
     

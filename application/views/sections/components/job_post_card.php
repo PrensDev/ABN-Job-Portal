@@ -8,27 +8,23 @@
     } else if ($jobType == 'Temporary') {
         $jobTypeClass = 'secondary';
     }
-
-    if ($minSalary < 1000) {
-        $minSalary = number_format($minSalary, 1, '.', '');
-    } else if ($minSalary < 1000000) {
-        $minSalary = number_format($minSalary / 1000, 1, '.', 'K');
-    } else if ($minSalary < 1000000000) {
-        $minSalary = number_format($minSalary / 1000000, 1, '.', 'M');
-    } else if ($minSalary < 1000000000000) {
-        $minSalary = number_format($minSalary / 1000000000, 1, '.', 'B');
-    } 
-
-    if ($maxSalary < 1000) {
-        $maxSalary = number_format($maxSalary, 1, '.', '');
-    } else if ($maxSalary < 1000000) {
-        $maxSalary = number_format($maxSalary / 1000, 1, '.', 'K');
-    } else if ($maxSalary < 1000000000) {
-        $maxSalary = number_format($maxSalary / 1000000, 1, '.', 'M');
-    } else if ($maxSalary < 1000000000000) {
-        $maxSalary = number_format($maxSalary / 1000000000, 1, '.', 'B');
+    
+    function moneyStyle($money) {
+        if ($money < 1000) {
+            return number_format($money, 1, '.', '');
+        } else if ($money < 1000000) {
+            return number_format($money / 1000, 1, '.', '') . 'K';
+        } else if ($money < 1000000000) {
+            return number_format($money / 1000000, 1, '.', '') . 'M';
+        } else if ($money < 1000000000000) {
+            return number_format($money / 1000000000, 1, '.', '') . 'B';
+        } else if ($money < 1000000000000000) {
+            return number_format($money / 1000000000000, 1, '.', '') . 'T';
+        }
     }
-
+    
+    $minSalary = moneyStyle($minSalary);
+    $maxSalary = moneyStyle($maxSalary);
     $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
 
     $dateCreated = date_format(date_create($dateCreated),"M. d, Y");
@@ -41,40 +37,38 @@
 
         <!-- COMPANY LOGO -->
         <div class="company-logo mr-3 d-none d-sm-block">
-            <?php
-                if ($profilePic != NULL) {
-                    echo '
-                        <a href="' . base_url() . 'companies/details/' . $employerID . '">
-                            <img 
-                                class       = "border" 
-                                src         = "' . base_url() . 'public/img/employers/' . $profilePic . '" 
-                                alt         = "' . $jobTitle .'"
-                                height      = "100"
-                                draggable   = "false"
-                            >
-                        </a>
-                    ';
-                } else {
-                    echo '
-                        <a href="' . base_url() . 'companies/details/' . $employerID . '">
-                            <img 
-                                class       = "border" 
-                                src         = "' . base_url() . 'public/img/employers/blank_dp.png" 
-                                alt         = "' . $jobTitle .'" 
-                                height      = "100"
-                                draggable   = "false"
-                            >
-                        </a>
-                    ';
-                }
-            ?>
+            <?php if ($profilePic != NULL) { ?>
+                <a href="'<?php base_url() . 'companies/details/' . $employerID ?>">
+                    <img 
+                        class       = "border" 
+                        src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
+                        alt         = "<?php echo $jobTitle?>"
+                        height      = "100"
+                        draggable   = "false"
+                    >
+                </a>
+            <?php } else { ?>
+                <a href="<?php base_url() . 'companies/details/' . $employerID ?>">
+                    <img 
+                        class       = "border" 
+                        src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
+                        alt         = "<?php echo $jobTitle ?>" 
+                        height      = "100"
+                        draggable   = "false"
+                    >
+                </a>
+            <?php } ?>
         </div>
 
         <!-- JOB DETAILS -->
         <div class="flex-grow-1">
             
-            <h5 class="mb-1">
-                <a href="<?php echo base_url() ?>jobs/details/<?php echo $jobPostID ?>" title="Job Title: <?php echo $jobTitle ?>" class="text-decoration-none text-uppercase text-dark"><?php echo $jobTitle ?></a>
+            <h5 class="mb-1 mr-1">
+                <a 
+                    href  = "<?php echo base_url() ?>jobs/details/<?php echo $jobPostID ?>" 
+                    title = "Job Title: <?php echo $jobTitle ?>" 
+                    class = "text-decoration-none text-uppercase text-dark"
+                ><?php echo $jobTitle ?></a>
             </h5>
             
             <div class="text-primary">
@@ -86,27 +80,19 @@
             <?php
                 if ($this->session->userType == 'Job Seeker') {
                     if (isset($status)) {
-                        if ($status == 'Pending') {
-                            echo '
-                                <div>
-                                    <span class="badge badge-success px-2 py-1" title="Your application is pending.">Pending</span>
-                                </div>
-                            ';
-                        } else if ($status == 'Hired') {
-                            echo '
-                                <div>
-                                    <span class="badge badge-primary px-2 py-1" title="You are hired for this job.">Hired</span>
-                                </div>
-                            ';
-                        } else if ($status == 'Rejected') {
-                            echo '
-                                <div>
-                                    <span class="badge badge-danger px-2 py-1" title="You are rejected for this job.">Rejected</span>
-                                </div>
-                            ';
-                        }
+            ?>
+                <div>
+                    <?php if ($status == 'Pending') { ?>
+                        <span class="badge badge-success px-2 py-1" title="Your application is pending.">Pending</span>
+                    <?php } else if ($status == 'Hired') { ?>
+                        <span class="badge badge-primary px-2 py-1" title="You are hired for this job.">Hired</span>
+                    <?php } else if ($status == 'Rejected') { ?>
+                        <span class="badge badge-danger px-2 py-1" title="You are rejected for this job.">Rejected</span>
+                    <?php } ?>
+                </div>
+            <?php 
                     }
-                }            
+                } 
             ?>
 
             <!-- JOB DETAILS -->
@@ -154,41 +140,43 @@
         <?php
             if ($this->session->userType == 'Job Seeker') {
                 if (isset($bookmarkID)) {
-                    echo '
-                        <button 
-                            class           = "btn border border-warning text-warning" 
-                            data-toggle     = "tooltip" 
-                            data-placement  = "top" 
-                            title           = "Remove bookmark" 
-                            value           = "' . $bookmarkID . '" 
-                            id              = "removeBookmarkBtn"
-                        >
-                            <i class="fas fa-bookmark"></i>
-                        </button>    
-                    ';
-                } else {
-                    echo '
-                        <button 
-                            class           = "btn border border-warning text-warning" 
-                            data-toggle     = "tooltip" 
-                            data-placement  = "top" 
-                            title           = "Add to bookmark" 
-                            value           = "' . $jobPostID . '" 
-                            id              = "addBookmarkBtn"
-                        >
-                            <i class="far fa-bookmark"></i>
-                        </button>    
-                    ';
-                }
-                
-            } else if ($this->session->userType == 'Employer' && $this->session->id == $employerID) {
-                echo '
-                    <a href="' . base_url() . 'auth/edit_post/' . $jobPostID . '" class="btn btn-light text-info border"  data-toggle="tooltip" data-placement="top" title="Edit Post">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                ';
-            }
         ?>
+            <button 
+                class           = "btn border border-warning text-warning" 
+                data-toggle     = "tooltip" 
+                data-placement  = "top" 
+                title           = "Remove bookmark" 
+                value           = "<?php echo $bookmarkID ?>" 
+                id              = "removeBookmarkBtn"
+            >
+                <i class="fas fa-bookmark"></i>
+            </button>    
+        <?php   } else { ?>
+            <button 
+                class           = "btn border border-warning text-warning" 
+                data-toggle     = "tooltip" 
+                data-placement  = "top" 
+                title           = "Add to bookmark" 
+                value           = "<?php echo $jobPostID ?>" 
+                id              = "addBookmarkBtn"
+            >
+                <i class="far fa-bookmark"></i>
+            </button>    
+        <?php  
+                }
+            } else if ($this->session->userType == 'Employer' && $this->session->id == $employerID) {
+        ?>
+            <a 
+                href            = "<?php echo base_url() . 'auth/edit_post/' . $jobPostID ?>" 
+                class           = "btn btn-light text-info border"  
+                data-toggle     = "tooltip" 
+                data-placement  = "top" 
+                title           = "Edit Post"
+            >
+                <i class="fas fa-pen"></i>
+            </a>
+        <?php } ?>
+        
         <a href="<?php echo base_url() ?>jobs/details/<?php echo $jobPostID ?>" class="btn btn-secondary">View More</a>
     </div>
 

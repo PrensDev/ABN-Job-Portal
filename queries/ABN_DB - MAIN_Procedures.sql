@@ -119,7 +119,7 @@ AS
 ;
 
 --  Get Search Result
-CREATE PROCEDURE [MAIN_SearchResult]
+CREATE PROCEDURE [MAIN_GetSearchResult]
 	@jobTitle	 VARCHAR(MAX),
 	@location	 VARCHAR(MAX),
 	@offsetRows  INT,

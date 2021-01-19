@@ -47,81 +47,73 @@
         </div>
         
         <div class="col-lg-4">
-            
-            <!-- COMPANY DETAILS CARD -->
-            <div class="card mb-3">
-                <div class="card-header bg-white">
-                    <strong>Company Details</strong>
-                </div>
-                <div class="card-body p-0">
-                    
-                    <div class="list-group list-group-flush">
+            <?php
+                // COMPANY DETAILS CARD
+                if ($website == '') {
+                    $websiteContent = '<p class="m-0 text-secondary">You don\'t have website yet.</p>';
+                } else {
+                    $websiteContent = '
+                        <p class="m-0">
+                            <a 
+                                href            = "' . $website . '" 
+                                class           = "btn btn-primary btn-sm mt-1" 
+                                target          = "_blank" 
+                                data-toggle     = "tooltip" 
+                                data-placement  = "left" 
+                                title           = "' . $website . '"
+                            >
+                                <i class="fas fa-external-link-alt"></i>
+                                <span>Go to their website</span>
+                            </a> 
+                        </p>
+                    ';
+                }
 
-                        <div class="list-group-item d-flex border-0">
-                            <div class="list-group-item-icon h5 text-danger">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div>
-                                <p class="m-0 font-weight-bold">Location</p>
-                                <p class="m-0 text-secondary"><?php echo $location ?></p>
-                            </div>
-                        </div>
-
-                        <div class="list-group-item d-flex border-0">
-                            <div class="list-group-item-icon h5 text-danger">
-                                <i class="fas fa-phone-alt"></i>
-                            </div>
-                            <div>
-                                <p class="m-0 font-weight-bold">Contact Number</p>
-                                <p class="m-0 text-secondary"><?php echo $contactNumber ?></p>
-                            </div>
-                        </div>
-
-                        <div class="list-group-item d-flex border-0">
-                            <div class="list-group-item-icon h5 text-danger">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                <p class="m-0 font-weight-bold">Email</p>
-                                <p class="m-0 text-secondary"><?php echo $email ?></p>
-                            </div>
-                        </div>
-                
-                        <div class="list-group-item d-flex border-0">
-                            <div class="list-group-item-icon h5 text-danger">
-                                <i class="fas fa-globe-asia"></i>
-                            </div>
-                            <div>
-                                <p class="m-0 font-weight-bold">Website</p>
-                                <p class="m-0 text-secondary">
-                                    <?php 
-
-                                    if ($website != '' ) {
-                                        echo '
-                                            <a href="' . $website . '" class="btn btn-primary btn-sm mt-1" target="_blank" data-toggle="tooltip" data-placement="left" title="' . $website . '">
-                                                <i class="fas fa-external-link-alt"></i>
-                                                <span>Go to this website</span>
-                                            </a> 
-                                        ';
-                                    }
-                                    else {
-                                        echo "You don't have a website yet.";
-                                    }
-                                    ?>
+                $this->load->view('sections/components/info_card', [
+                    'title'        => 'Company Details',
+                    'theme'        => 'danger',
+                    'infoElements' => [
+                        [
+                            'icon'          => 'city',
+                            'element'       => 'Company',
+                            'customContent' => true,
+                            'content'       => '
+                                <p class="m-0 text-secondary">' . $companyName . '</p>
+                                <p class="m-0">
+                                    <a href="' . base_url() . 'companies/details/' . $employerID .'" class="btn btn-primary btn-sm mt-1">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                        <span>More about this company</span>
+                                    </a> 
                                 </p>
-                            </div>
-                        </div>
-                        
-                    </div>
-                
-                </div>
-            </div>
-            <!-- END OF COMPANY DETAILS CARD -->
+                            ',
+                        ],
+                        [
+                            'icon'          => 'map-marker-alt',
+                            'element'       => 'Location',
+                            'content'       => $location,
+                        ],
+                        [
+                            'icon'          => 'phone-alt',
+                            'element'       => 'Contact Number',
+                            'content'       => $contactNumber,
+                        ],
+                        [
+                            'icon'          => 'envelope',
+                            'element'       => 'Email',
+                            'content'       => $email,
+                        ],
+                        [
+                            'icon'          => 'globe-asia',
+                            'element'       => 'Website',
+                            'customContent' => true,
+                            'content'       => $websiteContent,
+                        ],
+                    ],
+                ]); 
+            ?>
 
         </div>
-
     </div>
-    <!-- END OF INFORMATION DETAILS -->
 
 </div>
 </div>

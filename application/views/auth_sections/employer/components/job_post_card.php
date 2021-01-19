@@ -1,51 +1,41 @@
 <?php
+    if ($jobType == 'Full Time') {
+        $jobTypeClass = 'success';
+    } else if ($jobType == 'Part Time') {
+        $jobTypeClass = 'info';
+    } else if ($jobType == 'Intern/OJT') {
+        $jobTypeClass = 'warning';
+    } else if ($jobType == 'Temporary') {
+        $jobTypeClass = 'secondary';
+    }
 
-if ($jobType == 'Full Time') {
-    $jobTypeClass = 'success';
-} else if ($jobType == 'Part Time') {
-    $jobTypeClass = 'info';
-} else if ($jobType == 'Intern/OJT') {
-    $jobTypeClass = 'warning';
-} else if ($jobType == 'Temporary') {
-    $jobTypeClass = 'secondary';
-}
+    if ( $status == 1 ) {
+        $statusClass = 'success';
+        $statusLabel = 'Active';
+    } else {
+        $statusClass = 'danger';
+        $statusLabel = 'Not Active';
+    }
 
-if ( $status == 1 ) {
-    $statusClass = 'success';
-    $statusLabel = 'Active';
-} else {
-    $statusClass = 'danger';
-    $statusLabel = 'Not Active';
-}
+    function moneyStyle($money) {
+        if ($money < 1000) {
+            return number_format($money, 1, '.', '');
+        } else if ($money < 1000000) {
+            return number_format($money / 1000, 1, '.', '') . 'K';
+        } else if ($money < 1000000000) {
+            return number_format($money / 1000000, 1, '.', '') . 'M';
+        } else if ($money < 1000000000000) {
+            return number_format($money / 1000000000, 1, '.', '') . 'B';
+        } else if ($money < 1000000000000000) {
+            return number_format($money / 1000000000000, 1, '.', '') . 'T';
+        }
+    }
 
-if ($minSalary < 1000) {
-    $minSalary = number_format($minSalary, 1, '.', '');
-} else if ($minSalary < 1000000) {
-    $minSalary = number_format($minSalary / 1000, 1, '.', '') . 'K';
-} else if ($minSalary < 1000000000) {
-    $minSalary = number_format($minSalary / 1000000, 1, '.', '') . 'M';
-} else if ($minSalary < 1000000000000) {
-    $minSalary = number_format($minSalary / 1000000000, 1, '.', '') . 'B';
-} else if ($minSalary < 1000000000000000) {
-    $minSalary = number_format($minSalary / 1000000000000, 1, '.', '') . 'T';
-} 
+    $minSalary = moneyStyle($minSalary);
+    $maxSalary = moneyStyle($maxSalary);
+    $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
 
-if ($maxSalary < 1000) {
-    $maxSalary = number_format($maxSalary, 1, '.', '');
-} else if ($maxSalary < 1000000) {
-    $maxSalary = number_format($maxSalary / 1000, 1, '.', '') . 'K';
-} else if ($maxSalary < 1000000000) {
-    $maxSalary = number_format($maxSalary / 1000000, 1, '.', '') . 'M';
-} else if ($maxSalary < 1000000000000) {
-    $maxSalary = number_format($maxSalary / 1000000000, 1, '.', '') . 'B';
-} else if ($maxSalary < 1000000000000000) {
-    $maxSalary = number_format($maxSalary / 1000000000000, 1, '.', '') . 'T';
-}  
-
-$offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
-
-$dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
-
+    $dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
 ?>
 
 
@@ -58,7 +48,11 @@ $dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
             
             <!-- JOB TITLE -->
             <p class="h5 text-uppercase">
-                <a class="text-decoration-none text-dark" title="Job Title: <?php echo $jobTitle ?>" href="<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>">
+                <a 
+                    class = "text-decoration-none text-dark" 
+                    title = "Job Title: <?php echo $jobTitle ?>" 
+                    href  = "<?php echo base_url() . 'auth/job_details/' . $jobPostID ?>"
+                >
                 <?php echo $jobTitle ?>
                 </a>    
             </p>   
@@ -113,21 +107,23 @@ $dateCreated = date_format(date_create($dateCreated),"M. d, Y; h:i a");
             <?php
                 if ($numOfApplicants > 0) {
                     $s = $numOfApplicants > 1 ? 's' : '';
-                    echo '
-                        <a href="' . base_url() . 'auth/manage_applicants/' . $jobPostID . '" class="btn btn-primary"data-toggle="tooltip" data-placement="top" title="' . $numOfApplicants . ' applicant' . $s . ' apply for ' . $jobTitle . '.">
-                            <span class="mr-4">
-                                <i class="fas fa-users mr-1"></i>
-                                <span class="d-none d-sm-inline">Manage Applicants</span>
-                            </span>
-                            <span class="badge badge-light">' . $numOfApplicants . '</span>
-                        </a>
-                    ';
-                } else {
-                    echo '
-                        <span class="font-italic text-secondary">No applicants yet.</span>
-                    ';
-                }
             ?>
+                <a 
+                    href            = "<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID ?>" 
+                    class           = "btn btn-primary"
+                    data-toggle     = "tooltip"
+                    data-placement  = "top"
+                    title           = "<?php echo $numOfApplicants . ' applicant' . $s . ' apply for ' . $jobTitle ?>."
+                >
+                    <span class="mr-4">
+                        <i class="fas fa-users mr-1"></i>
+                        <span class="d-none d-sm-inline">Manage Applicants</span>
+                    </span>
+                    <span class="badge badge-light"><?php echo $numOfApplicants ?></span>
+                </a>
+            <?php } else { ?>
+                <span class="font-italic text-secondary">No applicants yet.</span>
+            <?php } ?>
         </div>
         <div>
             <a href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" class="btn border text-info"  data-toggle="tooltip" data-placement="top" title="Edit Post">

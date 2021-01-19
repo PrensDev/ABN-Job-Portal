@@ -28,29 +28,22 @@ if ($jobType == 'Full Time') {
     $jobTypeClass = 'secondary';
 }
 
-if ($minSalary < 1000) {
-    $minSalary = number_format($minSalary, 1, '.', '');
-} else if ($minSalary < 1000000) {
-    $minSalary = number_format($minSalary / 1000, 1, '.', '') . 'K';
-} else if ($minSalary < 1000000000) {
-    $minSalary = number_format($minSalary / 1000000, 1, '.', '') . 'M';
-} else if ($minSalary < 1000000000000) {
-    $minSalary = number_format($minSalary / 1000000000, 1, '.', '') . 'B';
-} else if ($minSalary < 1000000000000000) {
-    $minSalary = number_format($minSalary / 1000000000000, 1, '.', '') . 'T';
-} 
-
-if ($maxSalary < 1000) {
-    $maxSalary = number_format($maxSalary, 1, '.', '');
-} else if ($maxSalary < 1000000) {
-    $maxSalary = number_format($maxSalary / 1000, 1, '.', '') . 'K';
-} else if ($maxSalary < 1000000000) {
-    $maxSalary = number_format($maxSalary / 1000000, 1, '.', '') . 'M';
-} else if ($maxSalary < 1000000000000) {
-    $maxSalary = number_format($maxSalary / 1000000000, 1, '.', '') . 'B';
-} else if ($maxSalary < 1000000000000000) {
-    $maxSalary = number_format($maxSalary / 1000000000000, 1, '.', '') . 'T';
+function moneyStyle($money) {
+    if ($money < 1000) {
+        return number_format($money, 1, '.', '');
+    } else if ($money < 1000000) {
+        return number_format($money / 1000, 1, '.', '') . 'K';
+    } else if ($money < 1000000000) {
+        return number_format($money / 1000000, 1, '.', '') . 'M';
+    } else if ($money < 1000000000000) {
+        return number_format($money / 1000000000, 1, '.', '') . 'B';
+    } else if ($money < 1000000000000000) {
+        return number_format($money / 1000000000000, 1, '.', '') . 'T';
+    }
 }
+
+$minSalary = moneyStyle($minSalary);
+$maxSalary = moneyStyle($maxSalary);
 
 ?>
 
@@ -114,57 +107,49 @@ if ($maxSalary < 1000) {
 
         <!-- JOB DETAILS -->
         <div class="col-lg-8">
+        <div class="mb-3 mb-lg-0">
 
-            <!-- JOB DESCRIPTION SECTION -->
-            <div class="mb-3 mb-lg-0">
+            <?php 
+                $jobDetails = [
+                    [
+                        'icon'    => 'align-left',
+                        'element' => 'Description',
+                        'content' => $description,
+                    ],
+                    [
+                        'icon'    => 'bullseye',
+                        'element' => 'Responsibilities',
+                        'content' => $responsibilities,
+                    ],
+                    [
+                        'icon'    => 'cogs',
+                        'element' => 'Skills Set',
+                        'content' => $skills,
+                    ],
+                    [
+                        'icon'    => 'chart-line',
+                        'element' => 'Experiences',
+                        'content' => $experiences,
+                    ],
+                    [
+                        'icon'    => 'book',
+                        'element' => 'Education',
+                        'content' => $education,
+                    ],
+                ];
                 
-                <!-- DESCRIPTION -->
+                foreach($jobDetails as $jobDetail) {
+            ?>            
                 <div class="mb-5">
                     <h5 class="text-primary mb-3">
-                        <i class="fas fa-align-left mr-2"></i>  
-                        <span>Description</span> 
+                        <i class="fas fa-<?php echo $jobDetail['icon'] ?> mr-2"></i>  
+                        <span><?php echo $jobDetail['element'] ?></span> 
                     </h5>
-                    <p><?php echo $description ?></p>
+                    <p><?php echo $jobDetail['content'] ?></p>
                 </div>
-
-                <!-- RESPONSIBILITIES -->
-                <div class="mb-5">
-                    <h5 class="text-primary mb-3">
-                        <i class="fas fa-bullseye mr-2"></i>  
-                        <span>Responsibilities</span> 
-                    </h5>
-                    <p><?php echo $responsibilities ?></p>
-                </div>
-                
-                <!-- SKILLS SET -->
-                <div class="mb-5">
-                    <h5 class="text-primary mb-3">
-                        <i class="fas fa-cogs mr-2"></i>  
-                        <span>Skills Set</span> 
-                    </h5>
-                    <p><?php echo $skills ?></p>
-                </div>
-
-                <!-- EXPERIENCES -->
-                <div class="mb-5">
-                    <h5 class="text-primary mb-3">
-                        <i class="fas fa-chart-line mr-2"></i>  
-                        <span>Experiences</span> 
-                    </h5>
-                    <p><?php echo $experiences ?></p>
-                </div>
-                
-                <!-- EDUCATION -->
-                <div class="mb-5">
-                    <h5 class="text-primary mb-3">
-                        <i class="fas fa-book mr-2"></i>  
-                        <span>Education</span> 
-                    </h5>
-                    <p><?php echo $education ?></p>
-                </div>
-                
-            </div>
-
+            <?php } ?>
+            
+        </div>
         </div>
         
         <!-- JOB SUMMARY -->

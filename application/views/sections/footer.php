@@ -10,9 +10,7 @@
             <!-- NEWSLETTER AND SOCIAL MEDIA LINKS-->
             <div class="col-md py-3">
                 <h3 class="font-weight-normal">Newsletter</h3>
-
                 <p>Subscribe to our newsletter to become updated in our events everyday!</p>
-
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Enter your email here..." aria-label="Enter your email here..." aria-describedby="button-addon2">
                     <div class="input-group-append">
@@ -23,27 +21,47 @@
                 </div>
 
                 <h3 class="font-weight-normal my-3">Social Links</h3>
+                <?php
+                    $linkElements = [
+                        [
+                            'link'  => 'https://www.facebook.com/abn-job-portal',
+                            'icon'  => 'facebook-f',
+                            'title' => 'Like us on Facebook',
+                        ],
+                        [
+                            'link'  => 'https://www.twitter.com/abn-job-portal',
+                            'icon'  => 'twitter',
+                            'title' => 'Follow us on Twitter',
+                        ],
+                        [
+                            'link'  => 'https://www.pinterest.com/abn-job-portal',
+                            'icon'  => 'linkedin-in',
+                            'title' => 'Seearch us on LinkedIn',
+                        ],
+                        [
+                            'link'  => 'https://www.linkedin.com/abn-job-portal',
+                            'icon'  => 'facebook-f',
+                            'title' => 'Like us on facebook',
+                        ],
+                        [
+                            'link'  => 'https://www.gmail.com/abn-job-portal',
+                            'icon'  => 'google-plus-g',
+                            'title' => 'Email us via Gmail',
+                        ],
+                    ];
 
-                <a href="https://www.facebook.com/abn-job-portal" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Like us on Facebook">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-
-                <a href="https://www.twitter.com/abn-job-portal" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Follow us on Twitter">
-                    <i class="fab fa-twitter"></i>
-                </a>
-
-                <a href="https://www.pinterest.com/abn-job-portal" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="See us at Pinterest">
-                    <i class="fab fa-pinterest-p"></i>
-                </a>
-
-                <a href="https://www.linkedin.com/abn-job-portal" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Search us on LinkedIn">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-
-                <a href="https://www.gmail.com/abn-job-portal" target="_blank" type="button" class="btn btn-brand btn-outline-light" data-toggle="tooltip" data-placement="top" title="Email us on Google">
-                    <i class="fab fa-google-plus-g"></i>
-                </a>
-
+                    foreach ($linkElements as $linkElement) {
+                ?>
+                    <a 
+                        href            = "<?php echo $linkElement['link'] ?>" 
+                        target          = "_blank" 
+                        class           = "btn btn-brand btn-outline-light" 
+                        data-toggle     = "tooltip" 
+                        data-placement  = "top" 
+                        title           = "<?php echo $linkElement['title'] ?>">
+                        <i class="fab fa-<?php echo $linkElement['icon'] ?>"></i>
+                    </a>
+                <?php } ?>
             </div>
 
             <!-- "WHO ARE WE?" -->
@@ -62,48 +80,42 @@
                 </a>
 
             </div>
-            <!-- CONTACT INFORMATION -->
+            
             <div class="col-md py-3">
                 <h3 class="font-weight-normal">Contact Information</h3>
 
                 <ul class="list-unstyled">
+                    <?php
+                        $contactElements = [
+                            [
+                                'icon'      => 'phone-alt',
+                                'element'   => 'Contact Number',
+                                'content'   => '(+63) 987-654-3210'
+                            ],
+                            [
+                                'icon'      => 'map-marker-alt',
+                                'element'   => 'Location',
+                                'content'   => 'Don Fabian Street, Commonwealth, Quezon City, Philippines'
+                            ],
+                            [
+                                'icon'      => 'envelope',
+                                'element'   => 'Email',
+                                'content'   => 'abn@job-portal.com'
+                            ],
+                        ];
 
-                    <li class="py-1">
-                        <div class="d-flex">
+                        foreach($contactElements as $contactElement) {
+                    ?>
+                        <li class="py-1 d-flex">
                             <div class="list-group-item-icon text-success">
-                                <i class="fas fa-phone-alt"></i>
+                                <i class="fas fa-<?php echo $contactElement['icon'] ?>"></i>
                             </div>
                             <div>
-                                <span class="d-block font-weight-bold">Contact Number</span>
-                                <span>(+63) 987-654-3210</span>
+                                <span class="d-block font-weight-bold"><?php echo $contactElement['element'] ?></span>
+                                <span class="text-light"><?php echo $contactElement['content'] ?></span>
                             </div>
-                        </div>
-                    </li>
-
-                    <li class="py-1">
-                        <div class="d-flex">
-                            <div class="list-group-item-icon text-success">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div>
-                                <span class="d-block font-weight-bold">Location</span>
-                                <span>Don Fabian Street, Commonwealth, Quezon City, Philippines</span>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="py-1">
-                        <div class="d-flex">
-                            <div class="list-group-item-icon text-success">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                <span class="d-block font-weight-bold">Email</span>
-                                <span>abn@job-portal.com</span>
-                            </div>
-                        </div>
-                    </li>
-
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
 
@@ -113,17 +125,17 @@
 
 <!-- BOTTOM FOOTER CONTENT -->
 <div class="text-center image-overlay py-3">
-    <div class="container-md">
-        <div class="container-fluid">
-            <div class="d-sm-flex justify-content-center">
-                <p class="m-0 mr-sm-1">Copyright &copy; <strong>ABN Job Portal</strong>.</p>
-                <p class="m-0">All Rights Received. <?php echo date('Y') ?></p>
-            </div>
-            <small>
-                <a href="<?php echo base_url() ?>home/terms_and_conditions" class="text-light" title="Read our Terms and Conditions">Terms and Conditions</a>
-            </small>
-        </div>
+<div class="container-md">
+<div class="container-fluid">
+    <div class="d-sm-flex justify-content-center">
+        <p class="m-0 mr-sm-1">Copyright &copy; <strong>ABN Job Portal</strong>.</p>
+        <p class="m-0">All Rights Received. <?php echo date('Y') ?></p>
     </div>
+    <small>
+        <a href="<?php echo base_url() ?>home/terms_and_conditions" class="text-light" title="Read our Terms and Conditions">Terms and Conditions</a>
+    </small>
+</div>
+</div>
 </div>
 
 </footer>

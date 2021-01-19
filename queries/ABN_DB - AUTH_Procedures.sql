@@ -2,9 +2,11 @@
 -- Display all procedure //testing purposes
 
 SELECT 
-  ROUTINE_NAME
+  ROUTINE_NAME AS PROCEDURES
 FROM INFORMATION_SCHEMA.ROUTINES
-WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME LIKE 'AUTH%';
+WHERE ROUTINE_TYPE = 'PROCEDURE'
+ORDER BY ROUTINE_NAME
+AND ROUTINE_NAME LIKE 'AUTH%';
 
 --------------------------------------------------------
 
@@ -14,6 +16,7 @@ CREATE PROCEDURE [AUTH_AddUserAccount]
 	@password			VARCHAR(MAX),
 	@userType			VARCHAR(MAX)
 AS
+BEGIN
 	INSERT INTO [UserAccounts] 
 		( [email]
 		, [password]
@@ -22,7 +25,8 @@ AS
 		( @email
 		, @password
 		, @userType )
-;
+	;
+END
 
 -- Register Job Seeker Procedure
 CREATE PROCEDURE [AUTH_RegisterJobseeker]

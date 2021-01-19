@@ -11,29 +11,23 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
     
     <div class="row mb-4">
         <div class="col-md-auto d-flex justify-content-center">
-            <?php
-                if (isset($profilePic)) {
-                    echo '
-                        <img 
-                            src         = "' . base_url() .'public/img/jobseekers/' . $profilePic . '" 
-                            height      = "125" 
-                            width       = "125" 
-                            class       = "rounded-pill" 
-                            draggable   = "false"
-                        >
-                    ';
-                } else {
-                    echo '
-                        <img 
-                            src         = "' . base_url() .'public/img/jobseekers/blank_dp.png" 
-                            height      = "125" 
-                            width       = "125" 
-                            class       = "rounded-pill" 
-                            draggable   = "false"
-                        >
-                    ';
-                }
-            ?>
+            <?php if (isset($profilePic)) { ?>\
+                <img 
+                    src         = "<?php echo base_url() .'public/img/jobseekers/' . $profilePic ?>" 
+                    height      = "125" 
+                    width       = "125" 
+                    class       = "rounded-pill" 
+                    draggable   = "false"
+                >
+            <?php } else { ?>
+                <img 
+                    src         = "<?php echo base_url()?>public/img/jobseekers/blank_dp.png" 
+                    height      = "125" 
+                    width       = "125" 
+                    class       = "rounded-pill" 
+                    draggable   = "false"
+                >
+            <?php } ?>
         </div>
 
         <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
@@ -66,65 +60,57 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
     <div class="mb-4"><hr></div>
 
     <div id="applicationStatus">
-        <?php
-            if ($status == 'Pending') {
-                echo '
-                    <div class="container-fluid alert alert-success mb-4 p-2" id="pendingStatus">
-                        <div class="row align-items-center">
-                            <div class="col-md-8 text-md-left text-center">
-                                <div class="m-1">
-                                    <strong>' . $fullName . '</strong> is applying for <strong><a href="' . base_url() . 'auth/job_details/' . $jobPostID . '">' . $jobTitle . '</strong></a>. 
-                                </div>
-                            </div>
-                            <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
-                                <button 
-                                    type        = "submit" 
-                                    class       = "btn btn-success m-1 text-nowrap" 
-                                    data-toggle = "modal" 
-                                    data-target = "#hireModal"
-                                >Hire</button>
-                                <button 
-                                    type        = "submit" 
-                                    class       = "btn btn-danger m-1 text-nowrap" 
-                                    data-toggle = "modal" 
-                                    data-target = "#rejectModal"
-                                >Reject</button>
-                            </div> 
-                        </div> 
+        <?php if ($status == 'Pending') { ?>
+            <div class="container-fluid alert alert-success mb-4 p-2" id="pendingStatus">
+                <div class="row align-items-center">
+                    <div class="col-md-8 text-md-left text-center">
+                        <div class="m-1">
+                            <strong><?php echo $fullName ?></strong> is applying for <strong><a href="<?php echo base_url() . 'auth/job_details/' . $jobPostID ?>"><?php echo $jobTitle ?></strong></a>. 
+                        </div>
                     </div>
-                ';
-            } else if ($status == 'Hired') {
-                echo '
-                    <div class="container-fluid alert alert-primary mb-4 p-2" id="hiredStatus">
-                        <div class="row align-items-center">
-                            <div class="col-md-8 text-md-left text-center">
-                                <div class="m-1">
-                                    You hired <strong>' . $fullName . '</strong> for <strong><a href="' . base_url() . 'auth/job_details/' . $jobPostID . '">' . $jobTitle . '</strong></a>. 
-                                </div>
-                            </div>
-                            <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
-                                <button type="submit" class="btn btn-warning m-1 text-nowrap" data-toggle="modal" data-target="#cancelHiringModal">Cancel</button>
-                            </div> 
-                        </div> 
+                    <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
+                        <button 
+                            type        = "submit" 
+                            class       = "btn btn-success m-1 text-nowrap" 
+                            data-toggle = "modal" 
+                            data-target = "#hireModal"
+                        >Hire</button>
+                        <button 
+                            type        = "submit" 
+                            class       = "btn btn-danger m-1 text-nowrap" 
+                            data-toggle = "modal" 
+                            data-target = "#rejectModal"
+                        >Reject</button>
+                    </div> 
+                </div> 
+            </div>
+        <?php } else if ($status == 'Hired') { ?>
+            <div class="container-fluid alert alert-primary mb-4 p-2" id="hiredStatus">
+                <div class="row align-items-center">
+                    <div class="col-md-8 text-md-left text-center">
+                        <div class="m-1">
+                            You hired <strong><?php echo $fullName ?></strong> for <strong><a href="<?php echo base_url() . 'auth/job_details/' . $jobPostID ?>"><?php echo $jobTitle ?></strong></a>. 
+                        </div>
                     </div>
-                ';
-            } else if ($status == 'Rejected') {
-                echo '
-                    <div class="container-fluid alert alert-danger mb-4 p-2" id="rejectedStatus">
-                        <div class="row align-items-center">
-                            <div class="col-md-8 text-md-left text-center">
-                                <div class="m-1">
-                                    You rejected <strong>' . $fullName . '</strong> for <strong><a href="' . base_url() . 'auth/job_details/' . $jobPostID . '">' . $jobTitle . '</strong></a>. 
-                                </div>
-                            </div>
-                            <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
-                                <button type="submit" class="btn btn-warning m-1 text-nowrap" data-toggle="modal" data-target="#cancelRejectingModal">Cancel</button>
-                            </div> 
-                        </div> 
+                    <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
+                        <button type="submit" class="btn btn-warning m-1 text-nowrap" data-toggle="modal" data-target="#cancelHiringModal">Cancel</button>
+                    </div> 
+                </div> 
+            </div>
+        <?php } else if ($status == 'Rejected') { ?>
+            <div class="container-fluid alert alert-danger mb-4 p-2" id="rejectedStatus">
+                <div class="row align-items-center">
+                    <div class="col-md-8 text-md-left text-center">
+                        <div class="m-1">
+                            You rejected <strong><?php echo $fullName ?></strong> for <strong><a href="<?php echo base_url() . 'auth/job_details/' . $jobPostID ?>">' . $jobTitle . '</strong></a>. 
+                        </div>
                     </div>
-                ';
-            }
-        ?>
+                    <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
+                        <button type="submit" class="btn btn-warning m-1 text-nowrap" data-toggle="modal" data-target="#cancelRejectingModal">Cancel</button>
+                    </div> 
+                </div> 
+            </div>
+        <?php } ?>
     </div>
 
 

@@ -18,13 +18,9 @@
 
         <div class="text-secondary d-sm-flex justify-content-between">
             <p class="m-0">You already have <strong><?php echo $totalRows ?></strong> post<?php echo $totalRows > 1 ? 's' : '' ?>.</p>
-            <?php
-                if ($totalPages > 1) {
-                    echo '
-                        <p class="m-0">Showing page ' . $currentPage . ' of ' . $totalPages . '.</p>
-                    ';
-                }
-            ?>
+            <?php if ($totalPages > 1) { ?>
+                <p class="m-0">Showing page <?php echo $currentPage . ' of ' . $totalPages ?>.</p>
+            <?php } ?>
         </div>
     </div>    
 

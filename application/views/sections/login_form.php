@@ -70,7 +70,6 @@
             <small><a href="<?php echo base_url()?>home/terms_and_conditions" title="Read the terms and conditions." target="_blank">Terms and Conditions</a></small>
         </div>
     </div>
-    <!-- END PF FOOTER LINK SECTION -->
 
 </div>
 </div>

@@ -9,26 +9,22 @@
         $jobTypeClass = 'secondary';
     }
 
-    if ($minSalary < 1000) {
-        $minSalary = number_format($minSalary, 1, '.', '');
-    } else if ($minSalary < 1000000) {
-        $minSalary = number_format($minSalary / 1000, 1, '.', 'K');
-    } else if ($minSalary < 1000000000) {
-        $minSalary = number_format($minSalary / 1000000, 1, '.', 'M');
-    } else if ($minSalary < 1000000000000) {
-        $minSalary = number_format($minSalary / 1000000000, 1, '.', 'B');
-    } 
-
-    if ($maxSalary < 1000) {
-        $maxSalary = number_format($maxSalary, 1, '.', '');
-    } else if ($maxSalary < 1000000) {
-        $maxSalary = number_format($maxSalary / 1000, 1, '.', 'K');
-    } else if ($maxSalary < 1000000000) {
-        $maxSalary = number_format($maxSalary / 1000000, 1, '.', 'M');
-    } else if ($maxSalary < 1000000000000) {
-        $maxSalary = number_format($maxSalary / 1000000000, 1, '.', 'B');
+    function moneyStyle($money) {
+        if ($money < 1000) {
+            return number_format($money, 1, '.', '');
+        } else if ($money < 1000000) {
+            return number_format($money / 1000, 1, '.', '') . 'K';
+        } else if ($money < 1000000000) {
+            return number_format($money / 1000000, 1, '.', '') . 'M';
+        } else if ($money < 1000000000000) {
+            return number_format($money / 1000000000, 1, '.', '') . 'B';
+        } else if ($money < 1000000000000000) {
+            return number_format($money / 1000000000000, 1, '.', '') . 'T';
+        }
     }
-
+    
+    $minSalary = moneyStyle($minSalary);
+    $maxSalary = moneyStyle($maxSalary);
     $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
 
     if (isset($dateApplied)) {
@@ -46,29 +42,17 @@
         <!-- COMPANY LOGO -->
         <div class="company-logo mr-3 d-none d-sm-block">
             <a href="<?php echo base_url() ?>companies/details/<?php echo $employerID ?>">
-                <?php
-                    if (isset($profilePic)) {
-                        echo '
-                            <img 
-                                class   = "border" 
-                                src     = "' . base_url() . 'public/img/employers/' . $profilePic . '" 
-                                alt     = ""
-                                width   = ""
-                                height  = ""
-                            >
-                        ';
-                    } else {
-                        echo '
-                            <img 
-                                class   = "border" 
-                                src     = "' . base_url() . 'public/img/employers/blank_dp.png" 
-                                alt     = ""
-                                width   = ""
-                                height  = ""
-                            >
-                        ';
-                    }
-                ?>
+                <?php if (isset($profilePic)) { ?>
+                    <img 
+                        class   = "border" 
+                        src     = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
+                    >
+                <?php } else { ?>
+                    <img 
+                        class   = "border" 
+                        src     = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
+                    >
+                <?php } ?>
             </a>
         </div>
 

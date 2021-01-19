@@ -33,6 +33,8 @@ if ($sessionStatus) {
     });
 </script>
 <?php } ?>
+
+
 <!-- NAVIGATION BAR -->
 <nav class="navbar navbar-expand-md navbar-light bg-white fixed-top border-bottom" id="navbarTop">
 <div class="container-fluid">

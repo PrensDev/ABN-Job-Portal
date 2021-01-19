@@ -4,29 +4,24 @@
     
     <!-- HEADER -->
     <div class="text-center mb-4">
-        <?php 
-            if ($profilePic != NULL) {
-                echo '
-                    <img 
-                        class       = "rounded-circle mb-3"
-                        src         = "' . base_url() . 'public/img/jobseekers/' . $profilePic . '" 
-                        alt         = "' . $username . '" 
-                        height      = "150" 
-                        draggable   = "false"
-                    >
-                ';
-            } else {
-                echo '
-                    <img 
-                        class       = "rounded-circle mb-3"
-                        src         = "' . base_url() . 'public/img/jobseekers/blank_dp.png" 
-                        alt         = "' . $username . '" 
-                        height      = "150" 
-                        draggable   = "false"
-                    >
-                ';
-            }
-        ?>
+        <?php if ($profilePic != NULL) { ?>
+            <img 
+                class       = "rounded-circle mb-3"
+                src         = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
+                alt         = "<?php echo $username ?>" 
+                height      = "150" 
+                draggable   = "false"
+            >
+        <?php } else { ?>
+            <img 
+                class       = "rounded-circle mb-3"
+                src         = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
+                alt         = "<?php echo $username ?>" 
+                height      = "150" 
+                draggable   = "false"
+            >
+        <?php } ?>
+        
         <p>You sign in as <strong><?php echo $username ?></strong>.</p>
         <h5 class="font-weight-light">Type your password to continue.</h5>
     </div>

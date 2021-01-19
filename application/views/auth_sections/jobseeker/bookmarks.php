@@ -4,7 +4,6 @@
     
     <div class="mb-4">
         <h1 class="font-weight-light mb-2">Bookmarks</h1>
-
         <div class="text-secondary d-sm-flex justify-content-between">
             <p class="m-0">You already saved <strong><?php echo $totalRows ?></strong> bookmark<?php echo $totalRows > 1 ? 's' : '' ?>.</p>
             <?php if ($totalPages > 1) {  ?>
