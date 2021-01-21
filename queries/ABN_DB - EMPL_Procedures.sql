@@ -1,4 +1,4 @@
- 
+
 -- Post New Job Procedure
 CREATE PROCEDURE [EMPL_PostNewJob]
 	@employerID			INT,
@@ -315,6 +315,3 @@ AS
 	SET [profilePic] = @profilePic
 	WHERE [employerID] = @employerID
 ;
-
-SELECT * FROM UserAccounts
-SELECT * FROM Employers

@@ -4,6 +4,7 @@ class Auth extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->helper('custom');
     }
 
     // GET USER DATA
@@ -180,6 +181,12 @@ class Auth extends CI_Controller {
                         'field' => 'retypeNewPassword',
                         'rules' => 'required|matches[newPassword]',
                     ],
+                ]);
+
+                $this->form_validation->set_message([
+                    'required'      => 'This is a required field',
+                    'min_length'    => 'Your password must be 8 characters and above',
+                    'matches'       => 'It doesn\'t match to your password',
                 ]);
 
                 if ($this->form_validation->run() === FALSE) {    

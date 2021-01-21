@@ -1,33 +1,8 @@
 <?php
-    if ($jobType == 'Full Time') {
-        $jobTypeClass = 'success';
-    } else if ($jobType == 'Part Time') {
-        $jobTypeClass = 'info';
-    } else if ($jobType == 'Intern/OJT') {
-        $jobTypeClass = 'warning';
-    } else if ($jobType == 'Temporary') {
-        $jobTypeClass = 'secondary';
-    }
-    
-    function moneyStyle($money) {
-        if ($money < 1000) {
-            return number_format($money, 1, '.', '');
-        } else if ($money < 1000000) {
-            return number_format($money / 1000, 1, '.', '') . 'K';
-        } else if ($money < 1000000000) {
-            return number_format($money / 1000000, 1, '.', '') . 'M';
-        } else if ($money < 1000000000000) {
-            return number_format($money / 1000000000, 1, '.', '') . 'B';
-        } else if ($money < 1000000000000000) {
-            return number_format($money / 1000000000000, 1, '.', '') . 'T';
-        }
-    }
-    
-    $minSalary = moneyStyle($minSalary);
-    $maxSalary = moneyStyle($maxSalary);
-    $offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
-
-    $dateCreated = date_format(date_create($dateCreated),"M. d, Y");
+    // CUSTOMED VARIABLES
+    $jobTypeClass   = getJobTypeClass($jobType);
+    $offeredSalary  = salaryRangeFormat($minSalary, $maxSalary);
+    $dateCreated    = dateFormat($dateCreated, "M. d, Y");
 ?>
 
 <div class="col-lg-6 my-2">

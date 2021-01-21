@@ -1,50 +1,22 @@
 <?php
-
-if ( $status == 1 ) {
-    $statusClass = "success";
-    $statusLabel = "Active";
-} else {
-    $statusClass = "danger";
-    $statusLabel = "Not Active";
-}
-
-$datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
-
-if ( $dateModified == NULL) {
-    $dateStatus = 'Created ' . date_format(date_create($dateCreated),"F d, Y") . ' at ' . date_format(date_create($dateCreated),"h:i a.");
-    $dateModifiedLabel = 'This post doesn\'t modified yet.';
-} else {
-    $dateStatus = 'Modified ' . date_format(date_create($dateCreated),"F d, Y") . ' at ' . date_format(date_create($dateCreated),"h:i a.");
-    $dateModifiedLabel = date_format(date_create($dateModified),"F d, Y; h:i a");
-}
-
-if ($jobType == 'Full Time') {
-    $jobTypeClass = 'success';
-} else if ($jobType == 'Part Time') {
-    $jobTypeClass = 'info';
-} else if ($jobType == 'Intern/OJT') {
-    $jobTypeClass = 'warning';
-} else if ($jobType == 'Temporary') {
-    $jobTypeClass = 'secondary';
-}
-
-function moneyStyle($money) {
-    if ($money < 1000) {
-        return number_format($money, 1, '.', '');
-    } else if ($money < 1000000) {
-        return number_format($money / 1000, 1, '.', '') . 'K';
-    } else if ($money < 1000000000) {
-        return number_format($money / 1000000, 1, '.', '') . 'M';
-    } else if ($money < 1000000000000) {
-        return number_format($money / 1000000000, 1, '.', '') . 'B';
-    } else if ($money < 1000000000000000) {
-        return number_format($money / 1000000000000, 1, '.', '') . 'T';
+    if ( $status == 1 ) {
+        $statusClass = "success";
+        $statusLabel = "Active";
+    } else {
+        $statusClass = "danger";
+        $statusLabel = "Not Active";
     }
-}
 
-$minSalary = moneyStyle($minSalary);
-$maxSalary = moneyStyle($maxSalary);
+    $jobTypeClass   = getJobTypeClass($jobType);
+    $datePosted     = dateFormat($dateCreated ,"F d, Y; h:i a");
 
+    if ( $dateModified == NULL) {
+        $dateStatus = 'Created ' . dateFormat($dateCreated, "F d, Y") . ' at ' . dateFormat($dateCreated, "h:i a.");
+        $dateModifiedLabel = 'This post doesn\'t modified yet.';
+    } else {
+        $dateStatus = 'Modified ' . dateFormat($dateCreated, "F d, Y") . ' at ' . dateFormat($dateCreated, "h:i a.");
+        $dateModifiedLabel = dateFormat($dateModified, "F d, Y; h:i a");
+    }
 ?>
 
 <!-- JOB DETAILS SECTION -->
@@ -61,27 +33,28 @@ $maxSalary = moneyStyle($maxSalary);
                     <i class="fas fa-clock"></i>
                     <span><?php echo $dateStatus ?></span>
                 </span>
-                
             </div>
         </div>
         <div>
-            <?php
-                if ($numOfApplicants > 0) {
-                    echo '
-                        <a href="' . base_url() .'auth/manage_applicants/' . $jobPostID . '" class="btn btn-primary text-nowrap" data-toggle="tooltip" data-placement="left" title="Manage Applicants">
-                            <div class="d-inline mr-3">
-                                <i class="fas fa-users mr-1"></i>
-                                <span class="d-none d-sm-inline">
-                                    <span>Manage Applicants</span>
-                                </span>
-                            </div>
-                            <span class="badge badge-light">'. $numOfApplicants . '</span>
-                        </a>
-                    ';
-                } else {
-                    echo '<p class="font-italic text-secondary">No applicants had applied yet.</p>';
-                }
-            ?>
+            <?php if ($numOfApplicants > 0) { ?>
+                <a 
+                    href            = "<?php echo base_url() .'auth/manage_applicants/' . $jobPostID ?>" 
+                    class           = "btn btn-primary text-nowrap" 
+                    data-toggle     = "tooltip" 
+                    data-placement  = "left" 
+                    title           = "Manage Applicants"
+                >
+                    <div class="d-inline mr-3">
+                        <i class="fas fa-users mr-1"></i>
+                        <span class="d-none d-sm-inline">
+                            <span>Manage Applicants</span>
+                        </span>
+                    </div>
+                    <span class="badge badge-light"><?php echo $numOfApplicants ?></span>
+                </a>
+            <?php } else { ?>
+                <p class="font-italic text-secondary">No applicants had applied yet.</p>
+            <?php } ?>
         </div>
     </div>
 
@@ -208,7 +181,7 @@ $maxSalary = moneyStyle($maxSalary);
                             </div>
                             <div>
                                 <p class="m-0 font-weight-bold">Offered Salary</p>
-                                <p class="m-0 text-secondary">&#8369;<?php echo $minSalary ?> - &#8369;<?php echo $maxSalary?></p>
+                                <p class="m-0 text-secondary"><?php echo salaryRangeFormat($minSalary, $maxSalary) ?></p>
                             </div>
                         </div>
 

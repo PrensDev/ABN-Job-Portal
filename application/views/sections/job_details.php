@@ -4,35 +4,9 @@ if ($this->session->userType == 'Job Seeker') {
     $resumeData = $this->JBSK_model->view_resume();
 }
 
-if ($jobType == 'Full Time') {
-    $jobTypeClass = 'success';
-} else if ($jobType == 'Part Time') {
-    $jobTypeClass = 'info';
-} else if ($jobType == 'Intern/OJT') {
-    $jobTypeClass = 'warning';
-} else if ($jobType == 'Temporary') {
-    $jobTypeClass = 'secondary';
-}
-
-function moneyStyle($money) {
-    if ($money < 1000) {
-        return number_format($money, 1, '.', '');
-    } else if ($money < 1000000) {
-        return number_format($money / 1000, 1, '.', '') . 'K';
-    } else if ($money < 1000000000) {
-        return number_format($money / 1000000, 1, '.', '') . 'M';
-    } else if ($money < 1000000000000) {
-        return number_format($money / 1000000000, 1, '.', '') . 'B';
-    } else if ($money < 1000000000000000) {
-        return number_format($money / 1000000000000, 1, '.', '') . 'T';
-    }
-}
-
-$minSalary = moneyStyle($minSalary);
-$maxSalary = moneyStyle($maxSalary);
-$offeredSalary = '&#8369;' . $minSalary . ' - &#8369;' . $maxSalary;
-
-$datePosted = date_format(date_create($dateCreated),"F d, Y; h:i a");
+$jobTypeClass   = getJobTypeClass($jobType);
+$offeredSalary  = salaryRangeFormat($minSalary, $maxSalary);
+$datePosted     = dateFormat($dateCreated ,"F d, Y; h:i a");
 
 ?>
 

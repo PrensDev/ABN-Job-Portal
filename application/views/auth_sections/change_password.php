@@ -39,7 +39,7 @@
                     name        = "newPassword"
                     placeholder = "Type your new password"
                 >
-                <small class="invalid-feedback">This is a required field.</small>                
+                <small class="invalid-feedback"><?php echo form_error('newPassword') ?></small>                
             </div>
 
             <!-- RETYPE PASSWORD -->
@@ -52,7 +52,9 @@
                     name        = "retypeNewPassword"
                     placeholder = "Retype your new password"
                 >
-                <small class="invalid-feedback">This is a required field.</small>                
+                <small class="invalid-feedback">
+                    <?php echo form_error('retypeNewPassword') ?>
+                </small>                
             </div>
             
             <button type="submit" class="btn btn-primary btn-block">Update my password</button>

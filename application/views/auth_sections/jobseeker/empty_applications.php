@@ -24,25 +24,37 @@
             <a
                 class = "btn nav-link<?php echo $statusPage == 'Pending' ? ' active' : '' ?>" 
                 id    = "pendingTab"
-            >Pending</a>
+            >
+                <span class="mr-1">Pending</span>
+                <span class="badge badge-primary">1</span>
+            </a>
         </li>
         <li class="nav-item">
             <a 
                 class = "btn nav-link<?php echo $statusPage == 'Interviewing' ? ' active' : '' ?>"
                 id    = "interviewingTab"
-            >Interviewing</a>
+            >
+                <span class="mr-1">Interviewing</span>
+                <span class="badge badge-primary">1</span>
+            </a>
         </li>
         <li class="nav-item">
             <a 
                 class = "btn nav-link<?php echo $statusPage == 'Hired' ? ' active' : '' ?>" 
                 id    = "hiredTab"
-            >Hired</a>
+            >
+                <span class="mr-1">Hired</span>
+                <span class="badge badge-primary">1</span>
+            </a>
         </li>
         <li class="nav-item">
             <a 
                 class = "btn nav-link<?php echo $statusPage == 'Rejected' ? ' active' : '' ?>"
                 id    = "rejectedTab"
-            >Rejected</a>
+            >
+                <span class="mr-1">Rejected</span>
+                <span class="badge badge-primary">1</span>
+            </a>
         </li>
     </ul>
 

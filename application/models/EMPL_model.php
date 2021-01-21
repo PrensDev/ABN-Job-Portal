@@ -40,6 +40,7 @@ class EMPL_model extends CI_Model {
         $location = $row->brgyDistrict . ', ' . $row->cityProvince;
 
         $userdata = [
+            'employerID'    => $row->employerID,
             'username'      => $row->companyName,
             'companyName'   => $row->companyName,
             'street'        => $row->street,
