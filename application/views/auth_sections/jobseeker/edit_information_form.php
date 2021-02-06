@@ -1,11 +1,11 @@
 <?php
 
-$JBSK_firstName    = set_value( 'firstName'    ) == '' ? $JBSK_firstName    : set_value( 'firstName'    );
-$JBSK_middleName   = set_value( 'middleName'   ) == '' ? $JBSK_middleName   : set_value( 'middleName'   );
-$JBSK_lastName     = set_value( 'lastName'     ) == '' ? $JBSK_lastName     : set_value( 'lastName'     );
-$JBSK_birthDate    = set_value( 'birthDate'    ) == '' ? $JBSK_birthDate    : set_value( 'birthDate'    );
-$JBSK_gender       = set_value( 'gender'       ) == '' ? $JBSK_gender       : set_value( 'gender'       );
-$JBSK_cityProvince = set_value( 'cityProvince' ) == '' ? $JBSK_cityProvince : set_value( 'cityProvince' );
+$firstName    = set_value( 'firstName'    ) == '' ? $firstName    : set_value( 'firstName'    );
+$middleName   = set_value( 'middleName'   ) == '' ? $middleName   : set_value( 'middleName'   );
+$lastName     = set_value( 'lastName'     ) == '' ? $lastName     : set_value( 'lastName'     );
+$birthDate    = set_value( 'birthDate'    ) == '' ? $birthDate    : set_value( 'birthDate'    );
+$gender       = set_value( 'gender'       ) == '' ? $gender       : set_value( 'gender'       );
+$cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( 'cityProvince' );
 
 ?>
 
@@ -41,7 +41,7 @@ $JBSK_cityProvince = set_value( 'cityProvince' ) == '' ? $JBSK_cityProvince : se
                         class       = "form-control <?php echo form_error('firstName') ? 'is-invalid' : '' ?>" 
                         id          = "firstName" 
                         name        = "firstName"
-                        value       = "<?php echo $JBSK_firstName ?>"
+                        value       = "<?php echo $firstName ?>"
                         placeholder = "First Name"
                     >
                     <small class="invalid-feedback"><?php echo form_error('firstName')?></small>
@@ -56,7 +56,7 @@ $JBSK_cityProvince = set_value( 'cityProvince' ) == '' ? $JBSK_cityProvince : se
                             class       = "form-control" 
                             id          = "middleName" 
                             name        = "middleName"
-                            value       = "<?php echo $JBSK_middleName ?>"
+                            value       = "<?php echo $middleName ?>"
                             placeholder = "Middle Name"
                         >
                         <div class="input-group-append">
@@ -81,7 +81,7 @@ $JBSK_cityProvince = set_value( 'cityProvince' ) == '' ? $JBSK_cityProvince : se
                         class       = "form-control <?php echo form_error('lastName') ? 'is-invalid' : '' ?>" 
                         id          = "lastName" 
                         name        = "lastName"
-                        value       = "<?php echo $JBSK_lastName ?>"
+                        value       = "<?php echo $lastName ?>"
                         placeholder = "Last Name"
                     >
                     <small class="invalid-feedback"><?php echo form_error('lastName')?></small>
@@ -100,7 +100,7 @@ $JBSK_cityProvince = set_value( 'cityProvince' ) == '' ? $JBSK_cityProvince : se
                         type    = "date" 
                         class   = "form-control <?php echo form_error('birthDate') ? 'is-invalid' : '' ?>" 
                         id      = "birthDate" 
-                        value   = "<?php echo $JBSK_birthDate ?>"
+                        value   = "<?php echo $birthDate ?>"
                         name    = "birthDate" 
                     >
                     <small class="invalid-feedback"><?php echo form_error('birthDate')?></small>
@@ -117,10 +117,10 @@ $JBSK_cityProvince = set_value( 'cityProvince' ) == '' ? $JBSK_cityProvince : se
                         id          = "gender"
                         name        = "gender"
                     >
-                        <option value="Male" <?php echo $JBSK_gender == 'Male' ? 'selected' : '' ?>>Male</option>
-                        <option value="Female" <?php echo $JBSK_gender == 'Female' ? 'selected' : '' ?>>Female</option>
-                        <option value="LGBTQA++" <?php echo $JBSK_gender == 'LGBTQA++' ? 'selected' : '' ?>>LGBTQA++</option>
-                        <option value="Prefer not to say" <?php echo $JBSK_gender == 'Prefer not to say' ? 'selected' : '' ?>>Prefer not to say</option>
+                        <option value="Male" <?php echo $gender == 'Male' ? 'selected' : '' ?>>Male</option>
+                        <option value="Female" <?php echo $gender == 'Female' ? 'selected' : '' ?>>Female</option>
+                        <option value="LGBTQA++" <?php echo $gender == 'LGBTQA++' ? 'selected' : '' ?>>LGBTQA++</option>
+                        <option value="Prefer not to say" <?php echo $gender == 'Prefer not to say' ? 'selected' : '' ?>>Prefer not to say</option>
                     </select>
                     <small class="invalid-feedback"><?php echo form_error('gender')?></small>
                 </div>
@@ -136,7 +136,7 @@ $JBSK_cityProvince = set_value( 'cityProvince' ) == '' ? $JBSK_cityProvince : se
                     class       = "form-control <?php echo form_error('cityProvince') ? 'is-invalid' : '' ?>" 
                     id          = "cityProvince"
                     name        = "cityProvince"
-                    value       = "<?php echo $JBSK_cityProvince ?>"
+                    value       = "<?php echo $cityProvince ?>"
                     placeholder = "City and state / Province"
                 >
                 <small class="invalid-feedback"><?php echo form_error('cityProvince')?></small>
@@ -164,7 +164,7 @@ $JBSK_cityProvince = set_value( 'cityProvince' ) == '' ? $JBSK_cityProvince : se
                     class       = "form-control <?php echo form_error('contactNumber') ? 'is-invalid' : '' ?>" 
                     id          = "contactNumber"
                     name        = "contactNumber"
-                    value       = "<?php echo $JBSK_contactNumber ?>"
+                    value       = "<?php echo $contactNumber ?>"
                     placeholder = "Contact Number"
                 >
                 <small class="invalid-feedback"><?php echo form_error('contactNumber')?></small>

@@ -980,7 +980,7 @@ class Auth extends CI_Controller {
     public function manage_applicants($jobPostID = NULL, $statusPage = NULL, $page = 1) {
         if ($this->session->userType === 'Employer') {
             if ($jobPostID == NULL) {
-                $this->AUTH_model->err_page();
+                redirect('auth/job_posts');
             } else {
                 if ($statusPage == NULL) {
                     redirect('auth/manage_applicants/' . $jobPostID . '/pending');

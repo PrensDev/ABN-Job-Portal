@@ -108,7 +108,7 @@ class JBSK_model extends CI_Model {
     public function update_resume($resumeID) {
         $input = $this->input->post();
 
-        $status = $input['status'] == '' ? 0 : 1;
+        $resumeFlag = $input['resumeFlag'] == '' ? 0 : 1;
 
         return $this->db->query("
             EXEC [JBSK_UpdateResume]
@@ -126,7 +126,7 @@ class JBSK_model extends CI_Model {
             $input[ 'education'   ],
             $input[ 'skills'      ],
             $input[ 'experiences' ],
-            $status,
+            $resumeFlag,
         ]);
     }
 
