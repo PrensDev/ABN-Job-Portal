@@ -33,7 +33,7 @@
                     <i class="fas fa-users mr-2"></i>  
                     <span>About this company</span> 
                 </h5>
-                <p><?php echo $description ?></p>
+                <p class="text-justify"><?php echo $description ?></p>
             </div>
 
         </div>

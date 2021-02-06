@@ -11,7 +11,7 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
     
     <div class="row mb-4">
         <div class="col-md-auto d-flex justify-content-center">
-            <?php if (isset($profilePic)) { ?>\
+            <?php if (isset($profilePic)) { ?>
                 <img 
                     src         = "<?php echo base_url() .'public/img/jobseekers/' . $profilePic ?>" 
                     height      = "125" 
@@ -299,7 +299,7 @@ if ($status == 'Pending') {
         'modalIcon'     => 'INFO',
         'message'       => '<p class="m-1">Are you sure you want to call for an interview for <strong>' . $fullName . '</strong> for <strong>' . $jobTitle . '</strong>?</p>',
         'actionPath'    => NULL,
-        'actionID'      => 'hireApplicantBtn',
+        'actionID'      => 'interviewApplicantBtn',
         'actionValue'   => $applicationID,
         'actionIcon'    => 'phone-alt',
         'actionLabel'   => 'Continue!',

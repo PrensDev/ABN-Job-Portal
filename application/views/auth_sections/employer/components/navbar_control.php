@@ -6,10 +6,10 @@
 <li class="nav-link mx-md-2 nav-item dropdown">
                                 
     <span class="d-flex align-items-center" role="button" data-toggle="dropdown">
-        <?php if (isset($USER_profilePic)) { ?>
+        <?php if (isset($profilePic)) { ?>
             <img 
                 class     = "rounded-pill border mr-1" 
-                src       = "<?php echo base_url() . 'public/img/employers/' . $USER_profilePic ?>" 
+                src       = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
                 height    = "30" 
                 width     = "30"
                 draggable = "false"

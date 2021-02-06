@@ -15,12 +15,12 @@
         <div class="d-flex justify-content-center" id="profilePic">
             <?php 
                 if ($this->session->userType == 'Jobseeker') {
-                    if ($USER_profilePic != NULL) {
+                    if ($profilePic != NULL) {
             ?>
                         <img 
                             class       = "border"
-                            src         = "<?php echo base_url() . 'public/img/jobseekers/' . $USER_profilePic ?>" 
-                            alt         = "<?php echo $USER_name ?>" 
+                            src         = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
+                            alt         = "<?php echo $userName ?>" 
                             height      = "350" 
                             class       = "rounded" 
                             draggable   = "false"
@@ -29,7 +29,7 @@
                         <img 
                             class       = "border"
                             src         = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
-                            alt         = "<?php echo $USER_name ?>" 
+                            alt         = "<?php echo $userName ?>" 
                             height      = "350" 
                             class       = "rounded" 
                             draggable   = "false"
@@ -37,12 +37,12 @@
             <?php 
                     }
                 } else if ($this->session->userType == 'Employer') {
-                    if ($USER_profilePic != NULL) {
+                    if ($profilePic != NULL) {
             ?>
                         <img 
                             class       = "border"
-                            src         = "<?php echo base_url() . 'public/img/employers/' . $USER_profilePic ?>" 
-                            alt         = "<?php echo $USER_name ?>" 
+                            src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
+                            alt         = "<?php echo $userName ?>" 
                             height      = "350" 
                             class       = "rounded" 
                             draggable   = "false"
@@ -51,7 +51,7 @@
                         <img 
                             class       = "border"
                             src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
-                            alt         = "<?php echo $USER_name ?>" 
+                            alt         = "<?php echo $userName ?>" 
                             height      = "350" 
                             class       = "rounded" 
                             draggable   = "false"

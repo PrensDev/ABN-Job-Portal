@@ -19,7 +19,7 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
 
     <div class="flex-grow-1">
         <div class="d-flex justify-content-center mb-3">
-            <?php if (isset($USER_profilePic)) { ?>
+            <?php if (isset($profilePic)) { ?>
                 <img 
                     src       = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
                     alt       = "<?php $fullName ?>" 
