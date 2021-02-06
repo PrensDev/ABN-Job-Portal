@@ -12,15 +12,13 @@ class Jobs extends CI_Controller {
         $userdata = NULL;
 
         if ( $this->session->has_userdata('userType') ) {
-            $userType = $this->session->userType;
-
-            if ( $userType == 'Job Seeker' ) {
+            if ( $this->session->userType === 'Jobseeker' ) {
                 $userdata = $this->JBSK_model->get_info();
-            } else if ( $userType == 'Employer' ) {
+            } else if ( $this->session->userType === 'Employer' ) {
                 $userdata = $this->EMPL_model->get_info();
-            }
+            }  
 
-            $pageTitle = $userdata['username'] . ' - ' . $title;
+            $pageTitle = $userdata['userName'] . ' - ' . $title;
         } else {
             $pageTitle = $title;
         }
@@ -50,49 +48,26 @@ class Jobs extends CI_Controller {
 
     // GET ALL RECENT POSTS
     private function recent_posts_num() {
-        if ($this->session->userType == 'Job Seeker') {
-            return $this->JBSK_model->recent_posts_num();
-        } else {
-            return $this->MAIN_model->recent_posts_num();
-        }
-    }
+        return $this->session->USER_type == 'JBSK' ? $this->JBSK_model->recent_posts_num() : $this->MAIN_model->recent_posts_num();
+    }  
 
     // GET RECENT POSTS
     private function get_recent_posts($offsetRows, $fetchedRows) {
-        if ($this->session->userType == 'Job Seeker') {
-            return $this->JBSK_model->view_recent_posts($offsetRows, $fetchedRows);
-        } else {
-            return $this->MAIN_model->recent_posts($offsetRows, $fetchedRows); 
-        }
+        return $this->session->USER_type == 'JBSK' ? $this->JBSK_model->view_recent_posts($offsetRows, $fetchedRows) : $this->MAIN_model->recent_posts($offsetRows, $fetchedRows);
     }
 
     // GET ALL SEARCH RESULT
     private function search_result_num() {
-        if ($this->session->userType == 'Job Seeker') {
-            return $this->JBSK_model->search_result_num();
-        } else {
-            return $this->MAIN_model->search_result_num();
-        }
+        return $this->session->USER_type == 'JBSK' ? $this->JBSK_model->search_result_num() : $this->MAIN_model->search_result_num();
     }
 
     // GET SEARCH RESULT
     private function get_search_result($offsetRows, $fetchedRows) {
-        if ($this->session->userType == 'Job Seeker') {
-            return $this->JBSK_model->view_search_result($offsetRows, $fetchedRows);
-        } else {
-            return $this->MAIN_model->search_result($offsetRows, $fetchedRows); 
-        }
+        return $this->session->userType === 'Jobseeker' ? $this->JBSK_model->view_search_result($offsetRows, $fetchedRows) : $this->MAIN_model->search_result($offsetRows, $fetchedRows); 
     }
 
-    // GET JOB DETAILS
-    private function get_job_details($jobPostID) {
-        if ($this->session->userType == 'Job Seeker') {
-            return $this->JBSK_model->job_details($jobPostID);
-        } else {
-            return $this->MAIN_model->job_details($jobPostID);
-        }
-    }
-
+    // ==================================================================================================== //
+    // JOBS VIEW                                                                                            //
     // ==================================================================================================== //
 
     // JOBS VIEW / INDEX
@@ -116,16 +91,12 @@ class Jobs extends CI_Controller {
                 $fetchedRows = 10;
                 $totalPages = ceil($totalRows / $fetchedRows);
 
-                if ($this->input->get('page') == NULL) {
-                    $page = 1;
-                } else {
-                    $page = $this->input->get('page');
-                }
+                $page = $this->input->get('page') == NULL ? 1 : $this->input->get('page');
 
                 if ($page > 0 && $page <= $totalPages) {
-                    $offsetRows         = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                    $RecentPosts = $this->get_search_result($offsetRows, $fetchedRows);
-                    
+                    $offsetRows  = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
+                    $SearchResult = $this->get_search_result($offsetRows, $fetchedRows);
+                                        
                     if ($keyword != NULL && $place != NULL) {
                         $bodySubtitle = 'You searched for "' . $keyword . '" in "' . $place . '".';
                     } else if ($keyword != NULL && $place == NULL) {
@@ -138,7 +109,7 @@ class Jobs extends CI_Controller {
                         'Search Result',
                         'Search Result',
                         $bodySubtitle,
-                        $RecentPosts,
+                        $SearchResult,
                         $totalRows,
                         $page,
                         $totalPages
@@ -197,11 +168,17 @@ class Jobs extends CI_Controller {
     
     // JOB DETAILS VIEW
     public function details($jobPostID = NULL) {
-        if ($jobPostID == NULL) {
+        if ($jobPostID === NULL) {
             $this->AUTH_model->err_page();
         } else {
-            $jobDetails = $this->get_job_details($jobPostID);
-            if (! $jobDetails) {
+            $jobDetails = $this->MAIN_model->job_details($jobPostID);
+
+            if ($this->session->userType === 'Jobseeker') {
+                $jobDetails->applicationStatus = $this->JBSK_model->application_status($jobPostID);
+                $jobDetails->resumeData        = $this->JBSK_model->view_resume();
+            }
+
+            if ($jobDetails === NULL) {
                 $this->AUTH_model->err_page();
             } else {
                 $data = $this->set_data('Job Details');    

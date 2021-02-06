@@ -30,7 +30,7 @@
     
     <!-- COMPANY INFORMATION -->
     <div class="col-md text-center text-md-left mt-3 mt-md-0">
-        <h1 class="font-weight-normal"><?php echo $username ?></h1>
+        <h1 class="font-weight-normal"><?php echo $userName ?></h1>
         
         <div class="d-block d-md-flex flex-wrap">
             
@@ -71,5 +71,5 @@
 
 <?php $this->load->view('auth_sections/components/edit_img_modal', [
     'profilePic' => $profilePic,
-    'username'   => $username,
+    'userName'   => $userName,
 ]) ?>

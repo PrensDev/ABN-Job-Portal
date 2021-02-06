@@ -1,8 +1,5 @@
 <?php
-
-$sessionStatus = $this->session->has_userdata('userType');
-
-if ($sessionStatus) {
+if ($this->session->has_userdata('userType')) {
 
     $this->load->view('sections/components/modal', [
         'id'            => 'logoutModal',
@@ -72,17 +69,17 @@ if ($sessionStatus) {
             <div class="dropdown-divider"></div>
 
             <?php 
-                if ($sessionStatus) {
-                    if ($this->session->userType == 'Job Seeker') {
+                if ($this->session->has_userdata('userType')) {
+                    if ($this->session->userType === 'Jobseeker') {
                         $navbarData = [
-                            'username'       => $firstName,
+                            'userName'       => $userName,
                             'appliedJobsNum' => $this->JBSK_model->applied_jobs_num(),
                             'bookmarksNum'   => $this->JBSK_model->bookmarks_num(),
                         ];
                         $this->load->view('auth_sections/jobseeker/components/navbar_control', $navbarData);
-                    } else if ($this->session->userType == 'Employer') {
+                    } else if ($this->session->userType === 'Employer') {
                         $navbarData = [
-                            'username' => $username,
+                            'userName' => $userName,
                             'postsNum' => $this->EMPL_model->posts_num(),
                         ];
                         $this->load->view('auth_sections/employer/components/navbar_control', $navbarData);

@@ -8,7 +8,7 @@
             <img 
                 class       = "rounded-circle mb-3"
                 src         = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
-                alt         = "<?php echo $username ?>" 
+                alt         = "<?php echo $userName ?>" 
                 height      = "150" 
                 draggable   = "false"
             >
@@ -16,13 +16,13 @@
             <img 
                 class       = "rounded-circle mb-3"
                 src         = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
-                alt         = "<?php echo $username ?>" 
+                alt         = "<?php echo $userName ?>" 
                 height      = "150" 
                 draggable   = "false"
             >
         <?php } ?>
 
-        <h5 class="font-weight-light">Type your new email. <strong><?php echo $username ?></strong></h5>
+        <h5 class="font-weight-light">Type your new email. <strong><?php echo $userName ?></strong></h5>
     </div>
 
     <?php $this->load->view('auth_sections/components/alert') ?>

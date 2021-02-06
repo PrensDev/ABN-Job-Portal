@@ -28,33 +28,8 @@
             </a>
         </div>
     </div>
-
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Pending' ? ' active' : '' ?>" 
-                id    = "pendingTab"
-            >Pending</a>
-        </li>
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Interviewing' ? ' active' : '' ?>" 
-                id    = "interviewingTab"
-            >Interviewing</a>
-        </li>
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Hired' ? ' active' : '' ?>" 
-                id    = "hiredTab"
-            >Hired</a>
-        </li>
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Rejected' ? ' active' : '' ?>" 
-                id    = "rejectedTab"
-            >Rejected</a>
-        </li>
-    </ul>
+    
+    <?php $this->load->view('auth_sections/employer/components/application_status_tabs') ?>
 
     <div class="text-center my-5 py-5 animate__animated animate__fadeIn animate__faster">
         <h2 class="font-weight-normal"><?php echo $heading ?></h2>

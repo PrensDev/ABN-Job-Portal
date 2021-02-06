@@ -19,36 +19,11 @@
         </div>
     </div>
 
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Pending' ? ' active' : '' ?>" 
-                id    = "pendingTab"
-            >Pending</a>
-        </li>
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Interviewing' ? ' active' : '' ?>" 
-                id    = "interviewingTab"
-            >Interviewing</a>
-        </li>
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Hired' ? ' active' : '' ?>" 
-                id    = "hiredTab"
-            >Hired</a>
-        </li>
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Rejected' ? ' active' : '' ?>" 
-                id    = "rejectedTab"
-            >Rejected</a>
-        </li>
-    </ul>
+    <?php $this->load->view('auth_sections/employer/components/application_status_tabs') ?>
 
     <!-- APPLICANT LIST -->
     <div class="row animate__animated animate__fadeIn animate__faster">
-        <?php foreach ( $posts as $post ) { $this->load->view('auth_sections/employer/components/applicant_card', $post); } ?>
+        <?php foreach ( $applicants as $applicant ) { $this->load->view('auth_sections/employer/components/applicant_card', $applicant); } ?>
     </div>
 
     <?php echo $this->pagination->create_links(); ?>
@@ -87,6 +62,42 @@
             <span>Cancel</span>
         </button>
         <button class="btn btn-success" id="hireApplicantBtn">Hire now!</button>
+    </div>
+
+</div>
+</div>
+</div>
+
+
+<!-- INTERVIEW APPLICANT MODAL -->
+<div class="modal user-select-none" id="interviewApplicantModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+
+    <div class="modal-header align-items-center">
+        <h5 class="modal-title text-primary">
+            <span>Call for an interview</span>
+        </h5>
+        <button type="button" class="btn text-secondary" data-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div class="d-flex">
+            <div class="display-4 mr-2">
+                <i class="fas fa-exclamation-circle text-primary mr-2"></i>
+            </div>
+            <div id="message"></div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn text-secondary" data-dismiss="modal">
+            <i class="fas fa-times mr-1"></i>
+            <span>Cancel</span>
+        </button>
+        <button class="btn btn-primary" id="interviewApplicantBtn">Continue</button>
     </div>
 
 </div>
@@ -166,7 +177,7 @@
 </div>
 
 
-<!-- CANCEL HIRING MODAL -->
+<!-- CANCEL REJECTING MODAL -->
 <div class="modal user-select-none" id="cancelRejectModal" tabindex="-1">
 <div class="modal-dialog modal-dialog-centered">
 <div class="modal-content">
@@ -194,7 +205,7 @@
             <i class="fas fa-times mr-1"></i>
             <span>Cancel</span>
         </button>
-        <button class="btn btn-warning" id="cancelHiringBtn">Continue</button>
+        <button class="btn btn-warning" id="cancelRejectingBtn">Continue</button>
     </div>
 
 </div>
@@ -228,6 +239,15 @@
             $(this).find('#hireApplicantBtn').attr('value', applicationID);
         });
 
+        $('#interviewApplicantModal').on('show.bs.modal', function (e) {
+            var btn = $(e.relatedTarget);
+            var applicationID = btn.data('applicationid');
+            var applicantName = btn.data('applicantname');
+            $(this).find('#message').html('Are you sure you want to just call for an interview for <strong>' + applicantName + '</strong> for <strong><?php echo $jobTitle ?></strong>?');
+            $(this).find('#rejectApplicantBtn').attr('value', applicationID);
+        });
+
+
         $('#rejectApplicantModal').on('show.bs.modal', function (e) {
             var btn = $(e.relatedTarget);
             var applicationID = btn.data('applicationid');
@@ -249,7 +269,7 @@
             var applicationID = btn.data('applicationid');
             var applicantName = btn.data('applicantname');
             $(this).find('#message').html('Are you sure you want to cancel rejecting to <strong>' + applicantName + '</strong> for <strong><?php echo $jobTitle ?></strong>?<p><strong></strong></p>');
-            $(this).find('#cancelHiringBtn').attr('value', applicationID);
+            $(this).find('#cancelRejectingBtn').attr('value', applicationID);
         });
     });
 

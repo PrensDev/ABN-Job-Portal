@@ -74,7 +74,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'			=> 'sqlsrv:Server=PRENSDEV\MSSQLSERVER01;Database=ABN_DB;',
+	'dsn'			=> '',
 	'hostname' 		=> 'localhost',
 	'username' 		=> NULL,
 	'password' 		=> NULL,

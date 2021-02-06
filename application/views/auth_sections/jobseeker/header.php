@@ -1,16 +1,12 @@
-<?php 
-    $fullName = $firstName . ' ' . ($middleName == '' ? ' ' : $middleName . ' ') . $lastName;
-?>
-
 <div class="container-fluid py-5 user-select-none bg-light">
 <div class="container-md">
 <div class="row">
 
     <!-- COMPANY IMAGE/LOGO -->
     <div class="col-md-auto d-flex justify-content-center">
-        <?php if (isset($profilePic)) { ?>
+        <?php if ($profilePic == NULL) { ?>
             <img 
-                src         = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
+                src         = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
                 alt         = "<?php echo $fullName ?>" 
                 height      = "125" 
                 width       = "125" 
@@ -21,7 +17,7 @@
             >
         <?php } else { ?>
             <img 
-                src         = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
+                src         = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
                 alt         = "<?php echo $fullName ?>" 
                 height      = "125" 
                 width       = "125" 
@@ -80,5 +76,5 @@
 
 <?php $this->load->view('auth_sections/components/edit_img_modal', [
     'profilePic' => $profilePic,
-    'username'   => $fullName,
+    'userName'   => $userName,
 ]); ?>

@@ -26,45 +26,8 @@
             <?php } ?>
         </div>
     </div>    
-
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Pending' ? ' active' : '' ?>" 
-                id    = "pendingTab"
-            >
-                <span class="mr-1">Pending</span>
-                <span class="badge badge-primary">1</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Interviewing' ? ' active' : '' ?>" 
-                id    = "interviewingTab"
-            >
-                <span class="mr-1">Interviewing</span>
-                <span class="badge badge-primary">1</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Hired' ? ' active' : '' ?>" 
-                id    = "hiredTab"
-            >
-                <span class="mr-1">Hired</span>
-                <span class="badge badge-primary">1</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a 
-                class = "btn nav-link<?php echo $statusPage == 'Rejected' ? ' active' : '' ?>" 
-                id    = "rejectedTab"
-            >
-                <span class="mr-1">Rejected</span>
-                <span class="badge badge-primary">1</span>
-            </a>
-        </li>
-    </ul>
+    
+    <?php $this->load->view('auth_sections/jobseeker/components/application_status_tabs') ?>
 
     <!-- JOB LIST -->
     <div class="row mt-2 mb-5 animate__animated animate__fadeIn animate__faster">

@@ -1,11 +1,11 @@
 <?php
 
-$firstName    = set_value( 'firstName'    ) == '' ? $firstName    : set_value( 'firstName'    );
-$middleName   = set_value( 'middleName'   ) == '' ? $middleName   : set_value( 'middleName'   );
-$lastName     = set_value( 'lastName'     ) == '' ? $lastName     : set_value( 'lastName'     );
-$birthDate    = set_value( 'birthDate'    ) == '' ? $birthDate    : set_value( 'birthDate'    );
-$gender       = set_value( 'gender'       ) == '' ? $gender       : set_value( 'gender'       );
-$cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( 'cityProvince' );
+$JBSK_firstName    = set_value( 'firstName'    ) == '' ? $JBSK_firstName    : set_value( 'firstName'    );
+$JBSK_middleName   = set_value( 'middleName'   ) == '' ? $JBSK_middleName   : set_value( 'middleName'   );
+$JBSK_lastName     = set_value( 'lastName'     ) == '' ? $JBSK_lastName     : set_value( 'lastName'     );
+$JBSK_birthDate    = set_value( 'birthDate'    ) == '' ? $JBSK_birthDate    : set_value( 'birthDate'    );
+$JBSK_gender       = set_value( 'gender'       ) == '' ? $JBSK_gender       : set_value( 'gender'       );
+$JBSK_cityProvince = set_value( 'cityProvince' ) == '' ? $JBSK_cityProvince : set_value( 'cityProvince' );
 
 ?>
 
@@ -41,7 +41,7 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
                         class       = "form-control <?php echo form_error('firstName') ? 'is-invalid' : '' ?>" 
                         id          = "firstName" 
                         name        = "firstName"
-                        value       = "<?php echo $firstName ?>"
+                        value       = "<?php echo $JBSK_firstName ?>"
                         placeholder = "First Name"
                     >
                     <small class="invalid-feedback"><?php echo form_error('firstName')?></small>
@@ -56,12 +56,17 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
                             class       = "form-control" 
                             id          = "middleName" 
                             name        = "middleName"
-                            value       = "<?php echo $middleName ?>"
+                            value       = "<?php echo $JBSK_middleName ?>"
                             placeholder = "Middle Name"
                         >
                         <div class="input-group-append">
                             <span class="input-group-text text-info bg-white">
-                                <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Middle name is not required"></i>
+                                <i 
+                                    class           = "fas fa-question-circle" 
+                                    data-toggle     = "tooltip" 
+                                    data-placement  = "top" 
+                                    title           = "Middle name is not required"
+                                ></i>
                             </span>
                         </div>
                     </div>
@@ -76,7 +81,7 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
                         class       = "form-control <?php echo form_error('lastName') ? 'is-invalid' : '' ?>" 
                         id          = "lastName" 
                         name        = "lastName"
-                        value       = "<?php echo $lastName ?>"
+                        value       = "<?php echo $JBSK_lastName ?>"
                         placeholder = "Last Name"
                     >
                     <small class="invalid-feedback"><?php echo form_error('lastName')?></small>
@@ -95,7 +100,7 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
                         type    = "date" 
                         class   = "form-control <?php echo form_error('birthDate') ? 'is-invalid' : '' ?>" 
                         id      = "birthDate" 
-                        value   = "<?php echo $birthDate ?>"
+                        value   = "<?php echo $JBSK_birthDate ?>"
                         name    = "birthDate" 
                     >
                     <small class="invalid-feedback"><?php echo form_error('birthDate')?></small>
@@ -112,16 +117,15 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
                         id          = "gender"
                         name        = "gender"
                     >
-                        <option value="Male" <?php echo $gender == 'Male' ? 'selected' : '' ?>>Male</option>
-                        <option value="Female" <?php echo $gender == 'Female' ? 'selected' : '' ?>>Female</option>
-                        <option value="LGBTQA++" <?php echo $gender == 'LGBTQA++' ? 'selected' : '' ?>>LGBTQA++</option>
-                        <option value="Prefer not to say" <?php echo $gender == 'Prefer not to say' ? 'selected' : '' ?>>Prefer not to say</option>
+                        <option value="Male" <?php echo $JBSK_gender == 'Male' ? 'selected' : '' ?>>Male</option>
+                        <option value="Female" <?php echo $JBSK_gender == 'Female' ? 'selected' : '' ?>>Female</option>
+                        <option value="LGBTQA++" <?php echo $JBSK_gender == 'LGBTQA++' ? 'selected' : '' ?>>LGBTQA++</option>
+                        <option value="Prefer not to say" <?php echo $JBSK_gender == 'Prefer not to say' ? 'selected' : '' ?>>Prefer not to say</option>
                     </select>
                     <small class="invalid-feedback"><?php echo form_error('gender')?></small>
                 </div>
 
             </div>
-            <!-- END OF BIRTHDATE AND GENDER FIELD -->
 
             <!-- CITY AND STATE / PROVINCE -->
             <div class="form-group">
@@ -132,7 +136,7 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
                     class       = "form-control <?php echo form_error('cityProvince') ? 'is-invalid' : '' ?>" 
                     id          = "cityProvince"
                     name        = "cityProvince"
-                    value       = "<?php echo $cityProvince ?>"
+                    value       = "<?php echo $JBSK_cityProvince ?>"
                     placeholder = "City and state / Province"
                 >
                 <small class="invalid-feedback"><?php echo form_error('cityProvince')?></small>
@@ -144,7 +148,6 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
 
     <!-- CONTACT INFORMATION FORM -->
     <div class="card border-0">
-
         <div class="card-header h6 bg-white border-primary">
             <i class="fas fa-phone-alt text-primary mr-2"></i>
             <span>Contact Information</span>
@@ -161,22 +164,25 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
                     class       = "form-control <?php echo form_error('contactNumber') ? 'is-invalid' : '' ?>" 
                     id          = "contactNumber"
                     name        = "contactNumber"
-                    value       = "<?php echo $contactNumber ?>"
+                    value       = "<?php echo $JBSK_contactNumber ?>"
                     placeholder = "Contact Number"
                 >
                 <small class="invalid-feedback"><?php echo form_error('contactNumber')?></small>
             </div>
 
         </div>
-
     </div>
 
     <!-- USER CONTROLS -->
     <div class="d-flex justify-content-center my-4">
-        <button type="button" class="mx-1 btn btn-primary" data-toggle="modal" data-target="#saveChangesModal">Save Changes</button>
+        <button 
+            type        = "button" 
+            class       = "mx-1 btn btn-primary" 
+            data-toggle = "modal" 
+            data-target = "#saveChangesModal"
+        >Save Changes</button>
         <button onclick="history.back()" type="button" class="mx-1 btn btn-secondary">Cancel</button>
     </div>
-
 
 </div>
 </div>

@@ -7,20 +7,18 @@ class Home extends CI_Controller {
         $this->load->helper('custom');
     }
 
-    // SET DATA
+    // SET USER DATA
     private function set_data($title) {
         $userdata = NULL;
 
         if ( $this->session->has_userdata('userType') ) {
-            $userType = $this->session->userType;
-
-            if ( $userType == 'Job Seeker' ) {
+            if ( $this->session->userType === 'Jobseeker' ) {
                 $userdata = $this->JBSK_model->get_info();
-            } else if ( $userType == 'Employer' ) {
+            } else if ( $this->session->userType ==='Employer' ) {
                 $userdata = $this->EMPL_model->get_info();
             }
 
-            $pageTitle = $userdata['username'] . ' - ' . $title;
+            $pageTitle = $userdata['userName'] . ' - ' . $title;
         } else {
             $pageTitle = $title;
         }
@@ -43,7 +41,7 @@ class Home extends CI_Controller {
         $this->load->view('sections/navbar', $data['userdata']);
 
         if ( $bodyView == 'index' ) {
-            if ($this->session->userType == 'Job Seeker') {
+            if ($this->session->userType === 'Jobseeker') {
                 $posts = $this->JBSK_model->view_recent_posts(0, 10);
             } else {
                 $posts = $this->MAIN_model->recent_posts(0, 10);

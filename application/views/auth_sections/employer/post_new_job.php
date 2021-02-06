@@ -138,7 +138,7 @@
 
                 </div>
 
-                <!-- STATUS -->
+                <!-- JOB POST FLAG -->
                 <div class="form-group">
                     <label>Status</label>
                     <span class="text-danger">*</span>
@@ -146,12 +146,12 @@
                         <input 
                             type    = "checkbox" 
                             class   = "custom-control-input" 
-                            id      = "status"
-                            name    = "status"
+                            id      = "jobPostFlag"
+                            name    = "jobPostFlag"
                             value   = "1"
                             checked
                         >
-                        <label class="custom-control-label text-success font-weight-bold" for="status">ACTIVE</label>
+                        <label class="custom-control-label text-success font-weight-bold" for="jobPostFlag">ACTIVE</label>
                         <p class="text-secondary">Note: If status is not active, this post will never be searched and only you can view this.</p>
                     </div>
                 </div>

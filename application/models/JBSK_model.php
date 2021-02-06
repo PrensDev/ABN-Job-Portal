@@ -20,18 +20,25 @@ class JBSK_model extends CI_Model {
         $query = $this->db->query("EXEC [AUTH_FindJobseeker] @email = ?", [$this->session->email]);
         $row   = $query->row();
 
+        $firstName  = $row->firstName;
+        $middleName = $row->middleName;
+        $lastName   = $row->lastName;
+
+        $fullName = $middleName == NULL ? $firstName . ' ' . $lastName : $firstName . ' ' . $middleName . ' ' . $lastName;
+
         $userdata = [
-            'username'      => $row->firstName,
-            'firstName'     => $row->firstName,
-            'middleName'    => $row->middleName,
-            'lastName'      => $row->lastName,
-            'birthDate'     => $row->birthDate,
-            'age'           => $row->age,
-            'gender'        => $row->gender,
-            'cityProvince'  => $row->cityProvince,
-            'contactNumber' => $row->contactNumber,
-            'email'         => $row->email,
-            'profilePic'    => $row->profilePic,
+            'userName'         => $firstName,
+            'fullName'         => $fullName,
+            'firstName'        => $firstName,
+            'middleName'       => $middleName,
+            'lastName'         => $lastName,
+            'birthDate'        => $row->birthDate,
+            'age'              => $row->age,
+            'gender'           => $row->gender,
+            'cityProvince'     => $row->cityProvince,
+            'contactNumber'    => $row->contactNumber,
+            'email'            => $row->email,
+            'profilePic'       => $row->profilePic,
         ];
 
         return $userdata;
@@ -233,16 +240,16 @@ class JBSK_model extends CI_Model {
     }
 
     // VIEW JOB DETAILS
-    public function job_details($jobPostID) {
-        $query = $this->db->query("
-            EXEC [JBSK_ViewJobDetails] 
+    public function application_status($jobPostID) {
+        $JobStatus_query = $this->db->query("
+            EXEC [JBSK_ApplicationStatus] 
                 @jobPostID   = ?,
                 @jobseekerID = ?
         ", [
             $jobPostID,
             $this->session->id,
         ]);
-        return $query->row();
+        return $JobStatus_query->row();
     }
 
     // SET PROFILE PICTURE

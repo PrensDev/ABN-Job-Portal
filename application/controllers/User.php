@@ -12,7 +12,7 @@ class User extends CI_Controller {
 
     // LOGIN VIEW
     public function login() {
-        if ($this->session->has_userdata('userType')) {
+        if ($this->session->has_userdata('USER_type')) {
             redirect();
         } else {
             $this->form_validation->set_rules([
@@ -43,7 +43,7 @@ class User extends CI_Controller {
     
     // JOBSEEKER REGISTRATION VIEW
     public function jobseeker_registration() {
-        if ($this->session->has_userdata('userType')) {
+        if ($this->session->has_userdata('USER_type')) {
             redirect();
         } else {
             $this->form_validation->set_rules([
@@ -117,7 +117,7 @@ class User extends CI_Controller {
 
     // EMPLOYER REGISTRATION VIEW
     public function employer_registration() {
-        if ($this->session->has_userdata('userType')) {
+        if ($this->session->has_userdata('USER_type')) {
             redirect();
         } else {
             $this->form_validation->set_rules([

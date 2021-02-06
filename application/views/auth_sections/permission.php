@@ -4,25 +4,51 @@
     
     <!-- HEADER -->
     <div class="text-center mb-4">
-        <?php if ($profilePic != NULL) { ?>
-            <img 
-                class       = "rounded-circle mb-3"
-                src         = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
-                alt         = "<?php echo $username ?>" 
-                height      = "150" 
-                draggable   = "false"
-            >
-        <?php } else { ?>
-            <img 
-                class       = "rounded-circle mb-3"
-                src         = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
-                alt         = "<?php echo $username ?>" 
-                height      = "150" 
-                draggable   = "false"
-            >
-        <?php } ?>
+        <?php 
+            if ($this->session->userType === 'Jobseeker') {
+                if ($profilePic != NULL) { 
+        ?>
+                    <img 
+                        class       = "rounded-circle mb-3"
+                        src         = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
+                        alt         = "<?php echo $userName ?>" 
+                        height      = "150" 
+                        draggable   = "false"
+                    >
+        <?php   } else { ?>
+                    <img 
+                        class       = "rounded-circle mb-3"
+                        src         = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
+                        alt         = "<?php echo $userName ?>" 
+                        height      = "150" 
+                        draggable   = "false"
+                    >
+        <?php   
+                } 
+            } else if ($this->session->userType === 'Employer') {
+                if ($profilePic != NULL) { 
+        ?>
+                    <img 
+                        class       = "rounded-circle mb-3"
+                        src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
+                        alt         = "<?php echo $userName ?>" 
+                        height      = "150" 
+                        draggable   = "false"
+                    >
+        <?php   } else { ?>
+                    <img 
+                        class       = "rounded-circle mb-3"
+                        src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
+                        alt         = "<?php echo $userName ?>" 
+                        height      = "150" 
+                        draggable   = "false"
+                    >
+        <?php 
+                } 
+            }
+        ?>
         
-        <p>You sign in as <strong><?php echo $username ?></strong>.</p>
+        <p>You sign in as <strong><?php echo $userName ?></strong>.</p>
         <h5 class="font-weight-light">Type your password to continue.</h5>
     </div>
 

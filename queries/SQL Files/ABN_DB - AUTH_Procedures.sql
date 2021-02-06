@@ -1,14 +1,19 @@
-0
+
 -- Display all procedure //testing purposes
 
+/*
 SELECT 
   ROUTINE_NAME AS PROCEDURES
 FROM INFORMATION_SCHEMA.ROUTINES
 WHERE ROUTINE_TYPE = 'PROCEDURE'
+AND ROUTINE_NAME LIKE 'AUTH%'   
 ORDER BY ROUTINE_NAME
-AND ROUTINE_NAME LIKE 'AUTH%';
+*/
 
 --------------------------------------------------------
+
+USE [ABN_Job_Portal]
+GO
 
 -- Add Job Seeker Account Procedure
 CREATE PROCEDURE [AUTH_AddUserAccount]
@@ -16,7 +21,6 @@ CREATE PROCEDURE [AUTH_AddUserAccount]
 	@password			VARCHAR(MAX),
 	@userType			VARCHAR(MAX)
 AS
-BEGIN
 	INSERT INTO [UserAccounts] 
 		( [email]
 		, [password]
@@ -25,8 +29,7 @@ BEGIN
 		( @email
 		, @password
 		, @userType )
-	;
-END
+GO
 
 -- Register Job Seeker Procedure
 CREATE PROCEDURE [AUTH_RegisterJobseeker]
@@ -57,7 +60,7 @@ AS
 		, @cityProvince
 		, @contactNumber
 		, @email )
-;
+GO
 
 -- Register Employer Procedure
 CREATE PROCEDURE [AUTH_RegisterEmployer]
@@ -88,7 +91,7 @@ AS
 		, @email
 		, @website
 		, @description )
-;
+GO
 
 -- Find User Account Procedure for Login
 CREATE PROCEDURE [AUTH_FindUserAccount]
@@ -99,19 +102,19 @@ AS
 		, [email]
 		, [password]
 		, [userType]
-		, CAST([accountFlag] AS INT) AS [status]
+		, CAST([accountFlag] AS INT) AS [accountFlag]
 	FROM [UserAccounts]
 	WHERE [email] = @email
-;
+GO
 
 -- Find Job Seeker Procedure
 CREATE PROCEDURE [AUTH_FindJobseeker]
 	@email	VARCHAR(450)
 AS
-	SELECT *, DATEDIFF(year, [birthDate], getdate()) as [age]
+	SELECT *, DATEDIFF(hour, [birthDate], GETDATE())/8766 AS [age]
 	FROM [JobSeekers]
 	WHERE [email] = @email
-;
+GO
 
 -- Find Employer Procedure
 CREATE PROCEDURE [AUTH_FindEmployer]
@@ -119,7 +122,7 @@ CREATE PROCEDURE [AUTH_FindEmployer]
 AS
 	SELECT * FROM [Employers]
 	WHERE [email] = @email
-;
+GO
 
 -- Set Account Procedure
 CREATE PROCEDURE [AUTH_SetAccountFlag]
@@ -129,7 +132,7 @@ AS
 	UPDATE [UserAccounts]
 	SET [accountFlag] = @flag
 	WHERE [email] = @email
-;
+GO
 
 -- Update Password
 CREATE PROCEDURE [AUTH_UpdatePassword]
@@ -139,7 +142,7 @@ AS
 	UPDATE [UserAccounts]
 	SET [password] = @password
 	WHERE [email] = @email
-;
+GO
 
 -- Create JBSK Notifications
 CREATE PROCEDURE [AUTH_CreateJBSKNotification]
@@ -161,7 +164,7 @@ AS
 		, @message
 		, @notificationType
 		, @link )
-;
+GO
 
 -- Get User Password
 CREATE PROCEDURE [AUTH_GetUserPassword]
@@ -169,7 +172,7 @@ CREATE PROCEDURE [AUTH_GetUserPassword]
 AS
 	SELECT [password] FROM [UserAccounts]
 	WHERE [email] = @email
-;
+GO
 
 -- Change User Email
 CREATE PROCEDURE [AUTH_UpdateEmail]
@@ -179,13 +182,4 @@ AS
 	UPDATE [UserAccounts]
 	SET [email] = @newEmail
 	WHERE [email] = @email
-;
-
--- Create Login Session
-CREATE PROCEDURE [AUTH_CreateLoginSession]
-	@userID INT
-AS
-	INSERT INTO [LoginSessions]
-		([userID])
-	VALUES (@userID)
-;
+GO

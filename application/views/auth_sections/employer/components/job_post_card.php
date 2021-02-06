@@ -3,7 +3,7 @@
     $offeredSalary  = salaryRangeFormat($minSalary, $maxSalary);
     $dateCreated    = dateFormat($dateCreated, "M. d, Y; h:i a");
 
-    if ( $status == 1 ) {
+    if ( $jobPostFlag == 1 ) {
         $statusClass = 'success';
         $statusLabel = 'Active';
     } else {
@@ -46,7 +46,17 @@
 
             <!-- JOB TYPE -->
             <div class="mt-2">
-                <span class="badge border border-<?php echo $jobTypeClass ?> text-<?php echo $jobTypeClass ?> p-2 text-uppercase" title="Job Type: <?php echo $jobType ?>">
+                <span 
+                    class = "
+                        badge 
+                        border 
+                        border-<?php echo $jobTypeClass ?> 
+                        text-<?php echo $jobTypeClass ?> 
+                        p-2 
+                        text-uppercase
+                    "
+                    title ="Job Type: <?php echo $jobType ?>"
+                >
                     <i class="fas fa-user-tie mr-1"></i>
                     <?php echo $jobType ?>
                 </span>
@@ -58,7 +68,13 @@
             
             <!-- STATUS -->
             <div>
-                <span class="badge text-uppercase text-<?php echo $statusClass ?>" title="This post is <?php echo ucwords($statusLabel) ?>">
+                <span 
+                    class = "
+                        badge 
+                        text-uppercase 
+                        text-<?php echo $statusClass ?>" 
+                    title = "This post is <?php echo ucwords($statusLabel) ?>"
+                >
                     <i class="fas fa-circle mr-1 text-<?php echo $statusClass ?>"></i>
                     <?php echo $statusLabel ?>
                 </span>
@@ -80,31 +96,43 @@
     <div class="d-flex justify-content-between align-items-center mt-4">
         <div>
             <?php
-                if ($numOfApplicants > 0) {
-                    $s = $numOfApplicants > 1 ? 's' : '';
+                if ($applicantsNum > 0) {
+                    $s = $applicantsNum > 1 ? 's' : '';
             ?>
                 <a 
                     href            = "<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID ?>" 
                     class           = "btn btn-primary"
                     data-toggle     = "tooltip"
                     data-placement  = "top"
-                    title           = "<?php echo $numOfApplicants . ' applicant' . $s . ' apply for ' . $jobTitle ?>."
+                    title           = "<?php echo $applicantsNum . ' applicant' . $s . ' applied for ' . $jobTitle ?>."
                 >
                     <span class="mr-4">
                         <i class="fas fa-users mr-1"></i>
                         <span class="d-none d-sm-inline">Manage Applicants</span>
                     </span>
-                    <span class="badge badge-light"><?php echo $numOfApplicants ?></span>
+                    <span class="badge badge-light"><?php echo $applicantsNum ?></span>
                 </a>
             <?php } else { ?>
                 <span class="font-italic text-secondary">No applicants yet.</span>
             <?php } ?>
         </div>
         <div>
-            <a href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" class="btn border text-info"  data-toggle="tooltip" data-placement="top" title="Edit Post">
+            <a 
+                href           = "<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" 
+                class          = "btn border text-info"  
+                data-toggle    = "tooltip" 
+                data-placement = "top" 
+                title          = "Edit Post"
+            >
                 <i class="fas fa-pen"></i>
             </a>
-            <a href="<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>" class="btn border text-secondary"  data-toggle="tooltip" data-placement="top" title="View More">
+            <a 
+                href           = "<?php echo base_url() ?>auth/job_details/<?php echo $jobPostID ?>" 
+                class          = "btn border text-secondary" 
+                data-toggle    = "tooltip" 
+                data-placement = "top" 
+                title          = "View More"
+            >
                 <i class="fas fa-ellipsis-h"></i>
             </a>
         </div>

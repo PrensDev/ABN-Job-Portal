@@ -1,4 +1,20 @@
 
+-- Display all procedure //testing purposes
+
+/*
+SELECT 
+  ROUTINE_NAME AS PROCEDURES
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_TYPE = 'PROCEDURE'
+AND ROUTINE_NAME LIKE 'JBSK%'   
+ORDER BY ROUTINE_NAME
+*/
+
+--------------------------------------------------------
+
+USE [ABN_Job_Portal]
+GO
+
 -- View Resume Procedure
 CREATE PROCEDURE [JBSK_ViewResume]
 	@jobseekerID INT
@@ -11,9 +27,9 @@ AS
 		, [Resumes].[experiences]
 		, [Resumes].[skills]
 		, [Resumes].[lastUpdated]
-		, CAST([Resumes].[resumeFlag] AS INT) AS [status]
+		, CAST([Resumes].[resumeFlag] AS INT) AS [resumeFlag]
 		, [JobSeekers].[firstName] + ' ' + [JobSeekers].[lastName] AS [fullName]
-		, DATEDIFF(YEAR, [JobSeekers].[birthDate], GETDATE()) as [age]
+		, CONVERT(INT, ROUND(DATEDIFF(hour, [birthDate], GETDATE())/8766.0,0)) AS [age]
 		, [JobSeekers].[gender]
 		, [JobSeekers].[cityProvince]
 		, [JobSeekers].[contactNumber]
@@ -22,7 +38,7 @@ AS
 	INNER JOIN [JobSeekers]
 		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
 		AND [JobSeekers].[jobseekerID] = @jobseekerID
-;
+GO
 
 -- Create Resume Procedure
 CREATE PROCEDURE [JBSK_CreateResume]
@@ -50,14 +66,14 @@ AS
 		, @skills
 		, @experiences
 		, @resumeFlag )
-;
+GO
 
 -- Remove Resume Procedure
 CREATE PROCEDURE [JBSK_RemoveResume]
 	@resumeID INT
 AS
 	DELETE FROM [Resumes] WHERE [resumeID] = @resumeID
-;
+GO
 
 -- Update Resume Procedure
 CREATE PROCEDURE [JBSK_UpdateResume]
@@ -78,7 +94,7 @@ AS
 		, [experiences] = @experiences
 		, [resumeFlag]	= @resumeFlag
 	WHERE [resumeID] = @resumeID
-;
+GO
 
 -- View All Recent Posts
 CREATE PROCEDURE [JBSK_RecentPostsNum]
@@ -95,7 +111,7 @@ AS
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 		AND [Applications].[jobseekerID] = @jobseekerID
-;
+GO
 
 -- View Recent Posts
 CREATE PROCEDURE [JBSK_ViewRecentPosts]
@@ -116,7 +132,10 @@ AS
 		, [Employers].[employerID]
 		, [Employers].[profilePic]
 		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
+		, [Employers].[brgyDistrict] 
+			+ ', ' 
+			+ [Employers].[cityProvince] 
+		  AS [location]
 		, [Bookmarks].[bookmarkID]
 		, [Applications].[status]
 	FROM [JobPosts]
@@ -132,7 +151,7 @@ AS
 	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
-;
+GO
 
 -- Update Job Seeker Information Procedure
 CREATE PROCEDURE [JBSK_UpdateInfo]
@@ -147,15 +166,15 @@ CREATE PROCEDURE [JBSK_UpdateInfo]
 AS
 	UPDATE [JobSeekers]
 	SET
-		  [firstName] 		 = @firstName
-		, [middleName] 		 = @middleName
-		, [lastName] 		 = @lastName
-		, [birthDate] 		 = @birthDate
-		, [gender] 			 = @gender
-		, [cityProvince] = @cityProvince
-		, [contactNumber] 	 = @contactNumber
-	WHERE [jobseekerID] = @jobseekerID
-;
+		  [firstName] 		= @firstName
+		, [middleName] 		= @middleName
+		, [lastName] 		= @lastName
+		, [birthDate] 		= @birthDate
+		, [gender] 			= @gender
+		, [cityProvince]	= @cityProvince
+		, [contactNumber] 	= @contactNumber
+	WHERE [jobseekerID]		= @jobseekerID
+GO
 
 -- Submit Application Procedure
 CREATE PROCEDURE [JBSK_SubmitApplication]
@@ -187,7 +206,7 @@ AS
 		ON [JobPosts].[jobPostID] = @jobPostID
 	WHERE
 		[Resumes].[resumeID] = @resumeID
-;
+GO
 
 -- Cancel Application Procedure
 CREATE PROCEDURE [JBSK_CancelApplication]
@@ -195,10 +214,9 @@ CREATE PROCEDURE [JBSK_CancelApplication]
 AS
 	DELETE FROM [Applications]
 	WHERE [applicationID] = @applicationID
-;
+GO
 
-
--- Number of Applied Jobs Procedure
+-- Number of Applied Jobs Based on Status Procedure
 CREATE PROCEDURE [JBSK_AppliedJobsToStatusNum]
 	@jobseekerID INT,
 	@status		 VARCHAR(MAX)
@@ -209,15 +227,13 @@ AS
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 	INNER JOIN [Employers]
 		ON [JobPosts].[employerID] = [Employers].[employerID]
-	INNER JOIN [Resumes]
-		ON [Applications].[jobseekerID] = [Resumes].[jobseekerID]
 	LEFT OUTER JOIN [Bookmarks]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
 	WHERE 
 		[Applications].[jobseekerID] = @jobseekerID
 		AND [Applications].[status] = @status
-;
+GO
 
 -- Applied Jobs Procedure
 CREATE PROCEDURE [JBSK_AppliedJobsToStatus]
@@ -227,7 +243,10 @@ CREATE PROCEDURE [JBSK_AppliedJobsToStatus]
 	@status		 VARCHAR(MAX)
 AS
 	SELECT
-		  [JobPosts].[jobPostID]
+		  [Applications].[applicationID]
+		, [Applications].[dateApplied]
+		, [Applications].[status]
+		, [JobPosts].[jobPostID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
 		, [JobPosts].[field]
@@ -236,18 +255,16 @@ AS
 		, [Employers].[employerID]
 		, [Employers].[profilePic]
 		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
-		, [Applications].[applicationID]
-		, [Applications].[dateApplied]
-		, [Applications].[status]
+		, [Employers].[brgyDistrict] 
+			+ ', ' 
+			+ [Employers].[cityProvince] 
+		  AS [location]
 		, [Bookmarks].[bookmarkID]
 	FROM [Applications]
 	INNER JOIN [JobPosts]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 	INNER JOIN [Employers]
 		ON [JobPosts].[employerID] = [Employers].[employerID]
-	INNER JOIN [Resumes]
-		ON [Applications].[jobseekerID] = [Resumes].[jobseekerID]
 	LEFT OUTER JOIN [Bookmarks]
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
@@ -257,7 +274,7 @@ AS
 	ORDER BY [Applications].[dateApplied] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
-;
+GO
 
 -- Number of Applied Jobs Procedure
 CREATE PROCEDURE [JBSK_AppliedJobsNum]
@@ -268,7 +285,7 @@ AS
 	INNER JOIN [Resumes]
 		ON [Resumes].[jobseekerID] = [Applications].[jobseekerID]
 	WHERE [Applications].[jobseekerID] = @jobseekerID
-;
+GO
 
 -- Add Bookmark Procedure
 CREATE PROCEDURE [JBSK_AddBookmark]
@@ -281,14 +298,14 @@ AS
 	VALUES 
 		( @jobseekerID
 		, @jobPostID )
-;
+GO
 
 -- Remove Bookmark Procedure
 CREATE PROCEDURE [JBSK_RemoveBookmark]
 	@bookmarkID INT
 AS
 	DELETE FROM [Bookmarks] WHERE [bookmarkID] = @bookmarkID
-;
+GO
 
 -- Get Number of Bookmarks
 CREATE PROCEDURE [JBSK_BookmarksNum]
@@ -304,7 +321,7 @@ AS
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 		AND [Applications].[jobseekerID] = @jobseekerID
 	WHERE [Bookmarks].[jobseekerID] = @jobseekerID
-;
+GO
 
 -- Get Bookmarks
 CREATE PROCEDURE [JBSK_GetBookmarks]
@@ -339,39 +356,17 @@ AS
 	ORDER BY [Bookmarks].[dateBookmarked] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROW ONLY
-;
+GO
 
 -- View Job Details 
-CREATE PROCEDURE [JBSK_ViewJobDetails]
+CREATE PROCEDURE [JBSK_ApplicationStatus]
 	@jobPostID	 INT,
 	@jobseekerID INT
 AS
 	SELECT
-		  [JobPosts].[jobPostID]
-		, [JobPosts].[employerID]
-		, [JobPosts].[jobTitle]
-		, [JobPosts].[jobType]
-		, [JobPosts].[field]
-		, [JobPosts].[description]
-		, [JobPosts].[responsibilities]
-		, [JobPosts].[skills]
-		, [JobPosts].[experiences]
-		, [JobPosts].[education]
-		, [JobPosts].[minSalary]
-		, [JobPosts].[maxSalary]
-		, [JobPosts].[dateCreated]
-		, [JobPosts].[dateModified]
-		, CAST([JobPosts].[jobPostFlag] AS INT) AS [status]
-		, [Employers].[employerID]
-		, [Employers].[profilePic]
-		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
-		, [Employers].[contactNumber]
-		, [Employers].[email]
-		, [Employers].[website]
-		, [JobSeekers].[firstName] + ' ' + [JobSeekers].[lastName] AS [fullName]
+		  [JobSeekers].[firstName] + ' ' + [JobSeekers].[lastName] AS [fullName]
 		, [JobSeekers].[gender]
-		, DATEDIFF(YEAR, [JobSeekers].[birthDate], GETDATE()) AS [age]
+		, DATEDIFF(hour, [birthDate], GETDATE())/8766 AS [age]
 		, [JobSeekers].[contactNumber]
 		, [JobSeekers].[email]
 		, [Applications].[applicationID]
@@ -382,12 +377,10 @@ AS
 		, [Applications].[experiences]
 		, [Applications].[lastUpdated]
 		, [Applications].[dateApplied]
-		, [Applications].[status]
+		, [Applications].[status] AS [applicationStatus]
 		, [Applications].[dateStatus]
 		, [Bookmarks].[bookmarkID]
 	FROM [JobPosts]
-	INNER JOIN [Employers]
-		ON [JobPosts].[employerID] = [Employers].[employerID]
 	LEFT OUTER JOIN [Applications]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 		AND [Applications].[jobseekerID] = @jobseekerID
@@ -399,7 +392,7 @@ AS
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
 	WHERE [JobPosts].[jobPostID] = @jobPostID 
 		AND [JobPosts].[jobPostFlag] = 1
-;
+GO
 
 -- Set Profile Pic
 CREATE PROCEDURE [JBSK_SetProfilePic]
@@ -409,7 +402,7 @@ AS
 	UPDATE [JobSeekers]
 	SET [profilePic] = @profilePic
 	WHERE [jobseekerID] = @jobseekerID
-;
+GO
 
 -- View Available Jobs
 CREATE PROCEDURE [JBSK_ViewAvailableJobs]
@@ -450,7 +443,7 @@ AS
 	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;
-;
+GO
 
 -- Number of Search Result
 CREATE PROCEDURE [JBSK_SearchResultNum]
@@ -471,9 +464,11 @@ AS
 		AND [Applications].[jobseekerID] = @jobseekerID
 	WHERE
 		[JobPosts].[jobTitle] LIKE '%' + @jobTitle + '%'
-		AND ([Employers].[brgyDistrict] LIKE '%' + @location + '%'
-		OR [Employers].[cityProvince] LIKE '%' + @location + '%')
-;
+		AND (
+			[Employers].[brgyDistrict] LIKE '%' + @location + '%'
+			OR [Employers].[cityProvince] LIKE '%' + @location + '%'
+		)
+GO
 
 -- View Search Result
 CREATE PROCEDURE [JBSK_ViewSearchResult]
@@ -496,7 +491,10 @@ AS
 		, [Employers].[employerID]
 		, [Employers].[profilePic]
 		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
+		, [Employers].[brgyDistrict] 
+			+ ', ' 
+			+ [Employers].[cityProvince] 
+		  AS [location]
 		, [Bookmarks].[bookmarkID]
 		, [Applications].[status]
 	FROM [JobPosts]
@@ -511,10 +509,11 @@ AS
 		AND [Applications].[jobseekerID] = @jobseekerID
 	WHERE
 		[JobPosts].[jobTitle] LIKE '%' + @jobTitle + '%'
-		AND ([Employers].[brgyDistrict] LIKE '%' + @location + '%'
-		OR [Employers].[cityProvince] LIKE '%' + @location + '%')
+		AND (
+			[Employers].[brgyDistrict] LIKE '%' + @location + '%'
+			OR [Employers].[cityProvince] LIKE '%' + @location + '%'
+		)
 	ORDER BY [JobPosts].[dateCreated]
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
-;
-
+GO

@@ -1,5 +1,5 @@
 <?php
-    if ( $status == 1 ) {
+    if ( $jobPostFlag == 1 ) {
         $statusClass = "success";
         $statusLabel = "Active";
     } else {
@@ -36,7 +36,7 @@
             </div>
         </div>
         <div>
-            <?php if ($numOfApplicants > 0) { ?>
+            <?php if ($applicantsNum > 0) { ?>
                 <a 
                     href            = "<?php echo base_url() .'auth/manage_applicants/' . $jobPostID ?>" 
                     class           = "btn btn-primary text-nowrap" 
@@ -50,7 +50,7 @@
                             <span>Manage Applicants</span>
                         </span>
                     </div>
-                    <span class="badge badge-light"><?php echo $numOfApplicants ?></span>
+                    <span class="badge badge-light"><?php echo $applicantsNum ?></span>
                 </a>
             <?php } else { ?>
                 <p class="font-italic text-secondary">No applicants had applied yet.</p>
@@ -128,15 +128,24 @@
         <!-- JOB SUMMARY -->
         <div class="col-lg-4"> 
             
-            <div class="d-flex justify-content-between alert alert-primary p-3 mb-3">
-                <div class="mr-3">
-                    <i class="fas fa-users mr-1 text-primary"></i>
-                    <span>You've already hired <strong>0</strong> people.</span>
+            <?php if ($hiredApplicantsNum > 0) { ?>
+                <div class="d-flex justify-content-between alert alert-primary p-3 mb-3">
+                    <div class="mr-3">
+                        <i class="fas fa-users mr-1 text-primary"></i>
+                        <span>You've already hired <strong><?php echo $hiredApplicantsNum ?></strong> people.</span>
+                    </div>
+                    <div>
+                        <a class="text-nowrap text-primary" href="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/hired' ?>">View All</a>
+                    </div>
                 </div>
-                <div>
-                    <a class="text-nowrap text-primary" href="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/hired' ?>">View All</a>
+            <?php } else { ?>
+                <div class="alert alert-primary p-3 mb-3">
+                    <div class="mr-3">
+                        <i class="fas fa-users mr-1 text-primary"></i>
+                        <span>There are no hired applicants yet.</span>
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
 
             <!-- JOB SUMMARY CARD -->
             <div class="card mb-3">
@@ -236,24 +245,22 @@
 </div>
 
 <?php
-
-$this->load->view('sections/components/modal', [
-    'id'            => 'deletePostModal',
-    'centered'      => TRUE,
-    'static'        => TRUE,
-    'nofade'        => TRUE,
-    'theme'         => 'danger',
-    'title'         => 'Delete this post',
-    'modalIcon'     => 'WARNING',
-    'message'       => '
-        <p class="m-1">Are you sure you want to delete this post?</p>
-        <p class="m-1"><strong>Note: You cannot retrieved this after you delete it.</strong></p>
-    ',
-    'actionPath'    => 'auth/delete_post/' . $jobPostID,
-    'actionID'      => NULL,
-    'actionValue'   => NULL,
-    'actionIcon'    => 'trash',
-    'actionLabel'   => 'Delete',
-]);
-
+    $this->load->view('sections/components/modal', [
+        'id'            => 'deletePostModal',
+        'centered'      => TRUE,
+        'static'        => TRUE,
+        'nofade'        => TRUE,
+        'theme'         => 'danger',
+        'title'         => 'Delete this post',
+        'modalIcon'     => 'WARNING',
+        'message'       => '
+            <p class="m-1">Are you sure you want to delete this post?</p>
+            <p class="m-1"><strong>Note: You cannot retrieved this after you delete it.</strong></p>
+        ',
+        'actionPath'    => 'auth/delete_post/' . $jobPostID,
+        'actionID'      => NULL,
+        'actionValue'   => NULL,
+        'actionIcon'    => 'trash',
+        'actionLabel'   => 'Delete',
+    ]);
 ?>

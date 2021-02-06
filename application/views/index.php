@@ -6,8 +6,12 @@
 >
 <div class="container-md my-lg-5 py-lg-5">
     
-    <h1 class="display-3 mt-0 animate__animated animate__fadeInDown animate__slow">Find your <span class="font-weight-bold">dream job</span> here.</h1>
-    <p class="px-1 m-0 h5 font-weight-light animate__animated animate__fadeInDown animate__slow">Search over thousands of our available jobs posted here.</p>
+    <h1 class="display-3 mt-0 animate__animated animate__fadeInDown animate__slow">
+        <span>Find your <span class="font-weight-bold">dream job</span> here.</span>
+    </h1>
+    <p class="px-1 m-0 h5 font-weight-light animate__animated animate__fadeInDown animate__slow">
+        <span>Search over thousands of our available jobs posted here.</span>
+    </p>
 
     <!-- SEARCH BAR -->
     <div class="search-bar bg-white mt-5 p-1">
@@ -55,27 +59,20 @@
     </div>
 
     <p class="mt-1">
-        <p>Type the job keywords you are finding and the place where you want to.</p>
+        <span>Type the job keywords you are finding and the place where you want to.</span>
     </p>
 
 </div>
 </div>
 
 <?php
+    if (! $this->session->has_userdata('userType')) $this->load->view('sections/create_account');
 
-    if (! $this->session->has_userdata( 'userType' ) ) {
-        $this->load->view('sections/create_account');
-    }
+    if ($posts != NULL) $this->load->view('sections/recent_posts');
 
-    if ($posts != NULL) {
-        $this->load->view('sections/recent_posts');
-    }
+    if ($this->session->userType !== 'Jobseeker') $this->load->view('sections/post_a_job');
 
-    if ($this->session->userType != 'Job Seeker') {
-        $this->load->view('sections/post_a_job');
-    }
-
-    if ($this->session->userType == 'Job Seeker') {
+    if ($this->session->userType === 'Jobseeker') {
 ?>
 <script>
     $(document).on('click','#addBookmarkBtn', function(e) {

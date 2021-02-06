@@ -57,7 +57,7 @@
         <hr>
 
         <a href="forgot_password.html" type="submit" class="btn btn-link btn-block btn-sm">
-            <span>Forgot password?</span>
+            <span>Forgotten your password?</span>
         </a>
     </div>
     

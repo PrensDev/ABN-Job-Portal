@@ -23,7 +23,7 @@
                 draggable   = "false"
             >
         <?php } ?>
-        <span class="ml-1"><?php echo $username ?></span>
+        <span class="ml-1"><?php echo $userName ?></span>
     </span>
     
     <div class="dropdown-menu dropdown-menu-right mt-3 mt-lg-0">

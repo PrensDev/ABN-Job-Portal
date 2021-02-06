@@ -1,4 +1,20 @@
 
+-- Display all procedure //testing purposes
+
+/*
+SELECT 
+  ROUTINE_NAME AS PROCEDURES
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_TYPE = 'PROCEDURE'
+AND ROUTINE_NAME LIKE 'EMPL%'   
+ORDER BY ROUTINE_NAME
+*/
+
+--------------------------------------------------------
+
+USE [ABN_Job_Portal]
+GO
+
 -- Post New Job Procedure
 CREATE PROCEDURE [EMPL_PostNewJob]
 	@employerID			INT,
@@ -40,7 +56,7 @@ AS
 		, @minSalary		
 		, @maxSalary		
 		, @jobPostFlag )
-;
+GO
 
 -- Number of Posts
 CREATE PROCEDURE [EMPL_PostsNum] 
@@ -49,7 +65,7 @@ AS
 	SELECT COUNT([jobPostID]) AS [count]
 	FROM [JobPosts]
 	WHERE [employerID] = @employerID
-;
+GO
 
 -- Get Limited Posts Procedure
 CREATE PROCEDURE [EMPL_GetPosts] 
@@ -71,8 +87,8 @@ AS
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
 		, [JobPosts].[dateCreated]
-		, CAST([JobPosts].[jobPostFlag] AS INT) AS [status]
-		, COUNT([Applications].[applicationID]) AS [numOfApplicants]
+		, CAST([JobPosts].[jobPostFlag] AS INT) AS [jobPostFlag]
+		, COUNT([Applications].[applicationID]) AS [applicantsNum]
 	FROM [JobPosts]
 	FULL OUTER JOIN [Applications]
 		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
@@ -95,7 +111,7 @@ AS
 	ORDER BY [dateCreated] DESC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
-;
+GO
 
 -- View Job Post
 CREATE PROCEDURE [EMPL_ViewPost]
@@ -117,8 +133,8 @@ AS
 		, [JobPosts].[maxSalary]
 		, [JobPosts].[dateCreated]
 		, [JobPosts].[dateModified]
-		, CAST([JobPosts].[jobPostFlag] AS INT) AS [status]
-		, COUNT([Applications].[applicationID]) AS [numOfApplicants]
+		, CAST([JobPosts].[jobPostFlag] AS INT) AS [jobPostFlag]
+		, COUNT([Applications].[applicationID]) AS [applicantsNum]
 	FROM [JobPosts]
 	LEFT OUTER JOIN [Applications]
 		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
@@ -140,7 +156,7 @@ AS
 		, [JobPosts].[dateCreated]
 		, [JobPosts].[dateModified]
 		, [JobPosts].[jobPostFlag]
-;
+GO
 
 -- Update Job Post Procedure
 CREATE PROCEDURE [EMPL_UpdatePost]
@@ -172,7 +188,7 @@ AS
 		, [dateModified] 		= getdate()
 		, [jobPostFlag] 		= @jobPostFlag
 	WHERE [jobPostID]			= @jobPostID
-;
+GO
 
 -- Delete Job Post Procedure
 CREATE PROCEDURE [EMPL_DeletePost]
@@ -181,7 +197,7 @@ CREATE PROCEDURE [EMPL_DeletePost]
 AS
 	DELETE FROM [JobPosts] 
 	WHERE [jobPostID] = @jobPostID AND [employerID] = @employerID
-;
+GO
 
 -- Update Employer Information Procedure
 CREATE PROCEDURE [EMPL_UpdateInfo]
@@ -204,7 +220,7 @@ AS
 		, [website] 		= @website
 		, [description] 	= @description
 	WHERE [employerID] = @employerID
-;
+GO
 
 -- View All Applicants Procedure
 CREATE PROCEDURE [EMPL_ApplicantsNum]
@@ -216,12 +232,10 @@ AS
 	INNER JOIN [Applications]
 		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
 		AND [Applications].[status] = @status
-	LEFT OUTER JOIN [Resumes]
-		ON [Resumes].[jobseekerID] = [Applications].[jobseekerID]
 	INNER JOIN [JobSeekers]
-		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
+		ON [Applications].[jobseekerID] = [JobSeekers].[jobseekerID]
 	WHERE [JobPosts].[jobPostID] = @jobPostID
-;
+GO
 
 -- View Applicants Procedure
 CREATE PROCEDURE [EMPL_ViewApplicants]
@@ -238,8 +252,9 @@ AS
 		, [JobSeekers].[lastName]
 		, [JobSeekers].[lastName]
 		, [JobSeekers].[gender]
-		, DATEDIFF(YEAR, [JobSeekers].[birthDate], GETDATE()) as [age]
+		, DATEDIFF(hour, [birthDate], GETDATE())/8766 AS [age]
 		, [JobSeekers].[cityProvince]
+		, [JobSeekers].[contactNumber]
 		, [JobSeekers].[email]
 		, [Applications].[applicationID]
 		, [Applications].[jobPostID]
@@ -249,15 +264,13 @@ AS
 	INNER JOIN [Applications]
 		ON [Applications].[jobPostID] = [JobPosts].[jobPostID]
 		AND [Applications].[status] = @status
-	LEFT OUTER JOIN [Resumes]
-		ON [Resumes].[jobseekerID] = [Applications].[jobseekerID]
 	INNER JOIN [JobSeekers]
-		ON [Resumes].[jobseekerID] = [JobSeekers].[jobseekerID]
+		ON [Applications].[jobseekerID] = [JobSeekers].[jobseekerID]
 	WHERE [JobPosts].[jobPostID] = @jobPostID
 	ORDER BY [Applications].[dateApplied] ASC
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
-;
+GO
 
 -- View Applicant Profile Procedure
 CREATE PROCEDURE [EMPL_ViewApplicantProfile]
@@ -271,7 +284,7 @@ AS
 		, [JobSeekers].[middleName]
 		, [JobSeekers].[lastName]
 		, [JobSeekers].[birthDate]
-		, DATEDIFF(year, [JobSeekers].[birthDate], getdate()) as [age]
+		, DATEDIFF(hour, [birthDate], GETDATE())/8766 AS [age]
 		, [JobSeekers].[gender]
 		, [JobSeekers].[cityProvince]
 		, [JobSeekers].[contactNumber]
@@ -294,7 +307,7 @@ AS
 	LEFT OUTER JOIN [JobPosts]
 		ON [JobPosts].[jobPostID] = [Applications].[jobPostID]
 	WHERE [Applications].[jobPostID] = @jobPostID
-;
+GO
 
 -- Set Applicant Status Procedure
 CREATE PROCEDURE [EMPL_SetApplicantStatus]
@@ -304,7 +317,7 @@ AS
 	UPDATE [Applications]
 	SET [status] = @status
 	WHERE [applicationID] = @applicationID
-;
+GO
 
 -- Set Profile Pic
 CREATE PROCEDURE [EMPL_SetProfilePic]
@@ -314,4 +327,4 @@ AS
 	UPDATE [Employers]
 	SET [profilePic] = @profilePic
 	WHERE [employerID] = @employerID
-;
+GO

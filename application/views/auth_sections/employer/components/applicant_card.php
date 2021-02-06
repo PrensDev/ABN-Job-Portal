@@ -2,8 +2,6 @@
 
 $fullName = $firstName . ' ' . $lastName;
 
-$location = $brgyDistrict . ', ' . $cityProvince;
-
 if ($status == 'Pending') {
     $statusTheme = 'success';
 } else if ($status == "Hired") {
@@ -21,24 +19,23 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
 
     <div class="flex-grow-1">
         <div class="d-flex justify-content-center mb-3">
-            <?php if (isset($profilePic)) { ?>
+            <?php if (isset($USER_profilePic)) { ?>
                 <img 
-                    src         = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
-                    alt         = "<?php $fullName ?>" 
-                    height      = "125"
-                    class       = "rounded-pill" 
-                    draggable   = "false"
+                    src       = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
+                    alt       = "<?php $fullName ?>" 
+                    height    = "125"
+                    class     = "rounded-pill" 
+                    draggable = "false"
                 >
             <?php } else { ?>
                 <img 
-                    src         = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
-                    alt         = "<?php echo $fullName ?>" 
-                    height      = "125"
-                    class       = "rounded-pill" 
-                    draggable   = "false"
+                    src       = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
+                    alt       = "<?php echo $fullName ?>" 
+                    height    = "125"
+                    class     = "rounded-pill" 
+                    draggable = "false"
                 >
             <?php } ?>
-            
         </div>
 
         <h4 class="font-weight-normal text-center"><?php echo $fullName ?></h4>
@@ -64,8 +61,8 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
             <span>View Resume/CV</span>
         </a>
         <a 
-            href="<?php echo base_url() ?>auth/applicant_profile/<?php echo $jobPostID . '/' . $jobseekerID ?>" 
-            class="btn btn-outline-primary btn-block btn-sm"
+            href  = "<?php echo base_url() ?>auth/applicant_profile/<?php echo $jobPostID . '/' . $jobseekerID ?>" 
+            class = "btn btn-outline-primary btn-block btn-sm"
         >
             <i class="fas fa-ellipsis-h mr-1"></i>
             <span>View Information</span>
@@ -73,7 +70,7 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
 
         <?php if ($status == 'Pending') { ?>
             <div class="row mt-2">
-                <div class="col-6 pr-1">
+                <div class="col-4 pr-1">
                     <button 
                         type               = "button"
                         class              = "btn btn-sm btn-block btn-success text-nowrap" 
@@ -82,29 +79,45 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
                         data-applicationid = "<?php echo $applicationID ?>"
                         data-applicantname = "<?php echo $fullName ?>"
                     >
-                        <i class="fas fa-check mr-1"></i>
-                        <span>Hire</span>
+                        <div data-toggle="tooltip" title="Hire this applicant">
+                            <i class="fas fa-check mr-1"></i>
+                        </div>
                     </button>
                 </div>
-                <div class="col-6 pl-1">
+                <div class="col-4 px-1">
                     <button 
-                        type="button"
-                        class="btn btn-sm btn-block btn-danger text-nowrap" 
+                        type               = "button"
+                        class              = "btn btn-sm btn-block btn-primary text-nowrap" 
+                        data-toggle        = "modal" 
+                        data-target        = "#interviewApplicantModal" 
+                        data-applicationid = "<?php echo $applicationID ?>"
+                        data-applicantname = "<?php echo $fullName ?>"
+                    >
+                        <div data-toggle="tooltip" title="Call for an interview">
+                            <i class="fas fa-phone-alt mr-1"></i>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-4 pl-1">
+                    <button 
+                        type               = "button"
+                        class              = "btn btn-sm btn-block btn-danger text-nowrap" 
                         data-toggle        = "modal" 
                         data-target        = "#rejectApplicantModal" 
                         data-applicationid = "<?php echo $applicationID ?>"
                         data-applicantname = "<?php echo $fullName ?>"
                     >
-                        <i class="fas fa-times mr-1"></i>
-                        <span>Reject</span>
+                        <div data-toggle="tooltip" title="Reject this applicant">
+                            <i class="fas fa-times mr-1"></i>
+                        </div>
                     </button>
                 </div>
             </div>
         <?php } else if ($status == 'Hired') { ?>
             <div class="mt-2">
                 <button
-                    type="button" 
-                    class="btn btn-secondary btn-block btn-sm"
+                    type               = "button" 
+                    class              = "btn btn-secondary btn-block btn-sm"
                     data-toggle        = "modal" 
                     data-target        = "#cancelHiringModal" 
                     data-applicationid = "<?php echo $applicationID ?>"
@@ -114,17 +127,15 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
         <?php } else if ($status == 'Rejected') { ?>
             <div class="mt-2">
                 <button
-                    type="button" 
-                    class="btn btn-secondary btn-block btn-sm"
+                    type               = "button" 
+                    class              = "btn btn-secondary btn-block btn-sm"
                     data-toggle        = "modal" 
                     data-target        = "#cancelRejectModal" 
-                    data-applicationid = "?<?php echo $applicationID ?>"
-                    data-applicantname = "<?php $fullName ?>"
+                    data-applicationid = "<?php echo $applicationID ?>"
+                    data-applicantname = "<?php echo $fullName ?>"
                 >Cancel Rejecting</button>
             </div>
         <?php } ?>
-
     </div>
-
 </div>    
 </div>

@@ -44,31 +44,7 @@
                 </a>
             </div>
 
-            <?php
-                if ($this->session->userType == 'Job Seeker') {
-                    if (isset($status)) {
-                        if ($status == 'Pending') {
-                            echo '
-                                <div>
-                                    <span class="badge badge-success px-2 py-1" title="Your application is pending.">Pending</span>
-                                </div>
-                            ';
-                        } else if ($status == 'Hired') {
-                            echo '
-                                <div>
-                                    <span class="badge badge-primary px-2 py-1" title="You are hired for this job.">Hired</span>
-                                </div>
-                            ';
-                        } else if ($status == 'Rejected') {
-                            echo '
-                                <div>
-                                    <span class="badge badge-danger px-2 py-1" title="You are rejected for this job.">Rejected</span>
-                                </div>
-                            ';
-                        }
-                    }
-                }            
-            ?>
+            <?php $this->load->view('auth_sections/jobseeker/components/sub_components/application_status_badge') ?>
 
             <!-- JOB DETAILS -->
             <div class="d-flex flex-wrap text-secondary mt-2">

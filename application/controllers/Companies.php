@@ -11,15 +11,13 @@ class Companies extends CI_Controller {
         $userdata = NULL;
 
         if ( $this->session->has_userdata('userType') ) {
-            $userType = $this->session->userType;
-
-            if ( $userType == 'Job Seeker' ) {
+            if ($this->session->userType === 'Jobseeker') {
                 $userdata = $this->JBSK_model->get_info();
-            } else if ( $userType == 'Employer' ) {
+            } else if ($this->session->userType === 'Employer' ) {
                 $userdata = $this->EMPL_model->get_info();
             }
 
-            $pageTitle = $userdata['username'] . ' - ' . $title;
+            $pageTitle = $userdata['userName'] . ' - ' . $title;
         } else {
             $pageTitle = $title;
         }
@@ -64,7 +62,7 @@ class Companies extends CI_Controller {
 
             if ($page > 0 && $page <= $totalPages) {
                 $offsetRows    = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                $AvailableJobs = $this->session->userType == 'Job Seeker' ? $this->JBSK_model->view_available_jobs($employerID, $offsetRows, $fetchedRows) : $this->MAIN_model->available_jobs($employerID, $offsetRows, $fetchedRows);
+                $AvailableJobs = $this->session->userType === 'Jobseeker' ? $this->JBSK_model->view_available_jobs($employerID, $offsetRows, $fetchedRows) : $this->MAIN_model->available_jobs($employerID, $offsetRows, $fetchedRows);
     
                 $employerDetails = $this->MAIN_model->company_details($employerID);
 

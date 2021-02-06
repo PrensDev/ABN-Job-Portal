@@ -8,28 +8,20 @@
             <h1 class="font-weight-light">Information</h1>
         </div>
         <div>
-            <a href="<?php echo base_url() ?>auth/edit_information" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Edit information">
+            <a 
+                href            = "<?php echo base_url() ?>auth/edit_information" 
+                class           = "btn btn-primary" 
+                data-toggle     = "tooltip" 
+                data-placement  = "left" 
+                title           = "Edit information"
+            >
                 <i class="fas fa-pen mr-1"></i>
                 <span class="d-none d-sm-inline">Edit information</span>
             </a>
         </div>
     </div>
 
-    <?php if ($this->session->flashdata('updated') == 'success') { ?>
-        <div class="alert alert-success alert-dismissible fade show my-4 mb-4" role="alert">
-            <span>The changes you made has been <strong>saved</strong>.</span>
-            <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    <?php } else if ($this->session->flashdata('updated') == 'failed') { ?>
-        <div class="alert alert-danger alert-dismissible fade show my-4 mb-4" role="alert">
-            <span>Something <strong>wrong</strong> is happened.</span>
-            <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    <?php } ?>
+    <?php $this->load->view('auth_sections/components/alert') ?>
 
     <!-- INFORMAION DETAILS -->
     <div class="row">
@@ -41,7 +33,7 @@
                     <i class="fas fa-users mr-2"></i>  
                     <span>About this company</span> 
                 </h5>
-                <p class="text-justify"><?php echo $description ?></p>
+                <p><?php echo $description ?></p>
             </div>
 
         </div>
@@ -76,16 +68,7 @@
                         [
                             'icon'          => 'city',
                             'element'       => 'Company',
-                            'customContent' => true,
-                            'content'       => '
-                                <p class="m-0 text-secondary">' . $companyName . '</p>
-                                <p class="m-0">
-                                    <a href="' . base_url() . 'companies/details/' . $employerID .'" class="btn btn-primary btn-sm mt-1">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                        <span>More about this company</span>
-                                    </a> 
-                                </p>
-                            ',
+                            'content'       => $companyName,
                         ],
                         [
                             'icon'          => 'map-marker-alt',

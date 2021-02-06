@@ -12,7 +12,7 @@
 
             <p class="m-0">Please review your resume before submitting:</p>
             
-            <?php if ($status == 0) { ?>
+            <?php if ($resumeFlag == 0) { ?>
                 <small class="mb-3 text-danger">Your resume is not active and you cannot apply for this job.</span></small>
             <?php } ?>
         </div>
@@ -78,7 +78,7 @@
             type  ="button" 
             class ="btn btn-primary" 
             id    ="submitApplicationBtn"
-            <?php echo $status == 0 ? 'disabled' : ''?>
+            <?php echo $resumeFlag == 0 ? 'disabled' : ''?>
         >
             <span>Submit</span>
         </button>

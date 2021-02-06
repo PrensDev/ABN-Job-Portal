@@ -1,7 +1,7 @@
 <?php
-    $lastUpdated = 'Your resume was last updated <strong>' . date_format(date_create($lastUpdated),"F d, Y") . '</strong> at <strong>' . date_format(date_create($lastUpdated),"h:i a.") . '</strong>';
-    $statusLabel = $status == 1 ? 'ACTIVE' : 'NOT ACTIVE';
-    $statusClass = $status == 1 ? 'success' : 'danger';
+    $lastUpdated = 'Your resume was last updated <strong>' . dateFormat($lastUpdated,"F d, Y") . '</strong> at <strong>' . dateFormat($lastUpdated,"h:i a.") . '</strong>';
+    $statusLabel = $resumeFlag == 1 ? 'ACTIVE' : 'NOT ACTIVE';
+    $statusClass = $resumeFlag == 1 ? 'success' : 'danger';
 ?>
 
 <div class="border border-primary p-3 mb-3">

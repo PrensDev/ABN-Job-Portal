@@ -152,7 +152,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 
             </div>
 
-            <!-- STATUS -->
+            <!-- JOB POST FLAG -->
             <div class="form-group">
                 <label>Status</label>
                 <span class="text-danger">*</span>
@@ -160,12 +160,12 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                     <input 
                         type    = "checkbox" 
                         class   = "custom-control-input" 
-                        id      = "status"
-                        name    = "status"
+                        id      = "jobPostFlag"
+                        name    = "jobPostFlag"
                         value   = "1"
-                        <?php echo $status == 1 ? 'checked' : ''?>
+                        <?php echo $jobPostFlag == 1 ? 'checked' : ''?>
                     >
-                    <label class="custom-control-label text-success font-weight-bold" for="status">ACTIVE</label>
+                    <label class="custom-control-label text-success font-weight-bold" for="jobPostFlag">ACTIVE</label>
                     <p class="text-secondary">Note: If set to not active, this post will never be searched and viewed by anyone. But you can still manage applicants that submitted their appplication for this job.</p>
                 </div>
             </div>

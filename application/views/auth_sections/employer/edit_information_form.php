@@ -1,12 +1,12 @@
 <?php
 
-$companyName    = set_value( 'companyName'   ) == '' ? $companyName   : set_value( 'companyName'   );
-$street         = set_value( 'street'        ) == '' ? $street        : set_value( 'street'        );
-$brgyDistrict   = set_value( 'brgyDistrict'  ) == '' ? $brgyDistrict  : set_value( 'brgyDistrict'  );
-$cityProvince   = set_value( 'cityProvince'  ) == '' ? $cityProvince  : set_value( 'cityProvince'  );
-$description    = set_value( 'description'   ) == '' ? $description   : set_value( 'description'   );
-$website        = set_value( 'website'       ) == '' ? $website       : set_value( 'website'       );
-$contactNumber  = set_value( 'contactNumber' ) == '' ? $contactNumber : set_value( 'contactNumber' );
+$companyName   = set_value( 'companyName'   ) == '' ? $companyName   : set_value( 'companyName'   );
+$street        = set_value( 'street'        ) == '' ? $street        : set_value( 'street'        );
+$brgyDistrict  = set_value( 'brgyDistrict'  ) == '' ? $brgyDistrict  : set_value( 'brgyDistrict'  );
+$cityProvince  = set_value( 'cityProvince'  ) == '' ? $cityProvince  : set_value( 'cityProvince'  );
+$description   = set_value( 'description'   ) == '' ? $description   : set_value( 'description'   );
+$website       = set_value( 'website'       ) == '' ? $website       : set_value( 'website'       );
+$contactNumber = set_value( 'contactNumber' ) == '' ? $contactNumber : set_value( 'contactNumber' );
 
 ?>
 
@@ -94,7 +94,6 @@ $contactNumber  = set_value( 'contactNumber' ) == '' ? $contactNumber : set_valu
                 </div>
                 
             </div>
-            <!-- END OF ADDRESS FIELD -->
 
             <!-- DESCRIPTION FIELD -->
             <div class="form-group">
@@ -110,7 +109,6 @@ $contactNumber  = set_value( 'contactNumber' ) == '' ? $contactNumber : set_valu
                 ><?php echo $description ?></textarea>
                 <small class="invalid-feedback"><?php echo form_error('website')?></small>
             </div>
-            <!-- END OF DESCRIPTION FIELD -->
 
             <!-- WEBSITE FIELD -->
             <div class="form-group">
@@ -134,7 +132,6 @@ $contactNumber  = set_value( 'contactNumber' ) == '' ? $contactNumber : set_valu
                 </div>
                 <small class="invalid-feedback"><?php echo form_error('website')?></small>
             </div>
-            <!-- END OF WEBSITE FIELD -->
             
         </div>
 

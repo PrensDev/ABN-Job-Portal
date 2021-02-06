@@ -1,13 +1,12 @@
-<?php
-    $dateApplied = date_format(date_create($dateApplied),"F d, Y") . ' at ' . date_format(date_create($dateApplied),"h:i a.");
-?>
-<div class="modal fade" id="viewApplicationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<?php $dateApplied = dateFormat($dateApplied,"F d, Y") . ' at ' . dateFormat($dateApplied,"h:i a."); ?>
+
+<div class="modal fade" id="viewApplicationModal" tabindex="-1">
 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
 <div class="modal-content">
 
-    <div class="modal-header">
-        <h3 class="font-weight-normal text-uppercase"><?php echo $jobTitle ?></h3>
-        <p class="text-secondary m-0 font-italic">You submitted this resume <?php echo $dateApplied ?></p>
+    <div class="modal-header d-block d-lg-flex align-items-center">
+        <h3 class="font-weight-normal text-uppercase my-0 mr-1 flex-grow-1"><?php echo $jobTitle ?></h3>
+        <small><p class="text-secondary m-0 font-italic my-0 text-lg-right">You submitted this resume <?php echo $dateApplied ?></p></small>
     </div>
     
     <div class="modal-body">
@@ -21,7 +20,7 @@
 
             <div class="mb-3">
                 <p class="mb-0"><?php echo $age . ' years old, ' . $gender ?></p>
-                <p class="mb-0"><?php echo $cityProvince ?></p>
+                <p class="mb-0"><?php echo $location ?></p>
                 <p class="mb-0"><?php echo $contactNumber ?></p>
                 <p class="mb-0"><?php echo $email ?></p>
             </div>

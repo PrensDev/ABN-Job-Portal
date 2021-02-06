@@ -13,24 +13,6 @@ class EMPL_model extends CI_Model {
         return $row->count;
     }
 
-    // CREATE NOTIFICATION METHOD
-    private function create_notification($data) {
-        $this->db->query("
-            EXEC [AUTH_CreateJBSKNotification]
-                @jobseekerID        = ?,
-                @title              = ?,
-                @message            = ?,
-                @notificationType   = ?,
-                @link               = ?
-        ", [
-            $data[ 'jobseekerID     ' ],
-            $data[ 'title           ' ],
-            $data[ 'message         ' ],
-            $data[ 'notificationType' ],
-            $data[ 'link            ' ],
-        ]);
-    }
-    
     // ==================================================================================================== //
 
     // GET INFORMATION METHOD
@@ -40,8 +22,9 @@ class EMPL_model extends CI_Model {
         $location = $row->brgyDistrict . ', ' . $row->cityProvince;
 
         $userdata = [
-            'employerID'    => $row->employerID,
-            'username'      => $row->companyName,
+            'userName'      => $row->companyName,
+            'profilePic'    => $row->profilePic,
+            'id'            => $row->employerID,
             'companyName'   => $row->companyName,
             'street'        => $row->street,
             'brgyDistrict'  => $row->brgyDistrict,
@@ -51,7 +34,6 @@ class EMPL_model extends CI_Model {
             'email'         => $row->email,
             'website'       => $row->website,
             'description'   => $row->description,
-            'profilePic'    => $row->profilePic,
         ];
 
         return $userdata;
@@ -84,7 +66,7 @@ class EMPL_model extends CI_Model {
 
     // POST NEW JOB METHOD
     public function post_new_job() {
-        $status = $this->input->post('status') == '' ? 0 : 1;
+        $jobPostFlag = $this->input->post('jobPostFlag') == '' ? 0 : 1;
         return $this->db->query ("
             EXEC [EMPL_PostNewJob]
                 @employerID		  = '" . $this->session->id . "',
@@ -98,7 +80,7 @@ class EMPL_model extends CI_Model {
                 @education		  = '" . ucfirst($this->input->post( 'education' )) . "',
                 @minSalary		  = '" . $this->input->post( 'minSalary'        ) . "',
                 @maxSalary		  = '" . $this->input->post( 'maxSalary'        ) . "',
-                @jobPostFlag	  =  " . $status                                  . "
+                @jobPostFlag	  =  " . $jobPostFlag                                  . "
         ");
     }
 
@@ -149,8 +131,8 @@ class EMPL_model extends CI_Model {
                 'maxSalary'        => $row->maxSalary,
                 'dateCreated'      => $row->dateCreated,
                 'dateModified'     => $row->dateModified,
-                'status'           => $row->status,
-                'numOfApplicants'  => $row->numOfApplicants,
+                'jobPostFlag'      => $row->jobPostFlag,
+                'applicantsNum'    => $row->applicantsNum,
             ];
             return $jobDetails;
         } else {
@@ -188,7 +170,7 @@ class EMPL_model extends CI_Model {
     // UPDATE JOB POST METHOD
     public function update_post($jobPostID) {
         $input  = $this->input->post();
-        $status = $input['status'] == '1' ? 1 : 0;
+        $jobPostFlag = $input['jobPostFlag'] == '1' ? 1 : 0;
         return $this->db->query("
             EXEC [EMPL_UpdatePost]
                 @jobPostID		  =  " . $jobPostID . ",
@@ -202,7 +184,7 @@ class EMPL_model extends CI_Model {
                 @education		  = '" . ucfirst($input[ 'education' ]) . "',
                 @minSalary		  =  " . $input[ 'minSalary' ] . ",
                 @maxSalary		  =  " . $input[ 'maxSalary' ] . ",
-                @jobPostFlag	  =  " . $status . "
+                @jobPostFlag	  =  " . $jobPostFlag . "
         ");
     }
 
@@ -241,13 +223,6 @@ class EMPL_model extends CI_Model {
             $this->input->post('applicationID'),
             'Hired',
         ]);
-
-        if ($hired) {
-            $created = $this->create_notification([
-                'jobseekerID' => $this->input->post('jobseekerID'),
-                'title'       => $this->input->post('title'),
-            ]);
-        }
     }
 
     // REJECT APPLICANT

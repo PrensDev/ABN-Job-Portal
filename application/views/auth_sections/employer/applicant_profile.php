@@ -77,6 +77,12 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
                         >Hire</button>
                         <button 
                             type        = "submit" 
+                            class       = "btn btn-primary m-1 text-nowrap" 
+                            data-toggle = "modal" 
+                            data-target = "#interviewModal"
+                        >Call for Interview</button>
+                        <button 
+                            type        = "submit" 
                             class       = "btn btn-danger m-1 text-nowrap" 
                             data-toggle = "modal" 
                             data-target = "#rejectModal"
@@ -102,7 +108,7 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
                 <div class="row align-items-center">
                     <div class="col-md-8 text-md-left text-center">
                         <div class="m-1">
-                            You rejected <strong><?php echo $fullName ?></strong> for <strong><a href="<?php echo base_url() . 'auth/job_details/' . $jobPostID ?>">' . $jobTitle . '</strong></a>. 
+                            You rejected <strong><?php echo $fullName ?></strong> for <strong><a href="<?php echo base_url() . 'auth/job_details/' . $jobPostID ?>"><?php echo $jobTitle ?></strong></a>. 
                         </div>
                     </div>
                     <div class="col-md-4 text-md-right text-center mt-2 mt-md-0">
@@ -280,8 +286,23 @@ if ($status == 'Pending') {
         'actionPath'    => NULL,
         'actionID'      => 'hireApplicantBtn',
         'actionValue'   => $applicationID,
-        'actionIcon'    => NULL,
+        'actionIcon'    => 'user',
         'actionLabel'   => 'Hire now!',
+    ]);
+
+    $this->load->view('sections/components/modal', [
+        'id'            => 'interviewModal',
+        'theme'         => 'primary',
+        'nofade'        => TRUE,
+        'centered'      => TRUE,
+        'title'         => 'Call for an interview',
+        'modalIcon'     => 'INFO',
+        'message'       => '<p class="m-1">Are you sure you want to call for an interview for <strong>' . $fullName . '</strong> for <strong>' . $jobTitle . '</strong>?</p>',
+        'actionPath'    => NULL,
+        'actionID'      => 'hireApplicantBtn',
+        'actionValue'   => $applicationID,
+        'actionIcon'    => 'phone-alt',
+        'actionLabel'   => 'Continue!',
     ]);
 
     $this->load->view('sections/components/modal', [

@@ -47,28 +47,16 @@
             </h5>
             
             <div class="text-primary">
-                <a href="<?php echo base_url() ?>companies/details/<?php echo $employerID ?>" class="text-primary" title="Company: <?php echo $companyName ?>">
+                <a 
+                    href  = "<?php echo base_url() ?>companies/details/<?php echo $employerID ?>" 
+                    class = "text-primary" 
+                    title = "Company: <?php echo $companyName ?>"
+                >
                     <span><?php echo $companyName ?></span>
                 </a>
             </div>
 
-            <?php
-                if ($this->session->userType == 'Job Seeker') {
-                    if (isset($status)) {
-            ?>
-                <div>
-                    <?php if ($status == 'Pending') { ?>
-                        <span class="badge badge-success px-2 py-1" title="Your application is pending.">Pending</span>
-                    <?php } else if ($status == 'Hired') { ?>
-                        <span class="badge badge-primary px-2 py-1" title="You are hired for this job.">Hired</span>
-                    <?php } else if ($status == 'Rejected') { ?>
-                        <span class="badge badge-danger px-2 py-1" title="You are rejected for this job.">Rejected</span>
-                    <?php } ?>
-                </div>
-            <?php 
-                    }
-                } 
-            ?>
+            <?php $this->load->view('auth_sections/jobseeker/components/sub_components/application_status_badge', ) ?>
 
             <!-- JOB DETAILS -->
             <div class="d-flex flex-wrap text-secondary mt-2">
@@ -113,20 +101,9 @@
     <!-- USER-ACTIONS -->
     <div class="text-right">
         <?php
-            if ($this->session->userType == 'Job Seeker') {
-                if (isset($bookmarkID)) {
+            if ($this->session->userType === 'Jobseeker') {
+                if ($bookmarkID === NULL) {
         ?>
-            <button 
-                class           = "btn border border-warning text-warning" 
-                data-toggle     = "tooltip" 
-                data-placement  = "top" 
-                title           = "Remove bookmark" 
-                value           = "<?php echo $bookmarkID ?>" 
-                id              = "removeBookmarkBtn"
-            >
-                <i class="fas fa-bookmark"></i>
-            </button>    
-        <?php   } else { ?>
             <button 
                 class           = "btn border border-warning text-warning" 
                 data-toggle     = "tooltip" 
@@ -137,19 +114,31 @@
             >
                 <i class="far fa-bookmark"></i>
             </button>    
-        <?php  
-                }
-            } else if ($this->session->userType == 'Employer' && $this->session->id == $employerID) {
-        ?>
-            <a 
-                href            = "<?php echo base_url() . 'auth/edit_post/' . $jobPostID ?>" 
-                class           = "btn btn-light text-info border"  
+        <?php   } else { ?>
+            <button 
+                class           = "btn border border-warning text-warning" 
                 data-toggle     = "tooltip" 
                 data-placement  = "top" 
-                title           = "Edit Post"
+                title           = "Remove bookmark" 
+                value           = "<?php echo $bookmarkID ?>" 
+                id              = "removeBookmarkBtn"
             >
-                <i class="fas fa-pen"></i>
-            </a>
+                <i class="fas fa-bookmark"></i>
+            </button>    
+        <?php  
+                }
+            }
+            
+            if ($this->session->userType === 'Employer' && $this->session->id == $employerID) { ?>
+                <a 
+                    href            = "<?php echo base_url() . 'auth/edit_post/' . $jobPostID ?>" 
+                    class           = "btn btn-light text-info border"  
+                    data-toggle     = "tooltip" 
+                    data-placement  = "top" 
+                    title           = "Edit Post"
+                >
+                    <i class="fas fa-pen"></i>
+                </a>
         <?php } ?>
         
         <a href="<?php echo base_url() ?>jobs/details/<?php echo $jobPostID ?>" class="btn btn-secondary">View More</a>

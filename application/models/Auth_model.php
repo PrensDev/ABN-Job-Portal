@@ -6,10 +6,42 @@ class AUTH_model extends CI_Model {
         $this->load->database();
     }
 
-    // CREATE LOGIN SESSION
-    private function create_login_session($userID) {
-        $this->db->query("EXEC [AUTH_CreateLoginSession] @userID = ?", [$userID]);
+    // INSERTING USER VALUE IN UserAccounts TABLE
+    private function register_user($userType) {
+        $Register_sql = "
+            EXEC [AUTH_AddUserAccount]
+                @email    = ?,
+                @password = ?,
+                @userType = ?
+        ";
+        $User_val = [
+            $this->input->post('email'),
+            password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I),
+            $userType,
+        ];
+        return $this->db->query($Register_sql, $User_val);
     }
+
+    // SETTING USER SESSION
+    private function set_user_session($userType) {
+        $FindUser_sql = "EXEC [AUTH_Find" . $userType ."] @email = ?";
+        $FindUser_query = $this->db->query($FindUser_sql, [$this->input->post('email')]);
+        $User_row  = $FindUser_query->row();
+        
+        if ($userType == 'Jobseeker') {
+            $User_id   = $User_row->jobseekerID;
+        } else if ($userType == 'Employer') {
+            $User_id   = $User_row->employerID;
+        }
+
+        $this->session->set_userdata([
+            'userType' => $userType,
+            'id'       => $User_id,
+            'email'    => $User_row->email,
+        ]);
+    }
+
+    //============================================================================================//
 
     // ERROR PAGE
     public function err_page() {
@@ -30,33 +62,12 @@ class AUTH_model extends CI_Model {
                 $USER_row = $query->row();
 
                 if (password_verify($this->input->post('password'), $USER_row->password)) {
-                    if ($USER_row->userType == 'Job Seeker') {
-                        $FindJBSK_sql = "EXEC [AUTH_FindJobseeker] @email = ?";
-                        $FindJBSK_query = $this->db->query($FindJBSK_sql, [$this->input->post('email')]);
-                        $JBSK_row  = $FindJBSK_query->row();
-                        
-                        $this->session->set_userdata([
-                            'userType'    => $USER_row->userType,
-                            'id'          => $JBSK_row->jobseekerID,
-                            'email'       => $JBSK_row->email,
-                        ]);
-                    } else if ($USER_row->userType == 'Employer') {
-                        $FindEMPL_sql = "EXEC [AUTH_FindEmployer] @email = ?";
-                        $FindEMPL_query = $this->db->query($FindEMPL_sql, [$this->input->post('email')]);
-                        $EMPL_row  = $FindEMPL_query->row();
-                        
-                        $this->session->set_userdata([
-                            'userType'    => $USER_row->userType,
-                            'id'          => $EMPL_row->employerID,
-                            'email'       => $EMPL_row->email,
-                        ]);
-                    }
-
+                    
+                    // SET USER SESSION
+                    $this->set_user_session($USER_row->userType);
+                    
                     // SET UNACTIVE ACCOUNT TO ACTIVE AGAIN AFTER LOG IN
-                    if ( $USER_row->status == 0 ) { $this->set_account_flag(1); }
-
-                    // RECORD THE LOGIN SESSION
-                    $this->create_login_session($USER_row->userID);
+                    if ( $USER_row->userAccountFlag == 0 ) $this->set_account_flag(1);
 
                     redirect('auth/profile');
                 } else {
@@ -72,18 +83,7 @@ class AUTH_model extends CI_Model {
 
     // REGISTER JOB SEEKER
     public function register_jobseeker() {
-        $AddUserAccount_sql = "
-            EXEC [AUTH_AddUserAccount]
-                @email	  = ?,
-                @password = ?,
-                @userType = ?
-        ";
-        $AddUserAccount_val = [
-            $this->input->post( 'email' ),
-            password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I),
-            'Job Seeker'
-        ];
-        if (! $this->db->query($AddUserAccount_sql, $AddUserAccount_val)) {
+        if (! $this->register_user('Jobseeker')) {
             echo $this->db->error();
         } else {
             $this->db->query("
@@ -112,14 +112,7 @@ class AUTH_model extends CI_Model {
 
     // REGISTER EMPLOYER
     public function register_employer() {
-        $input = $this->input->post();
-        $AddEmployerAccount_sql = "
-            EXEC [AUTH_AddUserAccount]
-                @email			= '" . $input['email'] . "',
-                @password		= '" . password_hash($input[ 'password' ], PASSWORD_ARGON2I) . "',
-                @userType       = 'Employer'
-        ";
-        if (! $this->db->query($AddEmployerAccount_sql)) {
+        if (! $this->register_user('Employer')) {
             echo $this->db->error();
         } else {
             $this->db->query("
@@ -133,14 +126,14 @@ class AUTH_model extends CI_Model {
                     @website		= ?,
                     @description	= ?
             ", [
-                $input[ 'companyName'   ],
-                $input[ 'street'        ],
-                $input[ 'brgyDistrict'  ],
-                $input[ 'cityProvince'  ],
-                $input[ 'contactNumber' ],
-                $input[ 'email'         ],
-                $input[ 'website'       ],
-                $input[ 'description'   ],
+                $this->input->post( 'companyName'   ),
+                $this->input->post( 'street'        ),
+                $this->input->post( 'brgyDistrict'  ),
+                $this->input->post( 'cityProvince'  ),
+                $this->input->post( 'contactNumber' ),
+                $this->input->post( 'email'         ),
+                $this->input->post( 'website'       ),
+                $this->input->post( 'description'   ),
             ]);
             $this->login();
         }

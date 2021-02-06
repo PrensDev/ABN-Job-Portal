@@ -1,3 +1,4 @@
+
 <!-- RECENT JOB SECTION -->
 <div class="container-fluid">
 <div class="container-md py-5">
@@ -7,9 +8,7 @@
     
     <!-- JOB LIST -->
     <div class="row my-5">
-        <?php
-            foreach ($posts as $post) { $this->load->view('sections/components/job_post_card', $post); }
-        ?>
+        <?php foreach ($posts as $post) $this->load->view('sections/components/job_post_card', $post) ?>
     </div>
 
     <div class="d-flex justify-content-center">

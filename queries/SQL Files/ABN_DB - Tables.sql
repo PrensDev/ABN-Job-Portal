@@ -1,10 +1,9 @@
--- CREATE ABN_DB DATABASE
-CREATE DATABASE [ABN_DB]
+
+-- CREATE DATABASE [ABN_Job_Portal]
 
 -- USE ABN_DB
-USE [ABN_DB]
-
---------------------------------------------------------
+USE [ABN_Job_Portal]
+GO
 
 -- UserAccounts Table
 CREATE TABLE [UserAccounts] (
@@ -24,14 +23,15 @@ CREATE TABLE [UserAccounts] (
 		CONSTRAINT CK_userType@UserAccounts
 			CHECK (
 				userType IN (
-					'Job Seeker', 
+					'Jobseeker', 
 					'Employer'
 				)
 			)
 	,
 	[accountFlag]
 		BINARY NOT NULL DEFAULT 1
-);
+)
+GO
 
 -- JobSeekers Table
 CREATE TABLE [JobSeekers] (
@@ -77,7 +77,8 @@ CREATE TABLE [JobSeekers] (
 	,
 	[profilePic]
 		VARCHAR(MAX)
-);
+)
+GO
 
 -- Resumes Table
 CREATE TABLE [Resumes] (
@@ -114,7 +115,8 @@ CREATE TABLE [Resumes] (
 	,
 	[resumeFlag]
 		BINARY NOT NULL DEFAULT 1
-);
+)
+GO
 
 -- Employers Table
 CREATE TABLE [Employers] (
@@ -151,7 +153,8 @@ CREATE TABLE [Employers] (
 	,
 	[profilePic]
 		VARCHAR(MAX)
-);
+)
+GO
 
 -- JobPosts Table
 CREATE TABLE [JobPosts] (
@@ -215,8 +218,8 @@ CREATE TABLE [JobPosts] (
 	,
 	[jobPostFlag]
 		BINARY NOT NULL
-);
-
+)
+GO
 
 -- Applications Table
 CREATE TABLE [Applications] (
@@ -273,7 +276,8 @@ CREATE TABLE [Applications] (
 	,
 	[dateStatus]
 		DATETIME
-);
+)
+GO
 
 -- Bookmarks Table
 CREATE TABLE [Bookmarks] (
@@ -294,8 +298,8 @@ CREATE TABLE [Bookmarks] (
 	,
 	[dateBookmarked]
 		DATETIME NOT NULL DEFAULT GETDATE()
-);
-
+)
+GO
 
 -- Notifications Table
 CREATE TABLE [JBSK_Notifications] (
@@ -322,20 +326,5 @@ CREATE TABLE [JBSK_Notifications] (
 	,
 	[readFlag]
 		BINARY NOT NULL DEFAULT 0
-);
-
--- Login Sessions
-CREATE TABLE [LoginSessions] (
-	[sessionID]
-		INT NOT NULL IDENTITY(1,1)
-		CONSTRAINT PK_sessionID@LoginSessions PRIMARY KEY
-	,
-	[userID]
-		INT NOT NULL
-		CONSTRAINT FK_userID@LoginSessions FOREIGN KEY
-			REFERENCES [UserAccounts] ([userID])
-		ON DELETE CASCADE
-	,
-	[dateLoggedIn]
-		DATETIME NOT NULL DEFAULT GETDATE()
-);
+)
+GO
