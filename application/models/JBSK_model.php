@@ -100,13 +100,14 @@ class JBSK_model extends CI_Model {
     }
 
     // REMOVE RESUME METHOD
-    public function remove_resume($resumeID) {
-        return $this->db->query("EXEC [JBSK_RemoveResume] @resumeID = ?", [$resumeID]);
+    public function remove_resume() {
+        return $this->db->query("EXEC [JBSK_RemoveResume] @resumeID = ?", [$this->input->post('resumeID')]);
     }
 
     // UPDATE RESUME METHOD
-    public function update_resume($resumeID) {
+    public function update_resume() {
         $input = $this->input->post();
+        $resumeData = $this->view_resume();
 
         $resumeFlag = $input['resumeFlag'] == '' ? 0 : 1;
 
@@ -120,7 +121,7 @@ class JBSK_model extends CI_Model {
                 @experiences = ?,
                 @resumeFlag  = ?
         ", [
-            $resumeID,
+            $resumeData->resumeID,
             $input[ 'headline'    ],
             $input[ 'description' ],
             $input[ 'education'   ],
@@ -203,20 +204,20 @@ class JBSK_model extends CI_Model {
     }
 
     // ADD BOOKMARK
-    public function add_bookmark($jobPostID) {
+    public function add_bookmark() {
         return $this->db->query("
             EXEC [JBSK_AddBookmark] 
                 @jobseekerID = ?,
                 @jobPostID   = ?
         ", [
             $this->session->id,
-            $jobPostID,
+            $this->input->post('jobPostID'),
         ]);
     }
 
     // REMOVE BOOKMARK
-    public function remove_bookmark($bookmarkID) {
-        return $this->db->query("EXEC [JBSK_RemoveBookmark] @bookmarkID = ?", [$bookmarkID]);
+    public function remove_bookmark() {
+        return $this->db->query("EXEC [JBSK_RemoveBookmark] @bookmarkID = ?", [$this->input->post('bookmarkID')]);
     }
 
     // GET ALL BOOKMARKS

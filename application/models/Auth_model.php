@@ -16,7 +16,7 @@ class AUTH_model extends CI_Model {
         ";
         $User_val = [
             $this->input->post('email'),
-            password_hash($this->input->post( 'password' ), PASSWORD_ARGON2I),
+            password_hash($this->input->post('password'), PASSWORD_ARGON2I),
             $userType,
         ];
         return $this->db->query($Register_sql, $User_val);
@@ -56,7 +56,7 @@ class AUTH_model extends CI_Model {
         $query = $this->db->query("EXEC [AUTH_FindUserAccount] @email = ?", [$this->input->post('email')]);
 
         if (! $query) {
-            echo $this->db->error();
+            die($this->db->error());
         } else {
             if ( $query->num_rows() == 1 ) {
                 $USER_row = $query->row();

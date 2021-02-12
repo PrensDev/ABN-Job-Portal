@@ -1,7 +1,7 @@
 <?php
     // APPLICATION CONTROLS
     if ($this->session->userType === 'Jobseeker') {
-        if ($applicationStatus === NULL) {
+        if ($applicationStatus === NULL && $jobPostFlag == 1) {
             if ($resumeData === NULL) {
                 $theme       = 'primary';
                 $modalID     = 'emptyResumeModal';
@@ -19,9 +19,13 @@
             } 
         }
 ?>
-    <div>
+    <div class="mb-3">
         <?php if (isset($theme) && isset($modalID) && isset($statusLabel)) { ?>
-            <button class="btn btn-block btn-<?php echo $theme ?>" data-toggle="modal" data-target="#<?php echo $modalID ?>">
+            <button 
+                class       = "btn btn-block btn-<?php echo $theme ?>" 
+                data-toggle = "modal" 
+                data-target = "#<?php echo $modalID ?>"
+            >
                 <?php echo $statusLabel ?>
             </button>
         <?php } ?>

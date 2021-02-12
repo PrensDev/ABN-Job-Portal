@@ -53,7 +53,7 @@ class Jobs extends CI_Controller {
 
     // GET RECENT POSTS
     private function get_recent_posts($offsetRows, $fetchedRows) {
-        return $this->session->USER_type == 'JBSK' ? $this->JBSK_model->view_recent_posts($offsetRows, $fetchedRows) : $this->MAIN_model->recent_posts($offsetRows, $fetchedRows);
+        return $this->session->userType === 'Jobseeker' ? $this->JBSK_model->view_recent_posts($offsetRows, $fetchedRows) : $this->MAIN_model->recent_posts($offsetRows, $fetchedRows);
     }
 
     // GET ALL SEARCH RESULT
@@ -172,7 +172,7 @@ class Jobs extends CI_Controller {
             $this->AUTH_model->err_page();
         } else {
             $jobDetails = $this->MAIN_model->job_details($jobPostID);
-
+            
             if ($this->session->userType === 'Jobseeker') {
                 $jobDetails->applicationStatus = $this->JBSK_model->application_status($jobPostID);
                 $jobDetails->resumeData        = $this->JBSK_model->view_resume();

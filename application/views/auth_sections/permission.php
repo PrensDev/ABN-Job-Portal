@@ -58,7 +58,6 @@
     <div class="bg-white border p-3 my-2 border">
         <form method="POST">
 
-            <!-- OLD PASSWORD -->
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input 
@@ -67,13 +66,19 @@
                     id          = "password" 
                     name        = "password"
                     placeholder = "Type your password here"
+                    autofocus
                 >
                 <small class="invalid-feedback">This is a required field.</small>                
             </div>
             
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
 
-            <a href="<?php echo base_url() ?>auth/forgot_password" class="btn btn-link btn-block">Forgotten your password?</a>
+            <hr>
+
+            <a 
+                href  = "<?php echo base_url() ?>auth/forgot_password" 
+                class = "btn btn-link btn-block btn-sm"
+            >Forgotten your password?</a>
 
         </form>
     </div>
@@ -87,9 +92,9 @@
         </div>
         <div>
             <small>
-                <a href="<?php echo base_url() ?>" title="Back to Home page." target="_blank">Home</a>
+                <a href="<?php echo base_url() ?>" title="Back to Home page.">Home</a>
                 <span> | </span>
-                <a href="<?php echo base_url() ?>home/terms_and_conditions" title="Read the terms and conditions." target="_blank">Terms and Conditions</a>
+                <a href="<?php echo base_url() ?>home/terms_and_conditions" title="Read the terms and conditions.">Terms and Conditions</a>
             </small>
         </div>
     </div>

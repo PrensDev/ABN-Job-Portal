@@ -3,10 +3,10 @@
 
 /*
 SELECT 
-  ROUTINE_NAME AS PROCEDURES
+  ROUTINE_NAME AS 'PROCEDURES'
 FROM INFORMATION_SCHEMA.ROUTINES
 WHERE ROUTINE_TYPE = 'PROCEDURE'
-AND ROUTINE_NAME LIKE 'EMPL%'   
+-- AND ROUTINE_NAME LIKE 'EMPL%'   
 ORDER BY ROUTINE_NAME
 */
 
@@ -314,9 +314,22 @@ CREATE PROCEDURE [EMPL_SetApplicantStatus]
 	@applicationID INT,
 	@status		   VARCHAR(MAX)
 AS
-	UPDATE [Applications]
-	SET [status] = @status
-	WHERE [applicationID] = @applicationID
+	IF @status = 'Pending'
+		BEGIN
+			UPDATE [Applications]
+			SET 
+				[status]	 = @status,
+				[dateStatus] = NULL
+			WHERE [applicationID] = @applicationID
+		END
+	ELSE
+		BEGIN
+			UPDATE [Applications]
+			SET 
+				[status]	 = @status,
+				[dateStatus] = GETDATE()
+			WHERE [applicationID] = @applicationID
+		END
 GO
 
 -- Set Profile Pic

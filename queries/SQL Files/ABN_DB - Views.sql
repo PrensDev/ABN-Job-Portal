@@ -56,6 +56,5 @@ SELECT
 		, [Employers].[website]
 	FROM [JobPosts]
 	INNER JOIN [Employers]
-	ON [JobPosts].[employerID] = [Employers].[employerID]
-	AND [JobPosts].[jobPostFlag] = 1
+		ON [JobPosts].[employerID] = [Employers].[employerID]
 GO 

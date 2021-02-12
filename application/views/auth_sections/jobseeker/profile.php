@@ -31,6 +31,7 @@
                 $this->load->view('sections/components/info_card', [
                     'title'         => 'Personal Information',
                     'theme'         => 'info',
+                    'infoID'        => 'personalInfo',
                     'infoElements'  => [
                         [
                             'icon'      => 'user-tie',
@@ -54,6 +55,7 @@
                 $this->load->view('sections/components/info_card', [
                     'title'         => 'Contact Information',
                     'theme'         => 'danger',
+                    'infoID'        => 'contactInfo',
                     'infoElements'  => [
                         [
                             'icon'      => 'phone-alt',

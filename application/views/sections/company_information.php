@@ -67,6 +67,7 @@
             $this->load->view('sections/components/info_card', [
                 'title'        => 'Company Details',
                 'theme'        => 'danger',
+                'infoID'        => 'companyDetails',
                 'infoElements' => [
                     [
                         'icon'          => 'map-marker-alt',

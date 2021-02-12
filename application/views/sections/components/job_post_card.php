@@ -13,7 +13,7 @@
         <!-- COMPANY LOGO -->
         <div class="company-logo mr-3 d-none d-sm-block">
             <?php if ($profilePic != NULL) { ?>
-                <a href="'<?php base_url() . 'companies/details/' . $employerID ?>">
+                <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
                     <img 
                         class       = "border" 
                         src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
@@ -23,7 +23,7 @@
                     >
                 </a>
             <?php } else { ?>
-                <a href="<?php base_url() . 'companies/details/' . $employerID ?>">
+                <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
                     <img 
                         class       = "border" 
                         src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
@@ -40,17 +40,21 @@
             
             <h5 class="mb-1 mr-1">
                 <a 
-                    href  = "<?php echo base_url() ?>jobs/details/<?php echo $jobPostID ?>" 
-                    title = "Job Title: <?php echo $jobTitle ?>" 
-                    class = "text-decoration-none text-uppercase text-dark"
+                    href           = "<?php echo base_url() ?>jobs/details/<?php echo $jobPostID ?>"
+                    data-toggle    = "tooltip"
+                    data-placement = "right"
+                    title          = "Job Title" 
+                    class          = "text-decoration-none text-uppercase text-dark"
                 ><?php echo $jobTitle ?></a>
             </h5>
             
             <div class="text-primary">
                 <a 
-                    href  = "<?php echo base_url() ?>companies/details/<?php echo $employerID ?>" 
-                    class = "text-primary" 
-                    title = "Company: <?php echo $companyName ?>"
+                    href           = "<?php echo base_url() ?>companies/details/<?php echo $employerID ?>" 
+                    class          = "text-primary" 
+                    data-toggle    = "tooltip"
+                    data-placement = "right"
+                    title          = "Company"
                 >
                     <span><?php echo $companyName ?></span>
                 </a>
@@ -62,35 +66,68 @@
             <div class="d-flex flex-wrap text-secondary mt-2">
                 
                 <!-- OFFERED SALARY -->
-                <div class="mr-3" title="Offered Salary: <?php echo $offeredSalary ?>">
-                    <i class="fas fa-money-bill-wave mr-1"></i>
-                    <span><?php echo $offeredSalary ?></span>
+                <div class="mr-3">
+                    <span
+                        data-toggle    = "tooltip"
+                        data-placement = "right"
+                        title          = "Offered Salary"
+                    >                   
+                        <i class="fas fa-money-bill-wave mr-1"></i>
+                        <span><?php echo $offeredSalary ?></span>
+                    </span>
                 </div>
 
                 <!-- INDUSTRY TYPE -->
-                <div class="mr-3 text-capitalize" title="Industry Type: <?php echo $field ?>">
-                    <i class="fas fa-cog mr-1"></i>
-                    <span><?php echo $field ?></span>
+                <div class="mr-3 text-capitalize">
+                    <span
+                        data-toggle    = "tooltip"
+                        data-placement = "right"
+                        title          = "Field"
+                    >  
+                        <i class="fas fa-cog mr-1"></i>
+                        <span><?php echo $field ?></span>
+                    </span>
                 </div>
 
                 <!-- LOCATION -->
-                <div class="mr-3 text-capitalize" title="Location: <?php echo $location ?>">
-                    <i class="fas fa-map-marker-alt mr-1"></i>
-                    <span><?php echo $location ?></span>
+                <div class="mr-3 text-capitalize">
+                    <span
+                        data-toggle    = "tooltip"
+                        data-placement = "right"
+                        title          = "Location"
+                    >  
+                        <i class="fas fa-map-marker-alt mr-1"></i>
+                        <span><?php echo $location ?></span>
+                    </span>
                 </div>
                 
             </div>
 
         </div>
-
         
         <!-- JOB SUB-DETAILS -->
         <div class="text-right" title="Job Type: <?php echo $jobType ?>">
-            <span class="badge border border-<?php echo $jobTypeClass ?> text-<?php echo $jobTypeClass ?> p-2 text-uppercase">
+            <span 
+                class          = "
+                    badge 
+                    border 
+                    border-<?php echo $jobTypeClass ?> 
+                    text-<?php echo $jobTypeClass ?> 
+                    p-2 
+                    text-uppercase
+                "
+                data-toggle    = "tooltip"
+                data-placement = "left"
+                title          = "Job Type"
+            >
                 <i class="fas fa-user-tie mr-1"></i>
                 <span><?php echo $jobType ?></span>
             </span>
-            <span class="badge text-secondary mt-1" title="Posted <?php echo $dateCreated ?>">
+            <span 
+                class          = "badge text-secondary mt-1" 
+                data-toggle    = "tooltip"
+                data-placement = "left"
+                title          = "Posted <?php echo $dateCreated ?>">
                 <i class="fas fa-clock"></i>
                 <?php echo $dateCreated ?>
             </span>

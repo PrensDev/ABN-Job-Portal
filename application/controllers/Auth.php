@@ -54,6 +54,20 @@ class Auth extends CI_Controller {
         ];
     }
 
+    // RETURNS TRUE IS SESSION IS BY USERTYPE PARAM AND IF IT IS AJAX REQUEST
+    private function is_user_ajax_request($userType) {
+        return $this->session->userType === $userType && $this->input->is_ajax_request();
+    }
+
+    private function user_ajax_request($userType, $dataModel) {
+        if($this->is_user_ajax_request($userType)) {
+            $data['response'] = $dataModel ? 'success' : 'failed';    
+            echo json_encode($data);
+        } else {
+            $this->AUTH_model->err_page();
+        }
+    }
+
     // UPLOAD IMAGE
     public function upload_img() {
         if ($this->session->has_userdata('userType')) {
@@ -81,7 +95,7 @@ class Auth extends CI_Controller {
     // INDEX FUNCTION
     public function index() {
         if ($this->session->has_userdata('userType')) {
-            redirect();
+            redirect('auth/profile');
         } else {
             $this->AUTH_model->err_page();
         }
@@ -89,12 +103,8 @@ class Auth extends CI_Controller {
 
     // LOGOUT VIEW
     public function logout() {
-        if ($this->session->has_userdata('userType')) {
-            if ($this->input->is_ajax_request() && $this->input->post('request') == 'logout') {
-                session_destroy();
-            } else {
-                $this->AUTH_model->err_page();
-            }
+        if ($this->session->has_userdata('userType') && $this->input->post('request') == 'logout') {
+            session_destroy();
         } else {
             $this->AUTH_model->err_page();
         }
@@ -102,13 +112,9 @@ class Auth extends CI_Controller {
 
     // DEACTIVATE VIEW
     public function deactivate() {
-        if ($this->session->has_userdata('userType')) {
-            if ($this->input->is_ajax_request() && $this->input->post('request') == 'deactivate') {
-                $this->AUTH_model->set_account_flag(0);
-                session_destroy();
-            } else {
-                $this->AUTH_model->err_page();
-            }
+        if ($this->session->has_userdata('userType') && $this->input->post('request') == 'deactivate') {
+            $this->AUTH_model->set_account_flag(0);
+            session_destroy();
         } else {
             $this->AUTH_model->err_page();
         }
@@ -116,49 +122,46 @@ class Auth extends CI_Controller {
     
     // PERMISSION VIEW
     public function permission() {
-        if (! $this->session->has_userdata('userType')) {
-            $this->AUTH_model->err_page();
-        } else {
-            if ($this->session->has_userdata('request_permission')) {
-                if ($this->session->userType === 'Jobseeker') {
-                    $userdata = $this->JBSK_model->get_info();
-                } else if ($this->session->userType === 'Employer') {
-                    $userdata = $this->EMPL_model->get_info();
-                } 
-                $pagedata = ['title' => $userdata['userName'] . ' - Permission'];
+        if ($this->session->has_userdata('userType') && $this->session->has_userdata('request_permission')) {
+            if ($this->session->userType === 'Jobseeker') {
+                $userdata = $this->JBSK_model->get_info();
+            } else if ($this->session->userType === 'Employer') {
+                $userdata = $this->EMPL_model->get_info();
+            } 
+            
+            $pagedata = ['title' => $userdata['userName'] . ' - Permission'];
 
-                $this->form_validation->set_rules([
-                    [
-                        'field' => 'password',
-                        'rules' => 'required',
-                    ],
-                ]);
+            $this->form_validation->set_rules([
+                [
+                    'field' => 'password',
+                    'rules' => 'required',
+                ],
+            ]);
 
-                if ($this->form_validation->run() === FALSE) {    
-                    $this->session->keep_flashdata('request_permission');
-                    $this->load->view('templates/fullpage_header', $pagedata);
-                    $this->load->view('auth_sections/permission', $userdata);
-                    $this->load->view('templates/footer');
-                } else {
-                    if (password_verify($this->input->post('password'), $this->AUTH_model->get_user_password())) {
-                        if ($this->session->request_permission == 'change password') {
-                            $this->session->unset_userdata('request_permission');
-                            $this->session->set_flashdata(['permission' => 'change password']);
-                            redirect('auth/change_password');
-                        } else if ($this->session->request_permission == 'change email') {
-                            $this->session->unset_userdata('request_permission');
-                            $this->session->set_flashdata(['permission' => 'change email']);
-                            redirect('auth/change_email');
-                        }
-                    } else {
-                        $this->session->keep_flashdata('request_permission');
-                        $this->session->set_flashdata('account_authentication', 'incorrect password');
-                        redirect('auth/permission');
-                    }
-                }
+            if ($this->form_validation->run() === FALSE) {    
+                $this->session->keep_flashdata('request_permission');
+                $this->load->view('templates/fullpage_header', $pagedata);
+                $this->load->view('auth_sections/permission', $userdata);
+                $this->load->view('templates/footer');
             } else {
-                $this->AUTH_model->err_page();
+                if (password_verify($this->input->post('password'), $this->AUTH_model->get_user_password())) {
+                    if ($this->session->request_permission == 'change password') {
+                        $this->session->unset_userdata('request_permission');
+                        $this->session->set_flashdata(['permission' => 'change password']);
+                        redirect('auth/change_password');
+                    } else if ($this->session->request_permission == 'change email') {
+                        $this->session->unset_userdata('request_permission');
+                        $this->session->set_flashdata(['permission' => 'change email']);
+                        redirect('auth/change_email');
+                    }
+                } else {
+                    $this->session->keep_flashdata('request_permission');
+                    $this->session->set_flashdata('account_authentication', 'incorrect password');
+                    redirect('auth/permission');
+                }
             }
+        } else {
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -284,7 +287,7 @@ class Auth extends CI_Controller {
 
     // EDIT INFORMATION VIEW
     public function edit_information() {
-        if ( $this->session->has_userdata('userType')) {
+        if ($this->session->has_userdata('userType')) {
             $userdata = $this->get_userdata();
             $pagedata = ['title' => $userdata['userName'] . ' - Edit Information'];
 
@@ -457,14 +460,13 @@ class Auth extends CI_Controller {
     }
 
     // EDIT RESUME VIEW
-    public function edit_resume($resumeID = NULL) {
+    public function edit_resume() {
         if ($this->session->userType === 'Jobseeker') {
             $resumeData = $this->JBSK_model->view_resume();
 
-            if ($resumeData->resumeID == $resumeID) {
+            if ($resumeData != NULL && $resumeData->jobseekerID == $this->session->id) {
                 $userdata = $this->get_userdata();
                 $pagedata = ['title' => $userdata['userName'] . ' - Edit Resume'];
-                
 
                 $this->form_validation->set_message(['required' => 'This field cannot be blank']);
 
@@ -498,7 +500,7 @@ class Auth extends CI_Controller {
                     $this->load->view('sections/footer');
                     $this->load->view('templates/footer');
                 } else {
-                    if ($this->JBSK_model->update_resume($resumeID)) {
+                    if ($this->JBSK_model->update_resume()) {
                         $this->session->set_flashdata('updated', 'success');
                     } else {
                         $this->session->set_flashdata('updated', 'failed');
@@ -514,19 +516,17 @@ class Auth extends CI_Controller {
     }
 
     // REMOVE RESUME
-    public function remove_resume($resumeID = NULL) {
-        if ($this->session->userType === 'Jobseeker') {
-            if ($resumeID == NULL) {
-                $this->AUTH_model->err_page();
+    public function remove_resume() {
+        if ($this->is_user_ajax_request('Jobseeker')) {
+            if ($this->JBSK_model->remove_resume()) {
+                $this->session->set_flashdata('removed', 'success');
+                $this->session->set_flashdata('component', 'resume');
+                $data['response'] = 'success';    
             } else {
-                if ($this->JBSK_model->remove_resume($resumeID)) {
-                    $this->session->set_flashdata('removed', 'success');
-                    $this->session->set_flashdata('component', 'resume');
-                } else {
-                    $this->session->set_flashdata('removed', 'failed');
-                }
-                redirect('auth/profile');
+                $this->session->set_flashdata('removed', 'failed');
+                $data['response'] = 'failed';    
             }
+            echo json_encode($data);
         } else {
             $this->AUTH_model->err_page();
         }
@@ -549,10 +549,10 @@ class Auth extends CI_Controller {
                     $userdata = $this->get_userdata();
                     $JobsToStatusNum = $this->JBSK_model->applied_jobs_to_status_num($statusPage);
 
-                    $PendingJobsNum         = $this->JBSK_model->applied_jobs_to_status_num('Pending');
-                    $InterviewingJobsNum    = $this->JBSK_model->applied_jobs_to_status_num('Interviewing');
-                    $HiredJobsNum           = $this->JBSK_model->applied_jobs_to_status_num('Hired');
-                    $RejectedJobsNum        = $this->JBSK_model->applied_jobs_to_status_num('Rejected');
+                    $PendingJobsNum       = $this->JBSK_model->applied_jobs_to_status_num('Pending');
+                    $InterviewingJobsNum  = $this->JBSK_model->applied_jobs_to_status_num('Interviewing');
+                    $HiredJobsNum         = $this->JBSK_model->applied_jobs_to_status_num('Hired');
+                    $RejectedJobsNum      = $this->JBSK_model->applied_jobs_to_status_num('Rejected');
 
                     $pagedata = [
                         'title'      => $userdata['userName'] . ' - ' . $status[$statusPage] . ' applications',
@@ -612,48 +612,12 @@ class Auth extends CI_Controller {
 
     // SUBMIT APPLICATION
     public function submit_application() {
-        if ($this->session->userType === 'Jobseeker') {
-            if ($this->input->is_ajax_request()) {
-                $applicationStatus = $this->JBSK_model->submit_application();
-                $data['response'] = $applicationStatus ? 'success' : 'failed';    
-                echo json_encode($data);
-            } else {
-                $this->AUTH_model->err_page();
-            }
-        } else {
-            $this->AUTH_model->err_page();
-        }
-    }
-
-    // REJECT APPLICATION
-    public function reject_application() {
-        if ($this->session->userType === 'Jobseeker') {
-            if ($this->input->is_ajax_request()) {
-                $jobPostID = $this->input->post('jobPostID');
-                $applicationStatus = $this->JBSK_model->reject_application($jobPostID);
-                $data['response'] = $applicationStatus ? 'success' : 'failed';    
-                echo json_encode($data);
-            } else {
-                $this->AUTH_model->err_page();
-            }
-        } else {
-            $this->AUTH_model->err_page();
-        }
+        $this->user_ajax_request('Jobseeker', $this->JBSK_model->submit_application());
     }
 
     // CANCEL APPLICATION
     public function cancel_application() {
-        if ($this->session->userType === 'Jobseeker') {
-            if ($this->input->is_ajax_request()) {
-                $applicationStatus = $this->JBSK_model->cancel_application();
-                $data['response'] = $applicationStatus ? 'success' : 'failed';    
-                echo json_encode($data);
-            } else {
-                $this->AUTH_model->err_page();
-            }
-        } else {
-            $this->AUTH_model->err_page();
-        }
+        $this->user_ajax_request('Jobseeker', $this->JBSK_model->cancel_application());
     }
 
     // BOOKMARKS
@@ -702,30 +666,12 @@ class Auth extends CI_Controller {
 
     // ADD BOOKMARK
     public function add_bookmark() {
-        if ($this->session->userType === 'Jobseeker') {
-            if ($this->input->is_ajax_request()) {
-                $jobPostID = $this->input->post('jobPostID');
-                $bookmarkStatus = $this->JBSK_model->add_bookmark($jobPostID);
-                $data['response'] = $bookmarkStatus ? 'success' : 'failed';    
-                echo json_encode($data);
-            } else {
-                $this->AUTH_model->err_page();
-            }
-        }
+        $this->user_ajax_request('Jobseeker', $this->JBSK_model->add_bookmark());
     }
 
     // REMOVE BOOKMARK
     public function remove_bookmark() {
-        if ($this->session->userType === 'Jobseeker') {
-            if ($this->input->is_ajax_request()) {
-                $bookmarkID = $this->input->post('bookmarkID');
-                $bookmarkStatus = $this->JBSK_model->remove_bookmark($bookmarkID);
-                $data['response'] = $bookmarkStatus ? 'success' : 'failed';    
-                echo json_encode($data);
-            } else {
-                $this->AUTH_model->err_page();
-            }
-        }
+        $this->user_ajax_request('Jobseeker', $this->JBSK_model->remove_bookmark());
     }
 
     // ==================================================================================================== //
@@ -780,25 +726,30 @@ class Auth extends CI_Controller {
 
     // JOB DETAILS VIEW
     public function job_details($jobPostID = NULL) {
-        if ($jobPostID == NULL) {
-            $this->AUTH_model->err_page();
-        } else {
+        if ($this->session->userType === 'Employer' && $jobPostID !== NULL) {
             $userdata   = $this->get_userdata();
             $jobDetails = $this->EMPL_model->get_job_details($jobPostID);
-            
-            $jobDetails['hiredApplicantsNum'] = $this->EMPL_model->applicants_num($jobPostID, 'Hired');
 
-            if (! $jobDetails) {
-                $this->AUTH_model->err_page();
+            if ($jobDetails) {
+                $jobDetails['pendingApplicantsNum'] = $this->EMPL_model->applicants_num($jobPostID, 'Pending');
+                $jobDetails['hiredApplicantsNum']   = $this->EMPL_model->applicants_num($jobPostID, 'Hired');
+
+                if (! $jobDetails) {
+                    $this->AUTH_model->err_page();
+                } else {
+                    $pagedata = ['title' => $jobDetails['jobTitle'] . ' - Job Details'];
+
+                    $this->load->view('templates/header', $pagedata);
+                    $this->load->view('sections/navbar', $userdata);
+                    $this->load->view('auth_sections/employer/job_details', $jobDetails);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                }
             } else {
-                $pagedata = ['title' => $jobDetails['jobTitle'] . ' - Job Details'];
-
-                $this->load->view('templates/header', $pagedata);
-                $this->load->view('sections/navbar', $userdata);
-                $this->load->view('auth_sections/employer/job_details', $jobDetails);
-                $this->load->view('sections/footer');
-                $this->load->view('templates/footer');
+                $this->AUTH_model->err_page();
             }
+        } else {
+            $this->AUTH_model->err_page();
         }
     }
 
@@ -958,19 +909,18 @@ class Auth extends CI_Controller {
     }
 
     // DELETE POST VIEW
-    public function delete_post($jobPostID = NULL) {
-        if ($this->session->userType === 'Employer') {
-            if ($jobPostID == NULL) {
-                $this->AUTH_model->err_page();
+    public function delete_post() {
+        if ($this->is_user_ajax_request('Employer')) {
+            $postDeleted = $this->EMPL_model->delete_post();
+            if ($postDeleted) {
+                $this->session->set_flashdata('removed', 'success');
+                $this->session->set_flashdata('component', 'job post');
+                $data['response'] = 'success';    
             } else {
-                if ($this->EMPL_model->delete_post($jobPostID)) {
-                    $this->session->set_flashdata('removed', 'success');
-                    $this->session->set_flashdata('component', 'job post');
-                } else {
-                    $this->session->set_flashdata('removed', 'failed');
-                }
-                redirect('auth/job_posts');
-            }
+                $this->session->set_flashdata('removed', 'failed');
+                $data['response'] = 'failed';    
+            }  
+            echo json_encode($data);
         } else {
             $this->AUTH_model->err_page();
         }      
@@ -985,74 +935,80 @@ class Auth extends CI_Controller {
                 if ($statusPage == NULL) {
                     redirect('auth/manage_applicants/' . $jobPostID . '/pending');
                 } else {
-                    $status = [
-                        'pending'       => 'Pending',
-                        'interviewing'  => 'Interviewing',
-                        'hired'         => 'Hired',
-                        'rejected'      => 'Rejected',
-                    ];
-    
-                    if (array_key_exists($statusPage, $status)) {
-                        $CurrApplicantsNum          = $this->EMPL_model->applicants_num($jobPostID, $status[$statusPage]);
-                        
-                        $pendingApplicantsNum       = $this->EMPL_model->applicants_num($jobPostID, 'Pending');
-                        $interviewingApplicantsNum  = $this->EMPL_model->applicants_num($jobPostID, 'Interviewing');
-                        $hiredApplicantsNum         = $this->EMPL_model->applicants_num($jobPostID, 'Hired');
-                        $rejectedApplicantsNum      = $this->EMPL_model->applicants_num($jobPostID, 'Rejected');
-                        
-                        $userdata = $this->EMPL_model->get_info();
-                        $jobDetails = $this->EMPL_model->get_job_details($jobPostID);
-
-                        $pagedata = [
-                            'title'                     => $userdata['userName'] . ' - Manage Applicants (' . $status[$statusPage] . ')',
-                            'jobTitle'                  => $jobDetails['jobTitle'],
-                            'jobPostID'                 => $jobDetails['jobPostID'],
-                            'statusPage'                => $status[$statusPage],
-                            'pendingApplicantsNum'      => $pendingApplicantsNum,
-                            'interviewingApplicantsNum' => $interviewingApplicantsNum,
-                            'hiredApplicantsNum'        => $hiredApplicantsNum,
-                            'rejectedApplicantsNum'     => $rejectedApplicantsNum,
+                    $jobExists =$this->EMPL_model->get_job_details($jobPostID);
+                    
+                    if ($jobExists) {
+                        $status = [
+                            'pending'       => 'Pending',
+                            'interviewing'  => 'Interviewing',
+                            'hired'         => 'Hired',
+                            'rejected'      => 'Rejected',
                         ];
-                        
-                        if ($CurrApplicantsNum == 0) {
-                            $this->load->view('templates/header', $pagedata);
-                            $this->load->view('sections/navbar', $userdata);
-                            $this->load->view('auth_sections/employer/empty_applicants', $pagedata);
-                            $this->load->view('sections/footer');
-                            $this->load->view('templates/footer');
-                        } else {
-                            $fetchedRows = 10;
-                            $totalPages = ceil($CurrApplicantsNum / $fetchedRows);
+        
+                        if (array_key_exists($statusPage, $status)) {
+                            $CurrApplicantsNum          = $this->EMPL_model->applicants_num($jobPostID, $status[$statusPage]);
+    
+                            $pendingApplicantsNum       = $this->EMPL_model->applicants_num($jobPostID, 'Pending');
+                            $interviewingApplicantsNum  = $this->EMPL_model->applicants_num($jobPostID, 'Interviewing');
+                            $hiredApplicantsNum         = $this->EMPL_model->applicants_num($jobPostID, 'Hired');
+                            $rejectedApplicantsNum      = $this->EMPL_model->applicants_num($jobPostID, 'Rejected');
                             
-                            if ($page > 0 && $page <= $totalPages) {
-                                $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                                $applicants = $this->EMPL_model->view_applicants($offsetRows, $fetchedRows, $jobPostID, $status[$statusPage]); 
-                                
-                                $pagedata = [
-                                    'title'                     => $userdata['userName'] . ' - Manage Applicants (' . $status[$statusPage] . ')',
-                                    'applicants'                => $applicants,
-                                    'totalRows'                 => $CurrApplicantsNum,
-                                    'totalPages'                => $totalPages,
-                                    'currentPage'               => $page,
-                                    'jobTitle'                  => $jobDetails['jobTitle'],
-                                    'jobPostID'                 => $jobDetails['jobPostID'],
-                                    'statusPage'                => $status[$statusPage],
-                                    'pendingApplicantsNum'      => $pendingApplicantsNum,
-                                    'interviewingApplicantsNum' => $interviewingApplicantsNum,
-                                    'hiredApplicantsNum'        => $hiredApplicantsNum,
-                                    'rejectedApplicantsNum'     => $rejectedApplicantsNum,
-                                ];
-                                
-                                $this->pagination->initialize($this->pagination_config('auth/manage_applicants/' . $jobPostID, $CurrApplicantsNum));
-                                
+                            $userdata = $this->EMPL_model->get_info();
+                            $jobDetails = $this->EMPL_model->get_job_details($jobPostID);
+    
+                            $pagedata = [
+                                'title'                     => $userdata['userName'] . ' - Manage Applicants (' . $status[$statusPage] . ')',
+                                'jobTitle'                  => $jobDetails['jobTitle'],
+                                'jobPostID'                 => $jobDetails['jobPostID'],
+                                'statusPage'                => $status[$statusPage],
+                                'pendingApplicantsNum'      => $pendingApplicantsNum,
+                                'interviewingApplicantsNum' => $interviewingApplicantsNum,
+                                'hiredApplicantsNum'        => $hiredApplicantsNum,
+                                'rejectedApplicantsNum'     => $rejectedApplicantsNum,
+                            ];
+                            
+                            if ($CurrApplicantsNum == 0) {
                                 $this->load->view('templates/header', $pagedata);
                                 $this->load->view('sections/navbar', $userdata);
-                                $this->load->view('auth_sections/employer/manage_applicants', $pagedata);
+                                $this->load->view('auth_sections/employer/empty_applicants', $pagedata);
                                 $this->load->view('sections/footer');
                                 $this->load->view('templates/footer');
                             } else {
-                                $this->AUTH_model->err_page();
+                                $fetchedRows = 10;
+                                $totalPages = ceil($CurrApplicantsNum / $fetchedRows);
+                                
+                                if ($page > 0 && $page <= $totalPages) {
+                                    $offsetRows = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
+                                    $applicants = $this->EMPL_model->view_applicants($offsetRows, $fetchedRows, $jobPostID, $status[$statusPage]); 
+                                    
+                                    $pagedata = [
+                                        'title'                     => $userdata['userName'] . ' - Manage Applicants (' . $status[$statusPage] . ')',
+                                        'applicants'                => $applicants,
+                                        'totalRows'                 => $CurrApplicantsNum,
+                                        'totalPages'                => $totalPages,
+                                        'currentPage'               => $page,
+                                        'jobTitle'                  => $jobDetails['jobTitle'],
+                                        'jobPostID'                 => $jobDetails['jobPostID'],
+                                        'statusPage'                => $status[$statusPage],
+                                        'pendingApplicantsNum'      => $pendingApplicantsNum,
+                                        'interviewingApplicantsNum' => $interviewingApplicantsNum,
+                                        'hiredApplicantsNum'        => $hiredApplicantsNum,
+                                        'rejectedApplicantsNum'     => $rejectedApplicantsNum,
+                                    ];
+                                    
+                                    $this->pagination->initialize($this->pagination_config('auth/manage_applicants/' . $jobPostID, $CurrApplicantsNum));
+                                    
+                                    $this->load->view('templates/header', $pagedata);
+                                    $this->load->view('sections/navbar', $userdata);
+                                    $this->load->view('auth_sections/employer/manage_applicants', $pagedata);
+                                    $this->load->view('sections/footer');
+                                    $this->load->view('templates/footer');
+                                } else {
+                                    $this->AUTH_model->err_page();
+                                }
                             }
+                        } else {
+                            $this->AUTH_model->err_page();
                         }
                     } else {
                         $this->AUTH_model->err_page();
@@ -1066,12 +1022,12 @@ class Auth extends CI_Controller {
 
     // APPICANT PROFILE
     public function applicant_profile($jobPostID = NULL, $jobseekerID = NULL) {
-        if ($this->session->userType === 'Employer') {
-            if ($jobseekerID == NULL || $jobPostID == NULL) {
+        if ($this->session->userType === 'Employer' && $jobseekerID != NULL && $jobPostID != NULL) {
+            $ApplicantDetails = $this->EMPL_model->view_applicant_profile($jobseekerID, $jobPostID);
+                
+            if ($ApplicantDetails == NULL) {
                 $this->AUTH_model->err_page();
             } else {
-                $ApplicantDetails = $this->EMPL_model->view_applicant_profile($jobseekerID, $jobPostID);
-
                 $userdata = $this->EMPL_model->get_info();
                 $pagedata = ['title' => $userdata['userName'] . ' - Applicant Profile'];
 
@@ -1088,48 +1044,16 @@ class Auth extends CI_Controller {
 
     // HIRE APPLICANT
     public function hire_applicant() {
-        if ($this->session->userType === 'Employer') {
-            if ($this->input->is_ajax_request()) {
-                $hireStatus = $this->EMPL_model->hire_applicant();
-                $data['response'] = $hireStatus ? 'success' : 'failed';    
-                echo json_encode($data);
-            } else {
-                $this->AUTH_model->err_page();
-            }
-        } else {
-            $this->AUTH_model->err_page();
-        }
+        $this->user_ajax_request('Employer', $this->EMPL_model->hire_applicant());
     }
 
     // REJECT APPLICANT
     public function reject_applicant() {
-        if ($this->session->userType === 'Employer') {
-            if ($this->input->is_ajax_request()) {
-                $applicationID = $this->input->post('applicationID');
-                $hireStatus = $this->EMPL_model->reject_applicant($applicationID);
-                $data['response'] = $hireStatus ? 'success' : 'failed';    
-                echo json_encode($data);
-            } else {
-                $this->AUTH_model->err_page();
-            }
-        } else {
-            $this->AUTH_model->err_page();
-        }
+        $this->user_ajax_request('Employer', $this->EMPL_model->reject_applicant());
     }
 
     // CANCEL HIRING AND REJECTING
     public function cancel_hiring_rejecting() {
-        if ($this->session->userType === 'Employer') {
-            if ($this->input->is_ajax_request()) {
-                $applicationID = $this->input->post('applicationID');
-                $hireStatus = $this->EMPL_model->cancel_hiring_rejecting($applicationID);
-                $data['response'] = $hireStatus ? 'success' : 'failed';    
-                echo json_encode($data);
-            } else {
-                $this->AUTH_model->err_page();
-            }
-        } else {
-            $this->AUTH_model->err_page();
-        }
+        $this->user_ajax_request('Employer', $this->EMPL_model->cancel_hiring_rejecting());
     }
 }

@@ -3,11 +3,11 @@
 $fullName = $firstName . ' ' . $lastName;
 
 if ($status == 'Pending') {
-    $statusTheme = 'success';
+    $statusTheme = 'warning';
 } else if ($status == "Hired") {
-    $statusTheme = 'primary';
+    $statusTheme = 'success';
 } else if ($status == 'Rejected') {
-    $statusTheme = 'danger';
+    $statusTheme = 'dark';
 }
 
 $dateApplied = date_format(date_create($dateApplied),"M. d, Y");

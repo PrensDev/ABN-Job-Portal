@@ -22,8 +22,8 @@
                     ',
                     'actionPath'    => NULL,
                     'actionID'      => 'cancelApplicationBtn',
-                    'actionIcon'    => 'file',
-                    'actionLabel'   => 'Cancel my application!',
+                    'actionIcon'    => NULL,
+                    'actionLabel'   => 'Continue!',
                 ]);
             }
         }
@@ -75,4 +75,5 @@
         });
     });
 </script>
+
 <?php } ?>

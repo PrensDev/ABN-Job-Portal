@@ -2,6 +2,7 @@
 
 class Home extends CI_Controller {
 
+    // CONSTRUCTOR
     public function __construct() {
         parent::__construct();
         $this->load->helper('custom');

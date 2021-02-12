@@ -21,6 +21,7 @@ CREATE PROCEDURE [JBSK_ViewResume]
 AS
 	SELECT
 		  [Resumes].[resumeID]
+		, [Resumes].[jobseekerID]
 		, [Resumes].[headline]
 		, [Resumes].[description]
 		, [Resumes].[education]
@@ -252,6 +253,7 @@ AS
 		, [JobPosts].[field]
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
+		, CAST([JobPosts].[jobPostFlag] AS INT) AS [jobPostFlag]
 		, [Employers].[employerID]
 		, [Employers].[profilePic]
 		, [Employers].[companyName]
@@ -339,6 +341,7 @@ AS
 		, [JobPosts].[field]
 		, [JobPosts].[minSalary]
 		, [JobPosts].[maxSalary]
+		, CAST([JobPosts].[jobPostFlag] AS INT) AS [jobPostFlag]
 		, [Employers].[employerID]
 		, [Employers].[profilePic]
 		, [Employers].[companyName]
@@ -391,7 +394,6 @@ AS
 		ON [JobPosts].[jobPostID] = [Bookmarks].[jobPostID]
 		AND [Bookmarks].[jobseekerID] = @jobseekerID
 	WHERE [JobPosts].[jobPostID] = @jobPostID 
-		AND [JobPosts].[jobPostFlag] = 1
 GO
 
 -- Set Profile Pic

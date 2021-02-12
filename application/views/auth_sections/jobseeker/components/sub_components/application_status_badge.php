@@ -1,11 +1,27 @@
-<?php if ($this->session->userType == 'Jobseeker' && $status !== NULL) {?>
+<?php if ($this->session->userType == 'Jobseeker' && $status != NULL) {?>
     <div>
-        <?php if ($status == 'Pending') { ?>
-            <span class="badge badge-success px-2 py-1" title="Your application is pending.">Pending</span>
-        <?php } else if ($status == 'Hired') { ?>
-            <span class="badge badge-primary px-2 py-1" title="You are hired for this job.">Hired</span>
-        <?php } else if ($status == 'Rejected') { ?>
-            <span class="badge badge-danger px-2 py-1" title="You are rejected for this job.">Rejected</span>
+        <?php 
+            if ($status == 'Pending') { 
+                $statusTheme = 'warning';
+                $statusTitle = 'Your application is on pending.';        
+            } else if ($status == 'Hired') { 
+                $statusTheme = 'success';
+                $statusTitle = 'You are hired for this job';
+            } else if ($status == 'Rejected') {
+                $statusTheme = 'dark';
+                $statusTitle = 'You are rejected for this job';
+            } 
+        
+            if (isset($statusTheme) && isset($statusTitle)) {
+        ?>
+            <span 
+                class          = "badge badge-<?php echo $statusTheme ?> px-2 py-1" 
+                data-toggle    = "tooltip"
+                data-placement = "right"
+                title          = "<?php echo $statusTitle ?>"
+            >
+                <?php echo $status ?>
+            </span>
         <?php } ?>
     </div>
 <?php } ?>

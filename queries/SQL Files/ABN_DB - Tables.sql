@@ -68,6 +68,7 @@ CREATE TABLE [JobSeekers] (
 	,
 	[contactNumber]
 		VARCHAR(MAX) NOT NULL
+		CONSTRAINT UQ_contactNumber@JobSeekers UNIQUE
 	,
 	[email]
 		VARCHAR(450) NOT NULL

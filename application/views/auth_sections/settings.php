@@ -34,34 +34,50 @@
 
     <!-- SETTINGS MENU -->
     <div class="card mb-4">
+        
         <div class="card-header">
             <span>Account Settings</span>
         </div>
+
         <div class="card-body p-0">
             <div class="list-group list-group-flush">
                 
-                <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/change_email">
+                <a 
+                    class = "btn list-group-item list-group-item-action" 
+                    href  = "<?php echo base_url() ?>auth/change_email"
+                >
                     <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-at"></i>
                     </div>
                     <span>Change email</span>
                 </a>
 
-                <a class="btn list-group-item list-group-item-action" href="<?php echo base_url() ?>auth/change_password">
+                <a
+                    class = "btn list-group-item list-group-item-action" 
+                    href  = "<?php echo base_url() ?>auth/change_password"
+                >
                     <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-lock"></i>
                     </div>
                     <span>Change password</span>
                 </a>
 
-                <a class="btn list-group-item list-group-item-action" data-toggle="modal" data-target="#deactivateModal">
+                <a 
+                    class       = "btn list-group-item list-group-item-action" 
+                    data-toggle = "modal" 
+                    data-target = "#deactivateModal"
+                >
                     <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-user-times"></i>
                     </div>
                     <span>Deactivate my account</span>
                 </a>
 
-                <a class="btn list-group-item list-group-item-action" data-toggle="modal" data-target="#logoutModal">
+                <a 
+                    class       = "btn list-group-item list-group-item-action"
+                    data-toggle = "modal"
+                    data-target = "#logoutModal"
+                >
                     <div class="user-nav-icon mr-1 text-primary">
                         <i class="fas fa-sign-out-alt"></i>
                     </div>

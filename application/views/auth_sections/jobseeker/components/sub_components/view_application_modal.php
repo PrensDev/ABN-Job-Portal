@@ -4,9 +4,16 @@
 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
 <div class="modal-content">
 
-    <div class="modal-header d-block d-lg-flex align-items-center">
-        <h3 class="font-weight-normal text-uppercase my-0 mr-1 flex-grow-1"><?php echo $jobTitle ?></h3>
-        <small><p class="text-secondary m-0 font-italic my-0 text-lg-right">You submitted this resume <?php echo $dateApplied ?></p></small>
+    <div class="modal-header">
+        <div class="mr-1">
+            <h3 class="font-weight-normal text-uppercase my-0"><?php echo $jobTitle ?></h3>
+            <p class="text-secondary m-0 font-italic my-0">
+                <small>You submitted this resume <?php echo $dateApplied ?></small>
+            </p>
+        </div>
+        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times text-secondary"></i>
+        </button>
     </div>
     
     <div class="modal-body">

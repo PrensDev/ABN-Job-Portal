@@ -74,7 +74,12 @@
         <div class="dropdown-divider"></div>
 
         <div class="px-3">
-            <button type="submit" class="btn btn-danger btn-block btn-sm"  data-toggle="modal" data-target="#logoutModal">
+            <button 
+                type        = "submit" 
+                class       = "btn btn-danger btn-block btn-sm" 
+                data-toggle = "modal" 
+                data-target = "#logoutModal"
+            >
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Log out</span>
             </button>

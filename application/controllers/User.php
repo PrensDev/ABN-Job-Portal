@@ -12,7 +12,7 @@ class User extends CI_Controller {
 
     // LOGIN VIEW
     public function login() {
-        if ($this->session->has_userdata('USER_type')) {
+        if ($this->session->has_userdata('userType')) {
             redirect();
         } else {
             $this->form_validation->set_rules([

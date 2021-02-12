@@ -24,24 +24,38 @@
             <!-- JOB TITLE -->
             <p class="h5 text-uppercase">
                 <a 
-                    class = "text-decoration-none text-dark" 
-                    title = "Job Title: <?php echo $jobTitle ?>" 
-                    href  = "<?php echo base_url() . 'auth/job_details/' . $jobPostID ?>"
+                    class          = "text-decoration-none text-dark" 
+                    data-toggle    = "tooltip"
+                    data-placement = "right"
+                    title          = "Job Title" 
+                    href           = "<?php echo base_url() . 'auth/job_details/' . $jobPostID ?>"
                 >
-                <?php echo $jobTitle ?>
+                    <?php echo $jobTitle ?>
                 </a>    
             </p>   
                 
             <!-- INDUSTRY TYPE -->
-            <div class="mr-3 text-secondary" title="Industry Type: <?php echo $field ?>">
-                <i class="fas fa-cogs mr-1"></i>
-                <span><?php echo $field ?></span>
+            <div class="mr-3 text-secondary">
+                <span
+                    data-toggle    = "tooltip"
+                    data-placement = "right"
+                    title          = "Field"    
+                >
+                    <i class="fas fa-cogs mr-1"></i>
+                    <span><?php echo $field ?></span>
+                </span>
             </div>
             
             <!-- OFFERED SALARY -->
-            <div class="mr-3 text-secondary" title="Offered Salary: <?php echo $offeredSalary ?>">
-                <i class="fas fa-money-bill-wave mr-1"></i>
-                <span><?php echo $offeredSalary ?></span>
+            <div class="mr-3 text-secondary">
+                <span
+                    data-toggle    = "tooltip"
+                    data-placement = "right"
+                    title          = "Offered Salary"    
+                >
+                    <i class="fas fa-money-bill-wave mr-1"></i>
+                    <span><?php echo $offeredSalary ?></span>
+                </span>
             </div>
 
             <!-- JOB TYPE -->
@@ -55,7 +69,9 @@
                         p-2 
                         text-uppercase
                     "
-                    title ="Job Type: <?php echo $jobType ?>"
+                    data-toggle    = "tooltip"
+                    data-placement = "right"
+                    title          = "Job Type"
                 >
                     <i class="fas fa-user-tie mr-1"></i>
                     <?php echo $jobType ?>
@@ -72,17 +88,24 @@
                     class = "
                         badge 
                         text-uppercase 
-                        text-<?php echo $statusClass ?>" 
-                    title = "This post is <?php echo ucwords($statusLabel) ?>"
+                        text-<?php echo $statusClass ?>
+                    " 
+                    data-toggle    = "tooltip"
+                    data-placement = "left"
+                    title          = "This post is <?php echo ucwords($statusLabel) ?>"
                 >
-                    <i class="fas fa-circle mr-1 text-<?php echo $statusClass ?>"></i>
                     <?php echo $statusLabel ?>
                 </span>
             </div>
             
             <!-- DATE POSTED -->
             <div>
-                <span class="badge text-secondary mt-1" title="Posted <?php echo $dateCreated ?>">
+                <span 
+                    class          = "badge text-secondary mt-1" 
+                    data-toggle    = "tooltip"
+                    data-placement = "left"
+                    title          = "Posted <?php echo $dateCreated ?>"
+                >
                     <i class="fas fa-clock"></i>
                     <?php echo $dateCreated ?>
                 </span>
@@ -104,7 +127,7 @@
                     class           = "btn btn-primary"
                     data-toggle     = "tooltip"
                     data-placement  = "top"
-                    title           = "<?php echo $applicantsNum . ' applicant' . $s . ' applied for ' . $jobTitle ?>."
+                    title           = "<?php echo 'There are ' . $applicantsNum . ' applicant' . $s . ' for this job.' ?>"
                 >
                     <span class="mr-4">
                         <i class="fas fa-users mr-1"></i>

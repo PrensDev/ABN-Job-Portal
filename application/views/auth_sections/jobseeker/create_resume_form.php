@@ -27,6 +27,7 @@
                     id          = "headline" 
                     name        = "headline"
                     placeholder = "Headline"
+                    autofocus
                 >
                 <small class="invalid-feedback"><?php echo form_error('headline')?></small>
             </div>

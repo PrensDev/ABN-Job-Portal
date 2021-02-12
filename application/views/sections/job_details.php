@@ -4,14 +4,14 @@
     $datePosted     = dateFormat($dateCreated ,"F d, Y; h:i a");
 ?>
 
-<!-- HEADER -->
+<!-- JOB DETAILS HEADER -->
 <div class="container-fluid py-5">
 <div class="container">
     
     <div class="row">
 
         <div class="col-auto d-none d-sm-inline">
-            <a href="<?php base_url() . 'companies/details/' . $employerID ?>">
+            <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
                 <?php if ($profilePic === NULL) { ?>
                     <img 
                         src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
@@ -36,36 +36,76 @@
         
         <!-- JOB DETAILS -->
         <div class="col flex-grow-1">
-            <h1 class="font-weight-normal text-uppercase"><?php echo $jobTitle ?></h1>
+            <h1 class="font-weight-normal text-uppercase">
+                <span
+                    data-toggle    = "tooltip"
+                    data-placement = "right"
+                    title          = "Job Title"
+                >
+                    <?php echo $jobTitle ?>
+                </span>
+            </h1>
             
             <div class="d-flex flex-wrap">
                 
                 <div class="mr-3">
-                    <i class="fas fa-briefcase mr-1 text-info"></i>
-                    <a href="<?php echo base_url() ?>companies/details/<?php echo $employerID ?>" class="text-secondary">
-                        <span><?php echo $companyName ?></span>
-                    </a>
+                    <span
+                        data-toggle    = "tooltip"
+                        title          = "Company"
+                    >
+                        <i class="fas fa-briefcase mr-1 text-info"></i>
+                        <a href="<?php echo base_url() ?>companies/details/<?php echo $employerID ?>" class="text-secondary">
+                            <span><?php echo $companyName ?></span>
+                        </a>
+                    </span>
                 </div>
 
                 <div class="mr-3">
-                    <i class="fas fa-map-marker-alt mr-1 text-info"></i>
-                    <span class="text-secondary"><?php echo $location ?></span>
+                    <span
+                        data-toggle    = "tooltip"
+                        title          = "Location"
+                    >    
+                        <i class="fas fa-map-marker-alt mr-1 text-info"></i>
+                        <span class="text-secondary"><?php echo $location ?></span>
+                    </span>
                 </div>
 
                 <div class="mr-3">
-                    <i class="fas fa-money-bill-wave mr-1 text-info"></i>
-                    <span class="text-secondary"><?php echo $offeredSalary ?></span>
+                    <span
+                        data-toggle    = "tooltip"
+                        title          = "Offered Salary"
+                    >
+                        <i class="fas fa-money-bill-wave mr-1 text-info"></i>
+                        <span class="text-secondary"><?php echo $offeredSalary ?></span>
+                    </span>
                 </div>
 
                 <div class="mr-3">
-                    <i class="fas fa-cog mr-1 text-info"></i>
-                    <span class="text-secondary"><?php echo $field ?></span>
+                    <span
+                        data-toggle    = "tooltip"
+                        title          = "Field"
+                    >                
+                        <i class="fas fa-cog mr-1 text-info"></i>
+                        <span class="text-secondary"><?php echo $field ?></span>
+                    </span>
                 </div>
 
             </div>
 
             <div class="pt-2">
-                <span class="badge text-<?php echo $jobTypeClass ?> border border-<?php echo $jobTypeClass ?> p-2 text-uppercase">
+                <span 
+                    class          = "
+                        badge 
+                        text-<?php echo $jobTypeClass ?> 
+                        border 
+                        border-<?php echo $jobTypeClass ?> 
+                        p-2 
+                        text-uppercase
+                    "
+                    data-toggle    = "tooltip"
+                    data-placement = "right"
+                    title          = "Job Type"
+                >
                     <i class="fas fa-user-tie mr-2"></i>
                     <?php echo $jobType ?>
                 </span>
@@ -76,14 +116,19 @@
     </div>
 
     <hr class="my-4">
-    
+
+    <?php if ($jobPostFlag == 0) { ?>
+        <div class="alert alert-danger mb-4">
+            <span>This job is no longer active.</span>
+        </div>
+    <?php } ?>
     
     <?php
         if ($this->session->userType === 'Jobseeker' && isset($applicationStatus))
             $this->load->view('auth_sections/jobseeker/components/application_status', $applicationStatus);
     ?>
     
-    <div class="row">
+    <div class="row pt-2">
 
         <!-- JOB DETAILS -->
         <div class="col-lg-8">
@@ -135,10 +180,10 @@
         <!-- JOB SUMMARY -->
         <div class="col-lg-4">
             
-            <?php if ($this->session->USER_type == 'EMPL' && $this->session->USER_id == $employerID) { ?>
+            <?php if ($this->session->userType === 'Employer' && $this->session->id == $employerID) { ?>
                 <div class="d-flex justify-content-between alert alert-info p-3 mb-3">
                     <div class="mr-3">
-                        <span>Do you want to edit your post?</span>
+                        <span>Do you want to edit your job post?</span>
                     </div>
                     <div class="text-nowrap">
                         <i class="fas fa-pen text-info"></i>
@@ -150,10 +195,16 @@
             <?php } ?>
             
             <?php
+
+                // JOBSEEKER CONTROLS
+                if ($this->session->userType === 'Jobseeker' && isset($applicationStatus))
+                    $this->load->view('auth_sections/jobseeker/components/application_controls', $applicationStatus);
+
                 // JOB SUMMARY CARD
                 $this->load->view('sections/components/info_card', [
                     'title'        => 'Job Summary',
                     'theme'        => 'info',
+                    'infoID'       => 'jobSummary',
                     'infoElements' => [
                         [
                             'icon'          => 'user-tie',
@@ -211,6 +262,7 @@
                 $this->load->view('sections/components/info_card', [
                     'title'        => 'Company Details',
                     'theme'        => 'danger',
+                    'infoID'       => 'companyDetails',
                     'infoElements' => [
                         [
                             'icon'          => 'city',
@@ -249,10 +301,6 @@
                         ],
                     ],
                 ]); 
-                
-                // JOBSEEKER CONTROLS
-                if ($this->session->userType === 'Jobseeker' && isset($applicationStatus))
-                    $this->load->view('auth_sections/jobseeker/components/application_controls', $applicationStatus);
             ?>
         </div>
 

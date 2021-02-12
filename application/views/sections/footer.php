@@ -72,7 +72,7 @@
                     <img src="<?php echo base_url() ?>public\img\brand\brand-01.png" alt="ABN Job Portal" class="w-75" draggable="false">
                 </div>
 
-                <p class="text-justify">We are ABN teams and our goal is to provide a convinient portal for job seekers and employers.</p>
+                <p class="text-justify">We are the ABN team and our goal is to provide a convinient portal for job seekers and employers.</p>
 
                 <a href="<?php echo base_url() ?>home/about_us" class="btn btn-outline-light btn-sm btn-block">
                     <i class="fas fa-plus-circle"></i>

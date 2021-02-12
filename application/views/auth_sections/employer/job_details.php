@@ -47,13 +47,11 @@
                     <div class="d-inline mr-3">
                         <i class="fas fa-users mr-1"></i>
                         <span class="d-none d-sm-inline">
-                            <span>Manage Applicants</span>
+                            <span>Manage all applicants</span>
                         </span>
                     </div>
                     <span class="badge badge-light"><?php echo $applicantsNum ?></span>
                 </a>
-            <?php } else { ?>
-                <p class="font-italic text-secondary">No applicants had applied yet.</p>
             <?php } ?>
         </div>
     </div>
@@ -128,101 +126,34 @@
         <!-- JOB SUMMARY -->
         <div class="col-lg-4"> 
             
-            <?php if ($hiredApplicantsNum > 0) { ?>
-                <div class="d-flex justify-content-between alert alert-primary p-3 mb-3">
+            <!-- NUMBER OF PENDING APPLICANTS -->
+            <?php if ($pendingApplicantsNum > 0) { ?>
+                <div class="d-flex justify-content-between alert alert-warning p-3 mb-3">
                     <div class="mr-3">
-                        <i class="fas fa-users mr-1 text-primary"></i>
-                        <span>You've already hired <strong><?php echo $hiredApplicantsNum ?></strong> people.</span>
+                        <i class="fas fa-users mr-1 text-warning"></i>
+                        <span>There are <strong><?php echo $pendingApplicantsNum ?></strong> pending applications.</span>
                     </div>
                     <div>
-                        <a class="text-nowrap text-primary" href="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/hired' ?>">View All</a>
-                    </div>
-                </div>
-            <?php } else { ?>
-                <div class="alert alert-primary p-3 mb-3">
-                    <div class="mr-3">
-                        <i class="fas fa-users mr-1 text-primary"></i>
-                        <span>There are no hired applicants yet.</span>
+                        <a class="text-nowrap text-warning" href="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/pending' ?>">View All</a>
                     </div>
                 </div>
             <?php } ?>
 
-            <!-- JOB SUMMARY CARD -->
-            <div class="card mb-3">
-                <div class="card-header bg-white">
-                    <strong>Job Summary</strong>
-                </div>
-                <div class="card-body p-0">
-                    
-                    <div class="list-group list-group-flush">
-
-                        <!-- JOB TYPE -->
-                        <div class="list-group-item d-flex border-0">
-                            <div class="list-group-item-icon h5 text-info">
-                                <i class="fas fa-user-tie"></i>
-                            </div>
-                            <div>
-                                <p class="m-0 font-weight-bold">Job Type</p>
-                                <p class="m-0">
-                                    <span class="badge border border-<?php echo $jobTypeClass ?> text-<?php echo $jobTypeClass ?> text-uppercase p-2">
-                                        <i class="fas fa-user-tie mr-1"></i>
-                                        <?php echo $jobType ?>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- INDUSTRY TYPE -->
-                        <div class="list-group-item d-flex border-0">
-                            <div class="list-group-item-icon h5 text-info">
-                                <i class="fas fa-cogs"></i>
-                            </div>
-                            <div>
-                                <p class="m-0 font-weight-bold">Field</p>
-                                <p class="m-0 text-secondary"><?php echo $field ?></p>
-                            </div>
-                        </div>
-
-                        <!-- OFFERED SALARY -->
-                        <div class="list-group-item d-flex border-0" title="Offered Salary">
-                            <div class="list-group-item-icon h5 text-info">
-                                <i class="fas fa-money-bill-wave"></i>
-                            </div>
-                            <div>
-                                <p class="m-0 font-weight-bold">Offered Salary</p>
-                                <p class="m-0 text-secondary"><?php echo salaryRangeFormat($minSalary, $maxSalary) ?></p>
-                            </div>
-                        </div>
-
-                        <!-- DATE POSTED -->
-                        <div class="list-group-item d-flex border-0">
-                            <div class="list-group-item-icon h5 text-info">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                            <div>
-                                <p class="m-0 font-weight-bold">Date Posted</p>
-                                <p class="m-0 text-secondary"><?php echo $datePosted ?></p>
-                            </div>
-                        </div>
-                        
-                        <!-- DATE MDIFIED -->
-                        <div class="list-group-item d-flex">
-                            <div class="list-group-item-icon h5 text-info">
-                                <i class="fas fa-pen"></i>
-                            </div>
-                            <div>
-                                <p class="m-0 font-weight-bold">Last Modified</p>
-                                <p class="m-0 text-secondary"><?php echo $dateModifiedLabel ?></p>
-                            </div>
-                        </div>
-
+            <!-- NUMBER OF HIRED APPLICANTS -->
+            <?php if ($hiredApplicantsNum > 0) { ?>
+                <div class="d-flex justify-content-between alert alert-success p-3 mb-3">
+                    <div class="mr-3">
+                        <i class="fas fa-users mr-1 text-success"></i>
+                        <span>You've already hired <strong><?php echo $hiredApplicantsNum ?></strong> people.</span>
                     </div>
-                    
+                    <div>
+                        <a class="text-nowrap text-success" href="<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/hired' ?>">View All</a>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- USER CONTROLS -->
-            <div>
+            <?php } ?>
+
+            <!-- EMPLOYER CONTROLS -->
+            <div class="mb-3">
                 <a 
                     href="<?php echo base_url() ?>auth/edit_post/<?php echo $jobPostID ?>" 
                     class="btn btn-block btn-info"
@@ -231,11 +162,68 @@
                     <i class="fas fa-pen mr-2"></i>
                     <span>Edit This Post</span>
                 </a>
-                <button class="btn btn-block btn-danger" data-toggle="modal" data-target="#deletePostModal">
-                    <i class="fas fa-trash mr-2"></i>
-                    <span>Delete This Post</span>
-                </button>
+
+                <?php if  ($applicantsNum == 0) { ?>
+                    <button class="btn btn-block btn-danger" data-toggle="modal" data-target="#deletePostModal">
+                        <i class="fas fa-trash mr-2"></i>
+                        <span>Delete This Post</span>
+                    </button>
+                <?php } ?>
             </div>
+
+            <?php
+                $jobType = '
+                    <p class="m-0">
+                        <span 
+                            class="
+                                badge 
+                                border 
+                                border-' . $jobTypeClass . ' 
+                                text-' . $jobTypeClass . ' 
+                                text-uppercase 
+                                p-2
+                            "
+                        >
+                            <i class="fas fa-user-tie mr-1"></i>
+                            <span>' . $jobType . '</span>
+                        </span>
+                    </p>
+                ';
+
+                $this->load->view('sections/components/info_card', [
+                    'title'        => 'Job Summary',
+                    'theme'        => 'info',
+                    'infoID'       => 'jobSummary',
+                    'infoElements' => [
+                        [
+                            'icon'          => 'user-tie',
+                            'element'       => 'Job Type',
+                            'customContent' => true,
+                            'content'       => $jobType,
+                        ],
+                        [
+                            'icon'          => 'cogs',
+                            'element'       => 'Field',
+                            'content'       => $field,
+                        ],
+                        [
+                            'icon'          => 'money-bill-wave',
+                            'element'       => 'Offered Salary',
+                            'content'       => salaryRangeFormat($minSalary, $maxSalary),
+                        ],
+                        [
+                            'icon'          => 'calendar-alt',
+                            'element'       => 'Date Posted',
+                            'content'       => $datePosted,
+                        ],
+                        [
+                            'icon'          => 'pen',
+                            'element'       => 'Last Modified',
+                            'content'       => $dateModifiedLabel,
+                        ],
+                    ],
+                ]); 
+            ?>
 
         </div>
 
@@ -257,10 +245,30 @@
             <p class="m-1">Are you sure you want to delete this post?</p>
             <p class="m-1"><strong>Note: You cannot retrieved this after you delete it.</strong></p>
         ',
-        'actionPath'    => 'auth/delete_post/' . $jobPostID,
-        'actionID'      => NULL,
-        'actionValue'   => NULL,
+        'actionPath'    => NULL,
+        'actionID'      => 'deletePost',
+        'actionValue'   => $jobPostID,
         'actionIcon'    => 'trash',
         'actionLabel'   => 'Delete',
     ]);
 ?>
+
+<script>
+    $(document).on('click','#deletePost', function(e) {
+        e.preventDefault();
+        var jobPostID = $(this).attr('value');
+        $.ajax({
+            url:        "<?php echo base_url() ?>auth/delete_post",
+            type:       "post",
+            data: {
+                jobPostID: jobPostID
+            },
+            success:    function(data) {
+                location.replace('<?php echo base_url() ?>auth/job_posts');
+            },
+            failed:    function(data) {
+                alert('Something error happened')
+            } 
+        });
+    });
+</script>

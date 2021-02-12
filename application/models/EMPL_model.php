@@ -2,6 +2,7 @@
 
 class EMPL_model extends CI_Model {
     
+    // CONSTRUCTOR
     public function __construct() {
         $this->load->database();
     }
@@ -189,13 +190,13 @@ class EMPL_model extends CI_Model {
     }
 
     // DELETE POST METHOD
-    public function delete_post($jobPostID) {
+    public function delete_post() {
         return $this->db->query("
             EXEC [EMPL_DeletePost] 
                 @jobPostID  = ?,
                 @employerID = ? 
         ", [
-            $jobPostID,
+            $this->input->post('jobPostID'),
             $this->session->id,
         ]);
     }
@@ -226,25 +227,25 @@ class EMPL_model extends CI_Model {
     }
 
     // REJECT APPLICANT
-    public function reject_applicant($applicationID) {
+    public function reject_applicant() {
         return $this->db->query("
             EXEC [EMPL_SetApplicantStatus] 
                 @applicationID = ?,
                 @status        = ?
         ", [
-            $applicationID,
+            $this->input->post('applicationID'),
             'Rejected'
         ]);
     }
 
     // CANCEL HIRING
-    public function cancel_hiring_rejecting($applicationID) {
+    public function cancel_hiring_rejecting() {
         return $this->db->query("
             EXEC [EMPL_SetApplicantStatus] 
                 @applicationID = ?,
                 @status        = ?
         ", [
-            $applicationID,
+            $this->input->post('applicationID'),
             'Pending'
         ]);
     }

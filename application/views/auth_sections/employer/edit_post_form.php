@@ -268,7 +268,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 </div>
 
 <!-- SAVE CHANGES MODAL -->
-<div class="modal fade user-select-none" id="saveChangesModal" data-backdrop="static" data-keyboard="false" tabindex="-1">
+<div class="modal user-select-none" id="saveChangesModal" data-backdrop="static" data-keyboard="false" tabindex="-1">
 <div class="modal-dialog modal-dialog-centered">
 <div class="modal-content">
 
