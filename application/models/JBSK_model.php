@@ -2,6 +2,7 @@
 
 class JBSK_model extends CI_Model {
 
+    // CONSTRUCTOR
     public function __construct() {
         $this->load->database();
     }
@@ -146,7 +147,7 @@ class JBSK_model extends CI_Model {
         return $query->result();
     }
 
-    // GET NUMBER OF RECENT POSTS
+    // NUMBER OF ALL RECENT POSTS
     public function recent_posts_num() {
         return $this->query_count("EXEC [JBSK_RecentPostsNum] @jobseekerID = ?", [$this->session->id]);
     }
@@ -169,7 +170,7 @@ class JBSK_model extends CI_Model {
         return $this->db->query("EXEC [JBSK_CancelApplication] @applicationID = ?", [$this->input->post('applicationID')]);
     }
 
-    // ALL APPLIED JOBS
+    // NUMBER OF ALL APPLIED JOBS BASED TO STATUS
     public function applied_jobs_to_status_num($status) {
         return $this->query_count("
             EXEC [JBSK_AppliedJobsToStatusNum] 
@@ -198,7 +199,7 @@ class JBSK_model extends CI_Model {
         return $query->result();
     }
 
-    // NUMBER OF APPLIED JOBS
+    // NUMBER OF ALL APPLIED JOBS
     public function applied_jobs_num() {
         return $this->query_count("EXEC [JBSK_AppliedJobsNum] @jobseekerID = ?", [$this->session->id]);
     }
@@ -220,7 +221,7 @@ class JBSK_model extends CI_Model {
         return $this->db->query("EXEC [JBSK_RemoveBookmark] @bookmarkID = ?", [$this->input->post('bookmarkID')]);
     }
 
-    // GET ALL BOOKMARKS
+    // NUMBER OF ALL BOOKMARKS
     public function bookmarks_num() {
         return $this->query_count("EXEC [JBSK_BookmarksNum] @jobseekerID = ?", [$this->session->id]);
     }
@@ -313,5 +314,47 @@ class JBSK_model extends CI_Model {
             $fetchedRows,                
         ]);
         return $query->result();
+    }
+
+    // NUMBER OF ALL STATUS NOTIFICATIONS
+    public function status_notifications_num() {
+        return $this->query_count("
+            EXEC [JBSK_StatusNotificationsNum]
+                @jobseekerID = ?
+        ", [
+            $this->session->id, 
+        ]);
+    }
+
+    // GET STATUS NOTIFICATIONS
+    public function get_status_notifications($offsetRows, $fetchedRows) {
+        $query = $this->db->query("
+            EXEC [JBSK_GetStatusNotifications]
+                @jobseekerID = ?,
+                @offsetRows  = ?,
+                @fetchedRows = ?
+        ", [
+            $this->session->id, 
+            $offsetRows,         
+            $fetchedRows,                
+        ]);
+        return $query->result();
+    }
+
+    // SET NOTIFICATION READFLAG
+    public function set_notification_readflag() {
+        $this->db->query("
+            EXEC [JBSK_SetNotificationReadFlag] 
+                @notificationID = ?,
+                @readFlag       = ?
+        ", [
+            $this->input->post('notificationID'),
+            $this->input->post('readFlag'),
+        ]);
+    }
+
+    // NUMBER OF ALL UNREAD NOTIFICATIONS 
+    public function unread_status_notifications_num() {
+        return $this->query_count("EXEC [JBSK_UnreadStatusNotificationsNum] @jobseekerID = ?", [$this->session->id]);
     }
 }

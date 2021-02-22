@@ -224,11 +224,15 @@ class EMPL_model extends CI_Model {
             $this->input->post('applicationID'),
             'Hired',
         ]);
+
+        if($hired) {
+            $this->AUTH_model->notify_JBSK_status();
+        }
     }
 
     // REJECT APPLICANT
     public function reject_applicant() {
-        return $this->db->query("
+        $rejected = $this->db->query("
             EXEC [EMPL_SetApplicantStatus] 
                 @applicationID = ?,
                 @status        = ?
@@ -236,11 +240,15 @@ class EMPL_model extends CI_Model {
             $this->input->post('applicationID'),
             'Rejected'
         ]);
+
+        if($rejected) {
+            $this->AUTH_model->notify_JBSK_status();
+        }
     }
 
     // CANCEL HIRING
     public function cancel_hiring_rejecting() {
-        return $this->db->query("
+        $canceled = $this->db->query("
             EXEC [EMPL_SetApplicantStatus] 
                 @applicationID = ?,
                 @status        = ?
@@ -248,6 +256,10 @@ class EMPL_model extends CI_Model {
             $this->input->post('applicationID'),
             'Pending'
         ]);
+
+        if ($canceled) {
+            $this->AUTH_model->remove_JBSK_status_notification();
+        }
     }
 
     // SET PROFILE PICTURE

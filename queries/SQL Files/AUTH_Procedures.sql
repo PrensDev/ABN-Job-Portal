@@ -6,7 +6,7 @@ SELECT
   ROUTINE_NAME AS PROCEDURES
 FROM INFORMATION_SCHEMA.ROUTINES
 WHERE ROUTINE_TYPE = 'PROCEDURE'
-AND ROUTINE_NAME LIKE 'AUTH%'   
+-- AND ROUTINE_NAME LIKE 'AUTH%'   
 ORDER BY ROUTINE_NAME
 */
 
@@ -102,7 +102,6 @@ AS
 		, [email]
 		, [password]
 		, [userType]
-		, CAST([accountFlag] AS INT) AS [accountFlag]
 	FROM [UserAccounts]
 	WHERE [email] = @email
 GO
@@ -121,16 +120,6 @@ CREATE PROCEDURE [AUTH_FindEmployer]
 	@email	VARCHAR(450)
 AS
 	SELECT * FROM [Employers]
-	WHERE [email] = @email
-GO
-
--- Set Account Procedure
-CREATE PROCEDURE [AUTH_SetAccountFlag]
-	@email VARCHAR(450),
-	@flag  INT
-AS
-	UPDATE [UserAccounts]
-	SET [accountFlag] = @flag
 	WHERE [email] = @email
 GO
 
@@ -182,4 +171,20 @@ AS
 	UPDATE [UserAccounts]
 	SET [email] = @newEmail
 	WHERE [email] = @email
+GO
+
+-- Notify JobSeeker To Its Application
+CREATE PROCEDURE [AUTH_NotifyJBSKStatus]
+	@applicationID INT
+AS
+	INSERT INTO [JBSK_StatusNotifications] ([applicationID])
+	VALUES (@applicationID)
+GO
+
+-- Remove JobSeeker Status Notification
+CREATE PROCEDURE [AUTH_RemoveJBSKStatusNotification]
+	@applicationID INT
+AS
+	DELETE FROM [JBSK_StatusNotifications]
+	WHERE [applicationID] = @applicationID
 GO

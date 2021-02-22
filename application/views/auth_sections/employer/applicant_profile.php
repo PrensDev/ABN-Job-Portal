@@ -31,24 +31,45 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
         </div>
 
         <div class="col-md text-center text-md-left px-0 mt-3 mt-md-0">
-            <h1 class="font-weight-normal"><?php echo $fullName ?></h1>
+            <h1 class="font-weight-normal">
+                <span
+                    data-toggle    = "tooltip"
+                    data-placement = "bottom"
+                    title          = "Applicant Name"
+                ><?php echo $fullName ?></span>
+            </h1>
             
             <div class="d-block d-md-flex flex-wrap">
                 
                 <!-- LOCATION -->
-                <div class="mr-3">
+                <div 
+                    class          = "mr-3"
+                    data-toggle    = "tooltip"
+                    data-placement = "top"
+                    title          = "Location"
+                >
                     <i class="fas fa-map-marker-alt mr-1 text-danger"></i>
                     <span class=" text-secondary"><?php echo $cityProvince ?></span>
                 </div>
 
                 <!-- PHONE NUMBER -->
-                <div class="mr-3">
+                <div 
+                    class          = "mr-3"
+                    data-toggle    = "tooltip"
+                    data-placement = "top"
+                    title          = "Contact Number"
+                >
                     <i class="fas fa-phone-alt mr-1 text-danger"></i>
                     <span class=" text-secondary"><?php echo $contactNumber ?></span>
                 </div>
 
                 <!-- EMAIL ADDRESS -->
-                <div class="mr-3">
+                <div 
+                    class          = "mr-3"
+                    data-toggle    = "tooltip"
+                    data-placement = "top"
+                    title          = "Email"
+                >
                     <i class="fas fa-envelope mr-1 text-danger"></i>
                     <span class="text-secondary text-truncate"><?php echo $email ?></span>
                 </div>

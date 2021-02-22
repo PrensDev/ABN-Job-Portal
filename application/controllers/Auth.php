@@ -59,6 +59,7 @@ class Auth extends CI_Controller {
         return $this->session->userType === $userType && $this->input->is_ajax_request();
     }
 
+    // USER AJAX REQUEST
     private function user_ajax_request($userType, $dataModel) {
         if($this->is_user_ajax_request($userType)) {
             $data['response'] = $dataModel ? 'success' : 'failed';    
@@ -104,16 +105,6 @@ class Auth extends CI_Controller {
     // LOGOUT VIEW
     public function logout() {
         if ($this->session->has_userdata('userType') && $this->input->post('request') == 'logout') {
-            session_destroy();
-        } else {
-            $this->AUTH_model->err_page();
-        }
-    }
-
-    // DEACTIVATE VIEW
-    public function deactivate() {
-        if ($this->session->has_userdata('userType') && $this->input->post('request') == 'deactivate') {
-            $this->AUTH_model->set_account_flag(0);
             session_destroy();
         } else {
             $this->AUTH_model->err_page();
@@ -540,7 +531,6 @@ class Auth extends CI_Controller {
             } else {
                 $status = [
                     'pending'       => 'Pending',
-                    'interviewing'  => 'Interviewing',
                     'hired'         => 'Hired',
                     'rejected'      => 'Rejected',
                 ];
@@ -550,7 +540,6 @@ class Auth extends CI_Controller {
                     $JobsToStatusNum = $this->JBSK_model->applied_jobs_to_status_num($statusPage);
 
                     $PendingJobsNum       = $this->JBSK_model->applied_jobs_to_status_num('Pending');
-                    $InterviewingJobsNum  = $this->JBSK_model->applied_jobs_to_status_num('Interviewing');
                     $HiredJobsNum         = $this->JBSK_model->applied_jobs_to_status_num('Hired');
                     $RejectedJobsNum      = $this->JBSK_model->applied_jobs_to_status_num('Rejected');
 
@@ -558,7 +547,6 @@ class Auth extends CI_Controller {
                         'title'      => $userdata['userName'] . ' - ' . $status[$statusPage] . ' applications',
                         'statusPage' => $status[$statusPage],
                         'pendingJobsNum'        => $PendingJobsNum,
-                        'interviewingJobsNum'   => $InterviewingJobsNum,
                         'hiredJobsNum'          => $HiredJobsNum,
                         'rejectedJobsNum'       => $RejectedJobsNum,
                     ];
@@ -585,7 +573,6 @@ class Auth extends CI_Controller {
                                 'currentPage'           => $page,
                                 'statusPage'            => $status[$statusPage],
                                 'pendingJobsNum'        => $PendingJobsNum,
-                                'interviewingJobsNum'   => $InterviewingJobsNum,
                                 'hiredJobsNum'          => $HiredJobsNum,
                                 'rejectedJobsNum'       => $RejectedJobsNum,
                             ];
@@ -657,6 +644,8 @@ class Auth extends CI_Controller {
                     $this->load->view('auth_sections/jobseeker/bookmarks', $pagedata);
                     $this->load->view('sections/footer');
                     $this->load->view('templates/footer');
+                } else {
+                    $this->AUTH_model->err_page();
                 }
             }         
         } else {
@@ -672,6 +661,57 @@ class Auth extends CI_Controller {
     // REMOVE BOOKMARK
     public function remove_bookmark() {
         $this->user_ajax_request('Jobseeker', $this->JBSK_model->remove_bookmark());
+    }
+
+    // JOBSEEKER NOTIFICATIONS
+    public function notifications($page = 1) {
+        if ($this->session->userType === 'Jobseeker') {
+            $userdata = $this->get_userdata();
+            $pagedata['title'] = $userdata['userName'] . ' - Notifications';
+
+            $AllStatusNotificationsNum = $this->JBSK_model->status_notifications_num();
+
+            if ($AllStatusNotificationsNum == 0) {
+                $this->load->view('templates/header', $pagedata);
+                $this->load->view('sections/navbar', $userdata);
+                $this->load->view('auth_sections/jobseeker/empty_notifications');
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');
+            } else {
+                $fetchedRows = 10;
+                $totalPages = ceil($AllStatusNotificationsNum / $fetchedRows);
+
+                if ($page > 0 && $page <= $totalPages) {
+                    $offsetRows     = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
+                    $notifications  = $this->JBSK_model->get_status_notifications($offsetRows, $fetchedRows); 
+                    
+                    $pagedata = [
+                        'title'         => $userdata['userName'] . ' - Notifications',
+                        'notifications' => $notifications,
+                        'totalRows'     => $AllStatusNotificationsNum,
+                        'totalPages'    => $totalPages,
+                        'currentPage'   => $page,
+                    ];
+                    
+                    $this->pagination->initialize($this->pagination_config('auth/bookmarks', $AllStatusNotificationsNum));
+                    
+                    $this->load->view('templates/header', $pagedata);
+                    $this->load->view('sections/navbar', $userdata);                    
+                    $this->load->view('auth_sections/jobseeker/notifications', $pagedata);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                } else {
+                    $this->AUTH_model->err_page();
+                }
+            }
+        } else {
+            $this->AUTH_model->err_page();
+        }
+    }
+
+    // SET NOTIFICATION READFLAG
+    public function set_notification_readflag() {
+        $this->user_ajax_request('Jobseeker', $this->JBSK_model->set_notification_readflag());
     }
 
     // ==================================================================================================== //
@@ -940,7 +980,6 @@ class Auth extends CI_Controller {
                     if ($jobExists) {
                         $status = [
                             'pending'       => 'Pending',
-                            'interviewing'  => 'Interviewing',
                             'hired'         => 'Hired',
                             'rejected'      => 'Rejected',
                         ];
@@ -949,7 +988,6 @@ class Auth extends CI_Controller {
                             $CurrApplicantsNum          = $this->EMPL_model->applicants_num($jobPostID, $status[$statusPage]);
     
                             $pendingApplicantsNum       = $this->EMPL_model->applicants_num($jobPostID, 'Pending');
-                            $interviewingApplicantsNum  = $this->EMPL_model->applicants_num($jobPostID, 'Interviewing');
                             $hiredApplicantsNum         = $this->EMPL_model->applicants_num($jobPostID, 'Hired');
                             $rejectedApplicantsNum      = $this->EMPL_model->applicants_num($jobPostID, 'Rejected');
                             
@@ -962,7 +1000,6 @@ class Auth extends CI_Controller {
                                 'jobPostID'                 => $jobDetails['jobPostID'],
                                 'statusPage'                => $status[$statusPage],
                                 'pendingApplicantsNum'      => $pendingApplicantsNum,
-                                'interviewingApplicantsNum' => $interviewingApplicantsNum,
                                 'hiredApplicantsNum'        => $hiredApplicantsNum,
                                 'rejectedApplicantsNum'     => $rejectedApplicantsNum,
                             ];
@@ -991,7 +1028,6 @@ class Auth extends CI_Controller {
                                         'jobPostID'                 => $jobDetails['jobPostID'],
                                         'statusPage'                => $status[$statusPage],
                                         'pendingApplicantsNum'      => $pendingApplicantsNum,
-                                        'interviewingApplicantsNum' => $interviewingApplicantsNum,
                                         'hiredApplicantsNum'        => $hiredApplicantsNum,
                                         'rejectedApplicantsNum'     => $rejectedApplicantsNum,
                                     ];

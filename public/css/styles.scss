@@ -29,11 +29,13 @@ $breadcrumb-padding-x:      0;
 $breadcrumb-active-color:   $custom-color-light;
 
 // DEFAULT BORDER-RADIUS SET TO 0
-$border-radius:                 0;
-$btn-border-radius-sm:          0;
-$btn-border-radius-lg:          0;
-$card-border-radius:            0;
-$modal-content-border-radius:   0;
+$border-radius:                 3px;
+$btn-border-radius-sm:          3px;
+$btn-border-radius-lg:          3px;
+$card-border-radius:            3px;
+$modal-content-border-radius:   3px;
+
+// ALERT BORDER WIDTH
 $alert-border-width:            0;
 
 // DEFAULT FOCUS-BOX-SHADOW TO NONE
@@ -45,6 +47,11 @@ $pagination-focus-box-shadow:   none !important;
 $dropdown-item-padding-x: 1rem;
 
 $input-focus-border-color: $custom-color-primary;
+
+// TOOLTIP
+$tooltip-bg: $custom-color-dark;
+$tooltip-opacity: 0.90;
+$tooltip-font-size: 12px;
 
 // INCLUDE THE BOOTSTRAP
 @import "../../node_modules/bootstrap/scss/bootstrap";

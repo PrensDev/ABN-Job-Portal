@@ -519,3 +519,73 @@ AS
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY
 GO
+
+-- Get Status Notifcations
+CREATE PROCEDURE [JBSK_GetStatusNotifications]
+	@jobseekerID	INT,
+	@offsetRows		INT,
+	@fetchedRows	INT
+AS
+	SELECT
+		  [N].[notificationID]
+		, [N].[applicationID]
+		, CAST([N].[readFlag] AS INT) AS [readFlag]
+		, [A].[status]
+		, [A].[dateStatus]
+		, [P].[jobPostID]
+		, [P].[jobTitle]
+		, [E].[companyName]
+		, [E].[profilePic]
+	FROM [JBSK_StatusNotifications] AS [N]
+	INNER JOIN [Applications] AS [A]
+		ON [N].[applicationID] = [A].[applicationID]
+		AND [A].[jobseekerID] = @jobseekerID
+	INNER JOIN [JobPosts] AS [P]
+		ON [A].[jobPostID] = [P].[jobPostID]
+	INNER JOIN [Employers] AS [E]
+		ON [P].[employerID] = [E].[employerID]
+	ORDER BY [A].[dateStatus] DESC
+	OFFSET @offsetRows ROWS
+	FETCH NEXT @fetchedRows ROWS ONLY
+GO
+
+-- Get Status Notifications Count
+CREATE PROCEDURE [JBSK_StatusNotificationsNum]
+	@jobseekerID INT
+AS
+	SELECT COUNT([notificationID]) AS [count]
+	FROM [JBSK_StatusNotifications] AS [N]
+	INNER JOIN [Applications] AS [A]
+		ON [N].[applicationID] = [A].[applicationID]
+		AND [A].[jobseekerID] = @jobseekerID
+	INNER JOIN [JobPosts] AS [P]
+		ON [A].[jobPostID] = [P].[jobPostID]
+	INNER JOIN [Employers] AS [E]
+		ON [P].[employerID] = [E].[employerID]
+GO
+
+-- Get Unread Status Notifications Count
+CREATE PROCEDURE [JBSK_UnreadStatusNotificationsNum]
+	@jobseekerID INT
+AS
+	SELECT COUNT([notificationID]) AS [count]
+	FROM [JBSK_StatusNotifications] AS [N]
+	INNER JOIN [Applications] AS [A]
+		ON [N].[applicationID] = [A].[applicationID]
+		AND [A].[jobseekerID] = @jobseekerID
+	INNER JOIN [JobPosts] AS [P]
+		ON [A].[jobPostID] = [P].[jobPostID]
+	INNER JOIN [Employers] AS [E]
+		ON [P].[employerID] = [E].[employerID]
+	WHERE [N].[readFlag] = 0
+GO
+
+-- Set Notification Read Flag
+CREATE PROCEDURE [JBSK_SetNotificationReadFlag]
+	@notificationID INT,
+	@readFlag		INT
+AS
+	UPDATE [JBSK_StatusNotifications]
+	SET [readFlag] = @readFlag
+	WHERE [notificationID] = @notificationID
+GO

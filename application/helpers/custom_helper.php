@@ -40,3 +40,8 @@ function getJobTypeClass(String $jobType) {
 function dateFormat(String $date, String $format) {
     return date_format(date_create($date), $format);
 }
+
+// TO PLURAL FORM
+function toPlural(String $word, Int $num) {
+    return $num > 1 ? $word . 's' : $word;
+}

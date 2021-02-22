@@ -45,10 +45,6 @@
         location.replace('<?php echo base_url() ?>auth/applications/pending');
     });
 
-    $('#interviewingTab').on('click', function() {
-        location.replace('<?php echo base_url() ?>auth/applications/interviewing');
-    });
-
     $('#hiredTab').on('click', function() {
         location.replace('<?php echo base_url() ?>auth/applications/hired');
     });

@@ -1,5 +1,15 @@
 <?php
-    $postsNumContent = $postsNum > 0 ? '<span class="badge badge-primary">' . $postsNum . '</span>' : '';
+    if ($postsNum > 0 ) {
+        $postsNumContent = '
+            <span 
+                class           = "badge badge-primary"
+                data-toggle     = "tooltip"
+                data-placement  = "left"
+                title           = "You have ' . $postsNum . ' ' . toPlural('job post', $postsNum) . '"
+            >' . $postsNum . '</span>';
+    } else {
+        $postsNumContent = '';
+    }
 ?>
 
 <!-- EMPLOYER USER CONTROL -->

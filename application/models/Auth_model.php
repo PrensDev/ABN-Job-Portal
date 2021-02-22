@@ -65,9 +65,6 @@ class AUTH_model extends CI_Model {
                     
                     // SET USER SESSION
                     $this->set_user_session($USER_row->userType);
-                    
-                    // SET UNACTIVE ACCOUNT TO ACTIVE AGAIN AFTER LOG IN
-                    if ( $USER_row->userAccountFlag == 0 ) $this->set_account_flag(1);
 
                     redirect('auth/profile');
                 } else {
@@ -170,15 +167,13 @@ class AUTH_model extends CI_Model {
         ]);
     }
 
-    // SET ACCOUNT FLAG 
-    public function set_account_flag($flag) {
-        $this->db->query("
-            EXEC [AUTH_SetAccountFlag] 
-                @email = ?,
-                @flag  = ?
-        ", [
-            $this->session->email,
-            $flag,
-        ]);
+    // NOTIFY JOBSEEKER STATUS
+    public function notify_JBSK_status() {
+        $this->db->query("EXEC [AUTH_NotifyJBSKStatus] @applicationID = ?", [$this->input->post('applicationID')]);
+    }
+
+    // REMOVE JOBSEEKER STATUS NOTIFICATIO
+    public function remove_JBSK_status_notification() {
+        $this->db->query("EXEC [AUTH_RemoveJBSKStatusNotification] @applicationID = ?", [$this->input->post('applicationID')]);
     }
 }

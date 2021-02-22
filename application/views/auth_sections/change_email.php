@@ -1,7 +1,7 @@
 <div class="container-fluid h-100 user-select-none">
 <div class="row h-100 justify-content-center align-items-center">
 <div class="col-sm-8 col-md-6 col-lg-4 my-4">
-    
+
     <!-- HEADER -->
     <div class="text-center mb-4">
         <?php if ($profilePic != NULL) { ?>
@@ -47,7 +47,7 @@
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
         </form>
     </div>
-    
+
     <!-- FOOTER LINK SECTION -->
     <div class="d-flex justify-content-between">
         <div>

@@ -21,45 +21,102 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
         <div class="d-flex justify-content-center mb-3">
             <?php if (isset($profilePic)) { ?>
                 <img 
-                    src       = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
-                    alt       = "<?php $fullName ?>" 
-                    height    = "125"
-                    class     = "rounded-pill" 
-                    draggable = "false"
+                    src            = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
+                    alt            = "<?php $fullName ?>" 
+                    height         = "125"
+                    class          = "rounded-pill" 
+                    draggable      = "false"
+                    data-toggle    = "tooltip"
+                    data-placement = "bottom"
+                    title          = "Applicant's profile picture."
                 >
             <?php } else { ?>
                 <img 
-                    src       = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
-                    alt       = "<?php echo $fullName ?>" 
-                    height    = "125"
-                    class     = "rounded-pill" 
-                    draggable = "false"
+                    src            = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
+                    alt            = "<?php echo $fullName ?>" 
+                    height         = "125"
+                    class          = "rounded-pill" 
+                    draggable      = "false"
+                    data-toggle    = "tooltip"
+                    data-placement = "bottom"
+                    title          = "This applicant doesn't have profile picture."
                 >
             <?php } ?>
         </div>
 
-        <h4 class="font-weight-normal text-center"><?php echo $fullName ?></h4>
+        <h4 
+            class           = "font-weight-normal text-center"
+            data-toggle     = "tooltip"
+            data-placement  = "top"
+            title           = "Applicant's name"
+        ><?php echo $fullName ?></h4>
 
         <div class="text-center">
-            <small>
-                <p class="font-italic text-secondary">Applied <strong><?php echo $dateApplied ?></strong></p>
-            </small>
-            <span class="badge badge-<?php echo $statusTheme ?> py-1 px-2"><?php echo $status ?></span>
+            <p class="font-italic text-secondary">
+                <small>
+                    <span
+                        data-toggle    = "tooltip"
+                        data-placement = "top"
+                        title          = "Applied <?php echo $dateApplied ?>"
+                    >
+                        Applied <strong><?php echo $dateApplied ?></strong>
+                    </span>
+                </small>
+            </p>
+            <span 
+                class          = "badge badge-<?php echo $statusTheme ?> py-1 px-2"
+                data-toggle    = "tooltip"
+                data-placement = "top"
+                title          = "Application is <?php echo $status ?>"
+            >
+                <?php echo $status ?>
+            </span>
         </div>
         
         <div class="my-3">
-            <p class="mb-0"><?php echo $age . ' years old, ' . $gender ?></p>
-            <p class="mb-0"><?php echo $cityProvince ?></p>
-            <p class="mb-0"><?php echo $contactNumber ?></p>
-            <p class="mb-0"><?php echo $email ?></p>
+            <p class="mb-0">
+                <span 
+                    data-toggle     = "tooltip"
+                    data-placement  = "top"
+                    title           = "Applicant's Age"
+                ><?php echo $age . ' years old'?></span>
+                <span>,</span>
+                <span 
+                    data-toggle     = "tooltip"
+                    data-placement  = "top"
+                    title           = "Applicant's Gender"
+                ><?php echo $gender ?></span>
+            </p>
+            <p class="mb-0">
+                <span 
+                    data-toggle     = "tooltip"
+                    data-placement  = "right"
+                    title           = "Applicant's Location"
+                >
+                    <?php echo $cityProvince ?>
+                </span>
+            </p>
+            <p class="mb-0">
+                <span 
+                    data-toggle     = "tooltip"
+                    data-placement  = "right"
+                    title           = "Applicant's Contact number"
+                >
+                    <?php echo $contactNumber ?>
+                </span>
+            </p>
+            <p class="mb-0">
+                <span 
+                    data-toggle     = "tooltip"
+                    data-placement  = "right"
+                    title           = "Applicant's Email"
+                >
+                    <?php echo $email ?>
+                </p>
         </div>
     </div>
 
     <div>
-        <a href="" class="btn btn-outline-warning btn-block btn-sm">
-            <i class="fas fa-file-contract mr-1"></i>
-            <span>View Resume/CV</span>
-        </a>
         <a 
             href  = "<?php echo base_url() ?>auth/applicant_profile/<?php echo $jobPostID . '/' . $jobseekerID ?>" 
             class = "btn btn-outline-primary btn-block btn-sm"

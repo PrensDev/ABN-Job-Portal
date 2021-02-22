@@ -27,9 +27,6 @@ CREATE TABLE [UserAccounts] (
 					'Employer'
 				)
 			)
-	,
-	[accountFlag]
-		BINARY NOT NULL DEFAULT 1
 )
 GO
 
@@ -302,28 +299,16 @@ CREATE TABLE [Bookmarks] (
 )
 GO
 
--- Notifications Table
-CREATE TABLE [JBSK_Notifications] (
+-- JBSK_StatusNotifications Table
+CREATE TABLE [JBSK_StatusNotifications] (
 	[notificationID]
 		INT NOT NULL IDENTITY(1,1)
-		CONSTRAINT PK_notificationID@Notifications PRIMARY KEY
+		CONSTRAINT PK_notificationID@JBSK_StatusNotifications PRIMARY KEY
 	,
-	[jobseekerID]
+	[applicationID]
 		INT NOT NULL
-		CONSTRAINT FK_jobseekerID@Notifications FOREIGN KEY
-			REFERENCES [JobSeekers] ([jobseekerID])
-	,
-	[title]
-		VARCHAR(MAX) NOT NULL
-	,
-	[message]
-		VARCHAR(MAX) NOT NULL
-	,
-	[notificationType]
-		VARCHAR(MAX) NOT NULL
-	,
-	[link]
-		VARCHAR(MAX) NOT NULL
+		CONSTRAINT FK_aaplicationID@JBSK_StatusNotifications FOREIGN KEY
+			REFERENCES [Applications] ([applicationID])
 	,
 	[readFlag]
 		BINARY NOT NULL DEFAULT 0

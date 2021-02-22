@@ -72,9 +72,10 @@ if ($this->session->has_userdata('userType')) {
                 if ($this->session->has_userdata('userType')) {
                     if ($this->session->userType === 'Jobseeker') {
                         $navbarData = [
-                            'userName'       => $userName,
-                            'appliedJobsNum' => $this->JBSK_model->applied_jobs_num(),
-                            'bookmarksNum'   => $this->JBSK_model->bookmarks_num(),
+                            'userName'                     => $userName,
+                            'appliedJobsNum'               => $this->JBSK_model->applied_jobs_num(),
+                            'bookmarksNum'                 => $this->JBSK_model->bookmarks_num(),
+                            'unreadStatusNotificationsNum' => $this->JBSK_model->unread_status_notifications_num(),
                         ];
                         $this->load->view('auth_sections/jobseeker/components/navbar_control', $navbarData);
                     } else if ($this->session->userType === 'Employer') {

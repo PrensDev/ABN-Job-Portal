@@ -19,7 +19,7 @@
             <div class="card-body text-center">
                 <p class="h2">Are you a Job Seeker?</p>
                 <p>Let us help you to find the job that fits to you</p>
-                <a href="<?php echo base_url() ?>home/jobseeker_registration" class="btn btn-primary btn-lg mt-3">Register as JOB SEEKER</a>
+                <a href="<?php echo base_url() ?>user/jobseeker_registration" class="btn btn-primary btn-lg mt-3">Register as JOB SEEKER</a>
             </div>
         </div>
         </div>
@@ -35,7 +35,7 @@
             <div class="card-body text-center">
                 <p class="h2">Are you an Employer?</p>
                 <p>Find your applicants with us conveniently</p>
-                <a href="<?php echo base_url() ?>home/employer_registration" class="btn btn-secondary btn-lg mt-3">Register as EMPLOYER</a>
+                <a href="<?php echo base_url() ?>user/employer_registration" class="btn btn-secondary btn-lg mt-3">Register as EMPLOYER</a>
             </div>
         </div>
         </div>

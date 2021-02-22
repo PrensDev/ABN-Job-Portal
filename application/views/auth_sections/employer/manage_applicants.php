@@ -218,10 +218,6 @@
         location.replace('<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/pending' ?>');
     });
 
-    $('#interviewingTab').on('click', function() {
-        location.replace('<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/interviewing' ?>');
-    });
-
     $('#hiredTab').on('click', function() {
         location.replace('<?php echo base_url() . 'auth/manage_applicants/' . $jobPostID . '/hired' ?>');
     });
@@ -238,15 +234,6 @@
             $(this).find('#message').html('Are you sure you want to hire <strong>' + applicantName + '</strong> for <strong><?php echo $jobTitle ?></strong>?');
             $(this).find('#hireApplicantBtn').attr('value', applicationID);
         });
-
-        $('#interviewApplicantModal').on('show.bs.modal', function (e) {
-            var btn = $(e.relatedTarget);
-            var applicationID = btn.data('applicationid');
-            var applicantName = btn.data('applicantname');
-            $(this).find('#message').html('Are you sure you want to just call for an interview for <strong>' + applicantName + '</strong> for <strong><?php echo $jobTitle ?></strong>?');
-            $(this).find('#rejectApplicantBtn').attr('value', applicationID);
-        });
-
 
         $('#rejectApplicantModal').on('show.bs.modal', function (e) {
             var btn = $(e.relatedTarget);
@@ -273,6 +260,7 @@
         });
     });
 
+    // HIRE APPLICANT
     $(document).on('click','#hireApplicantBtn', function(e) {
         e.preventDefault();
         var applicationID = $(this).attr('value');
@@ -289,6 +277,7 @@
         });
     });
 
+    // REJECT APPLICANT
     $(document).on('click','#rejectApplicantBtn', function(e) {
         e.preventDefault();
         var applicationID = $(this).attr('value');
@@ -305,6 +294,7 @@
         });
     });
 
+    // CANCEL HIRING
     $(document).on('click','#cancelHiringBtn', function(e) {
         e.preventDefault();
         var applicationID = $(this).attr('value');
@@ -321,6 +311,7 @@
         });
     });
 
+    // CANCEL REJECTING
     $(document).on('click','#cancelRejectingBtn', function(e) {
         e.preventDefault();
         var applicationID = $(this).attr('value');

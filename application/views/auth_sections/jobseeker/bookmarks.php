@@ -1,4 +1,4 @@
-<!-- APPLICANT PROFILE DETAILS SECTION -->
+<!-- BOOKMARKS SECTION -->
 <div class="container-fluid">
 <div class="container-md py-5">
     

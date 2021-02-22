@@ -6,7 +6,7 @@
 ?>
 
 <div class="col-lg-6 my-2">
-<div class="bg-white p-3 border d-flex flex-column h-100 justify-content-between">
+<div class="bg-white p-3 border rounded d-flex flex-column h-100 justify-content-between">
     
     <div class="d-flex mb-3 mr-1">
 
@@ -15,7 +15,7 @@
             <?php if ($profilePic != NULL) { ?>
                 <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
                     <img 
-                        class       = "border" 
+                        class       = "border rounded" 
                         src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
                         alt         = "<?php echo $jobTitle?>"
                         height      = "100"
@@ -25,7 +25,7 @@
             <?php } else { ?>
                 <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
                     <img 
-                        class       = "border" 
+                        class       = "border rounded" 
                         src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
                         alt         = "<?php echo $jobTitle ?>" 
                         height      = "100"

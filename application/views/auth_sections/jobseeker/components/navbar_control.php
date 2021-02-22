@@ -1,10 +1,43 @@
 <?php
-    $appliedJobsNumContent = $appliedJobsNum > 0 ? '<span class="badge badge-primary">' . $appliedJobsNum . '</span>' : '';
-    $bookmarksNumContent   = $bookmarksNum   > 0 ? '<span class="badge badge-primary">' . $bookmarksNum   . '</span>' : '';
+    if ($appliedJobsNum > 0) {
+        $appliedJobsNumContent = '
+            <span 
+                class          = "badge badge-primary" 
+                data-toggle    = "tooltip" 
+                data-placement = "left" 
+                title          = "You submit applications to ' . $appliedJobsNum . ' ' . toPlural('job', $appliedJobsNum) . '."
+            >' . $appliedJobsNum . '</span>';
+    } else {
+        $appliedJobsNumContent = '';
+    }
+
+    if ($bookmarksNum > 0) {
+        $bookmarksNumContent = '
+            <span 
+                class          = "badge badge-primary" 
+                data-toggle    = "tooltip" 
+                data-placement = "left" 
+                title          = "You have ' . $bookmarksNum . ' ' . toPlural('bookmark', $bookmarksNum) .'."
+            >' . $bookmarksNum . '</span>';
+    } else {
+        $bookmarksNumContent = '';
+    }
+
+    if ($unreadStatusNotificationsNum > 0) {
+        $unreadStatusNotificationsNumContent = '
+            <span 
+                class          = "badge badge-danger" 
+                data-toggle    = "tooltip" 
+                data-placement = "left" 
+                title          = "You have ' . $unreadStatusNotificationsNum . ' ' . toPlural('unread notification', $unreadStatusNotificationsNum) .'."
+            >' . $unreadStatusNotificationsNum . '</span>';
+    } else {
+        $unreadStatusNotificationsNumContent = '';
+    }
 ?>
 
 <li class="nav-link mx-md-2 nav-item dropdown">
-                                
+
     <span class="d-flex align-items-center" role="button" data-toggle="dropdown">
         <?php if (isset($profilePic)) { ?>
             <img 
@@ -24,6 +57,14 @@
             >
         <?php } ?>
         <span class="ml-1"><?php echo $userName ?></span>
+        <?php if ($unreadStatusNotificationsNum > 0) { ?>
+            <span 
+                class           = "text-danger ml-1"
+                data-toggle     = "tooltip"
+                data-placement  = "left"
+                title           = "You have unread notifications"
+            >&#9679;</span>
+        <?php } ?>
     </span>
     
     <div class="dropdown-menu dropdown-menu-right mt-3 mt-lg-0">
@@ -57,11 +98,14 @@
             <?php echo $bookmarksNumContent ?>
         </a>
 
-        <a class="dropdown-item" href="auth/notifications">
-            <div class="user-nav-icon text-secondary">
-                <i class="fas fa-bell"></i>
+        <a class="dropdown-item d-flex justify-content-between align-items-center" href="<?php echo base_url() ?>auth/notifications">
+            <div class="pr-5">
+                <div class="user-nav-icon text-secondary">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <span class="pl-1">Notifications</span>
             </div>
-            <span class="pl-1">Notifications</span>
+            <?php echo $unreadStatusNotificationsNumContent ?>
         </a>
 
         <a class="dropdown-item" href="<?php echo base_url() ?>auth/settings">
