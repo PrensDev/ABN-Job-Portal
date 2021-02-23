@@ -24,7 +24,7 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
                     src            = "<?php echo base_url() . 'public/img/jobseekers/' . $profilePic ?>" 
                     alt            = "<?php $fullName ?>" 
                     height         = "125"
-                    class          = "rounded-pill" 
+                    class          = "rounded-pill border" 
                     draggable      = "false"
                     data-toggle    = "tooltip"
                     data-placement = "bottom"
@@ -35,7 +35,7 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
                     src            = "<?php echo base_url() ?>public/img/jobseekers/blank_dp.png" 
                     alt            = "<?php echo $fullName ?>" 
                     height         = "125"
-                    class          = "rounded-pill" 
+                    class          = "rounded-pill border" 
                     draggable      = "false"
                     data-toggle    = "tooltip"
                     data-placement = "bottom"
@@ -127,7 +127,7 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
 
         <?php if ($status == 'Pending') { ?>
             <div class="row mt-2">
-                <div class="col-4 pr-1">
+                <div class="col-6 pr-1">
                     <button 
                         type               = "button"
                         class              = "btn btn-sm btn-block btn-success text-nowrap" 
@@ -141,21 +141,7 @@ $dateApplied = date_format(date_create($dateApplied),"M. d, Y");
                         </div>
                     </button>
                 </div>
-                <div class="col-4 px-1">
-                    <button 
-                        type               = "button"
-                        class              = "btn btn-sm btn-block btn-primary text-nowrap" 
-                        data-toggle        = "modal" 
-                        data-target        = "#interviewApplicantModal" 
-                        data-applicationid = "<?php echo $applicationID ?>"
-                        data-applicantname = "<?php echo $fullName ?>"
-                    >
-                        <div data-toggle="tooltip" title="Call for an interview">
-                            <i class="fas fa-phone-alt mr-1"></i>
-                        </div>
-                    </button>
-                </div>
-                <div class="col-4 pl-1">
+                <div class="col-6 pl-1">
                     <button 
                         type               = "button"
                         class              = "btn btn-sm btn-block btn-danger text-nowrap" 

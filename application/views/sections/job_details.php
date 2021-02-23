@@ -12,25 +12,31 @@
 
         <div class="col-auto d-none d-sm-inline">
             <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
-                <?php if ($profilePic === NULL) { ?>
-                    <img 
-                        src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
-                        alt         = "<?php echo $jobTitle ?>" 
-                        height      = "125" 
-                        width       = "125" 
-                        draggable   = "false"
-                        class       = "border"
-                    >
-                <?php } else { ?>
-                    <img 
-                        src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
-                        alt         = "<?php echo $jobTitle ?>" 
-                        height      = "125" 
-                        width       = "125" 
-                        draggable   = "false"
-                        class       = "border"
-                    >
-                <?php } ?>
+                <div
+                    data-toggle     = "tooltip"
+                    data-placement  = "bottom"
+                    title           = "Go to <?php echo $companyName ?> Profile"
+                >
+                    <?php if ($profilePic === NULL) { ?>
+                        <img 
+                            src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
+                            alt         = "<?php echo $jobTitle ?>" 
+                            height      = "125" 
+                            width       = "125" 
+                            draggable   = "false"
+                            class       = "border"
+                        >
+                    <?php } else { ?>
+                        <img 
+                            src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
+                            alt         = "<?php echo $jobTitle ?>" 
+                            height      = "125" 
+                            width       = "125" 
+                            draggable   = "false"
+                            class       = "border"
+                        >
+                    <?php } ?>
+                </div>
             </a>
         </div>
         

@@ -5,7 +5,12 @@
     <div class="mb-4">
         <h1 class="font-weight-light mb-2">Notifications</h1>
         <div class="text-secondary d-sm-flex justify-content-between">
-            <p class="m-0">You have <strong></strong> unread notifications.</p>
+            <?php if ($unreadNotificationsNum > 0) { ?>
+                <p class="m-0">You have <strong><?php echo $unreadNotificationsNum ?></strong> unread notifications.</p>
+            <?php } else { ?>
+                <p class="m-0">You have <strong><?php echo $allNotificationsNum ?></strong> notifications.</p>
+            <?php } ?>
+
             <?php if ($totalPages > 1) {  ?>
                 <p class="m-0">Showing page <?php echo $currentPage ?> of <?php echo $totalPages ?>.</p>
             <?php } ?>

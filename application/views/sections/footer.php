@@ -35,13 +35,13 @@
                         ],
                         [
                             'link'  => 'https://www.pinterest.com/abn-job-portal',
-                            'icon'  => 'linkedin-in',
-                            'title' => 'Seearch us on LinkedIn',
+                            'icon'  => 'pinterest-p',
+                            'title' => 'See us on Pinterest',
                         ],
                         [
                             'link'  => 'https://www.linkedin.com/abn-job-portal',
-                            'icon'  => 'facebook-f',
-                            'title' => 'Like us on facebook',
+                            'icon'  => 'linkedin-in',
+                            'title' => 'Seearch us on LinkedIn',
                         ],
                         [
                             'link'  => 'https://www.gmail.com/abn-job-portal',

@@ -683,14 +683,15 @@ class Auth extends CI_Controller {
 
                 if ($page > 0 && $page <= $totalPages) {
                     $offsetRows     = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-                    $notifications  = $this->JBSK_model->get_status_notifications($offsetRows, $fetchedRows); 
                     
                     $pagedata = [
-                        'title'         => $userdata['userName'] . ' - Notifications',
-                        'notifications' => $notifications,
-                        'totalRows'     => $AllStatusNotificationsNum,
-                        'totalPages'    => $totalPages,
-                        'currentPage'   => $page,
+                        'title'                  => $userdata['userName'] . ' - Notifications',
+                        'notifications'          => $this->JBSK_model->get_status_notifications($offsetRows, $fetchedRows),
+                        'allNotificationsNum'    => $AllStatusNotificationsNum,
+                        'unreadNotificationsNum' => $this->JBSK_model->unread_status_notifications_num(),
+                        'totalRows'              => $AllStatusNotificationsNum,
+                        'totalPages'             => $totalPages,
+                        'currentPage'            => $page,
                     ];
                     
                     $this->pagination->initialize($this->pagination_config('auth/bookmarks', $AllStatusNotificationsNum));

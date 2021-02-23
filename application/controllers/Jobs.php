@@ -194,58 +194,72 @@ class Jobs extends CI_Controller {
     // RECENT JOB LIST 
     public function recent($page = 1) {
         $totalRows   = $this->recent_posts_num();
-        $fetchedRows = 10;
-        $totalPages  = ceil($totalRows / $fetchedRows);
-        
-        if ($page > 0 && $page <= $totalPages) {
-            $offsetRows  = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
-            $RecentPosts = $this->get_recent_posts($offsetRows, $fetchedRows);
 
-            $data = $this->set_jobpage_data(
-                'Recent Jobs',
-                'Recent Jobs',
-                'Here are the list of the most recent available jobs',
-                $RecentPosts,
-                $totalRows,
-                $page,
-                $totalPages
-            );
+        if($totalRows == 0) {
+            $data = $this->set_data('Recent Jobs');
+            $data['bodyTitle'] = 'Recent Jobs';
+            $data['bodySubtitle'] = 'No recent posts found.';
 
-            $config = [
-                'base_url'          => base_url() . 'jobs/recent/',
-                'total_rows'        => $totalRows,
-                'use_page_numbers'  => TRUE,
-                'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
-                'full_tag_close'    => '</ul></nav>',
-                'attributes'        => [ 'class' => 'page-link' ],
-                'first_link'        => 'First',
-                'first_tag_open'    => '<li class="page-item">',
-                'first_tag_close'   => '</li>',
-                'prev_link'         => '<i class="fas fa-caret-left"></i>',
-                'prev_tag_open'     => '<li class="page-item">',
-                'prev_tag_close'    => '</li>',
-                'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
-                'cur_tag_close'     => '</span></li>',
-                'num_tag_open'      => '<li class="page-item">',
-                'num_tag_close'     => '</li>',
-                'next_link'         => '<i class="fas fa-caret-right"></i>',
-                'next_tag_open'     => '<li class="page-item">',
-                'next_tag_close'    => '</li>',
-                'last_link'         => 'Last',
-                'last_tag_open'     => '<li class="page-item">',
-                'last_tag_close'    => '<li>',
-            ];
-
-            $this->pagination->initialize($config);
-            
             $this->load->view('templates/header', $data);
             $this->load->view('sections/navbar', $data['userdata']);
             $this->load->view('sections/search_header');
-            $this->load->view('sections/job_list', $data);
+            $this->load->view('sections/empty_job_list', $data);
             $this->load->view('sections/footer');
             $this->load->view('templates/footer');
         } else {
-            $this->AUTH_model->err_page();
+            $fetchedRows = 10;
+            $totalPages  = ceil($totalRows / $fetchedRows);
+
+            if ($page > 0 && $page <= $totalPages) { 
+                $offsetRows  = $page == 1 ? 0 : ($page - 1) * $fetchedRows;
+                $RecentPosts = $this->get_recent_posts($offsetRows, $fetchedRows);
+
+                $data = $this->set_jobpage_data(
+                    'Recent Jobs',
+                    'Recent Jobs',
+                    'Here are the list of the most recent available jobs',
+                    $RecentPosts,
+                    $totalRows,
+                    $page,
+                    $totalPages
+                );
+
+                $config = [
+                    'base_url'          => base_url() . 'jobs/recent/',
+                    'total_rows'        => $totalRows,
+                    'use_page_numbers'  => TRUE,
+                    'full_tag_open'     => '<nav><ul class="pagination justify-content-end">',
+                    'full_tag_close'    => '</ul></nav>',
+                    'attributes'        => [ 'class' => 'page-link' ],
+                    'first_link'        => 'First',
+                    'first_tag_open'    => '<li class="page-item">',
+                    'first_tag_close'   => '</li>',
+                    'prev_link'         => '<i class="fas fa-caret-left"></i>',
+                    'prev_tag_open'     => '<li class="page-item">',
+                    'prev_tag_close'    => '</li>',
+                    'cur_tag_open'      => '<li class="page-item active"><span class="page-link">',
+                    'cur_tag_close'     => '</span></li>',
+                    'num_tag_open'      => '<li class="page-item">',
+                    'num_tag_close'     => '</li>',
+                    'next_link'         => '<i class="fas fa-caret-right"></i>',
+                    'next_tag_open'     => '<li class="page-item">',
+                    'next_tag_close'    => '</li>',
+                    'last_link'         => 'Last',
+                    'last_tag_open'     => '<li class="page-item">',
+                    'last_tag_close'    => '<li>',
+                ];
+
+                $this->pagination->initialize($config);
+                
+                $this->load->view('templates/header', $data);
+                $this->load->view('sections/navbar', $data['userdata']);
+                $this->load->view('sections/search_header');
+                $this->load->view('sections/job_list', $data);
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');
+            } else {
+                $this->AUTH_model->err_page();
+            }
         }
     }
 }

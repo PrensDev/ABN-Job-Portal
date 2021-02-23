@@ -34,15 +34,15 @@ Please install the following to get started
 
 ## Instructions
 1. Download the zip file of this code or click [here](https://github.com/PrensDev/ABN-Job-Portal/archive/main.zip).
-2. Extract the file to C:/xampp/htdocs/
+2. Extract the file to `C:/xampp/htdocs/` and make sure that the folder name would be renamed as `ABN-Job-Portal`.
 3. Open a terminal and type the following
-    1. > `cd C:/xampp/htdocs/ABN-Job-Portal`
-    2. > `npm install`
+    1. `cd C:/xampp/htdocs/ABN-Job-Portal`
+    2. `npm install`
 4. Open the Microsoft SQL Server Management Studio and copy the server name
 5. Open any editor you want. Locate this file in extracted folder
     > `ABN-Job-Portal/application/config/database.php`
 6. In database.php, locate the `$db['default']` array and edit the `'dsn'` value to this format:
     > `'dsn' => 'sqlsrv:Server=[YOUR SERVER NAME];Database=ABN_Job_Portal;'`
 7. In your Microsoft SQL Server Management Studio, open the file in `ABN-Job-Portal/queries/ABN_Job-Portal - Script.sql` and execute
-8. Open your Xampp and start the Apache
+8. Open your XAMPP and start the Apache
 9. Open any browser and type `localhost/ABN-Job-Portal` and you are now ready to use it.

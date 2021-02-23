@@ -12,27 +12,33 @@
 
         <!-- COMPANY LOGO -->
         <div class="company-logo mr-3 d-none d-sm-block">
-            <?php if ($profilePic != NULL) { ?>
-                <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
-                    <img 
-                        class       = "border rounded" 
-                        src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
-                        alt         = "<?php echo $jobTitle?>"
-                        height      = "100"
-                        draggable   = "false"
-                    >
-                </a>
-            <?php } else { ?>
-                <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
-                    <img 
-                        class       = "border rounded" 
-                        src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
-                        alt         = "<?php echo $jobTitle ?>" 
-                        height      = "100"
-                        draggable   = "false"
-                    >
-                </a>
-            <?php } ?>
+            <div
+                data-toggle     = "tooltip"
+                data-placement  = "bottom"
+                title           = "Go to <?php echo $companyName ?> profile"
+            >
+                <?php if ($profilePic != NULL) { ?>
+                    <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
+                        <img 
+                            class       = "border rounded" 
+                            src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
+                            alt         = "<?php echo $jobTitle?>"
+                            height      = "100"
+                            draggable   = "false"
+                        >
+                    </a>
+                <?php } else { ?>
+                    <a href="<?php echo base_url() . 'companies/details/' . $employerID ?>">
+                        <img 
+                            class       = "border rounded" 
+                            src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
+                            alt         = "<?php echo $jobTitle ?>" 
+                            height      = "100"
+                            draggable   = "false"
+                        >
+                    </a>
+                <?php } ?>
+            </div>            
         </div>
 
         <!-- JOB DETAILS -->

@@ -16,7 +16,7 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
                     src         = "<?php echo base_url() .'public/img/jobseekers/' . $profilePic ?>" 
                     height      = "125" 
                     width       = "125" 
-                    class       = "rounded-pill" 
+                    class       = "rounded-pill border" 
                     draggable   = "false"
                 >
             <?php } else { ?>
@@ -24,7 +24,7 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
                     src         = "<?php echo base_url()?>public/img/jobseekers/blank_dp.png" 
                     height      = "125" 
                     width       = "125" 
-                    class       = "rounded-pill" 
+                    class       = "rounded-pill border" 
                     draggable   = "false"
                 >
             <?php } ?>
@@ -35,7 +35,7 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
                 <span
                     data-toggle    = "tooltip"
                     data-placement = "bottom"
-                    title          = "Applicant Name"
+                    title          = "Applicant's Name"
                 ><?php echo $fullName ?></span>
             </h1>
             
@@ -149,18 +149,82 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
 
             <!-- NASIC INFORMATION -->
             <div class="mb-5">
-                <h2 class="font-weight-normal"><?php echo $fullName ?></h2>
+                <h2 class="font-weight-normal">
+                    <span
+                        data-toggle     = "tooltip"
+                        data-placement  = "top"
+                        title           = "Applicant's Name"
+                    >
+                        <?php echo $fullName ?>
+                    </span>
+                </h2>
                 <small class="font-italic text-secondary"><?php echo $lastUpdated ?></small>
                 <hr class="border-primary">
-                <h5 class="mb-2"><?php echo $headline ?></h5>
+                <h5 class="mb-2">
+                    <span
+                        data-toggle     = "tooltip"
+                        data-placement  = "top"
+                        title           = "Headline"
+                    >
+                        <?php echo $headline ?>
+                    </span>
+                </h5>
 
                 <div class="mb-3">
-                    <p class="mb-0"><?php echo $age . ' years old, ' . $gender ?></p>
-                    <p class="mb-0"><?php echo $cityProvince ?></p>
-                    <p class="mb-0"><?php echo $contactNumber ?></p>
-                    <p class="mb-0"><?php echo $email ?></p>
+                    <p class="mb-0">
+                        <span
+                            data-toggle     = "tooltip"
+                            data-placement  = "top"
+                            title           = "Age"
+                        >
+                            <?php echo $age . ' years old'?>
+                        </span>
+                        <span>,</span>
+                        <span
+                            data-toggle     = "tooltip"
+                            data-placement  = "top"
+                            title           = "Gender"
+                        >
+                            <?php echo $gender ?>
+                        </span>
+                    </p>
+                    <p class="mb-0">
+                        <span
+                            data-toggle     = "tooltip"
+                            data-placement  = "top"
+                            title           = "Location"
+                        >
+                            <?php echo $cityProvince ?>
+                        </span>
+                    </p>
+                    <p class="mb-0">
+                        <span
+                            data-toggle     = "tooltip"
+                            data-placement  = "top"
+                            title           = "Contact Number"
+                        >
+                            <?php echo $contactNumber ?>
+                        </span>
+                    </p>
+                    <p class="mb-0">
+                        <span
+                            data-toggle     = "tooltip"
+                            data-placement  = "top"
+                            title           = "Email"
+                        >
+                            <?php echo $email ?>
+                        </span>
+                    </p>
                 </div>
-                <p><?php echo $description ?></p>
+                <p class="mb-0">
+                    <span
+                        data-toggle     = "tooltip"
+                        data-placement  = "top"
+                        title           = "Description"
+                    >
+                        <?php echo $description ?>
+                    </span>
+                </p>
             </div>
 
             <!-- SKILLS -->
