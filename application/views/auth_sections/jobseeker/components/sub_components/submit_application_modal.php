@@ -103,5 +103,7 @@
                 location.reload();
             }
         });
+        $('#submitApplicationBtn').attr("disabled", true);
+        $('#submitApplicationBtn').prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
     });
 </script>

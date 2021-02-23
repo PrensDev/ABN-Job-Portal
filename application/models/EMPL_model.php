@@ -67,22 +67,34 @@ class EMPL_model extends CI_Model {
 
     // POST NEW JOB METHOD
     public function post_new_job() {
-        $jobPostFlag = $this->input->post('jobPostFlag') == '' ? 0 : 1;
         return $this->db->query ("
             EXEC [EMPL_PostNewJob]
-                @employerID		  = '" . $this->session->id . "',
-                @jobTitle		  = '" . ucwords($this->input->post( 'jobTitle' )) . "',
-                @jobType		  = '" . $this->input->post( 'jobType' ) . "',
-                @field	          = '" . $this->input->post( 'field' ) . "',
-                @description	  = '" . ucfirst($this->input->post( 'description' )) . "',
-                @responsibilities = '" . ucfirst($this->input->post( 'responsibilities' )) . "',
-                @skills			  = '" . ucfirst($this->input->post( 'skills' )) . "',
-                @experiences	  = '" . ucfirst($this->input->post( 'experiences' )) . "',
-                @education		  = '" . ucfirst($this->input->post( 'education' )) . "',
-                @minSalary		  = '" . $this->input->post( 'minSalary'        ) . "',
-                @maxSalary		  = '" . $this->input->post( 'maxSalary'        ) . "',
-                @jobPostFlag	  =  " . $jobPostFlag                                  . "
-        ");
+                @employerID		  = ?,
+                @jobTitle		  = ?,
+                @jobType		  = ?,
+                @field	          = ?,
+                @description	  = ?,
+                @responsibilities = ?,
+                @skills			  = ?,
+                @experiences	  = ?,
+                @education		  = ?,
+                @minSalary		  = ?,
+                @maxSalary		  = ?,
+                @jobPostFlag	  = ?
+        ", [
+            $this->session->id,
+            ucwords($this->input->post('jobTitle')),
+            $this->input->post('jobType'),
+            $this->input->post('field'),
+            ucfirst($this->input->post('description')),
+            ucfirst($this->input->post('responsibilities')),
+            ucfirst($this->input->post('skills')),
+            ucfirst($this->input->post('experiences')),
+            ucfirst($this->input->post('education')),
+            $this->input->post('minSalary'),
+            $this->input->post('maxSalary'),
+            $this->input->post('jobPostFlag') == '' ? 0 : 1,
+        ]);
     }
 
     // GET ALL POSTS METHOD

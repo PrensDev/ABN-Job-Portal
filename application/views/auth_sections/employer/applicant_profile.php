@@ -12,21 +12,36 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
     <div class="row mb-4">
         <div class="col-md-auto d-flex justify-content-center">
             <?php if (isset($profilePic)) { ?>
-                <img 
-                    src         = "<?php echo base_url() .'public/img/jobseekers/' . $profilePic ?>" 
-                    height      = "125" 
-                    width       = "125" 
-                    class       = "rounded-pill border" 
-                    draggable   = "false"
+                <div
+                    class           = "rounded-pill border" 
+                    data-toggle     = "tooltip"
+                    data-placement  = "bottom"
+                    title           = "Applicant's Profile Picture"
                 >
+                    <img 
+                        src         = "<?php echo base_url() .'public/img/jobseekers/' . $profilePic ?>" 
+                        height      = "125" 
+                        width       = "125" 
+                        class       = "rounded-pill border" 
+                        draggable   = "false"
+                    >
+                </div>
             <?php } else { ?>
-                <img 
-                    src         = "<?php echo base_url()?>public/img/jobseekers/blank_dp.png" 
-                    height      = "125" 
-                    width       = "125" 
-                    class       = "rounded-pill border" 
-                    draggable   = "false"
+                <div
+                    class           = "rounded-pill border" 
+                    data-toggle     = "tooltip"
+                    data-placement  = "bottom"
+                    title           = "This applicant doesn't have profile picture"
                 >
+                    <img 
+                        src         = "<?php echo base_url()?>public/img/jobseekers/blank_dp.png" 
+                        height      = "125" 
+                        width       = "125" 
+                        class       = "rounded-pill border" 
+                        draggable   = "false"
+                    >
+                </div>
+                
             <?php } ?>
         </div>
 
@@ -96,12 +111,6 @@ $lastUpdated = 'Last updated <strong>' . date_format(date_create($lastUpdated),"
                             data-toggle = "modal" 
                             data-target = "#hireModal"
                         >Hire</button>
-                        <button 
-                            type        = "submit" 
-                            class       = "btn btn-primary m-1 text-nowrap" 
-                            data-toggle = "modal" 
-                            data-target = "#interviewModal"
-                        >Call for Interview</button>
                         <button 
                             type        = "submit" 
                             class       = "btn btn-danger m-1 text-nowrap" 
@@ -333,21 +342,6 @@ if ($status == 'Pending') {
         'actionValue'   => $applicationID,
         'actionIcon'    => 'user',
         'actionLabel'   => 'Hire now!',
-    ]);
-
-    $this->load->view('sections/components/modal', [
-        'id'            => 'interviewModal',
-        'theme'         => 'primary',
-        'nofade'        => TRUE,
-        'centered'      => TRUE,
-        'title'         => 'Call for an interview',
-        'modalIcon'     => 'INFO',
-        'message'       => '<p class="m-1">Are you sure you want to call for an interview for <strong>' . $fullName . '</strong> for <strong>' . $jobTitle . '</strong>?</p>',
-        'actionPath'    => NULL,
-        'actionID'      => 'interviewApplicantBtn',
-        'actionValue'   => $applicationID,
-        'actionIcon'    => 'phone-alt',
-        'actionLabel'   => 'Continue',
     ]);
 
     $this->load->view('sections/components/modal', [

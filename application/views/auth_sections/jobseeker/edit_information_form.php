@@ -119,7 +119,7 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
                     >
                         <option value="Male" <?php echo $gender == 'Male' ? 'selected' : '' ?>>Male</option>
                         <option value="Female" <?php echo $gender == 'Female' ? 'selected' : '' ?>>Female</option>
-                        <option value="LGBTQA++" <?php echo $gender == 'LGBTQA++' ? 'selected' : '' ?>>LGBTQA++</option>
+                        <option value="LGBTQA+" <?php echo $gender == 'LGBTQA+' ? 'selected' : '' ?>>LGBTQA+</option>
                         <option value="Prefer not to say" <?php echo $gender == 'Prefer not to say' ? 'selected' : '' ?>>Prefer not to say</option>
                     </select>
                     <small class="invalid-feedback"><?php echo form_error('gender')?></small>

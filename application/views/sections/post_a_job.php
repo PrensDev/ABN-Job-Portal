@@ -1,5 +1,5 @@
 <?php
-    $path = $this->session->has_userdata('userType') ? 'auth/post_new_job' : 'home/login';
+    $path = $this->session->userType === 'Employer' ? 'auth/post_new_job' : 'user/login';
     $link = base_url() . $path;
 ?>
 

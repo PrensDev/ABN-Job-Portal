@@ -12,7 +12,7 @@
                 <h3 class="font-weight-normal">Newsletter</h3>
                 <p>Subscribe to our newsletter to become updated in our events everyday!</p>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Enter your email here..." aria-label="Enter your email here..." aria-describedby="button-addon2">
+                    <input type="text" class="form-control" placeholder="Enter your email here...">
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button" id="button-addon2">
                             <i class="fas fa-paper-plane"></i>
@@ -129,7 +129,7 @@
 <div class="container-fluid">
     <div class="d-sm-flex justify-content-center">
         <p class="m-0 mr-sm-1">Copyright &copy; <strong>ABN Job Portal</strong>.</p>
-        <p class="m-0">All Rights Received. <?php echo date('Y') ?></p>
+        <p class="m-0">All Rights Reserved. <?php echo date('Y') ?></p>
     </div>
     <small>
         <a href="<?php echo base_url() ?>home/terms_and_conditions" class="text-light" title="Read our Terms and Conditions">Terms and Conditions</a>

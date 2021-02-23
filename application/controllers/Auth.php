@@ -402,48 +402,57 @@ class Auth extends CI_Controller {
     // CREATE RESUME VIEW
     public function create_resume() {
         if ($this->session->userType === 'Jobseeker') {
+            $resumeData = $this->JBSK_model->view_resume();
             $userdata = $this->get_userdata();
             $pagedata = ['title' => $userdata['userName'] . ' - Create Resume'];
+            
+            if ($resumeData == NULL) {
+                $this->form_validation->set_message(['required' => 'This field cannot be blank']);
 
-            $this->form_validation->set_message(['required' => 'This field cannot be blank']);
+                $this->form_validation->set_rules([
+                    [
+                        'field' => 'headline',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'description',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'education',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'skills',
+                        'rules' => 'required',
+                    ],
+                    [
+                        'field' => 'experiences',
+                        'rules' => 'required',
+                    ],
+                ]);
 
-            $this->form_validation->set_rules([
-                [
-                    'field' => 'headline',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'description',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'education',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'skills',
-                    'rules' => 'required',
-                ],
-                [
-                    'field' => 'experiences',
-                    'rules' => 'required',
-                ],
-            ]);
-
-            if ($this->form_validation->run() === FALSE) {
+                if ($this->form_validation->run() === FALSE) {
+                    $this->load->view('templates/header', $pagedata);
+                    $this->load->view('sections/navbar', $userdata);
+                    $this->load_sess_view('create_resume_form', $userdata);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                } else {
+                    if ($this->JBSK_model->create_resume()) {
+                        $this->session->set_flashdata('added', 'success');
+                        $this->session->set_flashdata('component', 'resume');
+                    } else {
+                        $this->session->set_flashdata('added', 'failed');
+                    }
+                    redirect('auth/profile');
+                }
+            } else {
                 $this->load->view('templates/header', $pagedata);
                 $this->load->view('sections/navbar', $userdata);
-                $this->load_sess_view('create_resume_form', $userdata);
+                $this->load_sess_view('already_had_resume');
                 $this->load->view('sections/footer');
                 $this->load->view('templates/footer');
-            } else {
-                if ($this->JBSK_model->create_resume()) {
-                    $this->session->set_flashdata('added', 'success');
-                    $this->session->set_flashdata('component', 'resume');
-                } else {
-                    $this->session->set_flashdata('added', 'failed');
-                }
-                redirect('auth/profile');
             }
         } else {
             $this->AUTH_model->err_page();

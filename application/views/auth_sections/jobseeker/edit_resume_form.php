@@ -159,7 +159,7 @@ $experiences = set_value( 'experiences' ) == '' ? $experiences : set_value( 'exp
                         <?php echo $resumeFlag == 1 ? 'checked' : '' ?>
                     >
                     <label class="custom-control-label text-success font-weight-bold" for="resumeFlag">ACTIVE</label>
-                    <p class="text-secondary">Note: If status is not active, your resume will never be searched and you can't apply to any available job but you can still view and edit your resume.</p>
+                    <p class="text-secondary">Note: If status is not active, you cannot apply to any available job but you can still view and edit your resume.</p>
                 </div>
             </div>
         </div>

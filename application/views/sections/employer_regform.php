@@ -9,7 +9,7 @@
     <p class="text-danger"><small>* Required</small></p>
 
     <!-- EMPLOYER REGISTRATION FORM -->
-    <form method="POST">
+    <form method="POST" id="registerEMPLForm" novalidate>
 
         <!-- COMPANY INFORMATION FORM -->
         <div class="card border-0">
@@ -243,10 +243,25 @@
 
         <!-- USER CONTROLS -->
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Register as an Employer</button>
+            <button 
+                type  = "submit" 
+                class = "btn btn-primary"
+                id    = "registerEMPLBtn"
+            >Register as an Employer</button>
         </div>
 
     </form>
 
 </div>
 </div>
+
+<script>
+$(document).ready(function () {
+    $("#registerEMPLForm").submit(function () {
+        var registerEMPLBtn = $("#registerEMPLBtn");
+        registerEMPLBtn.attr("disabled", true);
+        registerEMPLBtn.prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        return true;
+    });
+});
+</script>

@@ -43,6 +43,6 @@ Please install the following to get started
     > `ABN-Job-Portal/application/config/database.php`
 6. In database.php, locate the `$db['default']` array and edit the `'dsn'` value to this format:
     > `'dsn' => 'sqlsrv:Server=[YOUR SERVER NAME];Database=ABN_Job_Portal;'`
-7. In your Microsoft SQL Server Management Studio, open the file in `ABN-Job-Portal/queries/ABN_Job-Portal - Script.sql` and execute
+7. In your Microsoft SQL Server Management Studio, open the file in `ABN-Job-Portal/queries/ABN_Job-Portal - Schema.sql` and execute. Optional: Execute also the file in `ABN-Job-Portal/queries/ABN_Job-Portal - Sample Data.sql` so  database have data.
 8. Open your XAMPP and start the Apache
 9. Open any browser and type `localhost/ABN-Job-Portal` and you are now ready to use it.

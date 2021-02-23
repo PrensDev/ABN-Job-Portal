@@ -9,7 +9,7 @@
     <p class="text-danger"><small>* Required</small></p>
 
     <!-- GENERAL INFORMATION FORM -->
-    <form method="POST">
+    <form method="POST" id="postJobForm">
 
         <!-- COMPANY INFORMATION FORM -->
         <div class="card my-4 border-0">
@@ -246,7 +246,11 @@
 
         <!-- USER CONTROLS -->
         <div class="d-flex justify-content-center my-4">
-            <button type="submit" class="mx-1 btn btn-primary">Post This Job</button>
+            <button 
+                type  = "submit" 
+                class = "mx-1 btn btn-primary"
+                id    = "postJobBtn"
+            >Post This Job</button>
             <button onclick="history.back()" type="button" class="mx-1 btn btn-secondary">Cancel</button>
         </div>
 
@@ -254,3 +258,14 @@
     
 </div>
 </div>
+
+<script>
+$(document).ready(function () {
+    $("#postJobForm").submit(function () {
+        var postJobBtn = $("#postJobBtn");
+        postJobBtn.attr("disabled", true);
+        postJobBtn.prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        return true;
+    });
+});
+</script>

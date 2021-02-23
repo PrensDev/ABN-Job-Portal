@@ -45,7 +45,7 @@
             <h1 class="font-weight-normal text-uppercase">
                 <span
                     data-toggle    = "tooltip"
-                    data-placement = "right"
+                    data-placement = "bottom"
                     title          = "Job Title"
                 >
                     <?php echo $jobTitle ?>

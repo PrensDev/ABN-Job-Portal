@@ -8,7 +8,7 @@
     <p class="text-danger"><small>* Required</small></p>
 
     <!-- JOBSEEKER REGISTRATION FORM -->
-    <form method="POST" novalidate>
+    <form method="POST" id="registerJBSKForm" novalidate>
 
         <!-- PERSONAL INFORMATION FORM -->
         <div class="card border-0">
@@ -105,7 +105,7 @@
                         >
                             <option value="Male" <?php echo set_value('gender') == 'Male' ? 'selected' : '' ?>>Male</option>
                             <option value="Female" <?php echo set_value('gender') == 'Female' ? 'selected' : '' ?>>Female</option>
-                            <option value="LGBTQA++" <?php echo set_value('gender') == 'LGBTQA++' ? 'selected' : '' ?>>LGBTQA++</option>
+                            <option value="LGBTQA+" <?php echo set_value('gender') == 'LGBTQA+' ? 'selected' : '' ?>>LGBTQA+</option>
                             <option value="Prefer not to say" <?php echo set_value('gender') == 'Prefer not to say' ? 'selected' : '' ?>>Prefer not to say</option>
                         </select>
                         <small class="invalid-feedback"><?php echo form_error('gender')?></small>
@@ -258,10 +258,25 @@
 
         <!-- USER CONTROLS -->
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Register as Job Seeker</button>
+            <button 
+                type    = "submit" 
+                class   = "btn btn-primary"
+                id      = "registerJBSKBtn"
+            >Register as Job Seeker</button>
         </div>
 
     </form>
     
 </div>
 </div>
+
+<script>
+$(document).ready(function () {
+    $("#registerJBSKForm").submit(function () {
+        var registerJBSKBtn = $("#registerJBSKBtn");
+        registerJBSKBtn.attr("disabled", true);
+        registerJBSKBtn.prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        return true;
+    });
+});
+</script>

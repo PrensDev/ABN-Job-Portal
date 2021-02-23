@@ -1,7 +1,17 @@
+/* ============================================================================== */
+/*                               INSTRUCTIONS                                     */
+/* ============================================================================== */
+/* Just execute this script. Nothing to create the [ABN_Job_Portal] database.	  */
+/* ============================================================================== */
+
+USE [master]
+GO
 
 -- CREATE DATABASE [ABN_Job_Portal]
+CREATE DATABASE [ABN_Job_Portal]
+GO
 
--- USE ABN_DB
+-- USE [ABN_Job_Portal]
 USE [ABN_Job_Portal]
 GO
 
@@ -349,7 +359,7 @@ GO
 -- Job Details
 CREATE VIEW [JobDetails]
 AS
-SELECT
+	SELECT
 		  [JobPosts].[jobPostID]
 		, [JobPosts].[jobTitle]
 		, [JobPosts].[jobType]
@@ -490,20 +500,27 @@ GO
   * Employers that has session
   */
 
--- Add Job Seeker Account Procedure
+-- Add User Account Procedure
 CREATE PROCEDURE [AUTH_AddUserAccount]
 	@email				VARCHAR(450),
 	@password			VARCHAR(MAX),
 	@userType			VARCHAR(MAX)
 AS
-	INSERT INTO [UserAccounts] 
-		( [email]
-		, [password]
-		, [userType] )
-	VALUES 
-		( @email
-		, @password
-		, @userType )
+	-- Check if UserAccount is not exists by email to prevent duplication
+	IF NOT EXISTS (
+		SELECT * FROM [UserAccounts]
+		WHERE [email] = @email
+	)
+	BEGIN
+		INSERT INTO [UserAccounts] 
+			( [email]
+			, [password]
+			, [userType] )
+		VALUES 
+			( @email
+			, @password
+			, @userType )
+	END
 GO
 
 -- Register Job Seeker Procedure
@@ -517,24 +534,31 @@ CREATE PROCEDURE [AUTH_RegisterJobseeker]
 	@contactNumber	VARCHAR(MAX),
 	@email			VARCHAR(450)
 AS
-	INSERT INTO [JobSeekers] 
-		( [firstName]
-		, [middleName]
-		, [lastName]
-		, [birthDate]
-		, [gender]
-		, [cityProvince]
-		, [contactNumber]
-		, [email] )
-	VALUES 
-		( @firstName
-		, @middleName
-		, @lastName
-		, @birthDate
-		, @gender
-		, @cityProvince
-		, @contactNumber
-		, @email )
+	-- Check if Jobseeker is not exist by email to prevent duplication
+	IF NOT EXISTS (
+		SELECT * FROM [JobSeekers]
+		WHERE [email] = @email
+	)
+	BEGIN
+		INSERT INTO [JobSeekers] 
+			( [firstName]
+			, [middleName]
+			, [lastName]
+			, [birthDate]
+			, [gender]
+			, [cityProvince]
+			, [contactNumber]
+			, [email] )
+		VALUES 
+			( @firstName
+			, @middleName
+			, @lastName
+			, @birthDate
+			, @gender
+			, @cityProvince
+			, @contactNumber
+			, @email )
+	END
 GO
 
 -- Register Employer Procedure
@@ -548,24 +572,31 @@ CREATE PROCEDURE [AUTH_RegisterEmployer]
 	@website		VARCHAR(MAX),
 	@description	VARCHAR(MAX)
 AS
-	INSERT INTO [Employers]
-		( [companyName]
-		, [street]
-		, [brgyDistrict]
-		, [cityProvince]
-		, [contactNumber]
-		, [email]
-		, [website]
-		, [description] )
-	VALUES
-		( @companyName
-		, @street
-		, @brgyDistrict
-		, @cityProvince
-		, @contactNumber
-		, @email
-		, @website
-		, @description )
+	-- Check if Employer is not exists by email to prevent duplication
+	IF NOT EXISTS (
+		SELECT * FROM [Employers]
+		WHERE [email] = @email
+	)
+	BEGIN
+		INSERT INTO [Employers]
+			( [companyName]
+			, [street]
+			, [brgyDistrict]
+			, [cityProvince]
+			, [contactNumber]
+			, [email]
+			, [website]
+			, [description] )
+		VALUES
+			( @companyName
+			, @street
+			, @brgyDistrict
+			, @cityProvince
+			, @contactNumber
+			, @email
+			, @website
+			, @description )
+	END
 GO
 
 -- Find User Account Procedure for Login
@@ -606,28 +637,6 @@ AS
 	UPDATE [UserAccounts]
 	SET [password] = @password
 	WHERE [email] = @email
-GO
-
--- Create JBSK Notifications
-CREATE PROCEDURE [AUTH_CreateJBSKNotification]
-	@jobseekerID		INT,
-	@title				VARCHAR(MAX),
-	@message			VARCHAR(MAX),
-	@notificationType	VARCHAR(MAX),
-	@link				VARCHAR(MAX)
-AS
-	INSERT INTO [JBSK_Notifications] 
-		( [jobseekerID]
-		, [title]
-		, [message]
-		, [notificationType]
-		, [link] )
-	VALUES
-		( @jobseekerID
-		, @title
-		, @message
-		, @notificationType
-		, @link )
 GO
 
 -- Get User Password
@@ -686,7 +695,7 @@ AS
 		, [Resumes].[lastUpdated]
 		, CAST([Resumes].[resumeFlag] AS INT) AS [resumeFlag]
 		, [JobSeekers].[firstName] + ' ' + [JobSeekers].[lastName] AS [fullName]
-		, CONVERT(INT, ROUND(DATEDIFF(hour, [birthDate], GETDATE())/8766.0,0)) AS [age]
+		, DATEDIFF(hour, [birthDate], GETDATE())/8766 AS [age]
 		, [JobSeekers].[gender]
 		, [JobSeekers].[cityProvince]
 		, [JobSeekers].[contactNumber]
@@ -707,22 +716,27 @@ CREATE PROCEDURE [JBSK_CreateResume]
 	@experiences	VARCHAR(MAX),
 	@resumeFlag		BINARY
 AS
-	INSERT INTO [Resumes]
-		( [jobseekerID]
-		, [headline]
-		, [description]
-		, [education]
-		, [skills]
-		, [experiences]
-		, [resumeFlag] )
-	VALUES
-		( @jobseekerID
-		, @headline
-		, @description
-		, @education
-		, @skills
-		, @experiences
-		, @resumeFlag )
+	IF NOT EXISTS (
+		SELECT * FROM [Resumes] WHERE [jobseekerID] = @jobseekerID
+	)
+	BEGIN
+		INSERT INTO [Resumes]
+			( [jobseekerID]
+			, [headline]
+			, [description]
+			, [education]
+			, [skills]
+			, [experiences]
+			, [resumeFlag] )
+		VALUES
+			( @jobseekerID
+			, @headline
+			, @description
+			, @education
+			, @skills
+			, @experiences
+			, @resumeFlag )
+	END
 GO
 
 -- Remove Resume Procedure
@@ -838,31 +852,45 @@ CREATE PROCEDURE [JBSK_SubmitApplication]
 	@jobPostID INT,
 	@resumeID  INT
 AS
-	INSERT INTO [Applications]
-		( [jobPostID]
-		, [jobseekerID]
-		, [headline]
-		, [description]
-		, [education]
-		, [skills] 
-		, [experiences] 
-		, [resumeFile]
-		, [lastUpdated] )
-	SELECT
-		  [JobPosts].[jobPostID]
-		, [Resumes].[jobseekerID]
-		, [Resumes].[headline]
-		, [Resumes].[description]
-		, [Resumes].[education]
-		, [Resumes].[skills]
-		, [Resumes].[experiences]
-		, [Resumes].[resumeFile]
-		, [Resumes].[lastUpdated]
-	FROM [Resumes]
-	LEFT OUTER JOIN [JobPosts]
-		ON [JobPosts].[jobPostID] = @jobPostID
-	WHERE
-		[Resumes].[resumeID] = @resumeID
+	-- Check if application is already exists to prevent duplication
+	-- happens when user try to click button multiple times while waiting+
+	IF NOT EXISTS (
+		SELECT * FROM [Applications]
+		WHERE jobPostID = @jobPostID
+			AND jobseekerID = (
+				SELECT [JobSeekers].[jobseekerID] FROM [JobSeekers]
+				INNER JOIN [Resumes]
+					ON [JobSeekers].[jobseekerID] = [Resumes].[jobseekerID]
+					AND [Resumes].[resumeID] = @resumeID
+			)
+	)
+	BEGIN
+		INSERT INTO [Applications]
+			( [jobPostID]
+			, [jobseekerID]
+			, [headline]
+			, [description]
+			, [education]
+			, [skills] 
+			, [experiences] 
+			, [resumeFile]
+			, [lastUpdated] )
+		SELECT
+			  [JobPosts].[jobPostID]
+			, [Resumes].[jobseekerID]
+			, [Resumes].[headline]
+			, [Resumes].[description]
+			, [Resumes].[education]
+			, [Resumes].[skills]
+			, [Resumes].[experiences]
+			, [Resumes].[resumeFile]
+			, [Resumes].[lastUpdated]
+		FROM [Resumes]
+		LEFT OUTER JOIN [JobPosts]
+			ON [JobPosts].[jobPostID] = @jobPostID
+		WHERE
+			[Resumes].[resumeID] = @resumeID
+	END
 GO
 
 -- Cancel Application Procedure
@@ -945,17 +973,27 @@ AS
 	WHERE [Applications].[jobseekerID] = @jobseekerID
 GO
 
+SELECT * FROM Bookmarks
+
 -- Add Bookmark Procedure
 CREATE PROCEDURE [JBSK_AddBookmark]
 	@jobseekerID INT,
 	@jobPostID	 INT
 AS
-	INSERT INTO [Bookmarks]
-		( [jobseekerID]
-		, [jobPostID] )
-	VALUES 
-		( @jobseekerID
-		, @jobPostID )
+	-- Check if bookmark is not exists based on jobseekerID and jobpostID to prevent duplication
+	IF NOT EXISTS (
+		SELECT * FROM [Bookmarks]
+		WHERE [jobseekerID] = @jobseekerID
+			AND [jobPostID] = @jobPostID
+	)
+	BEGIN
+		INSERT INTO [Bookmarks]
+			( [jobseekerID]
+			, [jobPostID] )
+		VALUES 
+			( @jobseekerID
+			, @jobPostID )
+	END
 GO
 
 -- Remove Bookmark Procedure
