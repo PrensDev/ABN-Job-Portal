@@ -52,11 +52,13 @@ class User extends CI_Controller {
 
             if ($birthDate == NULL) {
                 $age = 0;
-            }
-            else if ($birthDate != NULL) {
+            } else if (strtotime($birthDate) > strtotime('now')) {
+                $age = -1;
+            } else if ($birthDate != NULL) {
                 $adjust = (date("md") >= date("md", strtotime($birthDate))) ? 0 : -1;
                 $years = date("Y") - date("Y", strtotime($birthDate));
-                $age = $years + $adjust;
+                $raw_age = $years + $adjust;
+                $age = $raw_age == 0 ? 1 : $raw_age;
             } else {
                 $age = 1;
             }
@@ -120,7 +122,7 @@ class User extends CI_Controller {
             ];
 
             if ($this->form_validation->run() === FALSE) {
-                if ($age <= 0) {
+                if ($age == -1) {
                     $this->session->set_flashdata('invalid', 'date');
                 } else if ($age < 18 && $age >= 1) {
                     $this->session->set_flashdata('invalid', 'age');
@@ -140,7 +142,7 @@ class User extends CI_Controller {
                     $this->load->view('sections/jobseeker_regform', $data);
                     $this->load->view('sections/footer');
                     $this->load->view('templates/footer');
-                } else if ($age <= 0) {
+                } else if ($age == -1) {
                     $this->session->set_flashdata('invalid', 'date');
 
                     $this->load->view('templates/header', $data);

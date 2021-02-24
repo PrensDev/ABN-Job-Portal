@@ -54,7 +54,6 @@ class JBSK_model extends CI_Model {
                 @firstName	   = ?,
                 @middleName	   = ?,
                 @lastName	   = ?,
-                @birthDate	   = ?,
                 @gender		   = ?,
                 @cityProvince  = ?,
                 @contactNumber = ?
@@ -63,7 +62,6 @@ class JBSK_model extends CI_Model {
             $input[ 'firstName'     ], 
             $input[ 'middleName'    ], 
             $input[ 'lastName'      ], 
-            $input[ 'birthDate'     ], 
             $input[ 'gender'        ], 
             $input[ 'cityProvince'  ], 
             $input[ 'contactNumber' ], 

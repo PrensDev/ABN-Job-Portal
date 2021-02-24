@@ -305,10 +305,6 @@ class Auth extends CI_Controller {
                         'rules' => 'required',
                     ],
                     [
-                        'field' => 'birthDate',
-                        'rules' => 'required',
-                    ],
-                    [
                         'field' => 'gender',
                         'rules' => 'required',
                     ],
