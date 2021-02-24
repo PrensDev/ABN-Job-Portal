@@ -973,8 +973,6 @@ AS
 	WHERE [Applications].[jobseekerID] = @jobseekerID
 GO
 
-SELECT * FROM Bookmarks
-
 -- Add Bookmark Procedure
 CREATE PROCEDURE [JBSK_AddBookmark]
 	@jobseekerID INT,

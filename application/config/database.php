@@ -74,11 +74,11 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'			=> 'sqlsrv:Server=PRENSDEV\MSSQLSERVER01;Database=ABN_Job_Portal;',
+	'dsn'			=> '',
 	'hostname' 		=> 'localhost',
 	'username' 		=> NULL,
 	'password' 		=> NULL,
-	'database' 		=> 'ABN_Job_Portal',
+	'database' 		=> '',
 	'dbdriver' 		=> 'pdo',
 	'dbprefix' 		=> '',
 	'pconnect' 		=> FALSE,
