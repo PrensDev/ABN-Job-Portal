@@ -71,8 +71,9 @@ class Auth extends CI_Controller {
 
     // UPLOAD IMAGE
     public function upload_img() {
-        if ($this->session->has_userdata('userType')) {
+        if ($this->is_user_ajax_request($this->session->userType)) {
             $img = $this->input->post('img');
+
             $img_array1 = explode(';', $img);
             $img_array2 = explode(',', $img_array1[1]);
             $base64_decode = base64_decode($img_array2[1]);
@@ -96,6 +97,8 @@ class Auth extends CI_Controller {
                     unlink('public/img/employers/' . $userdata['profilePic']);
                 }
             }
+        } else {
+            $this->AUTH_model->err_page();
         }
     }
 

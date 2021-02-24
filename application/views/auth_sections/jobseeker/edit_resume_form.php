@@ -9,7 +9,7 @@ $experiences = set_value( 'experiences' ) == '' ? $experiences : set_value( 'exp
 
 ?>
 
-<form method="POST">
+<form method="POST" id="editResumeForm">
 
 <div class="container-fluid py-5 user-select-none">
 <div class="container">
@@ -167,9 +167,24 @@ $experiences = set_value( 'experiences' ) == '' ? $experiences : set_value( 'exp
     
     <!-- USER CONTROLS -->
     <div class="d-flex justify-content-center my-4">
-        <button type="submit" class="mx-1 btn btn-primary">Save</button>
+        <button 
+            type  = "submit" 
+            class = "mx-1 btn btn-primary"
+            id    = "saveBtn"
+        >Save</button>
         <a href="<?php echo base_url() ?>auth/profile" class="mx-1 btn btn-secondary">Cancel</a>
     </div>
 </div>
 </div>
 </form>
+
+<script>
+$(document).ready(function () {
+    $("#editResumeForm").submit(function () {
+        var saveBtn = $("#saveBtn");
+        saveBtn.attr("disabled", true);
+        saveBtn.prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        return true;
+    });
+});
+</script>

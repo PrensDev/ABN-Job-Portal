@@ -127,6 +127,9 @@
         
         // ON SAVE IMAGE
         $('#saveCroppedImgBtn').click(function() {
+            $(this).attr("disabled", true);
+            $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+            
             imageCrop.croppie('result', {
                 type: 'canvas',
                 size: 'viewport'
