@@ -19,7 +19,7 @@ GO
 /*                                    TABLES                                      */
 /* ============================================================================== */
 
--- UserAccounts Table
+-- UserAccounts Tableww
 CREATE TABLE [UserAccounts] (
 	[userID] 
 		INT NOT NULL IDENTITY(1,1)
@@ -830,7 +830,6 @@ CREATE PROCEDURE [JBSK_UpdateInfo]
 	@firstName		VARCHAR(MAX),
 	@middleName		VARCHAR(MAX),
 	@lastName		VARCHAR(MAX),
-	@birthDate		VARCHAR(MAX),
 	@gender			VARCHAR(MAX),
 	@cityProvince	VARCHAR(MAX),
 	@contactNumber	VARCHAR(MAX)
@@ -840,7 +839,6 @@ AS
 		  [firstName] 		= @firstName
 		, [middleName] 		= @middleName
 		, [lastName] 		= @lastName
-		, [birthDate] 		= @birthDate
 		, [gender] 			= @gender
 		, [cityProvince]	= @cityProvince
 		, [contactNumber] 	= @contactNumber

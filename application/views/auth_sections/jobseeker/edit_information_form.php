@@ -98,13 +98,12 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
                     <span class="text-danger">*</span>
                     <input 
                         type    = "date" 
-                        class   = "form-control <?php echo form_error('birthDate') ? 'is-invalid' : '' ?>" 
+                        class   = "form-control" 
                         id      = "birthDate" 
                         value   = "<?php echo $birthDate ?>"
                         name    = "birthDate"
                         disabled 
                     >
-                    <small class="invalid-feedback"><?php echo form_error('birthDate')?></small>
                 </div>
 
                 <!-- GENDER -->
