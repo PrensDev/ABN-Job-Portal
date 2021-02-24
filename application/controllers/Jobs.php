@@ -173,20 +173,24 @@ class Jobs extends CI_Controller {
         } else {
             $jobDetails = $this->MAIN_model->job_details($jobPostID);
             
-            if ($this->session->userType === 'Jobseeker') {
-                $jobDetails->applicationStatus = $this->JBSK_model->application_status($jobPostID);
-                $jobDetails->resumeData        = $this->JBSK_model->view_resume();
-            }
+            if ($jobDetails !== NULL) {
+                if ($this->session->userType === 'Jobseeker') {
+                    $jobDetails->applicationStatus = $this->JBSK_model->application_status($jobPostID);
+                    $jobDetails->resumeData        = $this->JBSK_model->view_resume();
+                }
 
-            if ($jobDetails === NULL) {
-                $this->AUTH_model->err_page();
+                if ($jobDetails === NULL) {
+                    $this->AUTH_model->err_page();
+                } else {
+                    $data = $this->set_data('Job Details');    
+                    $this->load->view('templates/header', $data);
+                    $this->load->view('sections/navbar', $data['userdata']);
+                    $this->load->view('sections/job_details', $jobDetails);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                }
             } else {
-                $data = $this->set_data('Job Details');    
-                $this->load->view('templates/header', $data);
-                $this->load->view('sections/navbar', $data['userdata']);
-                $this->load->view('sections/job_details', $jobDetails);
-                $this->load->view('sections/footer');
-                $this->load->view('templates/footer');
+                $this->AUTH_model->err_page();
             }
         }
     }

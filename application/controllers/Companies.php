@@ -35,26 +35,30 @@ class Companies extends CI_Controller {
 
     // COMPANY DETAILS VIEW
     public function details($employerID = NULL) {
-        if ($employerID == NULL) {
-            $this->Auth_model->err_page();
+        if ($employerID === NULL) {
+            $this->AUTH_model->err_page();
         } else {
             $employerDetails = $this->MAIN_model->company_details($employerID);
 
-            $data = $this->set_data('Company Details');
-            $data['employerDetails'] = $employerDetails;
+            if ($employerDetails !== NULL) {
+                $data = $this->set_data('Company Details');
+                $data['employerDetails'] = $employerDetails;
 
-            $this->load->view('templates/header', $data);
-            $this->load->view('sections/navbar', $data['userdata']);
-            $this->load->view('sections/company_information', $employerDetails);
-            $this->load->view('sections/footer');
-            $this->load->view('templates/footer');
+                $this->load->view('templates/header', $data);
+                $this->load->view('sections/navbar', $data['userdata']);
+                $this->load->view('sections/company_information', $employerDetails);
+                $this->load->view('sections/footer');
+                $this->load->view('templates/footer');
+            } else {
+                $this->AUTH_model->err_page();
+            }
         }
     }
 
     // AVAILABLE JOBS VIEW
     public function available_jobs($employerID = NULL, $page = 1) {
         if ($employerID == NULL) {
-            $this->Auth_model->err_page();
+            $this->AUTH_model->err_page();
         } else {
             $totalRows = $this->MAIN_model->available_jobs_num($employerID);
             $fetchedRows = 10;
@@ -108,7 +112,7 @@ class Companies extends CI_Controller {
                 $this->load->view('sections/footer');
                 $this->load->view('templates/footer');
             } else {
-                $this->Auth_model->err_page();
+                $this->AUTH_model->err_page();
             }
         }
     }
