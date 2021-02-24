@@ -19,21 +19,21 @@
                 >
                     <?php if ($profilePic === NULL) { ?>
                         <img 
-                            src         = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
-                            alt         = "<?php echo $jobTitle ?>" 
-                            height      = "125" 
-                            width       = "125" 
-                            draggable   = "false"
-                            class       = "border"
+                            src       = "<?php echo base_url() ?>public/img/employers/blank_dp.png" 
+                            alt       = "<?php echo $jobTitle ?>" 
+                            height    = "125" 
+                            width     = "125" 
+                            draggable = "false"
+                            class     = "border"
                         >
                     <?php } else { ?>
                         <img 
-                            src         = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
-                            alt         = "<?php echo $jobTitle ?>" 
-                            height      = "125" 
-                            width       = "125" 
-                            draggable   = "false"
-                            class       = "border"
+                            src       = "<?php echo base_url() . 'public/img/employers/' . $profilePic ?>" 
+                            alt       = "<?php echo $jobTitle ?>" 
+                            height    = "125" 
+                            width     = "125" 
+                            draggable = "false"
+                            class     = "border"
                         >
                     <?php } ?>
                 </div>
@@ -125,6 +125,12 @@
 
     <?php if ($jobPostFlag == 0) { ?>
         <div class="alert alert-danger mb-4">
+            <i 
+                class          = "fas fa-exclamation-triangle mr-1 text-warning"
+                data-toggle    = "tooltip"
+                data-placement = "top"
+                title          = "This job cannot accept more applicants."    
+            ></i>
             <span>This job is no longer active.</span>
         </div>
     <?php } ?>

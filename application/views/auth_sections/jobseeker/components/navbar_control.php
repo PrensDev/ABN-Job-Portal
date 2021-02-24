@@ -57,14 +57,6 @@
             >
         <?php } ?>
         <span class="ml-1"><?php echo $userName ?></span>
-        <?php if ($unreadStatusNotificationsNum > 0) { ?>
-            <span 
-                class           = "text-danger ml-1"
-                data-toggle     = "tooltip"
-                data-placement  = "left"
-                title           = "You have unread notifications"
-            >&#9679;</span>
-        <?php } ?>
     </span>
     
     <div class="dropdown-menu dropdown-menu-right mt-3 mt-lg-0">
@@ -132,3 +124,18 @@
     </div>
 
 </li>
+
+<?php if ($unreadStatusNotificationsNum > 0) { ?>
+    <li class="nav-link-item mx-md-2 nav-item dropdown">
+        <a 
+            class="nav-link d-flex justify-content-between align-items-center" 
+            href="<?php echo base_url() ?>auth/notifications"
+            data-toggle     = "tooltip"
+            data-placement  = "bottom"
+            title           = "You have <?php echo $unreadStatusNotificationsNum ?> unread notifications"
+        >
+            <i class="fas fa-bell text-secondary"></i>
+            <span class="badge badge-danger ml-1"><?php echo $unreadStatusNotificationsNum ?></span>
+        </a>
+    </li>
+<?php } ?>

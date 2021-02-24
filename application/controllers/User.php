@@ -12,6 +12,8 @@ class User extends CI_Controller {
 
     // LOGIN VIEW
     public function login() {
+        $this->session->unset_userdata(['invalid']);
+
         if ($this->session->has_userdata('userType')) {
             redirect();
         } else {
@@ -46,6 +48,19 @@ class User extends CI_Controller {
         if ($this->session->has_userdata('USER_type')) {
             redirect();
         } else {
+            $birthDate = $this->input->post('birthDate');
+
+            if ($birthDate == NULL) {
+                $age = 0;
+            }
+            else if ($birthDate != NULL) {
+                $adjust = (date("md") >= date("md", strtotime($birthDate))) ? 0 : -1;
+                $years = date("Y") - date("Y", strtotime($birthDate));
+                $age = $years + $adjust;
+            } else {
+                $age = 1;
+            }
+
             $this->form_validation->set_rules([
                 [
                     'field' => 'firstName',
@@ -96,13 +111,20 @@ class User extends CI_Controller {
                 'min_length'    => 'Your password must be 8 characters and above',
                 'matches'       => 'It doesn\'t match to your password',
             ]);
+            
+            $data = [        
+                'title'         => 'Register as Job Seeker',
+                'header'        => 'Register as Job Seeker',
+                'header_img'    => 'header.jpg',
+                'age'           => $age,
+            ];
 
             if ($this->form_validation->run() === FALSE) {
-                $data = [        
-                    'title'         => 'Register as Job Seeker',
-                    'header'        => 'Register as Job Seeker',
-                    'header_img'    => 'header.jpg',
-                ];
+                if ($age <= 0) {
+                    $this->session->set_flashdata('invalid', 'date');
+                } else if ($age < 18 && $age >= 1) {
+                    $this->session->set_flashdata('invalid', 'age');
+                }
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('sections/navbar', $data);
@@ -110,7 +132,25 @@ class User extends CI_Controller {
                 $this->load->view('sections/footer');
                 $this->load->view('templates/footer');
             } else {
-                $this->AUTH_model->register_jobseeker();
+                if ($age < 18 && $age >= 1) {
+                    $this->session->set_flashdata('invalid', 'age');
+
+                    $this->load->view('templates/header', $data);
+                    $this->load->view('sections/navbar', $data);
+                    $this->load->view('sections/jobseeker_regform', $data);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                } else if ($age <= 0) {
+                    $this->session->set_flashdata('invalid', 'date');
+
+                    $this->load->view('templates/header', $data);
+                    $this->load->view('sections/navbar', $data);
+                    $this->load->view('sections/jobseeker_regform', $data);
+                    $this->load->view('sections/footer');
+                    $this->load->view('templates/footer');
+                } else {
+                    $this->AUTH_model->register_jobseeker();
+                }
             }
         }
     }

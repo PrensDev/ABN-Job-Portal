@@ -16,6 +16,10 @@ if ($this->session->has_userdata('userType')) {
 ?>
 <script>
     $(document).on('click','#logoutBtn', function(e) {
+        var logoutBtn = $("#logoutBtn");
+        logoutBtn.attr("disabled", true);
+        logoutBtn.prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         $.ajax({
             url:  '<?php echo base_url() ?>auth/logout',

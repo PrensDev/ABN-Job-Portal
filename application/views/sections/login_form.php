@@ -5,11 +5,11 @@
     <!-- HEADER -->
     <div class="text-center mb-4"> 
         <img 
-            src="<?php echo base_url() ?>public/img/brand/brand-02.png" 
-            height="100" 
-            alt="AB Job Portal Website" 
-            class="mb-3" 
-            draggable="false"
+            src       = "<?php echo base_url() ?>public/img/brand/brand-02.png" 
+            height    = "100" 
+            alt       = "ABN Job Portal" 
+            class     = "mb-3" 
+            draggable = "false"
         >
         <h5 class="font-weight-light">Sign in using your account.</h5>
     </div>
@@ -18,7 +18,7 @@
 
     <!-- FORM SECTION -->
     <div class="bg-white p-3 rounded my-2 border">
-        <form method="POST">
+        <form method="POST" id="loginForm">
             
             <!-- EMAIL FIELD -->
             <div class="form-group">
@@ -48,9 +48,9 @@
 
             
             <!-- LOGIN USER CONTROL -->
-            <button type="submit" class="btn btn-primary btn-block">
-                <i class="fas fa-sign-in-alt mr-1"></i>
+            <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
                 <span>Login</span>
+                <i class="fas fa-sign-in-alt mr-1"></i>
             </button>
             
         </form>
@@ -65,13 +65,35 @@
     <!-- FOOTER LINK SECTION -->
     <div class="d-flex justify-content-between">
         <div>
-            <small><a href="<?php echo base_url()?>" title="Back to Home page.">Home</a></small>
+            <small>
+                <a 
+                    href            = "<?php echo base_url()?>" 
+                    data-toggle     = "tooltip"
+                    data-placement  = "top"
+                    title           = "Go to Home page."
+                >Home</a>
+            </small>
         </div>
         <div>
-            <small><a href="<?php echo base_url()?>home/terms_and_conditions" title="Read the terms and conditions.">Terms and Conditions</a></small>
+            <small>
+                <a 
+                    href            = "<?php echo base_url()?>home/terms_and_conditions" 
+                    data-toggle     = "tooltip"
+                    data-placement  = "top"
+                    title           = "Read the terms and conditions."
+                >Terms and Conditions</a>
+            </small>
         </div>
     </div>
 
 </div>
 </div>
 </div>
+
+<script>
+$(document).on('click', '#loginBtn', function () {
+    $(this).attr("disabled", true);
+    $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+    return true;
+});
+</script>

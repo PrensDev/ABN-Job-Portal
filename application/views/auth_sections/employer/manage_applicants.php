@@ -262,6 +262,9 @@
 
     // HIRE APPLICANT
     $(document).on('click','#hireApplicantBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         var applicationID = $(this).attr('value');
         $.ajax({
@@ -279,6 +282,9 @@
 
     // REJECT APPLICANT
     $(document).on('click','#rejectApplicantBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         var applicationID = $(this).attr('value');
         $.ajax({
@@ -296,6 +302,9 @@
 
     // CANCEL HIRING
     $(document).on('click','#cancelHiringBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         var applicationID = $(this).attr('value');
         $.ajax({
@@ -313,6 +322,9 @@
 
     // CANCEL REJECTING
     $(document).on('click','#cancelRejectingBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         var applicationID = $(this).attr('value');
         $.ajax({

@@ -49,6 +49,13 @@ if ($this->session->flashdata('removed') == 'success') {
         $flashdata  = 'failed';
     }
 }
+
+// INVALID AGE
+if ($this->session->flashdata('invalid') == 'age') { 
+    $flashdata  = 'success';
+    $theme      = 'danger';
+    $content    = 'You must be <strong>18 and above</strong>.';
+} 
 ?>
 
 <!-- ALERT DISPLAY -->

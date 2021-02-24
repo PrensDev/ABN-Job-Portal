@@ -7,8 +7,10 @@
 
     <p class="text-danger"><small>* Required</small></p>
 
+    <?php $this->load->view('auth_sections/components/alert') ?>
+
     <!-- JOBSEEKER REGISTRATION FORM -->
-    <form method="POST" id="registerJBSKForm" novalidate>
+    <form method="POST" id="registerJBSKForm">
 
         <!-- PERSONAL INFORMATION FORM -->
         <div class="card border-0">
@@ -52,7 +54,12 @@
                             >
                             <div class="input-group-append">
                                 <span class="input-group-text text-info bg-white">
-                                    <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Middle name is not required"></i>
+                                    <i 
+                                        class           = "fas fa-question-circle" 
+                                        data-toggle     = "tooltip" 
+                                        data-placement  = "top" 
+                                        title           = "Middle name is not required"
+                                    ></i>
                                 </span>
                             </div>
                         </div>
@@ -84,12 +91,18 @@
                         <span class="text-danger">*</span>
                         <input 
                             type    = "date" 
-                            class   = "form-control <?php echo form_error('birthDate') ? 'is-invalid' : '' ?>" 
+                            class   = "form-control <?php echo form_error('birthDate') || $this->session->has_userdata('invalid') ? 'is-invalid' : '' ?>" 
                             id      = "birthDate" 
                             value   = "<?php echo set_value('birthDate'); ?>"
                             name    = "birthDate" 
                         >
                         <small class="invalid-feedback"><?php echo form_error('birthDate')?></small>
+                        <?php if ($this->session->invalid == 'age') { ?>
+                            <small class="invalid-feedback">You must be 18 and above</small>
+                        <?php } ?>
+                        <?php if ($this->session->invalid == 'date') { ?>
+                            <small class="invalid-feedback">You insert an invalid date</small>
+                        <?php } ?>
                     </div>
 
                     <!-- GENDER -->

@@ -10,7 +10,7 @@ $contactNumber = set_value( 'contactNumber' ) == '' ? $contactNumber : set_value
 
 ?>
 
-<form method="POST">
+<form method="POST" id="editInffoForm">
 <div class="container-fluid py-3 user-select-none">
 <div class="container py-5">
 
@@ -212,7 +212,7 @@ $contactNumber = set_value( 'contactNumber' ) == '' ? $contactNumber : set_value
             <i class="fas fa-times"></i>
             <span>Cancel</span>
         </button>
-        <button type="sumbit" class="btn btn-primary">
+        <button type="sumbit" class="btn btn-primary" id="submitBtn">
             <i class="fas fa-check"></i>
             <span>Submit</span>
         </button>
@@ -222,3 +222,14 @@ $contactNumber = set_value( 'contactNumber' ) == '' ? $contactNumber : set_value
 </div>
 </div>
 </form>
+
+<script>
+$(document).ready(function () {
+    $("#editInffoForm").submit(function () {
+        var submitBtn = $("#submitBtn");
+        submitBtn.attr("disabled", true);
+        submitBtn.prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        return true;
+    });
+});
+</script>

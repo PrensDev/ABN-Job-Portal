@@ -111,8 +111,8 @@
                                 placeholder = "Minimum Offered Salary"
                                 value       = "<?php echo set_value('minSalary') ?>"
                             >
+                            <small class="invalid-feedback"><?php echo form_error('minSalary') ?></small>
                         </div>
-                        <small class="invalid-feedback"><?php echo form_error('minSalary') ?></small>
                     </div>
 
                     <!-- MAXIMUM SALARY -->
@@ -132,8 +132,8 @@
                                 placeholder = "Maximum Offered Salary"
                                 value       = "<?php echo set_value('maxSalary') ?>"
                             >
+                            <small class="invalid-feedback"><?php echo form_error('maxSalary') ?></small>
                         </div>
-                        <small class="invalid-feedback"><?php echo form_error('maxSalary') ?></small>
                     </div>
 
                 </div>

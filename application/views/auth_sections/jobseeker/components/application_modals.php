@@ -31,6 +31,9 @@
 
 <script>
     $(document).on('click','#cancelApplicationBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         $.ajax({
             url:        "<?php echo base_url() ?>auth/cancel_application",
@@ -46,6 +49,9 @@
     });
 
     $(document).on('click','#addBookmarkBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         $.ajax({
             url:        "<?php echo base_url() ?>auth/add_bookmark",
@@ -61,6 +67,9 @@
     });
 
     $(document).on('click','#removeBookmarkBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         $.ajax({
             url:        "<?php echo base_url() ?>auth/remove_bookmark",

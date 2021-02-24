@@ -56,7 +56,7 @@
 
     <!-- FORM SECTION -->
     <div class="bg-white border p-3 my-2 border">
-        <form method="POST">
+        <form method="POST" id="submitPasswordForm">
 
             <div class="form-group">
                 <label for="password">Password:</label>
@@ -71,7 +71,11 @@
                 <small class="invalid-feedback">This is a required field.</small>                
             </div>
             
-            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            <button 
+                type  = "submit" 
+                class = "btn btn-primary btn-block"
+                id    = "submitBtn"
+            >Submit</button>
 
             <hr>
 
@@ -87,14 +91,29 @@
     <div class="d-flex justify-content-between">
         <div>
             <small>
-                <a href="<?php echo base_url() ?>auth/settings" title="Settings">Settings</a>
+                <a 
+                    href            = "<?php echo base_url() ?>auth/settings" 
+                    data-toggle     = "tooltip"
+                    data-placement  = "top"
+                    title           = "Go to Settings"
+                >Settings</a>
             </small>
         </div>
         <div>
             <small>
-                <a href="<?php echo base_url() ?>" title="Back to Home page.">Home</a>
+                <a 
+                    href            = "<?php echo base_url() ?>" 
+                    data-toggle     = "tooltip"
+                    data-placement  = "top"
+                    title           = "Go to Home page."
+                >Home</a>
                 <span> | </span>
-                <a href="<?php echo base_url() ?>home/terms_and_conditions" title="Read the terms and conditions.">Terms and Conditions</a>
+                <a 
+                    href            = "<?php echo base_url() ?>home/terms_and_conditions"
+                    data-toggle     = "tooltip"
+                    data-placement  = "top" 
+                    title           = "Read the terms and conditions."
+                >Terms and Conditions</a>
             </small>
         </div>
     </div>
@@ -102,3 +121,14 @@
 </div>
 </div>
 </div>
+
+<script>
+$(document).ready(function () {
+    $("#submitPasswordForm").submit(function () {
+        var submitBtn = $("#submitBtn");
+        submitBtn.attr("disabled", true);
+        submitBtn.prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        return true;
+    });
+});
+</script>

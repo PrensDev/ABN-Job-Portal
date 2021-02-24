@@ -63,7 +63,14 @@
         </div>
         <div class="d-none" id="imageCrop"></div>
         <div class="custom-file mt-2">
-            <input type="file" class="custom-file-input" id="selectImgBtn">
+            <input 
+                type           = "file" 
+                class          = "custom-file-input" 
+                id             = "selectImgBtn"
+                data-toggle    = "tooltip"
+                data-placement = "top"
+                title          = "Click here to select an image"
+            >
             <label class="custom-file-label" for="selectImgBtn">Choose file</label>
         </div>
     </div>

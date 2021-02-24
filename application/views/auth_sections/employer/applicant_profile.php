@@ -393,6 +393,9 @@ if ($status == 'Pending') {
 
     // HIRE BUTTON
     $(document).on('click','#hireApplicantBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         var applicationID = $(this).attr('value');
         $.ajax({
@@ -411,6 +414,9 @@ if ($status == 'Pending') {
 
     // REJECT BUTTON
     $(document).on('click','#rejectApplicantBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         var applicationID = $(this).attr('value');
         $.ajax({
@@ -428,6 +434,9 @@ if ($status == 'Pending') {
 
     // CANCEL HIRING BUTTON
     $(document).on('click','#cancelHiringBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         var applicationID = $(this).attr('value');
         $.ajax({
@@ -445,6 +454,9 @@ if ($status == 'Pending') {
 
     // CANCEL REJECTING BUTTON
     $(document).on('click','#cancelRejectingBtn', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         var applicationID = $(this).attr('value');
         $.ajax({

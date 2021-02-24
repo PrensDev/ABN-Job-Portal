@@ -9,7 +9,7 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
 
 ?>
 
-<form method="POST">
+<form method="POST" id="editInffoForm">
 
 <div class="container-fluid py-5 user-select-none">
 <div class="container">
@@ -101,7 +101,8 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
                         class   = "form-control <?php echo form_error('birthDate') ? 'is-invalid' : '' ?>" 
                         id      = "birthDate" 
                         value   = "<?php echo $birthDate ?>"
-                        name    = "birthDate" 
+                        name    = "birthDate"
+                        disabled 
                     >
                     <small class="invalid-feedback"><?php echo form_error('birthDate')?></small>
                 </div>
@@ -218,7 +219,11 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
             <i class="fas fa-times"></i>
             <span>Cancel</span>
         </button>
-        <button type="sumbit" class="btn btn-primary">
+        <button 
+            type  = "sumbit" 
+            class = "btn btn-primary"
+            id    = "submitBtn"
+        >
             <i class="fas fa-check"></i>
             <span>Submit</span>
         </button>
@@ -229,3 +234,14 @@ $cityProvince = set_value( 'cityProvince' ) == '' ? $cityProvince : set_value( '
 </div>
 
 </form>
+
+<script>
+$(document).ready(function () {
+    $("#editInffoForm").submit(function () {
+        var submitBtn = $("#submitBtn");
+        submitBtn.attr("disabled", true);
+        submitBtn.prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        return true;
+    });
+});
+</script>

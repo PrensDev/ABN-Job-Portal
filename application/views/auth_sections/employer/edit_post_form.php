@@ -14,7 +14,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 ?>
 
 <!-- POST NEW JOB FORM SECTION -->
-<form method="POST">
+<form method="POST" id="editPostForm">
 <div class="container-fluid">
 <div class="container-md py-5">
     
@@ -125,8 +125,8 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                             placeholder = "Minimum Offered Salary"
                             value       = "<?php echo $minSalary ?>"
                         >
+                        <small class="invalid-feedback"><?php echo form_error('minSalary') ?></small>
                     </div>
-                    <small class="invalid-feedback"><?php echo form_error('minSalary') ?></small>
                 </div>
 
                 <!-- MAXIMUM SALARY -->
@@ -146,8 +146,8 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
                             placeholder = "Maximum Offered Salary"
                             value       = "<?php echo $maxSalary ?>"
                         >
+                        <small class="invalid-feedback"><?php echo form_error('maxSalary') ?></small>
                     </div>
-                    <small class="invalid-feedback"><?php echo form_error('maxSalary') ?></small>
                 </div>
 
             </div>
@@ -298,7 +298,7 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
             <i class="fas fa-times"></i>
             <span>Cancel</span>
         </button>
-        <button type="sumbit" class="btn btn-primary">
+        <button type="sumbit" class="btn btn-primary" id="submitBtn">
             <i class="fas fa-check"></i>
             <span>Submit</span>
         </button>
@@ -308,3 +308,14 @@ $education        = set_value( 'education'        ) == '' ? $education        : 
 </div>
 </div>
 </form>
+
+<script>
+$(document).ready(function () {
+    $("#editPostForm").submit(function () {
+        var submitBtn = $("#submitBtn");
+        submitBtn.attr("disabled", true);
+        submitBtn.prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        return true;
+    });
+});
+</script>

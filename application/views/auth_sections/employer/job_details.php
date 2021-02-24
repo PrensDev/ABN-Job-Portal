@@ -255,6 +255,9 @@
 
 <script>
     $(document).on('click','#deletePost', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+        
         e.preventDefault();
         var jobPostID = $(this).attr('value');
         $.ajax({

@@ -42,7 +42,7 @@
 </div>
 </div>
 
-<?php if ($this->session->userTye == 'Job Seeker') { ?>
+<?php if ($this->session->userType == 'Jobseeker') { ?>
 <script>
     $(document).on('click','#addBookmarkBtn', function(e) {
         e.preventDefault();

@@ -51,13 +51,30 @@
     <!-- FOOTER LINK SECTION -->
     <div class="d-flex justify-content-between">
         <div>
-            <small><a href="<?php echo base_url() ?>" title="Settings">Settings</a></small>
+            <small>
+                <a 
+                    href            = "<?php echo base_url() ?>auth/settings" 
+                    data-toggle     = "tooltip"
+                    data-placement  = "top"
+                    title           = "Go to Settings"
+                >Settings</a>
+            </small>
         </div>
         <div>
             <small>
-                <a href="<?php echo base_url() ?>" title="Go to Home page.">Home</a>
+                <a 
+                    href            = "<?php echo base_url() ?>" 
+                    data-toggle     = "tooltip"
+                    data-placement  = "top"
+                    title           = "Go to Home page."
+                >Home</a>
                 <span> | </span>
-                <a href="<?php echo base_url() ?>home/terms_and_conditions" title="Read the terms and conditions.">Terms and Conditions</a>
+                <a 
+                    href            = "<?php echo base_url() ?>home/terms_and_conditions"
+                    data-toggle     = "tooltip"
+                    data-placement  = "top" 
+                    title           = "Read the terms and conditions."
+                >Terms and Conditions</a>
             </small>
         </div>
     </div>

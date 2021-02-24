@@ -77,14 +77,24 @@ class Auth extends CI_Controller {
             $img_array2 = explode(',', $img_array1[1]);
             $base64_decode = base64_decode($img_array2[1]);
 
+            $userdata = $this->get_userdata();
+            
             if ($this->session->userType === "Jobseeker") {
                 $imgName = 'JBSK_' . time() . '.png';
                 file_put_contents('public/img/jobseekers/' . $imgName, $base64_decode);
                 $this->JBSK_model->set_profile_pic($imgName);
+            
+                if ($userdata['profilePic']  != NULL) {
+                    unlink('public/img/jobseekers/' . $userdata['profilePic']);
+                }
             } else if ($this->session->userType === "Employer") {
                 $imgName = 'EMPL_' . time() . '.png';
                 file_put_contents('public/img/employers/' . $imgName, $base64_decode);
                 $this->EMPL_model->set_profile_pic($imgName);
+
+                if ($userdata['profilePic']  != NULL) {
+                    unlink('public/img/employers/' . $userdata['profilePic']);
+                }
             }
         }
     }
@@ -822,11 +832,11 @@ class Auth extends CI_Controller {
                 ],
                 [
                     'field' => 'minSalary',
-                    'rules' => 'required',
+                    'rules' => 'required|less_than_equal_to['. $this->input->post('maxSalary') . ']',
                 ],
                 [
                     'field' => 'maxSalary',
-                    'rules' => 'required',
+                    'rules' => 'required|greater_than_equal_to['. $this->input->post('minSalary') . ']',
                 ],
                 [
                     'field' => 'description',
@@ -851,7 +861,9 @@ class Auth extends CI_Controller {
             ]);
 
             $this->form_validation->set_message([
-                'required' => 'This is a required field',
+                'required'              => 'This is a required field',
+                'less_than_equal_to'    => 'This should be less than or equal to the maximum salary',
+                'greater_than_equal_to' => 'This should be less than or equal to the minimum salary',
             ]);
 
             if ($this->form_validation->run() === FALSE) {
@@ -898,11 +910,11 @@ class Auth extends CI_Controller {
                     ],
                     [
                         'field' => 'minSalary',
-                        'rules' => 'required',
+                        'rules' => 'required|less_than_equal_to[' . $this->input->post('maxSalary') . ']',
                     ],
                     [
                         'field' => 'maxSalary',
-                        'rules' => 'required',
+                        'rules' => 'required|greater_than_equal_to[' . $this->input->post('minSalary') . ']',
                     ],
                     [
                         'field' => 'description',
@@ -928,6 +940,8 @@ class Auth extends CI_Controller {
         
                 $this->form_validation->set_message([
                     'required' => 'This field cannot be blank',
+                    'less_than_equal_to'    => 'This should be less than or equal to the maximum salary',
+                    'greater_than_equal_to' => 'This should be less than or equal to the minimum salary',
                 ]);
         
                 if ($this->form_validation->run() === FALSE) { 
