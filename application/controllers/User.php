@@ -86,11 +86,13 @@ class User extends CI_Controller {
                 ],
                 [
                     'field' => 'contactNumber',
-                    'rules' => 'required',
+                    'rules' => 'required|is_unique[JobSeekers.contactNumber]|is_unique[Employers.contactNumber]',
+                    'label' => 'contact number'
                 ],
                 [
                     'field' => 'email',
                     'rules' => 'required|valid_email|is_unique[UserAccounts.email]',
+                    'label' => 'email'
                 ],
                 [
                     'field' => 'password',
@@ -108,7 +110,7 @@ class User extends CI_Controller {
 
             $this->form_validation->set_message([
                 'required'      => 'This is a required field',
-                'is_unique'     => 'This email is already used.',
+                'is_unique'     => 'This is already used.',
                 'valid_email'   => 'This email contains invalid characters',
                 'min_length'    => 'Your password must be 8 characters and above',
                 'matches'       => 'It doesn\'t match to your password',
@@ -189,11 +191,13 @@ class User extends CI_Controller {
                 ],
                 [
                     'field' => 'contactNumber',
-                    'rules' => 'required',
+                    'rules' => 'required|is_unique[JobSeekers.contactNumber]|is_unique[Employers.contactNumber]',
+                    'label' => 'contact number',
                 ],
                 [
                     'field' => 'email',
                     'rules' => 'required|valid_email|is_unique[UserAccounts.email]',
+                    'label' => 'email',
                 ],
                 [
                     'field' => 'password',
@@ -211,7 +215,7 @@ class User extends CI_Controller {
 
             $this->form_validation->set_message([
                 'required'      => 'This is a required field',
-                'is_unique'     => 'This email is already used.',
+                'is_unique'     => 'This is already used.',
                 'valid_email'   => 'This email contains invalid characters',
                 'min_length'    => 'Your password must be 8 characters and above',
                 'matches'       => 'It doesn\'t match to your password',

@@ -1,7 +1,7 @@
 /* ============================================================================== */
 /*                               INSTRUCTIONS                                     */
 /* ============================================================================== */
-/* Just execute this script. Nothing to create the [ABN_Job_Portal] database.	  */
+/* Just execute this script. No need to create the [ABN_Job_Portal] database.	  */
 /* ============================================================================== */
 
 USE [master]
@@ -100,19 +100,19 @@ CREATE TABLE [Resumes] (
 		CONSTRAINT UK_jobseekerID@Resumes UNIQUE
 	,
 	[headline]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[description]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[skills]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[experiences]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[education]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[lastUpdated]
 		DATETIME NOT NULL DEFAULT GETDATE()
@@ -478,7 +478,6 @@ AS
 	OFFSET @offsetRows ROWS
 	FETCH NEXT @fetchedRows ROWS ONLY;
 GO
-
 
 /**
   * AUTH STORED PROCEDURES

@@ -32,6 +32,9 @@
 
 <script>
     $(document).on('click','#removeResume', function(e) {
+        $(this).attr("disabled", true);
+        $(this).prepend('<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>');
+
         e.preventDefault();
         var resumeID = $(this).attr('value');
         $.ajax({

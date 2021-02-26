@@ -16,7 +16,7 @@ SET IDENTITY_INSERT [dbo].[UserAccounts] OFF
 GO
 SET IDENTITY_INSERT [dbo].[JobSeekers] ON 
 
-INSERT [dbo].[JobSeekers] ([jobseekerID], [firstName], [middleName], [lastName], [birthDate], [gender], [cityProvince], [contactNumber], [email], [profilePic]) VALUES (1, N'Juan', N'Santos', N'Dela Cruz', CAST(N'2000-06-20' AS Date), N'Male', N'Valenzuela City', N'09065645312', N'juandelacruz@email.com', N'JBSK_1614142006.png')
+INSERT [dbo].[JobSeekers] ([jobseekerID], [firstName], [middleName], [lastName], [birthDate], [gender], [cityProvince], [contactNumber], [email], [profilePic]) VALUES (1, N'Juan', N'Santos', N'Dela Cruz', CAST(N'2000-06-20' AS Date), N'Male', N'Valenzuela City', N'09876543219', N'juandelacruz@email.com', N'JBSK_1614142006.png')
 INSERT [dbo].[JobSeekers] ([jobseekerID], [firstName], [middleName], [lastName], [birthDate], [gender], [cityProvince], [contactNumber], [email], [profilePic]) VALUES (2, N'Maria', N'', N'Mercedez', CAST(N'1996-07-19' AS Date), N'Female', N'Paranaque City', N'09123456788', N'mariamercedez@email.com', NULL)
 SET IDENTITY_INSERT [dbo].[JobSeekers] OFF
 GO
