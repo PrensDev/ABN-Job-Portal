@@ -57,7 +57,7 @@
         
         <hr>
 
-        <a href="forgot_password.html" type="submit" class="btn btn-link btn-block btn-sm">
+        <a href="<?php echo base_url() ?>user/forgot_password" type="submit" class="btn btn-link btn-block btn-sm">
             <span>Forgotten your password?</span>
         </a>
     </div>

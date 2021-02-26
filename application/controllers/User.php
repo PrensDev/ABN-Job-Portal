@@ -238,4 +238,8 @@ class User extends CI_Controller {
             }
         }
     }
+
+    public function forgot_password() {
+        $this->AUTH_model->err_page();
+    }
 }

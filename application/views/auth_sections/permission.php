@@ -80,7 +80,7 @@
             <hr>
 
             <a 
-                href  = "<?php echo base_url() ?>auth/forgot_password" 
+                href  = "<?php echo base_url() ?>user/forgot_password" 
                 class = "btn btn-link btn-block btn-sm"
             >Forgotten your password?</a>
 
