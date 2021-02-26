@@ -11,7 +11,7 @@
 >
 <div class="container-md text-center text-light my-5">
     <h1 class="display-4">Want to post a new job?</h1>
-    <p class="h5 font-weight-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <p class="h5 font-weight-normal">Get your way to your bright future.</p>
     <a href="<?php echo $link ?>" class="btn btn-light btn-lg px-4 py-2 mt-5">Post a job now!</a>
 </div>
 </div>

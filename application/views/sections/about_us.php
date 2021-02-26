@@ -44,6 +44,15 @@
 		<h1 class="font-weight-light">Our Team</h1>
 		<hr>
 		<p class="h5 font-weight-normal">ABN company is consist of college students at Polytechnic University of the Philippines, Quezon City Brnach. Our aim is to bring the best to each individual by giving them a platform that will enable them to land a job.</p>
+		<br>
+		<p class="h5 font-weight-normal">The ABN team:</p>
+		<ul class="h5 font-weight-normal">
+			<li>Buenaventura, Vanessah</li>
+			<li>Honorio, Lance</li>
+			<li>Jose, Marc Alexandrei</li>
+			<li>Robillos, Elric C.J.</li>
+			<li>Torres, Jetsun Prince</li>
+		</ul>
 	</div>
 
 </div>

@@ -19,7 +19,7 @@ GO
 /*                                    TABLES                                      */
 /* ============================================================================== */
 
--- UserAccounts Tableww
+-- UserAccounts Table
 CREATE TABLE [UserAccounts] (
 	[userID] 
 		INT NOT NULL IDENTITY(1,1)
@@ -112,9 +112,6 @@ CREATE TABLE [Resumes] (
 		VARCHAR(MAX)
 	,
 	[education]
-		VARCHAR(MAX)
-	,
-	[resumeFile]
 		VARCHAR(MAX)
 	,
 	[lastUpdated]
@@ -261,9 +258,6 @@ CREATE TABLE [Applications] (
 	[experiences]
 		VARCHAR(MAX)
 	,
-	[resumeFile]
-		VARCHAR(MAX)
-	,
 	[lastUpdated]
 		VARCHAR(MAX)
 	,
@@ -274,7 +268,6 @@ CREATE TABLE [Applications] (
 				[status] IN (
 					'Pending',
 					'Hired',
-					'Interviewing',
 					'Rejected'
 				)
 			)
@@ -356,36 +349,6 @@ AS
 		AND [JobPosts].[jobPostFlag] = 1
 GO
 
--- Job Details
-CREATE VIEW [JobDetails]
-AS
-	SELECT
-		  [JobPosts].[jobPostID]
-		, [JobPosts].[jobTitle]
-		, [JobPosts].[jobType]
-		, [JobPosts].[field]
-		, [JobPosts].[description]
-		, [JobPosts].[responsibilities]
-		, [JobPosts].[skills]
-		, [JobPosts].[experiences]
-		, [JobPosts].[education]
-		, [JobPosts].[minSalary]
-		, [JobPosts].[maxSalary]
-		, [JobPosts].[dateCreated]
-		, [JobPosts].[dateModified]
-		, CAST([JobPosts].[jobPostFlag] AS INT) AS [jobPostFlag]
-		, [Employers].[employerID]
-		, [Employers].[profilePic]
-		, [Employers].[companyName]
-		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
-		, [Employers].[contactNumber]
-		, [Employers].[email]
-		, [Employers].[website]
-	FROM [JobPosts]
-	INNER JOIN [Employers]
-		ON [JobPosts].[employerID] = [Employers].[employerID]
-GO 
-
 /* ============================================================================== */
 /*                            STORED PROCEDURES                                   */
 /* ============================================================================== */
@@ -418,8 +381,32 @@ GO
 CREATE PROCEDURE [MAIN_JobDetails]
 	@jobPostID	INT
 AS
-	SELECT * FROM [JobDetails]
-	WHERE jobPostID = @jobPostID
+	SELECT
+		  [JobPosts].[jobPostID]
+		, [JobPosts].[jobTitle]
+		, [JobPosts].[jobType]
+		, [JobPosts].[field]
+		, [JobPosts].[description]
+		, [JobPosts].[responsibilities]
+		, [JobPosts].[skills]
+		, [JobPosts].[experiences]
+		, [JobPosts].[education]
+		, [JobPosts].[minSalary]
+		, [JobPosts].[maxSalary]
+		, [JobPosts].[dateCreated]
+		, [JobPosts].[dateModified]
+		, CAST([JobPosts].[jobPostFlag] AS INT) AS [jobPostFlag]
+		, [Employers].[employerID]
+		, [Employers].[profilePic]
+		, [Employers].[companyName]
+		, [Employers].[brgyDistrict] + ', ' + [Employers].[cityProvince] AS [location]
+		, [Employers].[contactNumber]
+		, [Employers].[email]
+		, [Employers].[website]
+	FROM [JobPosts]
+	INNER JOIN [Employers]
+		ON [JobPosts].[employerID] = [Employers].[employerID]
+		AND jobPostID = @jobPostID
 GO
 
 -- View Employer Details Procedure
@@ -871,7 +858,6 @@ AS
 			, [education]
 			, [skills] 
 			, [experiences] 
-			, [resumeFile]
 			, [lastUpdated] )
 		SELECT
 			  [JobPosts].[jobPostID]
@@ -881,7 +867,6 @@ AS
 			, [Resumes].[education]
 			, [Resumes].[skills]
 			, [Resumes].[experiences]
-			, [Resumes].[resumeFile]
 			, [Resumes].[lastUpdated]
 		FROM [Resumes]
 		LEFT OUTER JOIN [JobPosts]
@@ -1570,7 +1555,6 @@ AS
 		, [Applications].[skills]
 		, [Applications].[experiences]
 		, [Applications].[lastUpdated]
-		, [Applications].[resumeFile]
 		, [JobPosts].[jobTitle]
 	FROM [Applications]
 	INNER JOIN [JobSeekers]
