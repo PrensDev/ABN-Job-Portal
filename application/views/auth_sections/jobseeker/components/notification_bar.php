@@ -29,7 +29,7 @@
                         $message = 'You are hired for a job as ' . $jobTitle . '.';
                         break;
                     case 'Rejected':
-                        $message = 'You have been rejected for a job as ' . $jobTitle . '.';
+                        $message = 'Your application is not approved.';
                         break;
                     default:
                         $message = 'This notification is an error. Please report this bug.';

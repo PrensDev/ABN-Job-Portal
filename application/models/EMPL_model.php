@@ -2,11 +2,6 @@
 
 class EMPL_model extends CI_Model {
     
-    // CONSTRUCTOR
-    public function __construct() {
-        $this->load->database();
-    }
-    
     // RETURNS THE COUNT OF THE QUERY
     private function query_count($query, $values = []) {
         $qry = $this->db->query($query, $values);

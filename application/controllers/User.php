@@ -2,6 +2,7 @@
 
 class User extends CI_Controller {
 
+    // INDEX VIEW
     public function index() {
         if ($this->session->has_userdata('userType')) {
             redirect();
@@ -87,12 +88,10 @@ class User extends CI_Controller {
                 [
                     'field' => 'contactNumber',
                     'rules' => 'required|is_unique[JobSeekers.contactNumber]|is_unique[Employers.contactNumber]',
-                    'label' => 'contact number'
                 ],
                 [
                     'field' => 'email',
                     'rules' => 'required|valid_email|is_unique[UserAccounts.email]',
-                    'label' => 'email'
                 ],
                 [
                     'field' => 'password',
@@ -192,12 +191,10 @@ class User extends CI_Controller {
                 [
                     'field' => 'contactNumber',
                     'rules' => 'required|is_unique[JobSeekers.contactNumber]|is_unique[Employers.contactNumber]',
-                    'label' => 'contact number',
                 ],
                 [
                     'field' => 'email',
                     'rules' => 'required|valid_email|is_unique[UserAccounts.email]',
-                    'label' => 'email',
                 ],
                 [
                     'field' => 'password',
@@ -239,6 +236,7 @@ class User extends CI_Controller {
         }
     }
 
+    // FORGOT PASSWORD VIEW
     public function forgot_password() {
         $this->AUTH_model->err_page();
     }

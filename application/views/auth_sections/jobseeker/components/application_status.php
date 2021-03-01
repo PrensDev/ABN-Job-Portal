@@ -25,7 +25,7 @@
             </div>
 <?php   } else if ($applicationStatus == 'Rejected') { ?>
             <div class="alert alert-dark mb-4 text-md-left text-center">
-                You are <strong>rejected</strong> for this job.</a>
+                Your application is not approved.</a>
             </div>
 <?php
         }

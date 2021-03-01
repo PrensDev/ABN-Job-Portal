@@ -297,6 +297,7 @@ class Auth extends CI_Controller {
 
             $this->form_validation->set_message(['required' => 'This field cannot be blank']);
             
+            // IF JOBSEEKER IS LOGGED IN
             if ( $this->session->userType === 'Jobseeker' ) {
                 $this->form_validation->set_rules([
                     [
@@ -335,7 +336,11 @@ class Auth extends CI_Controller {
                     }
                     redirect('auth/settings');
                 }
+
+            // IF EMPLOYER IS LOGGED IN
             } else if ( $this->session->userType === 'Employer' ) {
+
+                // SET RULES FOR VALIDATION
                 $this->form_validation->set_rules([
                     [
                         'field' => 'companyName',
@@ -366,7 +371,8 @@ class Auth extends CI_Controller {
                         'rules' => 'required',
                     ],
                 ]);
-
+                
+                // IF FORM VALIDATION IS NOT RUNNING (DEAFULT VIEW)
                 if ($this->form_validation->run() === FALSE) {
                     $this->load->view('templates/header', $pagedata);
                     $this->load->view('sections/navbar', $userdata);
@@ -374,11 +380,14 @@ class Auth extends CI_Controller {
                     $this->load->view('sections/footer');
                     $this->load->view('templates/footer');
                 } else {
+                    // IF NO ERROR
                     if ($this->EMPL_model->update_info()) {
                         $this->session->set_flashdata('updated', 'success');
                     } else {
                         $this->session->set_flashdata('updated', 'failed');
                     }
+
+                    // GO BACK TO auth/profile
                     redirect('auth/profile');
                 }
             }

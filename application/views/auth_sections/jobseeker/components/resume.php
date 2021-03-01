@@ -2,11 +2,12 @@
     $lastUpdated = 'Your resume was last updated <strong>' . dateFormat($lastUpdated,"F d, Y") . '</strong> at <strong>' . dateFormat($lastUpdated,"h:i a.") . '</strong>';
     $statusLabel = $resumeFlag == 1 ? 'ACTIVE' : 'NOT ACTIVE';
     $statusClass = $resumeFlag == 1 ? 'success' : 'danger';
+    $statusTitle = 'You ' . ($resumeFlag == 1 ? 'can' : 'can\'t') . ' apply to many jobs.';
 ?>
 
 <div class="border border-primary p-3 mb-3">
     <p class="mb-0"><?php echo $lastUpdated ?></p>
-    <p class="mb-0">This is <strong class="text-<?php echo $statusClass ?>"><?php echo $statusLabel ?></strong>.</p>
+    <p class="mb-0">This is <strong class="text-<?php echo $statusClass ?>" data-toggle="tooltip" data-placement="top" title="<?php echo $statusTitle ?>"><?php echo $statusLabel ?></strong>.</p>
 </div>
 
 <div class="mb-3 mb-lg-0 shadow p-md-5 p-3 border">

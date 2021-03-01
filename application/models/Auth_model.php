@@ -2,12 +2,8 @@
 
 class AUTH_model extends CI_Model {
 
-    public function __construct() {
-        $this->load->database();
-    }
-
-    // INSERTING USER VALUE IN UserAccounts TABLE
-    private function register_user($userType) {
+    // ADD USER ACCOUNT
+    private function add_user_account($userType) {
         $Register_sql = "
             EXEC [AUTH_AddUserAccount]
                 @email    = ?,
@@ -80,7 +76,8 @@ class AUTH_model extends CI_Model {
 
     // REGISTER JOB SEEKER
     public function register_jobseeker() {
-        if (! $this->register_user('Jobseeker')) {
+        // IF USER ADD ACCOUNT
+        if (! $this->add_user_account('Jobseeker')) {
             echo $this->db->error();
         } else {
             $this->db->query("
@@ -109,7 +106,7 @@ class AUTH_model extends CI_Model {
 
     // REGISTER EMPLOYER
     public function register_employer() {
-        if (! $this->register_user('Employer')) {
+        if (! $this->add_user_account('Employer')) {
             echo $this->db->error();
         } else {
             $this->db->query("

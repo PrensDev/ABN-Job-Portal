@@ -2,11 +2,13 @@
 
 class Companies extends CI_Controller {
 
+    // CONSTRUCTOR
     public function __construct() {
         parent::__construct();
         $this->load->helper('custom');
     }
     
+    // SET USER DATA
     private function set_data($title) {
         $userdata = NULL;
 

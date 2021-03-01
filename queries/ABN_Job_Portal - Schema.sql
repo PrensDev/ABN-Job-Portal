@@ -323,6 +323,7 @@ GO
 /* ============================================================================== */
 
 -- Posts View
+-- Full Job Posts Details (including employer details)
 CREATE VIEW [Posts] 
 AS
 	SELECT
@@ -346,7 +347,7 @@ AS
 	FROM [JobPosts]
 	INNER JOIN [Employers]
 		ON [JobPosts].[employerID] = [Employers].[employerID]
-		AND [JobPosts].[jobPostFlag] = 1
+		AND [JobPosts].[jobPostFlag] = 1 -- active jobs only
 GO
 
 /* ============================================================================== */
@@ -441,11 +442,11 @@ CREATE PROCEDURE [MAIN_AvailableJobs]
 	@offsetRows  INT,
 	@fetchedRows INT
 AS
-	SELECT * FROM [Posts]
+	SELECT * FROM [Posts] 
 	WHERE [employerID] = @employerID
 	ORDER BY [dateCreated] DESC
-	OFFSET @offsetRows ROWS
-	FETCH NEXT @fetchedRows ROWS ONLY;
+	OFFSET @offsetRows ROWS --skip rows
+	FETCH NEXT @fetchedRows ROWS ONLY; -- next rows after skipped rows
 GO
 
 
@@ -523,7 +524,7 @@ AS
 	-- Check if Jobseeker is not exist by email to prevent duplication
 	IF NOT EXISTS (
 		SELECT * FROM [JobSeekers]
-		WHERE [email] = @email
+		WHERE [email] = @email -- if email is exists
 	)
 	BEGIN
 		INSERT INTO [JobSeekers] 
@@ -1454,6 +1455,12 @@ AS
 	DELETE FROM [JobPosts] 
 	WHERE [jobPostID] = @jobPostID AND [employerID] = @employerID
 GO
+
+/*
+	1. Function ng SP
+	2. Parameters
+	3. Action
+*/
 
 -- Update Employer Information Procedure
 CREATE PROCEDURE [EMPL_UpdateInfo]

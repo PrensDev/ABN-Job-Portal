@@ -163,7 +163,7 @@
                     <span>Edit This Post</span>
                 </a>
 
-                <?php if  ($applicantsNum == 0) { ?>
+                <?php if ($applicantsNum == 0 && $jobPostFlag == 0) { ?>
                     <button class="btn btn-block btn-danger" data-toggle="modal" data-target="#deletePostModal">
                         <i class="fas fa-trash mr-2"></i>
                         <span>Delete This Post</span>
