@@ -65,7 +65,7 @@
     </div>
 
     <div class="modal-footer">
-        <a href="<?php echo base_url() . 'auth/edit_resume/' . $resumeID ?>" target="_blank" class="btn btn-light btn-block border">
+        <a href="<?php echo base_url() . 'auth/edit_resume' ?>" target="_blank" class="btn btn-light btn-block border">
             <i class="fas fa-pen mr-1"></i>
             <span>Edit</span>
         </a>

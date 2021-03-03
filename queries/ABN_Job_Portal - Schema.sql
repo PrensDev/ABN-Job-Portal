@@ -244,22 +244,22 @@ CREATE TABLE [Applications] (
 			REFERENCES [JobSeekers] ([jobseekerID])
 	,
 	[headline]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[description]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[education]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[skills]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[experiences]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[lastUpdated]
-		VARCHAR(MAX)
+		VARCHAR(MAX) NOT NULL
 	,
 	[status]
 		VARCHAR(MAX) NOT NULL DEFAULT 'Pending'
