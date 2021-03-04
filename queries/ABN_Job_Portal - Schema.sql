@@ -80,7 +80,8 @@ CREATE TABLE [JobSeekers] (
 		VARCHAR(450) NOT NULL
 		CONSTRAINT FK_email@JobSeekers FOREIGN KEY
 			REFERENCES [UserAccounts] ([email])
-		ON UPDATE CASCADE
+			ON UPDATE CASCADE
+		CONSTRAINT UQ_email@JobSeekers UNIQUE
 	,
 	[profilePic]
 		VARCHAR(MAX)
@@ -148,7 +149,8 @@ CREATE TABLE [Employers] (
 		VARCHAR(450) NOT NULL
 		CONSTRAINT FK_email@Employers FOREIGN KEY
 			REFERENCES [UserAccounts] ([email])
-		ON UPDATE CASCADE
+			ON UPDATE CASCADE
+		CONSTRAINT UQ_email@Employers UNIQUE
 	,
 	[website]
 		VARCHAR(MAX)
@@ -236,7 +238,7 @@ CREATE TABLE [Applications] (
 		INT NOT NULL
 		CONSTRAINT FK_jobPostID@Applications FOREIGN KEY
 			REFERENCES [JobPosts] ([jobPostID])
-		ON DELETE CASCADE
+			ON DELETE CASCADE
 	,
 	[jobseekerID]
 		INT NOT NULL
@@ -290,7 +292,7 @@ CREATE TABLE [Bookmarks] (
 		INT NOT NULL
 		CONSTRAINT FK_jobseekerID@Bookmarks FOREIGN KEY
 			REFERENCES [JobSeekers] ([jobseekerID])
-		ON DELETE CASCADE
+			ON DELETE CASCADE
 	,
 	[jobPostID]
 		INT NOT NULL
@@ -419,7 +421,12 @@ AS
 		, [profilePic]
 		, [companyName]
 		, [description]
-		, [street] + ', ' + [brgyDistrict] + ', ' + [cityProvince] AS [location]
+		, [street] 
+			+ ', ' 
+			+ [brgyDistrict] 
+			+ ', ' 
+			+ [cityProvince] 
+			AS [location]
 		, [contactNumber]
 		, [email]
 		, [website]
@@ -445,8 +452,8 @@ AS
 	SELECT * FROM [Posts] 
 	WHERE [employerID] = @employerID
 	ORDER BY [dateCreated] DESC
-	OFFSET @offsetRows ROWS --skip rows
-	FETCH NEXT @fetchedRows ROWS ONLY; -- next rows after skipped rows
+	OFFSET @offsetRows ROWS
+	FETCH NEXT @fetchedRows ROWS ONLY; 
 GO
 
 

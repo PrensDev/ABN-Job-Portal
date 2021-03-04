@@ -74,7 +74,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'			=> 'sqlsrv:Server=JETSUUUUUN\SQLEXPRESS;Database=ABN_Job_Portal;',
+	'dsn'			=> 'sqlsrv:Server=[YOUR SERVER NAME];Database=ABN_Job_Portal;',
 	'hostname' 		=> 'localhost',
 	'username' 		=> NULL,
 	'password' 		=> NULL,
