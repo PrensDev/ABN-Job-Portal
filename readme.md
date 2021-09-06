@@ -23,7 +23,7 @@ _BSIT 3-1, PUPQC_
 - [bootstrap-select v1.13.18](https://developer.snapappointments.com/bootstrap-select/ "bootstrap-select v1.13.18")
 - [croppie v2.6.5](https://foliotek.github.io/Croppie/ "croppie v2.6.5")
 
-## Back-end Framework
+## Web Framework
 
 - [Codeigniter 3](https://codeigniter.com/userguide3/index.html "Codeigniter 3")
 
