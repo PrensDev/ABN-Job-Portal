@@ -8,8 +8,7 @@ A Job Portal Web Application for fulfillment of requirements in subjects 'Web De
 
 - [Buenaventura, Vanessah](https://github.com/Bandroite "Bandroite")
 - Honorio, Lance
-- Jose, Marc Alexandrei
-- Robillos, Elric
+- [Robillos, Elric](https://github.com/ElricRobillos)
 - [Torres, Jetsun Prince](https://github.com/PrensDev "PrensDev")
 
 _BSIT 3-1, PUPQC_
