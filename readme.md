@@ -1,6 +1,8 @@
-# Job-Portal-Web-Application
+# ABN Job Portal
 
-A Job Portal Web Application for fulfillment of requirements in subjects 'Web Development' and 'Database Administration'
+ABN Job Portal is a Job Portal Web Application for fulfillment of requirements in subjects 'Web Development' and 'Database Administration'
+
+<br>
 
 ## Project Details
 
@@ -15,6 +17,8 @@ _BSIT 3-1, PUPQC_
 
 **Date Started**: October 31, 2020
 
+<br>
+
 ## Dependencies
 
 - [bootstrap v4.5.3](https://getbootstrap.com/docs/4.5/getting-started/introduction/ "Bootstrap v4.5")
@@ -23,9 +27,13 @@ _BSIT 3-1, PUPQC_
 - [bootstrap-select v1.13.18](https://developer.snapappointments.com/bootstrap-select/ "bootstrap-select v1.13.18")
 - [croppie v2.6.5](https://foliotek.github.io/Croppie/ "croppie v2.6.5")
 
+<br>
+
 ## Web Framework
 
 - [Codeigniter 3](https://codeigniter.com/userguide3/index.html "Codeigniter 3")
+
+<br>
 
 ## Requirements
 
@@ -35,6 +43,8 @@ Please install the following to get started
 - [Microsoft SQL Server Management Studio 18](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15 "Click here to go to Microsoft SQL Server Management Studio 18 download website")
 - [XAMPP](https://www.apachefriends.org/download.html "Click here to go to XAMPP download website")
 - PHP Driver for SQL Server
+
+<br>
 
 ## Instructions
 
@@ -55,3 +65,9 @@ Please install the following to get started
 7. In your Microsoft SQL Server Management Studio, open the file in `ABN-Job-Portal/queries/ABN_Job-Portal - Schema.sql` and execute. Optional: Execute also the file in `ABN-Job-Portal/queries/ABN_Job-Portal - Sample Data.sql` so database have data.
 8. Open your XAMPP and start the Apache
 9. Open any browser and type `localhost/ABN-Job-Portal` and you are now ready to use it.
+
+<br>
+
+## Screenshots
+
+(Coming soon ...)
