@@ -12,7 +12,7 @@
 **Authors and Designers**:
 
 - [Buenaventura, Vanessah](https://github.com/Bandroite "Bandroite") (Web Designer. Research)
-- Honorio, Lance (Reseach)
+- Honorio, Lance (Research)
 - [Robillos, Elric](https://github.com/ElricRobillos "ElricRobillos") (Logo Design, Research)
 - [Torres, Jetsun Prince](https://github.com/PrensDev "PrensDev") (Developer, Project Leader)
 
