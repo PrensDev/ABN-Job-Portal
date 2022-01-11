@@ -11,10 +11,10 @@
 
 **Authors and Designers**:
 
-- [Buenaventura, Vanessah](https://github.com/Bandroite "Bandroite")
-- Honorio, Lance
-- [Robillos, Elric](https://github.com/ElricRobillos "ElricRobillos")
-- [Torres, Jetsun Prince](https://github.com/PrensDev "PrensDev")
+- [Buenaventura, Vanessah](https://github.com/Bandroite "Bandroite") (Web Designer. Research)
+- Honorio, Lance (Reseach)
+- [Robillos, Elric](https://github.com/ElricRobillos "ElricRobillos") (Logo Design, Research)
+- [Torres, Jetsun Prince](https://github.com/PrensDev "PrensDev") (Developer, Project Leader)
 
 _BSIT 3-1, PUPQC_
 
