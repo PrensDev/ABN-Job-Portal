@@ -11,9 +11,9 @@
 
 **Authors and Designers**:
 
-- [Buenaventura, Vanessah](https://github.com/Bandroite "Bandroite") (Web Designer. Research)
+- [Buenaventura, Vanessah](https://github.com/Bandroite "Bandroite") (Web Designer, Research)
 - Honorio, Lance (Research)
-- [Robillos, Elric](https://github.com/ElricRobillos "ElricRobillos") (Logo Design, Research)
+- [Robillos, Elric](https://github.com/ElricRobillos "ElricRobillos") (Logo Designer, Research)
 - [Torres, Jetsun Prince](https://github.com/PrensDev "PrensDev") (Developer, Project Leader)
 
 _BSIT 3-1, PUPQC_
@@ -51,7 +51,7 @@ To guide you in installing PHP Driver, you may watch this video on YouTube by cl
 
 <br>
 
-## Instructions
+## How to run?
 
 1. Download the zip file of this code or click [here](https://github.com/PrensDev/ABN-Job-Portal/archive/main.zip).
 2. Extract the file to `C:/xampp/htdocs/` and make sure that the folder name would be renamed as `ABN-Job-Portal`.
@@ -69,7 +69,35 @@ To guide you in installing PHP Driver, you may watch this video on YouTube by cl
    > `ABN-Job-Portal/application/config/database.php`
 6. In database.php, locate the `$db['default']` array and edit the `'dsn'` value to this format:
    > `'dsn' => 'sqlsrv:Server=[YOUR SERVER NAME];Database=ABN_Job_Portal;'`
-7. In your Microsoft SQL Server Management Studio, open the file in `ABN-Job-Portal/queries/ABN_Job-Portal - Schema.sql` and execute. Optional: Execute also the file in `ABN-Job-Portal/queries/ABN_Job-Portal - Sample Data.sql` so database have sample data.
+7. In your Microsoft SQL Server Management Studio, open the file in `ABN-Job-Portal/queries/ABN_Job-Portal - Schema.sql` and execute. 
+
+   Optional: Execute also the file in `ABN-Job-Portal/queries/ABN_Job-Portal - Sample Data.sql` so database have sample data. You can log in as Jobseeker or Employer by logging in this accounts:
+
+   <table>
+      <thead>
+         <tr>
+            <td>For Jobseeker</td>
+            <td>For Employer</td>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td>
+               <div>juandelacruz@email.com</div>
+               <div>mariamercedez@email.com</div>
+            </td>
+            <td>
+               <div>accentureph@email.com</div>
+               <div>pumaincph@email.com</div>
+               <div>manulifeph@email.com</div>
+               <div>sanmiguel@email.com</div>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+
+   All accounts have `P@ssw0rd` password
+
 8. Open your XAMPP and start the Apache
 9. Open any browser and type `localhost/ABN-Job-Portal` and you are now ready to use it.
 
@@ -143,7 +171,7 @@ Note: Some images are not owned by us.
    <tr>
       <td>
          <img src="screenshots/Jobseeker Page - Notifications.png">
-         <div>Jobseeker Page - Notifications</div>
+         <div style="text-align: center">Jobseeker Page - Notifications</div>
       </td>
       <td> 
          <img src="screenshots/Job Details.png">
@@ -153,7 +181,7 @@ Note: Some images are not owned by us.
    <tr>
       <td>
          <img src="screenshots/Job Application.png">
-         <div>Job Application</div>
+         <div style="text-align: center">Job Application</div>
       </td>
       <td> 
          <img src="screenshots/Search Page.png">
@@ -163,7 +191,7 @@ Note: Some images are not owned by us.
    <tr>
       <td>
          <img src="screenshots/Company Page - Details.png">
-         <div>Company Page - Details</div>
+         <div style="text-align: center">Company Page - Details</div>
       </td>
       <td> 
          <img src="screenshots/Employer Page - Profile.png">
@@ -173,7 +201,7 @@ Note: Some images are not owned by us.
    <tr>
       <td>
          <img src="screenshots/Employer Page - Post New Job.png">
-         <div>Employer Page - Post New Job</div>
+         <div style="text-align: center">Employer Page - Post New Job</div>
       </td>
       <td> 
          <img src="screenshots/Employer Page - Job Post.png">
@@ -183,7 +211,7 @@ Note: Some images are not owned by us.
    <tr>
       <td>
          <img src="screenshots/Employer Page - Applicants.png">
-         <div>Employer Page - Applicants</div>
+         <div style="text-align: center">Employer Page - Applicants</div>
       </td>
       <td> 
          <img src="screenshots/Employer Page - Edit Info.png">
